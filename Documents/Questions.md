@@ -6,6 +6,7 @@
 * Baptiste Brinon
 * Thibault Brocherieux
 * Mehdi Cohen
+* Valentin Debonne
 * Anthony Lardy
 * Emeric Mottier
 * Gilles Pastouret
