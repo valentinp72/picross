@@ -1,19 +1,4 @@
-# GROUPE 2
-
-
-## PERSONNES :
-
-* Baptiste Brinon
-* Thibault Brocherieux
-* Mehdi Cohen
-* Valentin Debonne
-* Anthony Lardy
-* Emeric Mottier
-* Gilles Pastouret
-* Valentin Pelloin
-
-
-## QUESTIONS :
+## Questions à poser pour le cahier des charges :
 
  - Chronometrer la partie ?
  - Tableau de scores ?
@@ -42,15 +27,9 @@
  - Cases * 5 tout le temps ?
  - Grille : Toujours carrée ? Rectangulaire ? Avec des formes ?
  - Sauvegarde automatique ? A chaque action ? Lors du clic sur un bouton pour sauvegarder ?
- - 
  
  
 ## Options : 
  - choix de la couleur
- 
- 
-## Parties : 
-
- - 
  
  
