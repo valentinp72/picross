@@ -3,13 +3,13 @@
 
 ## PERSONNES :
 
-Baptiste Brinon
-Thibault Brocherieux
-Mehdi Cohen
-Anthony Lardy
-Emeric Mottier
-Gilles Pastouret
-Valentin Pelloin
+* Baptiste Brinon
+* Thibault Brocherieux
+* Mehdi Cohen
+* Anthony Lardy
+* Emeric Mottier
+* Gilles Pastouret
+* Valentin Pelloin
 
 
 ## QUESTIONS :
@@ -40,10 +40,16 @@ Valentin Pelloin
  - A part : possibilité de partager ses cartes avec les autres ? hub, partage à un ami, ...
  - Cases * 5 tout le temps ?
  - Grille : Toujours carrée ? Rectangulaire ? Avec des formes ?
+ - Sauvegarde automatique ? A chaque action ? Lors du clic sur un bouton pour sauvegarder ?
+ - 
  
  
 ## Options : 
  - choix de la couleur
  
+ 
+## Parties : 
+
+ - 
  
  
