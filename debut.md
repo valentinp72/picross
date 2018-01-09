@@ -1,22 +1,22 @@
-GROUPE 2
+# GROUPE 2
 
 
-PERSONNES :
+## PERSONNES :
 
 Baptiste Brinon
 Thibault Brocherieux
-Medhi Cohen
+Mehdi Cohen
 Anthony Lardy
 Emeric Mottier
 Gilles Pastouret
 Valentin Pelloin
 
 
-QUESTIONS :
+## QUESTIONS :
 
  - Chronometrer la partie ?
  - Tableau de scores ?
- - Choix du niveau d'aides ?
+ - Choix du niveau d'aides ? Aide précise, par ligne, par zone, ...
  - Editeur de carte ? Comment doit il les créer ? Avec un image, ou pixel par pixel ? Les deux ?
  - Aide de fin : afficher les erreurs ? les trouver ?
  - Checkpoints pour revenir en arrière ?
@@ -42,7 +42,7 @@ QUESTIONS :
  - Grille : Toujours carrée ? Rectangulaire ? Avec des formes ?
  
  
-Options : 
+## Options : 
  - choix de la couleur
  
  
