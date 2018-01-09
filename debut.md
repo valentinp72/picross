@@ -1,0 +1,40 @@
+GROUPE 2
+
+
+PERSONNES :
+
+Baptiste Brinon
+Thibault Brocherieux
+Medhi Cohen
+Anthony Lardy
+Emeric Mottier
+Gilles Pastouret
+Valentin Pelloin
+
+
+QUESTIONS :
+
+ - Chronometrer la partie ?
+ - Tableau de scores ?
+ - Choix du niveau d'aides ?
+ - Editeur de carte ? Comment doit il les créer ? Avec un image, ou pixel par pixel ? Les deux ?
+ - Aide de fin : afficher les erreurs ? les trouver ?
+ - Checkpoints pour revenir en arrière ?
+ - Methodes de sauvegarde, plusieurs sauvegardes possibles ?
+ - Doit-on mettre des cartes par défaut, ou générées ? seed ?
+ - Exporter un niveau pour le partager à d'autres joueurs ?
+ - Choix de la difficulté, quelle methode de calcul ?
+ - Choix de la langue ?
+ - Manuel dans le logiciel ?
+ - Didacticiel ?
+ - Tutoriel : masquer certains chiffres ? les surligner ?
+ - Couleurs, formes préférées ? Croix, cercle, rempli ?
+ - rdoc ?
+ - accès au projet par mail, github, ... ?
+ 
+ 
+Options : 
+ - choix de la couleur
+ 
+ 
+ 
