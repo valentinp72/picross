@@ -30,7 +30,15 @@ QUESTIONS :
  - Tutoriel : masquer certains chiffres ? les surligner ?
  - Couleurs, formes préférées ? Croix, cercle, rempli ?
  - rdoc ?
- - accès au projet par mail, github, ... ?
+ - Accès au projet par mail, github, ... ?
+ - Previews du resultat final avant ?
+ - Jouabilité clavier, souris ?
+ - Mettre en pause ? Cacher le jeu ?
+ - Statistiques ? façon de calculer ? (nombre de clicks, fautes, temps, ...)
+ - Profil de joueurs (stats du joueur)
+ - Façon de génerer une grille ? ressembler à une forme, ou aléatoire ?
+ - A part : possibilité de partager ses cartes avec les autres ? hub, partage à un ami, ...
+ - 
  
  
 Options : 
