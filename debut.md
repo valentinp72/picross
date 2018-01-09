@@ -38,7 +38,8 @@ QUESTIONS :
  - Profil de joueurs (stats du joueur)
  - Façon de génerer une grille ? ressembler à une forme, ou aléatoire ?
  - A part : possibilité de partager ses cartes avec les autres ? hub, partage à un ami, ...
- - 
+ - Cases * 5 tout le temps ?
+ - Grille : Toujours carrée ? Rectangulaire ? Avec des formes ?
  
  
 Options : 
