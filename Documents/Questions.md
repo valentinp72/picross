@@ -27,6 +27,8 @@
  - Cases * 5 tout le temps ?
  - Grille : Toujours carrée ? Rectangulaire ? Avec des formes ?
  - Sauvegarde automatique ? A chaque action ? Lors du clic sur un bouton pour sauvegarder ?
+ - Peut-on modifier un picross ?
+ - Création aléatoire ou à partir d'une image ?
  
  
 ## Options : 
