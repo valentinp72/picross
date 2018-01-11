@@ -37,6 +37,8 @@
  - Zoom/dézoom de la carte ?
  - Picross en couleurs ?
  - Public cible du jeu ? Tranche d'âge ?
+ - Peut-on modifier un picross ?
+ - Création aléatoire ou à partir d'une image ?
  
  
 ## Options : 
