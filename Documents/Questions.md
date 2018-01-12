@@ -39,6 +39,7 @@
  - Public cible du jeu ? Tranche d'âge ?
  - Peut-on modifier un picross ?
  - Création aléatoire ou à partir d'une image ?
+ - Les aides sont-elles illimités ? Points à acquérir pour utiliser une aide ?
  
  
 ## Options : 
