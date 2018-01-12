@@ -39,7 +39,7 @@ La réponse avec une citation `>`.
 1. **Devra-t-il avoir des cartes par défaut dans le jeu, ou alors les cartes sont-elles générées aléatoirement ? Ou les deux ?**
 >
 
- **La grille une fois remplie doit-elle représenter quelque chose ?**
+ 1. **La grille une fois remplie doit-elle représenter quelque chose ?**
 >
 
 1. **Le joueur pourra-t-il partager une partie à d'autres joueurs (seed, fichier, ...) ?**
@@ -53,7 +53,6 @@ La réponse avec une citation `>`.
 >
 
 1. **Doit-on expliquer les règles dans l'application ou seulement en dehors avec le manuel utilisateur ?**
-
 >
 
 1. **Doit-il y avoir un niveau didacticiel pour les joueurs ne connaisant pas le jeu ? Si oui quelle serait la meilleure façon d'expliquer les règles ? (surligner des chiffres, masquer les autres, ...)**
