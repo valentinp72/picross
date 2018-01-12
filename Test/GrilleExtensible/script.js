@@ -1,5 +1,5 @@
-const LARGEUR_CARTE = 30;
-const HAUTEUR_CARTE = 30;
+const LARGEUR_CARTE = 35;
+const HAUTEUR_CARTE = 35;
 
 let largeurAffichage = 5;
 let hauteurAffichage = 5;
@@ -69,11 +69,24 @@ function setup(){
 
 function nombresInit() {
 
+	// RAZ
+	for(var i = 0 ; i < NB_CHIFFRES ; i++) {
+		for(var j = 0 ; j < LARGEUR_CARTE ; j++) {
+			chiffresHaut[i][j] = 0;
+		}
+	}
+
+	for(var i = 0 ; i < HAUTEUR_CARTE ; i++) {
+		for(var j = 0 ; j < NB_CHIFFRES ; j++) {
+			chiffresGauche[i][j] = 0;
+		}
+	}
+
 	// nombres haut init
-	for(var i = 0 ; i < LARGEUR_CARTE ; i++) {
+	for(var i = 0 ; i < largeurAffichage ; i++) {
 		var taille   = 0;
 		var indexPos = NB_CHIFFRES - 1;
-		for(j = HAUTEUR_CARTE - 1 ; j >= 0 && indexPos > 0; j--) {
+		for(j = hauteurAffichage - 1 ; j >= 0 && indexPos > 0; j--) {
 			if(solution[j][i] == CELL_BLACK) {
 				taille++;
 			}
@@ -90,10 +103,10 @@ function nombresInit() {
 	}
 
 	// nombres gauche init
-	for(var i = 0 ; i < HAUTEUR_CARTE ; i++) {
+	for(var i = 0 ; i < hauteurAffichage ; i++) {
 		var taille   = 0;
 		var indexPos = NB_CHIFFRES - 1;
-		for(j = LARGEUR_CARTE - 1 ; j >= 0 && indexPos > 0; j--) {
+		for(j = largeurAffichage - 1 ; j >= 0 && indexPos > 0; j--) {
 			if(solution[i][j] == CELL_BLACK) {
 				taille++;
 			}
@@ -204,7 +217,7 @@ function mouseClicked() {
 			}
 
 			if(carte[coordY][coordX] != solution[coordY][coordX]) {
-				window.alert("HEY!");
+				//window.alert("HEY!");
 			}
 		}
 	}
@@ -233,6 +246,11 @@ function keyTyped() {
 		printCarte();
 	}
 
+	// appuyer sur P pour afficher (print) la carte
+	if(key == 'r' || key == 'R') {
+		location.reload();
+	}
+
 	// appuyer sur A pour augmenter la taille de la carte
 	if(key == 'a' || key == 'A') {
 
@@ -242,6 +260,7 @@ function keyTyped() {
 		if(hauteurAffichage + INCREMENT_TAILLE <= HAUTEUR_CARTE) {
 			hauteurAffichage += INCREMENT_TAILLE;
 		}
+		nombresInit();
 
 	}
 
@@ -255,6 +274,7 @@ function keyTyped() {
 		if(hauteurAffichage - INCREMENT_TAILLE > 0) {
 			hauteurAffichage -= INCREMENT_TAILLE;
 		}
+		nombresInit();
 	}
 
 }
@@ -277,8 +297,8 @@ function clearCarte() {
 	}
 }
 function printCarte() {
-	for(var i = 0 ; i < HAUTEUR_CARTE ; i++) {
-		for(var j = 0 ; j < LARGEUR_CARTE ; j++) {
+	for(var i = 0 ; i < hauteurAffichage ; i++) {
+		for(var j = 0 ; j < largeurAffichage ; j++) {
 			carte[i][j] = solution[i][j];
 		}
 	}
