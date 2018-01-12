@@ -105,10 +105,7 @@ La réponse avec une citation `>`.
 1. **Quel est le public cible de l'application ?**
 >
 
-1. **Peut -on créer permettre à l'utilisateur de créer un Picross à partir d'une image ?**
->
-
-1.  **Doit-il y avoir une limitations pour les aides ou l'utilisateur peut-il en utiliser autant qu'il le souhaite ?**
+1.  **Doit-il y avoir une limitation pour les aides ou l'utilisateur peut-il en utiliser autant qu'il le souhaite ?**
 >
 
 
