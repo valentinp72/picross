@@ -1,42 +1,58 @@
 # Questions-réponses cahier des charges
 
-**MARKDOWN** : il suffit de mettre toutes les questions avec le numéro "1.", markdown adaptera les numéros en conséquence.
-La question en gras avec les `**` de chaque coté de la question.
-La réponse avec une citation `>`.
-
 -----
 
 ### Partie Générale
 
+
 1. **Quel nom voulez-vous donner au logiciel ?**
-> 
+> </br>
+> </br>
 
 1. **Le logiciel doit-il comporter un éditeur de carte pour le joueur ?**
+> </br>
+> </br>
 > 
 
 1. **Si oui, comment peut-il créer des niveaux ? A partir d'une image, pixel par pixel, ou les deux ?**
+> </br>
+> </br>
 > 
 
 1. **Dans quelles langues le logiciel devra-t-il être disponible ? Choix de la langue depuis les paramètres notamment ?**
->
+> </br>
+> </br>
+> 
 
 1. **Voulez-vous qu'il soit possible de jouer uniquement au clavier, uniquement à la souris ou les deux ?**
->
+> </br>
+> </br>
+> 
 
 1. **Doit-on prévoir une pause en jeu (afin que le chrono ne défile pas) ?**
->
+> </br>
+> </br>
+> 
 
 1. **Le jeu devra-t-il comporter plusieurs niveaux de difficultés ? Si oui comment déterminer la difficulté d'une grille ?**
->
+> </br>
+> </br>
+> 
 
 1. **Peut-on réaliser un mode de jeu où la grille s'agrandit au fur et à mesure que le joueur la remplit ?**
->
+> </br>
+> </br>
+> 
 
 1. **Doit-on utiliser rdoc pour la documentation du code ? Si oui doit-on vous fournir la rdoc en tant que livrable ?**
->
+> </br>
+> </br>
+> 
 
 1. **Doit-on permettre la possibilité d'avoir plusieurs solutions pour une grille de Picross ?**
->
+> </br>
+> </br>
+> 
 
 -----
 
