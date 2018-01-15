@@ -2,56 +2,6 @@
 
 -----
 
-### Partie Générale
-
-
-1. **Le logiciel doit-il comporter un éditeur de carte pour le joueur ?**
-> </br>
-> </br>
-> 
-
-1. **Si oui, comment peut-il créer des niveaux ? A partir d'une image, pixel par pixel, ou les deux ?**
-> </br>
-> </br>
-> 
-
-1. **Dans quelles langues le logiciel devra-t-il être disponible ? Choix de la langue depuis les paramètres notamment ?**
-> </br>
-> </br>
-> 
-
-1. **Voulez-vous qu'il soit possible de jouer uniquement au clavier, uniquement à la souris ou les deux ?**
-> </br>
-> </br>
-> 
-
-1. **Doit-on prévoir une pause en jeu (afin que le chrono ne défile pas) ?**
-> </br>
-> </br>
-> 
-
-1. **Le jeu devra-t-il comporter plusieurs niveaux de difficultés ? Si oui comment déterminer la difficulté d'une grille ?**
-> </br>
-> </br>
-> 
-
-1. **Peut-on réaliser un mode de jeu où la grille s'agrandit au fur et à mesure que le joueur la remplit ?**
-> </br>
-> </br>
-> 
-
-1. **Doit-on utiliser rdoc pour la documentation du code ? Si oui doit-on vous fournir la rdoc en tant que livrable ?**
-> </br>
-> </br>
-> 
-
-1. **Doit-on permettre la possibilité d'avoir plusieurs solutions pour une grille de Picross ?**
-> </br>
-> </br>
-> 
-
------
-
 ### Relation client
 
 1. **Comment souhaitez-vous accéder et obtenir notre logiciel ? Par mail ? Souhaitez-vous un accès à notre dépôt Github ?**
@@ -64,7 +14,12 @@
 > </br>
 > 
 
-1. **Avez-vous des test d'acceptation pour la version finale de l'application ou devons-nous les définir nous-même ?**
+1. **Avez-vous des tests d'acceptation pour la version finale de l'application ou devons-nous les définir nous-même ?**
+> </br>
+> </br>
+>
+
+1. **Doit-on utiliser rdoc pour la documentation du code ? Si oui doit-on vous fournir la rdoc en tant que livrable ?**
 > </br>
 > </br>
 > 
@@ -79,6 +34,11 @@
 > </br>
 >
 
+1. **Dans quelles langues le logiciel devra-t-il être disponible ?**
+> </br>
+> </br>
+>
+
 -----
 
 ### Règles et didacticiel
@@ -88,16 +48,26 @@
 > </br>
 > 
 
-1. **Doit-il y avoir un niveau didacticiel pour les joueurs ne connaisant pas le jeu ? Si oui quelle serait la meilleure façon d'expliquer les règles ? (surligner des chiffres, masquer les autres, ...)**
+1. **Doit-il y avoir un niveau didacticiel pour les joueurs ne connaissant pas le jeu ? Si oui quelle serait la meilleure façon d'expliquer les règles ? (surligner des chiffres, masquer les autres, ...)**
 > </br>
 > </br>
 > 
 
 -----
 
-### Génération de la carte
+### Génération des cartes
 
 1. **Devra-t-il avoir des cartes par défaut dans le jeu, ou alors les cartes sont-elles générées aléatoirement ? Ou les deux ?**
+> </br>
+> </br>
+>
+
+1. **Doit-on permettre la possibilité d'avoir plusieurs solutions pour une grille de Picross ?**
+> </br>
+> </br>
+>
+
+1. **La grille une fois remplie doit-elle représenter quelque chose ?**
 > </br>
 > </br>
 > 
@@ -111,12 +81,7 @@
 > </br>
 > 
 
-1. **Le jeu devra-t-il indiquer les erreurs du joueur avant la fin ?**
-> </br>
-> </br>
-> 
-
-1. **Si non, arrivé à la fin, le jeu proposera-t-il une aide pour trouver les erreurs ?**
+1. **Le jeu devra-t-il indiquer les erreurs du joueur avant la fin ? Si non, arrivé à la fin, le jeu proposera-t-il une aide pour trouver les erreurs ?**
 > </br>
 > </br>
 > 
@@ -129,11 +94,6 @@
 -----
 
 ### IHE
-
-1. **La grille une fois remplie doit-elle représenter quelque chose ?**
-> </br>
-> </br>
-> 
 
 1. **Avez-vous des préférences pour la couleur et la forme utilisée pour remplir les cases ? (croix, cercle, case pleine)**
 > </br>
@@ -152,6 +112,30 @@
 
 -----
 
+### Partie
+
+1. **Les parties doivent-elles être chronométrées ?**
+> </br>
+> </br>
+> 
+
+1. **Doit-on prévoir une pause en jeu (afin que le chrono ne défile pas) ?**
+> </br>
+> </br>
+>
+
+1. **Voulez-vous qu'il soit possible de jouer uniquement au clavier, uniquement à la souris ou les deux ?**
+> </br>
+> </br>
+> 
+
+1. **Le jeu devra-t-il comporter plusieurs niveaux de difficulté ?**
+> </br>
+> </br>
+>
+
+-----
+
 ### Sauvegarde et partage
 
 
@@ -165,7 +149,7 @@
 > </br>
 > 
 
-1. **Souhaitez-vous une méthode de sauvegardes des parties en particulier ? (l'utilisateur sauvegarde sa partie où il le souhaite, dans un dossier de l'application, dans une base de donnée, en ligne, ... ?)**
+1. **Souhaitez-vous une méthode de sauvegarde des parties en particulier ? (l'utilisateur sauvegarde sa partie où il le souhaite, dans un dossier de l'application, dans une base de données, en ligne, ... ?)**
 > </br>
 > </br>
 > 
@@ -179,18 +163,26 @@
 
 ### Statistiques
 
-1. **Les parties doivent-elles être chronométrées ?**
+1. **Voulez-vous qu'il y ait des statistiques propres à chaque partie (nombre de click, nombre de fautes, chrono, ...) ?**
 > </br>
 > </br>
 > 
 
-1. **Voulez-vous qu'il y est des statistiques propres à chaque partie (nombres de click, nombre de fautes, chrono, ...) ?**
+1. **Voulez-vous qu'il y ait des statistiques propres à chaque utilisateur (tableau des scores, meilleurs temps, ...) ?**
 > </br>
 > </br>
 > 
 
-1. **Voulez-vous qu'il y est des statistiques propres à chaque utilisateur (tableau des scores, meilleurs temps, ...) ?**
+-----
+
+### Fonctionnalité supplémentaire
+
+1. **Le logiciel doit-il comporter un éditeur de cartes pour le joueur ? Si oui, comment peut-il créer des niveaux ? À partir d'une image, pixel par pixel, ou les deux ?**
+> </br>
+> </br>
+>
+
+1. **Peut-on réaliser un mode de jeu où la grille s'agrandit au fur et à mesure que le joueur la remplit ?**
 > </br>
 > </br>
 > 
-
