@@ -4,7 +4,7 @@
 La question en gras avec les `**` de chaque coté de la question.
 La réponse avec une citation `>`.
 
----
+-----
 
 ### Partie Générale
 
@@ -32,12 +32,13 @@ La réponse avec une citation `>`.
 1. **Peut-on réaliser un mode de jeu où la grille s'agrandit au fur et à mesure que le joueur la remplit ?**
 >
 
-
 1. **Doit-on utiliser rdoc pour la documentation du code ? Si oui doit-on vous fournir la rdoc en tant que livrable ?**
 >
 
 1. **Doit-on permettre la possibilité d'avoir plusieurs solutions pour une grille de Picross ?**
 >
+
+-----
 
 ### Relation client
 
@@ -53,6 +54,7 @@ La réponse avec une citation `>`.
 1. **Quel est le public cible de l'application ?**
 >
 
+-----
 
 ### Règles et didacticiel
 
@@ -62,12 +64,14 @@ La réponse avec une citation `>`.
 1. **Doit-il y avoir un niveau didacticiel pour les joueurs ne connaisant pas le jeu ? Si oui quelle serait la meilleure façon d'expliquer les règles ? (surligner des chiffres, masquer les autres, ...)**
 >
 
+-----
 
 ### Génération de la carte
 
 1. **Devra-t-il avoir des cartes par défaut dans le jeu, ou alors les cartes sont-elles générées aléatoirement ? Ou les deux ?**
 >
 
+-----
 
 ### Aide à la résolution du Picross
 
@@ -83,6 +87,7 @@ La réponse avec une citation `>`.
 1.  **Doit-il y avoir une limitation pour les aides ou l'utilisateur peut-il en utiliser autant qu'il le souhaite ?**
 >
 
+-----
 
 ### IHE
 
@@ -98,6 +103,7 @@ La réponse avec une citation `>`.
 1. **Avez-vous des préférences pour la ou les tailles de grille ?**
 >
 
+-----
 
 ### Sauvegarde et partage
 
@@ -114,6 +120,7 @@ La réponse avec une citation `>`.
 1. **Le joueur pourra-t-il partager une partie à d'autres joueurs (seed, fichier, ...) ?**
 >
 
+-----
 
 ### Statistiques
 
