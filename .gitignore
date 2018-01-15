@@ -51,3 +51,10 @@ build-iPhoneSimulator/
 
 # Asta lock files
 *.lock
+
+# Latex
+*.aux
+*.log
+*.synctex.gz
+*.toc
+*.out
