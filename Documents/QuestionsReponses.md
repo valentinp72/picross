@@ -11,8 +11,11 @@ La réponse avec une citation `>`.
 1. **Quel nom voulez-vous donner au logiciel ?**
 > 
 
+
 1. **Le logiciel doit-il comporter un éditeur de carte pour le joueur ?**
 > 
+
+
 
 1. **Si oui, comment peut-il créer des niveaux ? A partir d'une image, pixel par pixel, ou les deux ?**
 > 
