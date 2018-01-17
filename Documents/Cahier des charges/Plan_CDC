@@ -1,0 +1,35 @@
+Plan Cahier Des Charges
+
+1. Introduction
+
+  Présentation de notre groupe
+  Présentation simple du Picross (but du jeu, règles )
+  Présentation application (Contexte, Objectifs)
+
+2. Définition fonctions (ce que l'application pourra faire)
+
+	Pour chaque fonctionnalité :
+    Nom de la fonctionnalité
+    Description de la fonctionnalité
+    [si necessaire] Limites de la fonctionnalité
+    [si necessaire] Priorité de la fonctionnalité
+
+
+3. Définition contraintes (ce que l'application ne pourra pas faire)
+
+   Pour chaque contrainte :
+    Nom de la contrainte
+    Description de la contrainte
+    Solution pour répondre à la contrainte
+
+
+4. UML
+
+  Diagramme(s) de cas d'utilisations
+  Diagramme de Gantt
+
+
+5. Résultats Finaux attendus
+
+  liste des livrables
+
