@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Cahier des charges picross}
+\author{Groupe 2}
+\date{January 2018}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+\section{Presentation}
+
+\subection{Introduction}
+
+Dans le cadre de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à élaborer un jeu de type picross ( aussi appelé nonogramme ou logigramme ). 
+\newline
+Le picross est un jeu de type puzzle. Il est composé d'une grille. Soit les cases sont blanches (non-colorié) soit noir (colorié). Certaines de ces cases doivent-être coloriée afin de pouvoir révéler un dessin. Pour pouvoir déterminer les case à colorier on dispose de groupe de nombres indiqués à chaque bout de lignes et de colonnes.
+\newline
+Les nombres indiqués permettent d'identifier la taille des blocs de cased a colorier sur la ligne ou colonne ainsi que leurs ordre.
+\newline
+Chaque groupe de cases indiqué doit être séparé des autres groupe de cases par une case blanche ou plus.
+\newline
+Ce document a pour but
+
+
+
+
+
+\section{Specification des besoins}
+
+\subsection{Mode de jeu}
+Le jeu est composé de plusieurs chapitres. Chaque chapitre regroupe des grilles par taille.
+\newline
+Puis dans chaque chapitre l'ordre d'apparition des grilles s'effectue en fonction de leur niveau de difficulté si celui-ci est existent.
+Il est proposé d'ajouter un mode de jeu "Progressif". Dans ce mode de jeu, la taille de la grille augmenterai au fur et à mesure que l'utilisateur complete la grille existante.
+
+
+\subsection{Score}
+Le score d'un joueur sur une grille est évalué par des étoiles. Un joueur peut gagner trois étoiles par grille au maximum. Le nombre d'étoiles qui seront descerné au joueur lorsque celui-ci finit le niveau est calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisé.
+
+
+\subsection{Aide}
+Plusieurs types d'aide seront proposés aux joueurs. Nous discernons trois type d'aide. 
+\begin{itemize}
+    \item Une case a colorier peut être déterminer de façon certaine    
+    \item Plusieurs groupe de cases se chevauchent, on peut déterminer un bloc qui sera colorié
+    \item Plusieurs combinaisons d'aide permettent de colorier une ou plusieurs cases.
+\end{itemize}
+
+\subsection{IHM}
+
+
+
+\section{Conclusion}
+``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+
+
