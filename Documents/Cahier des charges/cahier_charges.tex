@@ -86,31 +86,35 @@
 
 	\section{Introduction}
 
-		Dans le cadre de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à élaborer un jeu de type picross ( aussi appelé nonogramme ou logigramme ).
-	\newline
-		Le picross est un jeu de type puzzle. Il est composé d'une grille. Soit les cases sont blanches (non-colorié) soit noir (colorié). 	
-		Certaines de ces cases doivent-être coloriée afin de pouvoir révéler un dessin. Pour pouvoir déterminer les case à colorier on dispose de groupe de nombres indiqués à chaque bout de lignes et de colonnes.
+		Dans le cadre de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à élaborer un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie).
+	
+	\section{Règles du picross}
+		Le picross est un jeu de type puzzle. Il est composé d'une grille. Soit les cases sont blanches (non-coloriées) soit noires (coloriées). 	
+		Certaines de ces cases doivent-être coloriées afin de pouvoir révéler un dessin. Pour pouvoir déterminer les case à colorier on dispose de groupe de nombres indiqués à chaque extrémité des lignes et des colonnes.
 		\newline
-		Les nombres indiqués permettent d'identifier la taille des blocs de cased a colorier sur la ligne ou colonne ainsi que leurs ordre.
+		Les nombres indiqués permettent d'identifier la taille des blocs de cases à colorier sur la ligne ou colonne ainsi que leurs ordres.
 		\newline
 		Chaque groupe de cases indiqué doit être séparé des autres groupe de cases par une case blanche ou plus.
-		\newline
+
+	\section{Objectif de l'application}		
+		
+	\section{Une autre section ?}		
+		
 		Ce document a pour but
 
 
 
-\chapter{Specification des besoins}
+\chapter{Spécification des besoins}
 
-		\section{Mode de jeu}
-			Le jeu est composé de plusieurs chapitres. Chaque chapitre regroupe des grilles par taille.
+	\section{Mode de jeu}
+			Le jeu est composé de plusieurs chapitres. Chaque chapitre regroupe des grilles par taille. Au fur et à mesure que le joueur avance dans les chapitres, la difficulté augmente.
 			\newline
 			Puis dans chaque chapitre l'ordre d'apparition des grilles s'effectue en fonction de leur niveau de difficulté si celui-ci est existent.
 			Il est proposé d'ajouter un mode de jeu "Progressif". Dans ce mode de jeu, la taille de la grille augmenterai au fur et à mesure que l'utilisateur complète la grille existante.
 
 		
 		\section{Score}
-			Le score d'un joueur sur une grille est évalué par des étoiles. Un joueur peut gagner trois étoiles par grille au maximum. Le nombre d'étoiles qui seront descerné au joueur lorsque celui-ci finit le niveau est calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisé.
-			
+			Le score d'un joueur sur une grille est évalué par des étoiles. Un joueur peut gagner trois étoiles par grille au maximum. Le nombre d'étoiles qui seront décernées au joueur lorsque celui-ci finit le niveau est calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisé.
 			
 		\section{Aide}
 			Plusieurs types d'aide seront proposés aux joueurs. Nous discernons trois type d'aide.
@@ -119,12 +123,35 @@
 			    \item Plusieurs groupe de cases se chevauchent, on peut déterminer un bloc qui sera colorié
 			    \item Plusieurs combinaisons d'aide permettent de colorier une ou plusieurs cases.
 			\end{itemize}
+			Le joueur ne pourra pas utiliser autant d'aides qu'il le souhaite. Lorsque le joueur résout un picross, il obtient un nombre d'aides utilisables proportionnel au nombre d'étoiles qu'il a obtenu. En outre, plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours d'un picross. + mode d'aide (à voir si c'est pas bcp de choses en même temps)
+
+		\section{Hypothèses}			
+			A tout moment, le joueur peut décider de partir dans une hypothèse. Les cases qu'il remplit par la suite sont d'une autre couleur (la couleur de l'hypothèse). Il doit pouvoir créer autant d'hypothèses qu'il veut, imbriquées les unes dans les autres.\\
+			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler, ce qui aura pour effet d'annuler toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse.\\
+			En revanche, il peut décider qu'une hypothèses est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases placées changent alors de couleur, et deviennent des cases normales.
+		
+		\section{Didacticiel}
+			+ le fait d'avoir les règles du jeu intégré dans l'application
+		
+		\section{A voir pour le nom}
+			le fait d'avoir un picross résolu qui doit représenter quelque chose (image, ...)
+			possible pour le joueur de mettre en pause
+
+		\section{Ergonomie}
+			L'application doit pouvoir être utilisée intégralement à la souris, et intégralement au clavier, au choix de l'utilisateur.
+			Il doit être possible de sélectionner une zone (verticale ou horizontale) et de la remplir d'un seul coup, à la souris comme au clavier.
 			
 		\section{IHM}
 			
+\chapter{Spécification des contraintes}
+
+	\section{Picross en couleur}
+		Il n'est pas demandé de réaliser une application permettant de jouer en couleur. 
+		
+	\section{•}
 			
 \chapter{Conclusion}
-	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
+%	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
 		\bibliographystyle{plain}
 		\bibliography{references}
 

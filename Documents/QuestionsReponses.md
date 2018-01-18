@@ -97,7 +97,7 @@
 > Oui
 
 1. **Voulez-vous qu'il soit possible de jouer uniquement au clavier, uniquement à la souris ou les deux ?**
-> Oui, les deux, souris et clavier (intégralement l'une et l'autre), avec shift
+> Oui, les deux, souris et clavier (intégralement l'une et l'autre), avec shift pour sélectionner une zone.
 
 1. **Le jeu devra-t-il comporter plusieurs niveaux de difficulté ?**
 > Oui
