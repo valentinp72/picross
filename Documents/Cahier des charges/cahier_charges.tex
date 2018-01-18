@@ -19,6 +19,7 @@
 \usepackage{graphicx}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{natbib}
 \usepackage[francais]{babel}
 \usepackage{caption}
 \usepackage{listings}
@@ -26,8 +27,16 @@
 \usepackage[top=2cm, bottom=2cm,left=2cm, right=2cm]{geometry}
 \usepackage{blindtext}
 \usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{titlesec, blindtext, color} % titres spéciaux + couleur pour les chapter
+
+% on transforme les chapters en juste le numéro suivi du titre, avec un barre grisse
+\definecolor{gray75}{gray}{0.75}
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
 \begin{document}
+
 
 %%%%%%%%%%%
 %  Page de garde  %
@@ -41,8 +50,8 @@
 		\end{spacing}
 		
 		\begin{spacing}{2.5}
-			\textbf{\huge Application de création et d'aide à la résolution de puzzle \textit{picross}}\\[0.5cm]
-			\textbf{\Large Cahier des charges} \\
+			\textbf{\Huge Application de création et d'aide à la résolution de puzzle \textit{picross}}\\[0.5cm]
+			\textbf{\huge Cahier des charges} \\
 			\vspace*{\fill}
 			\textit{Étudiants :}
 		\end{spacing}
@@ -73,11 +82,50 @@
 \tableofcontents
 
 
-\chapter{Introduction}
+\chapter{Présentation}
 
-	Hello
-	
-		\section{Nom de section}
-			Hello world!
+	\section{Introduction}
+
+		Dans le cadre de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à élaborer un jeu de type picross ( aussi appelé nonogramme ou logigramme ).
+	\newline
+		Le picross est un jeu de type puzzle. Il est composé d'une grille. Soit les cases sont blanches (non-colorié) soit noir (colorié). 	
+		Certaines de ces cases doivent-être coloriée afin de pouvoir révéler un dessin. Pour pouvoir déterminer les case à colorier on dispose de groupe de nombres indiqués à chaque bout de lignes et de colonnes.
+		\newline
+		Les nombres indiqués permettent d'identifier la taille des blocs de cased a colorier sur la ligne ou colonne ainsi que leurs ordre.
+		\newline
+		Chaque groupe de cases indiqué doit être séparé des autres groupe de cases par une case blanche ou plus.
+		\newline
+		Ce document a pour but
+
+
+
+\chapter{Specification des besoins}
+
+		\section{Mode de jeu}
+			Le jeu est composé de plusieurs chapitres. Chaque chapitre regroupe des grilles par taille.
+			\newline
+			Puis dans chaque chapitre l'ordre d'apparition des grilles s'effectue en fonction de leur niveau de difficulté si celui-ci est existent.
+			Il est proposé d'ajouter un mode de jeu "Progressif". Dans ce mode de jeu, la taille de la grille augmenterai au fur et à mesure que l'utilisateur complète la grille existante.
+
+		
+		\section{Score}
+			Le score d'un joueur sur une grille est évalué par des étoiles. Un joueur peut gagner trois étoiles par grille au maximum. Le nombre d'étoiles qui seront descerné au joueur lorsque celui-ci finit le niveau est calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisé.
+			
+			
+		\section{Aide}
+			Plusieurs types d'aide seront proposés aux joueurs. Nous discernons trois type d'aide.
+			\begin{itemize}
+			    \item Une case a colorier peut être déterminer de façon certaine
+			    \item Plusieurs groupe de cases se chevauchent, on peut déterminer un bloc qui sera colorié
+			    \item Plusieurs combinaisons d'aide permettent de colorier une ou plusieurs cases.
+			\end{itemize}
+			
+		\section{IHM}
+			
+			
+\chapter{Conclusion}
+	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
+		\bibliographystyle{plain}
+		\bibliography{references}
 
 \end{document}
