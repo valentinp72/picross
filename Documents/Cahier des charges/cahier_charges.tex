@@ -86,83 +86,79 @@
 
 	\section{Introduction}
 
-		Dans le cadre de l'unité d'enseignant "Génie logiciel 2" de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application. 
+		Dans le cadre de l'unité d'enseignement "Génie logiciel 2" de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application. \\
+		Ce document décrit le contexte, les besoins fonctionnels, les objectifs et les contraintes définis par les clients. Un premier découpage des étapes nécessaires à la réalisation du projet donne lieu dans le document à un planning prévisionnel.
+
 	
   \section{Objectif de l'application}		
 		Nous devons réaliser un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
 
 	\section{Règles du picross}
 		Le picross est un jeu de type puzzle. Le jeu consiste à découvrir un dessin sur une grille en noircissant des cases d'après des indices donnés.	
-		Pour pouvoir déterminer les cases à colorier on dispose de groupe de nombres indiqués à chaque extrémité des lignes et des colonnes.
+		Pour pouvoir déterminer les cases à colorier on dispose de groupes de nombres indiqués à une extrémité de chaque lignes et colonnes.
 		\newline
-		Les nombres indiqués permettent d'identifier la taille des blocs de cases à colorier sur la ligne ou colonne ainsi que leurs ordres.
+		Les nombres indiqués permettent d'identifier la taille des blocs de cases à colorier sur la ligne ou colonne ainsi que leur ordre.
 		\newline
-		Chaque groupe de cases indiqué doit être séparé des autres groupe de cases par une case blanche ou plus.
+		Chaque groupe de cases indiqué doit être séparé des autres par une case blanche ou plus.
+	
 		
-	\section{Une autre section ?}		
-		
-		Ce document décrit le contexte, les besoins fonctionnels, les objectifs et les contraintes définit par les clients. Un premier découpage des étapes nécéssaires à la réalisation du projet donne lieu dans le document à un planning prévisionnel.
-
-
-
 \chapter{Spécification des besoins}
 
 	\section{Mode de jeu}
-			Le jeu sera composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitre regroupera des grilles de différentes tailles. Au début du jeu, seul le premier chapitre sera débloqué et les autres se débloqueront au fur et à mesure que le joueur réussi des grilles.\\
-			Un chapitre à part contiendra des niveaux différents des parties normales où la grille évoluera durant la partie. Dans ces niveaux, la taille de la grille augmentera au fur et à mesure que l'utilisateur complètera la grille existante.
+			Le jeu sera composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitres regroupera des grilles de différentes tailles. Au début du jeu, seul le premier chapitre sera débloqué et les autres se débloqueront au fur et à mesure que le joueur termine les grilles.\\
+			Un chapitre à part du mode de jeu classique contiendra des niveaux particuliers où la grille évoluera durant la partie. Dans ces niveaux, la taille de la grille augmentera à mesure que l'utilisateur complètera la grille existante.
 
 		\section{Score}
-			Le score d'un joueur sur une grille sera évalué par un nombre d'étoile. Un joueur pourra gagner quatre étoiles par grille au maximum. Le nombre d'étoile sera décerné au joueur lorsque celui-ci finit le niveau et sera calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisée. Chaque chapitre du jeu se débloquera automatiquement dès que le nombre d'étoile requis à son déverrouillage sera atteint. Plus un chapitre contiendra des grilles difficiles, plus le nombre d'étoile requis sera élevé.
+			Le score d'un joueur sur une grille sera évalué par un nombre d'étoiles. Un joueur pourra gagner quatre étoiles par grille au maximum. Le nombre d'étoiles sera décerné au joueur lorsque celui-ci termine le niveau et sera calculé en fonction du temps qu'il aura mis à résoudre la grille. Chaque chapitre du jeu se débloquera automatiquement dès que le nombre d'étoiles requis à son déverrouillage sera atteint. Plus un chapitre contiendra de grilles difficiles, plus le nombre d'étoiles requises sera élevé.
 				
 		\section{Statistiques}
-			En plus du score, l'application gardera en mémoire certaines statistiques pour le joueur ou pour une grille. Les statistiques du joueur seront son score total (nombre total d'étoile) et le nombre de niveau et chapitre réussis. Les statistiques pour chaque grille seront le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
+			En plus du score, l'application gardera en mémoire certaines statistiques associées au joueur ainsi qu'à la grille. Les statistiques du joueur comporteront son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grilles seront le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
 			
 		\section{Aide}
-			Plusieurs types d'aide seront proposés aux joueurs. Le type d'aide dépendra de la difficulté du chapitre. Pour un chapitre facile, l'aide coloriera directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indiquera simplement la ligne ou la colonne où une case correcte qui n'est pas encore coloriée se trouve. Pour un chapitre difficile, l'aide indiquera seulement si le joueur à colorié une case incorrecte.\\
-			Le joueur ne pourra pas utiliser autant d'aide qu'il le souhaite. Lorsque le joueur résoudra un picross, il obtiendra un nombre d'aide utilisable proportionnel au nombre d'étoiles qu'il a obtenues. En outre, plus le joueur avancera dans des chapitres difficiles, moins celui-ci sera authorisé à utiliser d'aides au cours d'un picross. De plus, l'utilisation d'une aide provoquera une pénalité de temps et donc moins d'étoiles. 
+			Plusieurs aides seront proposées aux joueurs. Le type d'aide dépendra de la difficulté du chapitre. Pour un chapitre facile, l'aide coloriera directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indiquera simplement la ligne ou la colonne où se trouve une case correcte qui n'est pas encore coloriée. Pour un chapitre difficile, l'aide indiquera seulement si le joueur à colorié une case incorrecte. Plus le joueur avancera dans des chapitres difficiles, moins celui-ci sera autorisé à utiliser d'aides au cours de sa partie de picross.  
 
 		\section{Hypothèses}			
-			A tout moment durant une partie, le joueur pourra décider de partir dans le mode hypothèse. Durant ce mode, les cases qu'il remplira par la suite seront d'une autre couleur (la couleur de l'hypothèse). Il pourra créer jusqu'à cinq hypothèses, imbriquées les unes dans les autres.\\
-			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il pourra l'annuler, ce qui aura pour effet d'annuler toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse.\\
-			En revanche, il pourra décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases placées changent alors de couleur, et deviennent des cases normales.
+			A tout moment durant une partie, le joueur pourra décider d'utiliser le mode hypothèse. Durant celui-ci, les cases qu'il remplira par la suite seront d'une autre couleur que celle de base. Il pourra créer jusqu'à cinq hypothèses simultanées, imbriquées les unes dans les autres.\\
+			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il pourra l'annuler, ce qui aura pour effet de supprimer toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse précédante.\\
+			En revanche, il pourra décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 		
 		\section{Didacticiel}
-			Un niveau de l'application sera présent comme didacticiel. Ce niveau est optionnel et permettra aux joueurs débutants de se familiariser avec les règles du Picross. Il consistera en une partie guidée d'une grille simple de picross en expliquant au joueur les actions à réalisées étape par étape afin de finir la grille. L'application contiendra également un rappel des règles générales du picross.
+			Un niveau de l'application sera présent comme didacticiel. Ce niveau est optionnel et permettra aux joueurs débutants de se familiariser avec les règles du Picross. Il consistera en une partie guidée d'une grille simple de picross en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contiendra également un rappel des règles générales du picross.
 
 		\section{Ergonomie}
-			Durant une partie, le joueur pourra mettre le jeu en pause à n'importe quel moment. La grille sera masquée afin d'éviter toute tricherie et le chronomètre sera mis en pause également.\\
+			Durant une partie, le joueur pourra mettre le jeu en pause à n'importe quel moment, le chronomètre sera alors mis en pause.\\
      			L'application pourra être utilisée intégralement à la souris et intégralement au clavier, au choix de l'utilisateur.\\
-			Il sera également possible de sélectionner une suite de case verticale ou horizontale et de la coloriée d'un seul coup, à la souris comme au clavier. Lors cette sélection, le nombre de cases sélectionnées sera affiché.\\
+			Il sera également possible de sélectionner une suite de cases verticale ou horizontale et de la colorier d'un seul coup, à la souris comme au clavier. Lors cette sélection, le nombre de cases sélectionnées sera affiché.\\
 			L'application sauvegardera automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
 
 			
 		\section{IHM}
-			L'application sera disponible en français et en anglais et il sera possible de rajouter des langues supplémentaires.
+			L'application sera disponible en français et en anglais. Il sera possible de rajouter des langues supplémentaires ultérieurement.
 			
-chapter{Spécification des contraintes}
+\chapter{Spécification des contraintes}
 
-	\section{conception}
-		Le client demande que le logiciel soit réalisé en ruby, et que la documentation soit engendrée via rdoc. Celle-ci sera livrée avec les livrables. L'interface doit être programmée en GtK.
+	\section{Conception}
+		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via rdoc. Celle-ci sera livrée avec les livrables. L'interface doit être programmée avec GtK.
 		
-	\section{cartes et interface}
+	\section{Cartes et interface}
 		Une carte doit etre seulement en noir et blanc, Il serait sinon difficile de s'y retrouver avec les hypothèses qui sont elles aussi colorées.
-		la grille doit prendre suffisemment de place sur la fenetre de manière à être facilement lisible malgrès l'importante quantitée de chiffres et l'interface, et ce, qu'importe la taille de la fenêtre. En lien avec cela, une taille de grille maximale de 25 par 25 à été mise en place.
-		Les cartes doivent, une fois complétées, ressembler à quelquechose. Il doit s'agir d'images en noir et blanc ayant une signification.
+		La grille doit prendre suffisemment de place sur la fenêtre de manière à être facilement lisible malgrès l'importante quantitée de chiffres et l'interface, et ce, qu'importe la taille de la fenêtre. En lien avec cela, une taille de grille maximale de 25 par 25 à été mise en place.
+		Les cartes doivent, une fois complétées, ressembler à quelquechose. Il doit s'agir d'images en noir et blanc représentant une forme évoquatrice.
 	
-	\section{limitation de l'aide}
-		L'aide peut être utilisée de façon abusive. Pour éviter celà, une sanction est appliquée lors de l'utilisation de l'aide. Une perte de temps est appliquée lors de l'utilisation d'une aide, pouvant aller jusqu'a la suppression de toutes les étoiles remportées à la fin de la partie. La perte de temps sera indiquée separemment du temps que le joueur à mis à résoudre le picross, le total n'est pris en compte qu'au moment du calcul du score.
+	\section{Limitation de l'aide}
+		L'aide peut être utilisée de façon abusive. Pour éviter celà, une pénalité est appliquée lors de l'utilisation de celle-ci. Une perte de temps est infligée lors de l'utilisation d'une aide, pouvant aller jusqu'a la suppression de toutes les étoiles remportées à la fin de la partie. La perte de temps sera indiquée séparemment de celui que le joueur à mis à résoudre le picross, le total n'est pris en compte qu'au moment du calcul du score. Malgrès cela, en fonction du nombre d'étoiles remportées par le joueur, il aura accès à des utilisations d'aide n'entrainant aucune pénalité, de façon à l'inciter à jouer plus.
 	
-	\section{gameplay}
-		lors d'une pause, le chrono est arrété. Le joueur pourrait ainsi résoudre le picross sans que le temps ne défile, ce qui briserai le système de scores. Pour éviter celà, un masquage des chiffres permettant la resolution du picross sera mis en place, de façon à ce que le joueur ne puisse résoudre le picross que durant que le chrono est actif.
+	\section{Gameplay}
+		Lors d'une pause, le chronomètre est arrêté. Le joueur pourrait ainsi résoudre le picross sans que le temps ne défile, ce qui briserai le système de scores. Pour éviter celà, un masquage des chiffres permettant la resolution du picross sera mis en place, de façon à ce que le joueur ne puisse résoudre le picross seulement durant que le chronomètre est actif.
 		
 	\section{Didacticiel}
-		Bien qu'il soit jouable à n'importe quel moment, il ne doit pas être trop présent (pas de demarrage automatique au lancement du logiciel, uniquement un choix au menu) et doit uniquement contenir le necessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score)
+		Bien qu'il soit jouable à n'importe quel moment, il ne doit pas être trop présent (pas de démarrage automatique au lancement du logiciel, uniquement un choix au menu) et doit seulement contenir le nécessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score)
 	
-	\section{sauvegardes \& hypothèses}
-		les sauvegardes sont réalisées uniquement à l'arret d'une partie, il n'est pas utile d'en réalisé d'autres. Les sauvegardes peuvent être utilisées pour le système de checkpoint. Il ne faut pas sauvegarder une hypothèse comme étant juste avant de l'avoir validée ( différenciation cases justes/cases de l'hypothèses). Les Checkpoints seront utilisables en quantité limitée car sinon il y aurait un désordre à l'affichage. Le maximum est fixé à 5 hypothèses simultanées, ce qui est suffisant.
+	\section{Sauvegardes \& hypothèses}
+		Les sauvegardes sont réalisées automatiquement. Il n'est donc pas utile d'avoir un bouton le permettant manuellement. Les sauvegardes peuvent être utilisées pour le système de checkpoint (hypothèses). Il ne faut pas sauvegarder une hypothèse comme étant juste avant de l'avoir validée (différenciation cases justes/cases de l'hypothèses). Les checkpoints seront utilisables en quantité limitée car sinon il y aurait un désordre à l'affichage. Le maximum est fixé à 5 hypothèses simultanées, ce qui est suffisant.
 		
 	
-	\section{délais}
+	\section{Délais}
 		Le programme doit être terminé pour le 12 Avril 2018, ce qui nous laisse 3 mois pour le réaliser. L'utilisation de ce temps est indiqué sur le diagramme de Gantt suivant :
 		
 %		< insérer diagramme ici >
@@ -174,7 +170,8 @@ chapter{Spécification des contraintes}
 		-Le cahier des charges
 		-Le cahier de conception
 		-Le manuel utilisateur
-		-La documentation ( rdoc )
+		-La documentation (rdoc)
+		
 %	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
 		\bibliographystyle{plain}
 		\bibliography{references}
