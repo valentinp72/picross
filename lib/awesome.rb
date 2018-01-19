@@ -1,6 +1,6 @@
 class Awesome
   def initialize
-    @initted = 1
+    @initted = 2
   end
   def smile
     return ':)'
