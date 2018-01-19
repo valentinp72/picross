@@ -2,3 +2,8 @@
 language: Ruby
 rvm:
   - 2.2
+
+
+script:
+  - CODECOV_TOKEN="e43f214b-eecf-46c0-9dad-ade526a318eb"
+  - rake
