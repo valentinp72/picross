@@ -1,0 +1,12 @@
+Description du cas d'utilisation n°1
+
+Le but du Jacoboni est de jouer sur une grille de Picross.
+Pour cela le Jacoboni a besoin d'être authentifié avec un compte, puis de sélectionner une grille à l'aide du menu.
+Pour jouer le Jacoboni a trois options :
+	- Le didactitiel, un mode pour les débutants expliquant les règles de base.
+	- Le mode classique, permettant de jouer sur plusieurs grilles de tailles et difficultés variables.
+	- Le mode évolutif.
+Le Jacoboni peut à tout moment décider de recommencer la grille.
+Le Jacoboni peut gérer son profil (créer un profil ou le supprimer).
+
+C'est la fin du Jacoboni !
