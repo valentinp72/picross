@@ -148,12 +148,28 @@
 		\section{IHM}
 			L'application sera disponible en français et en anglais.
 			
-\chapter{Spécification des contraintes}
+chapter{Spécification des contraintes}
 
-	\section{Picross en couleur}
-		Il n'est pas demandé de réaliser une application permettant de jouer en couleur. 
+	\section{conception}
+		Le client demande que le logiciel soit réalisé en ruby, et que la documentation soit engendrée via rdoc. Celle-ci sera livrée avec les livrables. L'interface doit être programmée en GtK.
 		
-	\section{•}
+	\section{cartes et interface}
+		Une carte doit etre seulement en noir et blanc, Il serait sinon difficile de s'y retrouver avec les hypothèses colorées.
+		Elle doit prendre suffisemment de place sur la fenetre de manière à être facilement lisible malgrès l'importante quantitée de chiffres, et ce qu'importe la taille de la fenêtre. En lien avec cela, une taille de grille maximale de 25 par 25 à été mise en place
+		Les cartes doivent, une fois complétées, ressembler à quelquechose. Il doit s'agir d'images en noir et blanc ayant une signification.
+	
+	\section{limitation de l'aide}
+		L'aide peut être utilisée de façon abusive. Pour éviter celà, une sanction est appliquée lors de l'utilisation de l'aide. Une perte de temps est appliquée lors de l'utilisation d'une aide, pouvant aller jusqu'a la suppression de toutes les étoiles remportées à la fin de la partie. La perte de temps sera indiquée separemment du temps que le joueur à mis à résoudre le picross, le total n'est pris en compte qu'au moment du calcul du score.
+	
+	\section{gameplay}
+		lors d'une pause, le chrono est arrété. Le joueur pourrait ainsi le résoudre sans que le temps ne défile, ce qui briserai le système de scores. Pour éviter celà, un masquage des chiffres permettant la resolution du picross sera mis en place, de façon à ce que le joueur ne puisse résoudre le picross que durant que le chrono est actif.
+		
+	\section{Didacticiel}
+		Bien qu'il soit jouable à n'importe quel moment, il ne doit pas être trop présent ( pas de demarrage automatique au demarrage, uniquement un choix au menu)
+	
+	\section{sauvegardes & hypothèses}
+		les sauvegardes sont réalisées uniquement à l'arret d'une partie. 
+		nombre de checkpoints limités à 5, chacun de couleur differente
 			
 \chapter{Conclusion}
 %	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
