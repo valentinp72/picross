@@ -11,7 +11,7 @@
 \usepackage{array}
 \usepackage{hyperref}
 \usepackage{booktabs}
-\usepackage{multirow}
+%\usepackage{multirow}
 \usepackage{float}
 \usepackage{lmodern} %Pack de police
 \usepackage{color}
@@ -20,7 +20,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{natbib}
-\usepackage[francais]{babel}
+\usepackage[français]{babel}
 \usepackage{caption}
 \usepackage{listings}
 \usepackage{booktabs}
@@ -86,21 +86,22 @@
 
 	\section{Introduction}
 
-		Dans le cadre de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à élaborer un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie).
+		Dans le cadre de l'unité d'enseignant "Génie logiciel 2" de la Licence Informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application. 
 	
+  \section{Objectif de l'application}		
+		Nous devons réaliser un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
+
 	\section{Règles du picross}
-		Le picross est un jeu de type puzzle. Il est composé d'une grille. Soit les cases sont blanches (non-coloriées) soit noires (coloriées). 	
-		Certaines de ces cases doivent-être coloriées afin de pouvoir révéler un dessin. Pour pouvoir déterminer les case à colorier on dispose de groupe de nombres indiqués à chaque extrémité des lignes et des colonnes.
+		Le picross est un jeu de type puzzle. Le jeu consiste à découvrir un dessin sur une grille en noircissant des cases d'après des indices donnés.	
+		Pour pouvoir déterminer les cases à colorier on dispose de groupe de nombres indiqués à chaque extrémité des lignes et des colonnes.
 		\newline
 		Les nombres indiqués permettent d'identifier la taille des blocs de cases à colorier sur la ligne ou colonne ainsi que leurs ordres.
 		\newline
 		Chaque groupe de cases indiqué doit être séparé des autres groupe de cases par une case blanche ou plus.
-
-	\section{Objectif de l'application}		
 		
 	\section{Une autre section ?}		
 		
-		Ce document a pour but
+		Ce document décrit le contexte, les besoins fonctionnels, les objectifs et les contraintes définit par les clients. Un premier découpage des étapes nécéssaires à la réalisation du projet donne lieu dans le document à un planning prévisionnel.
 
 
 
