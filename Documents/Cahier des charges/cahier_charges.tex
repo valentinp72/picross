@@ -108,46 +108,36 @@
 \chapter{Spécification des besoins}
 
 	\section{Mode de jeu}
-			Le jeu est composé de plusieurs chapitres. Chaque chapitre regroupe des grilles par taille. Au fur et à mesure que le joueur avance dans les chapitres, la difficulté augmente.
-			\newline
-			Puis dans chaque chapitre l'ordre d'apparition des grilles s'effectue en fonction de leur niveau de difficulté si celui-ci est existent.
-			Il est proposé d'ajouter un mode de jeu "Progressif". Dans ce mode de jeu, la taille de la grille augmenterai au fur et à mesure que l'utilisateur complète la grille existante.
+			Le jeu sera composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitre regroupera des grilles de différentes tailles. Au début du jeu, seul le premier chapitre sera débloqué et les autres se débloqueront au fur et à mesure que le joueur réussi des grilles.\\
+			Un chapitre à part contiendra des niveaux différents des parties normales où la grille évoluera durant la partie. Dans ces niveaux, la taille de la grille augmentera au fur et à mesure que l'utilisateur complètera la grille existante.
 
-		
 		\section{Score}
-			Le score d'un joueur sur une grille est évalué par des étoiles. Un joueur peut gagner trois étoiles par grille au maximum. Le nombre d'étoiles qui seront décernées au joueur lorsque celui-ci finit le niveau est calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisé.
-			
+			Le score d'un joueur sur une grille sera évalué par un nombre d'étoile. Un joueur pourra gagner quatre étoiles par grille au maximum. Le nombre d'étoile sera décerné au joueur lorsque celui-ci finit le niveau et sera calculé en fonction du temps de réalisation de cette même grille ainsi que du nombre d'aide utilisée. Chaque chapitre du jeu se débloquera automatiquement dès que le nombre d'étoile requis à son déverrouillage sera atteint. Plus un chapitre contiendra des grilles difficiles, plus le nombre d'étoile requis sera élevé.
+				
 		\section{Statistiques}
-			En plus du score, l'application gardera en mémoire certaines statistiques pour le joueur ou pour une grille. Les statistiques du joueur seront son score total (nombre total d'étoile) et le nombre de niveaux (et chapitres) réussis. Les statistiques pour chaque grille seront le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreur effectué lors de ce meilleur temps.
+			En plus du score, l'application gardera en mémoire certaines statistiques pour le joueur ou pour une grille. Les statistiques du joueur seront son score total (nombre total d'étoile) et le nombre de niveau et chapitre réussis. Les statistiques pour chaque grille seront le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
 			
 		\section{Aide}
-			Plusieurs types d'aide seront proposés aux joueurs. Nous discernons trois type d'aide.
-			\begin{itemize}
-			    \item Une case a colorier peut être déterminer de façon certaine
-			    \item Plusieurs groupe de cases se chevauchent, on peut déterminer un bloc qui sera colorié
-			    \item Plusieurs combinaisons d'aide permettent de colorier une ou plusieurs cases.
-			\end{itemize}
-			Le joueur ne pourra pas utiliser autant d'aides qu'il le souhaite. Lorsque le joueur résout un picross, il obtient un nombre d'aides utilisables proportionnel au nombre d'étoiles qu'il a obtenu. En outre, plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours d'un picross. + mode d'aide (à voir si c'est pas bcp de choses en même temps)
+			Plusieurs types d'aide seront proposés aux joueurs. Le type d'aide dépendra de la difficulté du chapitre. Pour un chapitre facile, l'aide coloriera directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indiquera simplement la ligne ou la colonne où une case correcte qui n'est pas encore coloriée se trouve. Pour un chapitre difficile, l'aide indiquera seulement si le joueur à colorié une case incorrecte.\\
+			Le joueur ne pourra pas utiliser autant d'aide qu'il le souhaite. Lorsque le joueur résoudra un picross, il obtiendra un nombre d'aide utilisable proportionnel au nombre d'étoiles qu'il a obtenues. En outre, plus le joueur avancera dans des chapitres difficiles, moins celui-ci sera authorisé à utiliser d'aides au cours d'un picross. De plus, l'utilisation d'une aide provoquera une pénalité de temps et donc moins d'étoiles. 
 
 		\section{Hypothèses}			
-			A tout moment, le joueur peut décider de partir dans une hypothèse. Les cases qu'il remplit par la suite sont d'une autre couleur (la couleur de l'hypothèse). Il doit pouvoir créer autant d'hypothèses qu'il veut, imbriquées les unes dans les autres.\\
-			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler, ce qui aura pour effet d'annuler toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse.\\
-			En revanche, il peut décider qu'une hypothèses est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases placées changent alors de couleur, et deviennent des cases normales.
+			A tout moment durant une partie, le joueur pourra décider de partir dans le mode hypothèse. Durant ce mode, les cases qu'il remplira par la suite seront d'une autre couleur (la couleur de l'hypothèse). Il pourra créer jusqu'à cinq hypothèses, imbriquées les unes dans les autres.\\
+			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il pourra l'annuler, ce qui aura pour effet d'annuler toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse.\\
+			En revanche, il pourra décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases placées changent alors de couleur, et deviennent des cases normales.
 		
 		\section{Didacticiel}
-			+ le fait d'avoir les règles du jeu intégré dans l'application
-		
-		\section{Gameplay}
-			le fait d'avoir un picross résolu qui doit représenter quelque chose (image, ...)
-			possible pour le joueur de mettre en pause
+			Un niveau de l'application sera présent comme didacticiel. Ce niveau est optionnel et permettra aux joueurs débutants de se familiariser avec les règles du Picross. Il consistera en une partie guidée d'une grille simple de picross en expliquant au joueur les actions à réalisées étape par étape afin de finir la grille. L'application contiendra également un rappel des règles générales du picross.
 
 		\section{Ergonomie}
-			L'application doit pouvoir être utilisée intégralement à la souris, et intégralement au clavier, au choix de l'utilisateur.
-			Il doit être possible de sélectionner une zone (verticale ou horizontale) et de la remplir d'un seul coup, à la souris comme au clavier.
-			L'application sauvegarde automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
+			Durant une partie, le joueur pourra mettre le jeu en pause à n'importe quel moment. La grille sera masquée afin d'éviter toute tricherie et le chronomètre sera mis en pause également.\\
+     			L'application pourra être utilisée intégralement à la souris et intégralement au clavier, au choix de l'utilisateur.\\
+			Il sera également possible de sélectionner une suite de case verticale ou horizontale et de la coloriée d'un seul coup, à la souris comme au clavier. Lors cette sélection, le nombre de cases sélectionnées sera affiché.\\
+			L'application sauvegardera automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
+
 			
 		\section{IHM}
-			L'application sera disponible en français et en anglais.
+			L'application sera disponible en français et en anglais et il sera possible de rajouter des langues supplémentaires.
 			
 chapter{Spécification des contraintes}
 
