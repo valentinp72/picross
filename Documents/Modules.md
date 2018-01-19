@@ -1,15 +1,16 @@
 ## Modules
 
-- Module cartes
-- Générateur de cartes
-- Editeur de cartes (dessin ou import images)
-- IHM
-- Sauvegarde
-- Aides à la résolutions
+- Module cartes + sauvegarde + chargement (Modèle)
+- IHM (interface only) (Vue)
+- Gestion gameplay (Contrôleur)
+	- Gestion des menus (chapitres, options)
+	- Module hypothèses
+	- Module aides à la résolutions
+- Module utilisateur (statistiques)
 - Tests unitaires
  
 ## Extensions
-- Profil utilisateur (stats, ...)
 - Partage réseau de cartes
 - (Resolveur de picross)
+- Editeur de cartes (dessin ou import images)
 
