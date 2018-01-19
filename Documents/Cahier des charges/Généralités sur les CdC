@@ -1,0 +1,19 @@
+1- Présentation générale du programme demandé
+explication du contexte et de la demande -> que devons-nous programmer, dans quel but, etc 
+
+2- attentes et 3- contraintes
+les attentes designent ce que le programme doit être capable de faire ( fonctionnalités ) , dans cette partie on peut aussi mettre les principales idées pour remplir les attentes ( exemple : systeme de notation sur l'efficacité de resolution du niveau : mise en place d'étoiles pour noter en fonction du chrono. Attention cependant à ne pas s'etendre là-dessus ). Cette parties peut-etre séparés en deux : fonctionnalités principales et fonctionnalités annexes.
+
+les contraintes concernent LES LIMITES du programme. exemple:  L'aide doit etre bridée pour certains niveaux de difficultées. IL y a aussi les contraintes d'ordre technique ( utilisation obligatoire de Gtk, de ruby, etc ). 
+
+Bonus: integration du diagramme de cas d'utilisation 
+
+4- temps et tâches
+
+explication de la repartition des tâches par rapport au temps limite, indication du temps de marge, etc ... intergation du diagramme de Gantt
+
+
+
+
+
+/!\ à ne pas mettre, dans aucune partie, des éléments qui sont à determinés lors de la conception ( diagramme de classe, noms de fonctions, etc )
