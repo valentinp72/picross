@@ -12,9 +12,10 @@
 
 1. **Avez-vous des tests d'acceptation pour la version finale de l'application ou devons-nous les définir nous-mêmes ?**
 > Non (pas de pièges)
+> Jeu de tests conséquents
 
 1. **Doit-on utiliser rdoc pour la documentation du code ? Si oui doit-on vous fournir la rdoc en tant que livrable ?**
-> 
+> Oui
 
 1. **Quel est le public cible de l'application ?**
 > Tout public
@@ -30,7 +31,7 @@
 ### B - Règles et didacticiel
 
 1. **Doit-on expliquer les règles dans l'application ou seulement en dehors avec le manuel utilisateur ?**
-> Dans l'application
+> Dans l'application et manuel PDF
 
 1. **Doit-il y avoir un niveau didacticiel pour les joueurs ne connaissant pas le jeu ? Si oui quelle serait la meilleure façon d'expliquer les règles ? (surligner des chiffres, masquer les autres, ...)**
 > Oui
@@ -62,6 +63,7 @@
 
 1.  **Doit-il y avoir une limitation pour les aides ou l'utilisateur peut-il en utiliser autant qu'il le souhaite ?**
 > Gagner des aides en obtenant des étoiles
+> Ajouter du temps quand on utilise une aide (+ x temps)
 > 
 > Coefficient en fonction du mode d'aide
 > Classement mode facile, classement moyen, difficile
@@ -115,17 +117,18 @@
 
 1. **Souhaitez-vous une méthode de sauvegarde des parties en particulier ? (l'utilisateur sauvegarde sa partie où il le souhaite, dans un dossier de l'application, dans une base de données, en ligne, ... ?)**
 > Dans l'application
+> Pour plus tard : choix du nom pour profil
 
 1. **Le joueur pourra-t-il partager une partie à d'autres joueurs (seed, fichier, ...) ?**
-> /
+> Amélioration possible, uniquement si on a fait un éditeur de cartes.
 
 -----
 
 ### H - Statistiques
 
 1. **Voulez-vous qu'il y ait des statistiques propres à chaque partie (nombre de click, nombre de fautes, chrono, ...) ?**
-> Nombre de changements sur une case
-> 
+> // Nombre de changements sur une case
+> Temps, étoiles, ....
 
 1. **Voulez-vous qu'il y ait des statistiques propres à chaque utilisateur (tableau des scores, meilleurs temps, ...) ?**
 > Niveaux de l'utilisateurs, étapes, 
@@ -144,4 +147,4 @@ Pack possible avec un nombre d'étoiles atteint.
 > Laisser la possibilité d'importer une grille, à voir pour faire le générateur après
 
 1. **Peut-on réaliser un mode de jeu où la grille s'agrandit au fur et à mesure que le joueur la remplit ?**
-> Oui, sur une mode spécial 
+> Oui, sur une mode spécial, chapitre
