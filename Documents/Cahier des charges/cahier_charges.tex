@@ -109,10 +109,13 @@
 			Un chapitre à part du mode de jeu classique contient des niveaux particuliers où la grille évolue durant la partie. Dans ces niveaux, la taille de la grille augmente à mesure que l'utilisateur complète la grille existante.
 
 		\section{Score}
-			On évalue le score d'un joueur sur une grille par le nombre d'étoiles obtenues. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles est décerné au joueur lorsque celui-ci termine le niveau et est calculé en fonction du temps qu'il a mis à résoudre la grille. Chaque chapitre du jeu se débloque automatiquement dès que le nombre d'étoiles requis à son déverrouillage est atteint. Plus un chapitre contient de grilles difficiles, plus le nombre d'étoiles requises est élevé.
+			On évalue le score d'un joueur sur une grille par le nombre d'étoiles obtenues. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles décernées au joueur lorsque celui-ci termine le niveau est calculé en fonction du temps qu'il a mis à résoudre la grille. Chaque chapitre du jeu se débloque automatiquement dès que le nombre d'étoiles requis à son déverrouillage est atteint. Plus un chapitre contient de grilles difficiles, plus le nombre d'étoiles requises est élevé.\\
+			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment, le chronomètre est alors mis en pause.
+
 				
 		\section{Statistiques}
-			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'à la grille. Les statistiques du joueur comportent son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grille sont le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
+			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'aux grilles. Les statistiques du joueur comportent son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grille sont le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
+
 			
 		\section{Aide}
 			Plusieurs aides sont proposées aux joueurs. Le type d'aide dépend de la difficulté du chapitre. Pour un chapitre facile, l'aide colorie directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indique la ligne ou la colonne où se trouve une case correcte non coloriée. Pour un chapitre difficile, l'aide indique si le joueur a colorié une case incorrecte. Plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours de sa partie de \textit{picross}.
@@ -123,16 +126,12 @@
 			En revanche, il peut décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 		
 		\section{Didacticiel}
-			Un niveau de l'application est présent comme didacticiel. Ce niveau est optionnel et permet aux joueurs débutants de se familiariser avec les règles du \textit{picross}. Il consiste en une partie guidée d'une grille simple de \textit{picross} en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du \textit{picross}.
-
-		\section{Ergonomie}
-			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment, le chronomètre est alors mis en pause.\\
-     		L'application est utilisable intégralement à la souris ou au clavier ou en utilisant les deux, au choix de l'utilisateur.\\
+			Un chapitre de l'application est présent comme didacticiel. Ce chapitre est optionnel et permet aux joueurs débutants de se familiariser avec les règles du \textit{picross}. Il consiste en plusieurs parties guidées d'une grille simple de \textit{picross} en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du \textit{picross}.
+			
+		\section{Interface homme-machine}
+			L'application est utilisable intégralement à la souris ou au clavier ou en utilisant les deux, au choix de l'utilisateur.\\
 			L'utilisateur peut également sélectionner une suite de cases verticale ou horizontale et de la colorier d'un seul coup, à la souris comme au clavier. Lors de cette sélection, le nombre de cases sélectionnées est affiché.\\
 			L'application sauvegarde automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
-
-			
-		\section{IHM}
 			L'application est disponible en français et en anglais, avec un système qui permet de rajouter des langues supplémentaires ultérieurement.
 			
 \chapter{Spécification des contraintes}
