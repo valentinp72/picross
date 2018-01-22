@@ -95,13 +95,21 @@
 		
 		\section{Outils}
 		
-		// Language logiciel ...
+		Afin de réaliser notre application de Picross, nous utilisons plusieurs outils. Ruby est le langage utilisé pour programmer le logiciel, incluant une documentation généré par Rdoc et l'utilisation des bibliothèques de Gtk pour la la réalisation des interfaces graphiques.
+LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF.
+Git et Github permettent le partage d'informations et la mise en commun du code ainsi que les livrables associés. Nous nous servons de Discord afin de communiquer au sein du groupe afin de partager nos idées, nos informations et notre travail.
+Pour concevoir les différents diagrammes UML, nous avons recours au logiciel Astah et au site internet Tom's planner.
+Pour simplifier la vérification de la qualité du code produit, nous utilisons Codeclimate (maintenabilité) ainsi que Travis (compilation et tests).
+
 		
 \chapter{Conception générale}
 
     \section{conduite de projet}
-      // diagramme de Gant
-      
+    \includegraphics{../ganttDetaille.png}
+    \\
+     À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
+    Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
+    
     \section{Fonctionnalité}
       // Cas d'utilisation + descriptif
       // diagrammes de séquences + descriptif 
