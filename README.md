@@ -20,3 +20,7 @@
 
 - Adresse mail : `valentinpelloin@gmail.com`
 - Mot de passe : `sXr-uUB-4aw-r6o`
+
+
+#### Rmagick :
+- url : https://rmagick.github.io/usage.html
