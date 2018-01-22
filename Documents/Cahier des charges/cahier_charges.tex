@@ -105,47 +105,27 @@
 \chapter{Spécification des besoins}
 
 	\section{Mode de jeu}
-			Le jeu sera composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitre regroupera des grilles de différentes tailles. Au début du jeu, seul le premier chapitre sera débloqué et les autres se débloqueront au fur et à mesure que le joueur termine les grilles.\\
-			Un chapitre à part du mode de jeu classique contiendra des niveaux particuliers où la grille évoluera durant la partie. Dans ces niveaux, la taille de la grille augmentera à mesure que l'utilisateur complétera la grille existante.
-
 			Le jeu est composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitre regroupe des grilles de différentes tailles. Au début du jeu, seul le premier chapitre est débloqué et les autres se débloquent au fur et à mesure que le joueur termine les grilles.\\
 			Un chapitre à part du mode de jeu classique contient des niveaux particuliers où la grille évolue durant la partie. Dans ces niveaux, la taille de la grille augmente à mesure que l'utilisateur complète la grille existante.
 
 		\section{Score}
-			Le score d'un joueur sur une grille sera évalué par un nombre d'étoiles. Un joueur pourra gagner quatre étoiles par grille au maximum. Le nombre d'étoiles sera décerné au joueur lorsque celui-ci termine le niveau et sera calculé en fonction du temps qu'il aura mis à résoudre la grille. Chaque chapitre du jeu se débloquera automatiquement dès que le nombre d'étoiles requis à son déverrouillage sera atteint. Plus un chapitre contiendra de grilles difficiles, plus le nombre d'étoiles requises sera élevé.
-
 			Le score d'un joueur sur une grille est évalué par un nombre d'étoiles. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles est décerné au joueur lorsque celui-ci termine le niveau et est calculé en fonction du temps qu'il a mis à résoudre la grille. Chaque chapitre du jeu se débloque automatiquement dès que le nombre d'étoiles requis à son déverrouillage est atteint. Plus un chapitre contient de grilles difficiles, plus le nombre d'étoiles requises est élevé.
 				
 		\section{Statistiques}
-			En plus du score, l'application gardera en mémoire certaines statistiques associées au joueur ainsi qu'à la grille. Les statistiques du joueur comporteront son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grille seront le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
-
 			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'à la grille. Les statistiques du joueur comportent son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grille sont le meilleur temps effectué par le joueur, le nombre d'aides utilisées ainsi que le nombre d'erreurs effectuées lors de ce meilleur temps.
 			
 		\section{Aide}
-			Plusieurs aides seront proposées aux joueurs. Le type d'aide dépendra de la difficulté du chapitre. Pour un chapitre facile, l'aide coloriera directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indiquera simplement la ligne ou la colonne où se trouve une case correcte qui n'est pas encore coloriée. Pour un chapitre difficile, l'aide indiquera seulement si le joueur à colorié une case incorrecte. Plus le joueur avancera dans des chapitres difficiles, moins celui-ci sera autorisé à utiliser d'aides au cours de sa partie de picross.
-
 			Plusieurs aides sont proposées aux joueurs. Le type d'aide dépend de la difficulté du chapitre. Pour un chapitre facile, l'aide colorie directement une case correcte sur la grille. Pour un chapitre de difficulté moyenne, l'aide indique la ligne ou la colonne où se trouve une case correcte qui n'est pas encore coloriée. Pour un chapitre difficile, l'aide indique si le joueur a colorié une case incorrecte. Plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours de sa partie de picross.
 
 		\section{Hypothèses}			
-			À tout moment durant une partie, le joueur pourra décider d'utiliser le mode hypothèse. Durant celui-ci, les cases qu'il remplira par la suite seront d'une autre couleur que celle de base. Il pourra créer jusqu'à cinq hypothèses simultanées, imbriquées les unes dans les autres.\\
-			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il pourra l'annuler, ce qui aura pour effet de supprimer toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse précédente.\\
-			En revanche, il pourra décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
-
 			À tout moment durant une partie, le joueur peut décider d'utiliser le mode hypothèse. Durant celui-ci, les cases qu'il remplit par la suite sont d'une autre couleur que celle de base. Il peut créer jusqu'à cinq hypothèses simultanées, imbriquées les unes dans les autres.\\
 			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler, ce qui a pour effet de supprimer toutes les autres hypothèses posées après celle annulée, et donc de revenir à l'état initial de l'hypothèse précédente.\\
 			En revanche, il peut décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 		
 		\section{Didacticiel}
-			Un niveau de l'application sera présent comme didacticiel. Ce niveau est optionnel et permettra aux joueurs débutants de se familiariser avec les règles du picross. Il consistera en une partie guidée d'une grille simple de picross en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contiendra également un rappel des règles générales du picross.
-
 			Un niveau de l'application est présent comme didacticiel. Ce niveau est optionnel et permet aux joueurs débutants de se familiariser avec les règles du picross. Il consiste en une partie guidée d'une grille simple de picross en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du picross.
 
 		\section{Ergonomie}
-			Durant une partie, le joueur pourra mettre le jeu en pause à n'importe quel moment, le chronomètre sera alors mis en pause.\\
-     		L'application pourra être utilisée intégralement à la souris ou au clavier ou en utilisant les deux, au choix de l'utilisateur.\\
-			Il sera également possible de sélectionner une suite de cases verticale ou horizontale et de la colorier d'un seul coup, à la souris comme au clavier. Lors de cette sélection, le nombre de cases sélectionnées sera affiché.\\
-			L'application sauvegardera automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
-
 			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment, le chronomètre est alors mis en pause.\\
      		L'application peut être utilisée intégralement à la souris ou au clavier ou en utilisant les deux, au choix de l'utilisateur.\\
 			Il est également possible de sélectionner une suite de cases verticale ou horizontale et de la colorier d'un seul coup, à la souris comme au clavier. Lors de cette sélection, le nombre de cases sélectionnées est affiché.\\
@@ -153,16 +133,12 @@
 
 			
 		\section{IHM}
-			L'application sera disponible en français et en anglais. Il sera possible de rajouter des langues supplémentaires ultérieurement.
-
 			L'application est disponible en français et en anglais. Il est possible de rajouter des langues supplémentaires ultérieurement.
 			
 \chapter{Spécification des contraintes}
 
 	\section{Conception}
 		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via rdoc. Celle-ci sera livrée avec les livrables. L'interface doit être programmée avec GTK.
-
-		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via rdoc. Celle-ci est livrée avec les livrables. L'interface doit être programmée avec GTK.
 		
 	\section{Cartes et interface}
 		Une carte doit être seulement en noir et blanc afin de ne pas confondre des cases colorées avec les hypothèses qui sont elles aussi colorées.
@@ -170,21 +146,15 @@
 		Les cartes doivent, une fois complétées, ressembler à quelque chose. Il doit s'agir d'image en noir et blanc représentant une forme évocatrice.
 	
 	\section{Limitation de l'aide}
-		L'aide peut être utilisée de façon abusive. Pour éviter cela, une pénalité est appliquée lors de l'utilisation de celle-ci. Une perte de temps est infligée lors de l'utilisation d'une aide, pouvant aller jusqu'à la suppression de toutes les étoiles remportées à la fin de la partie. La perte de temps sera indiquée séparément de celui que le joueur à mis à résoudre le picross, le total n'est pris en compte qu'au moment du calcul du score. Malgré cela, en fonction du nombre d'étoiles remportées par le joueur, il aura accès à des utilisations d'aide n'entraînant aucune pénalité, de façon à l'inciter à jouer plus.
-
 		L'aide peut être utilisée de façon abusive. Pour éviter cela, une pénalité est appliquée lors de l'utilisation de celle-ci. Une perte de temps est infligée lors de l'utilisation d'une aide, pouvant aller jusqu'à la suppression de toutes les étoiles remportées à la fin de la partie. La perte de temps est indiquée séparément de celui que le joueur à mis à résoudre le picross, le total n'est pris en compte qu'au moment du calcul du score. Malgré cela, en fonction du nombre d'étoiles remportées par le joueur, il a accès à des utilisations d'aide n'entraînant aucune pénalité, de façon à l'inciter à jouer plus.
 	
 	\section{Gameplay}
-		Lors d'une pause, le chronomètre est arrêté. Le joueur pourrait ainsi résoudre le picross sans que le temps ne défile, ce qui briserait le système de scores. Pour éviter cela, un masquage des chiffres permettant la résolution du picross sera mis en place, de façon à ce que le joueur ne puisse résoudre le picross seulement durant que le chronomètre est actif.
-
 		Lors d'une pause, le chronomètre est arrêté. Le joueur pourrait ainsi résoudre le picross sans que le temps ne défile, ce qui briserait le système de scores. Pour éviter cela, un masquage des chiffres permettant la résolution du picross est mis en place, de façon à ce que le joueur ne puisse résoudre le picross seulement durant que le chronomètre est actif.
 		
 	\section{Didacticiel}
 		Bien qu'il soit jouable à n'importe quel moment, il ne doit pas être trop présent (pas de démarrage automatique au lancement du logiciel, uniquement un choix au menu) et doit seulement contenir le nécessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score).
 	
 	\section{Sauvegardes \& hypothèses}
-		Les sauvegardes sont réalisées automatiquement. Il n'est donc pas utile d'avoir un bouton le permettant manuellement. Les sauvegardes peuvent être utilisées pour le système de checkpoint (hypothèses). Il ne faut pas sauvegarder une hypothèse comme étant juste avant de l'avoir validée (différenciation cases justes/cases de l'hypothèse). Les checkpoints seront utilisables en quantité limitée, car sinon il y aurait un désordre à l'affichage. Le maximum est fixé à 5 hypothèses simultanées.
-		
 		Les sauvegardes sont réalisées automatiquement. Il n'est donc pas utile d'avoir un bouton le permettant manuellement. Les sauvegardes peuvent être utilisées pour le système de checkpoint (hypothèses). Il ne faut pas sauvegarder une hypothèse comme étant juste avant de l'avoir validée (différenciation cases justes/cases de l'hypothèse). Les checkpoints sont utilisables en quantité limitée, car sinon il y aurait un désordre à l'affichage. Le maximum est fixé à 5 hypothèses simultanées.
 	
 	\section{Délais}
