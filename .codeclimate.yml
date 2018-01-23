@@ -1,4 +1,10 @@
 engines:
+  reek:
+    enabled: true
+  flog:
+    enabled: true
+  rubymotion:
+    enabled: true
   rubocop:
     enabled: true
     checks:
