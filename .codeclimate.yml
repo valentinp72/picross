@@ -6,3 +6,7 @@ engines:
         enabled: false
       Rubocop/Style/StringLiterals:
         enabled: false
+      Rubocop/Layout/ExtraSpacing:
+         enabled: false
+      Rubocop/Layout/SpaceAroundOperators:
+         enabled: false
