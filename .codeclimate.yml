@@ -1,0 +1,8 @@
+engines:
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Style/AsciiComments:
+        enabled: false
+      Rubocop/Style/StringLiterals:
+        enabled: false
