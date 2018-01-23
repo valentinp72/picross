@@ -7,6 +7,10 @@ engines:
       Rubocop/Style/StringLiterals:
         enabled: false
       Rubocop/Layout/ExtraSpacing:
-         enabled: false
+        enabled: false
       Rubocop/Layout/SpaceAroundOperators:
-         enabled: false
+        enabled: false
+      Rubocop/Style/RedundantReturn:
+        enabled: false
+      Rubocop/Layout/EmptyLinesAroundClassBody:
+        enabled: false
