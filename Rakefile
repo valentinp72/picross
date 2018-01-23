@@ -1,27 +1,15 @@
-require 'rake/testtask'
+require 'rspec/core/rake_task'
+require 'simplecov'
 
-task :default => :test
+task :default => :tests
 
-namespace :test do
-  task :coverage do
-    require 'simplecov'
-    SimpleCov.start 'rails' # feel free to pass block
-    Rake::Task["spec"].execute
-  end
-end
+task :tests => [:spec, :coverage]
 
-=begin
-# task de tests unitaires
-Rake::TestTask.new do |t|
-	# t.libs << "test"
-	# t.test_files = FileList['tests/*_test.rb']
-	# t.verbose = true
-	require 'simplecov'
-	SimpleCov.command_name 'Unit Tests'
+RSpec::Core::RakeTask.new(:spec)
+
+desc "Run the test coverage"
+task :coverage do
 	SimpleCov.start do
 		add_filter "/spec/"
 	end
-	
-	
 end
-=end
