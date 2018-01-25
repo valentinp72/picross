@@ -21,6 +21,16 @@ describe Cell do
 
 	it "should raise" do
     	expect{cell.state=3}.to raise_error(ArgumentError)
-  	end	
+	end	
 
+	it "should display the cell" do
+			cell.state = Cell::CELL_EMPTY
+			expect(print cell).to eq " "
+			
+			cell.state = Cell::CELL_CROSSED
+			expect(print cell).to eq "X"
+
+			cell.state = Cell::CELL_FULL
+			expect(print cell).to eq "█"
+	end	
 end

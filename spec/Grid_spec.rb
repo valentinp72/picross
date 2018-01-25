@@ -14,4 +14,10 @@ describe Grid do
 			end
 		end		
 	end
+
+	it "should display the grid" do
+		string = grid.to_s
+		# We know that the first cell is empty
+		expect(string[0][0]).to eq " "
+	end
 end
