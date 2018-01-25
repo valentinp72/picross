@@ -22,3 +22,6 @@
 
 #### Rmagick :
 - url : https://rmagick.github.io/usage.html
+
+#### Balsamiq :
+- url : https://balsamiq.cloud/sxl7v/pw3tb
