@@ -25,12 +25,12 @@ describe Cell do
 
 	it "should display the cell" do
 			cell.state = Cell::CELL_EMPTY
-			expect(print cell).to eq " "
+			expect(cell.to_s).to eq " "
 			
 			cell.state = Cell::CELL_CROSSED
-			expect(print cell).to eq "X"
+			expect(cell.to_s).to eq "X"
 
 			cell.state = Cell::CELL_FULL
-			expect(print cell).to eq "█"
+			expect(cell.to_s).to eq "█"
 	end	
 end
