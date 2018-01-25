@@ -4,7 +4,9 @@ grid = Grid.new(5, 5)
 print "Affichage de la grille : \n"
 print grid
 
-grid.getCellPosition(0, 1).state = Cell::CELL_FULL
-print "Affichage de la grille : \n"
-print grid
-
+while true do
+	gets
+	grid.getCellPosition(0,0).stateRotate()
+	print "Affichage de la grille : \n"
+	print grid
+end

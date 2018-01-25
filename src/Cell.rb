@@ -6,10 +6,14 @@ class Cell
 	##
 	# Cell states : either CELL_EMPTY, CELL_CROSSED, or CELL_FULL
 	CELL_EMPTY   = 0 # white
-	CELL_CROSSED = 1 # cross 
-	CELL_FULL    = 2 # black
+	CELL_FULL    = 1 # black
+	CELL_CROSSED = 2 # cross 
 
-	# @state - The state of the cell
+	# List of all possible states in a ordered array
+	@@listCells  = [CELL_EMPTY, CELL_FULL, CELL_CROSSED]
+
+	# @state     - The state of the cell
+	# @nextCells - The array of the nexts cells after rotation
 
 	attr_reader :state
 
@@ -17,7 +21,8 @@ class Cell
 	# Create a new cell
 	# The default state is CELL_EMPTY 
 	def initialize()
-		@state = CELL_EMPTY
+		@nextCells = Array.new(@@listCells)
+		stateRotate()
 	end
 
 	##
@@ -29,6 +34,13 @@ class Cell
 		else
 			@state = state
 		end
+	end
+
+	##
+	# Change the state to the next one (EMPTY -> FULL -> CROSSED -> EMPTY ...)
+	def stateRotate()
+		self.state = @nextCells.first
+		@nextCells.rotate!	
 	end
 
 	##

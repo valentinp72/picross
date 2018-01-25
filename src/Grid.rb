@@ -30,6 +30,7 @@ class Grid
 		return @grid[line][column]
 	end
 
+
 	##
 	# Return the cell, for debug printing
 	def to_s()
