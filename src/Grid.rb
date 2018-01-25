@@ -9,6 +9,8 @@ class Grid
 	# @lines
 	# @grid
 
+	attr_reader :columns, :lines, :grid
+
 	##
 	# Create a grid of size line x columns  
 	# lines   : an integer  
