@@ -13,5 +13,3 @@
 - Partage réseau de cartes
 - (Resolveur de picross)
 - Editeur de cartes (dessin ou import images)
-
-Le
