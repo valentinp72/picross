@@ -8,3 +8,4 @@ SimpleCov.start
 # all files needs a name_spec.rb with rspec unit test inside
 
 require_relative '../src/Cell'
+require_relative '../src/Grid'
