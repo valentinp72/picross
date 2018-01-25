@@ -93,28 +93,37 @@
  	\section{Objectif de l'application}		
 		Nous devons réaliser un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
 		
-		\section{Outils}
+	\section{Outils}
 		
 		Afin de réaliser notre application de Picross, nous utilisons plusieurs outils. Ruby est le langage utilisé pour programmer le logiciel, incluant une documentation généré par Rdoc et l'utilisation des bibliothèques de Gtk pour la la réalisation des interfaces graphiques.
 LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF.
 Git et Github permettent le partage d'informations et la mise en commun du code ainsi que les livrables associés. Nous nous servons de Discord afin de communiquer au sein du groupe afin de partager nos idées, nos informations et notre travail.
 Pour concevoir les différents diagrammes UML, nous avons recours au logiciel Astah et au site internet Tom's planner.
-Afin de créer les maquettes du logiciel permettant d’avoir un rendu de la futur interface graphique, nous avons utiliser le logiciel Balsamik.
+Afin de créer les maquettes du logiciel (disponibles en Annexe) permettant d’avoir un rendu de la futur interface graphique, nous avons utiliser le logiciel Balsamik.
 Pour simplifier la vérification de la qualité du code produit, nous utilisons Codeclimate (maintenabilité) ainsi que Travis (compilation et tests).
 
 		
 \chapter{Conception générale}
 
-    \section{conduite de projet}
-    \includegraphics{../ganttDetaille.png}
+    \section{Diagramme de Gantt détaillé}
+    
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Gant détaillé}
+	\includegraphics[width=17cm]{../ganttDetaille.png}
+    \end{figure}
+    
     \\
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
     
-    \section{Fonctionnalité}
-      // Cas d'utilisation 
+    \section{Diagramme de cas d'utilisations}
       
-      Description des cas d'utilisation
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Cas d’utilisation}
+	\includegraphics[width=17cm]{../UML/UseCase_diagram/UseCase1.png}
+    \end{figure}
+    \\
+      %Description des cas d'utilisation
 
 	Le but de l'utilisateur est de jouer sur une grille de Picross.
 Pour cela, it doit avoir un profil. Il peut donc en créer un nouveau s'il en a envie, ou s'authentifier à un profil déjà existant.
@@ -124,9 +133,11 @@ Pour cela, it doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 	- Le mode évolutif, agrandissant la taille de la grille au fur et à mesure que Pierre résoudra celle-ci.
 	A tout moment, celui-ci peut utiliser l'aide intégrée au jeu pour se débloquer. Il peut aussi choisir de recommencer la grille s'il le souhaite.
 
-      // diagrammes de séquences + descriptif 
-    
-	\section{Image}
+      
+	\section{utilisation de profils}
+	\section{partie classique}
+	\section{parties evolutives et didacticiel}
+	
 	// Schéma liens entre écrans
 	// Description
 			
@@ -134,8 +145,12 @@ Pour cela, it doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 
     \section{Diagramme de classe}
     
-    	%../UML/DiagrammeClasse.png
-      
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Classes}
+	\includegraphics[width=17cm]{../UML/Class_Diagram/DiagrammeClasse.png}
+    \end{figure}
+    \\
+    	
 	Le diagramme de classe ci-dessus présente les différentes classes que nous allons implémenter afin de programmer notre application. Nous avons tout d’abord la classe Picross qui est la racine permettant de rassembler toutes les autres classes et qui représente l’ensemble du jeu. Cette classe est liée à 3 modules principaux : l’Interface Homme-Machine, les données utilisateur, ainsi que le système de jeu.
 
 	L’IHM commence par la classe Window  correspondant à la fenêtre de l’application et possédant une taille définie et modifiable. Cette fenêtre contient plusieurs objets de classe Box possédant chacune une taille définie et représentant les différentes parties graphiques de la fenêtre (la grille, le chronomètre, l’affichage des informations, etc…). Chacune de ces boîtes peut contenir des objets de classe Button correspondant aux boutons nécessaires à l’interaction entre l’utilisateur et le logiciel (valider la grille, retourner au menu, etc...).
