@@ -5,13 +5,12 @@ class Cell
 
 	##
 	# Cell states : either CELL_EMPTY, CELL_CROSSED, or CELL_FULL
-	CELL_EMPTY   = 0 # default cell
-	CELL_WHITE   = 1 # white
-	CELL_BLACK   = 2 # black
-	CELL_CROSSED = 3 # cross 
+	CELL_WHITE   = 0 # default cell
+	CELL_BLACK   = 1 # black
+	CELL_CROSSED = 2 # cross 
 
 	# List of all possible states in a ordered array
-	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
+	LIST_CELLS   = [CELL_WHITE, CELL_BLACK, CELL_CROSSED]
 
 	# @state     - The state of the cell
 	# @nextCells - The array of the nexts cells after rotation
@@ -23,7 +22,7 @@ class Cell
 	# The default state is CELL_EMPTY 
 	def initialize()
 		@nextCells = Array.new(LIST_CELLS)
-		@state = CELL_EMPTY
+		@state = CELL_WHITE
 	end
 
 	##
@@ -49,8 +48,6 @@ class Cell
 	def to_s()
 		case @state
 			when CELL_WHITE
-				return "W"
-			when CELL_EMPTY
 				return "░"
 			when CELL_CROSSED
 				return "X"
