@@ -22,5 +22,5 @@ end
 Add this line to `spec_helper.rb`: 
 
 ```ruby
-require_relative '../ClassName.rb'
+require_relative '../src/ClassName.rb'
 ```
