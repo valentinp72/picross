@@ -36,7 +36,7 @@ class Cell
 	def to_s()
 		case @state
 			when CELL_EMPTY
-				return " "
+				return "░"
 			when CELL_CROSSED
 				return "X"
 			when CELL_FULL
