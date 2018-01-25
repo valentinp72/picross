@@ -71,4 +71,12 @@ class Hypotheses
 		return rslt
 	end
 
+	def marshal_dump()
+		return [@lines, @columns, @stack]
+	end
+
+	def marshal_load(array)
+		@lines, @columns, @stack = array
+	end
+
 end

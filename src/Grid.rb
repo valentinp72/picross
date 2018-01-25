@@ -49,4 +49,12 @@ class Grid
 		return r
 	end
 
+	def marshal_dump()
+		return [@columns, @lines, @grid]
+	end
+
+	def marshal_load(array)
+		@columns, @lines, @grid = array
+	end
+
 end

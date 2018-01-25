@@ -12,7 +12,7 @@ while true do
 end
 =end
 require_relative 'Hypotheses'
-
+=begin
 hy = Hypotheses.new(5, 5)
 print hy
 
@@ -24,3 +24,12 @@ hy.getWorkingHypothesis.grid.getCellPosition(1,1).stateRotate()
 print hy
 hy.validate(h)
 print hy
+=end
+require_relative 'Map'
+
+solution = Grid.new(5, 5)
+map1 = Map.new(60, 1, 5, 5, solution)
+puts map1
+rslt = map1.save()
+map2 = Map.load(rslt)
+puts map2

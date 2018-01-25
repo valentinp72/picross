@@ -11,7 +11,7 @@ class Cell
 	CELL_CROSSED = 3 # cross 
 
 	# List of all possible states in a ordered array
-	@@listCells  = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
+	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
 
 	# @state     - The state of the cell
 	# @nextCells - The array of the nexts cells after rotation
@@ -22,7 +22,7 @@ class Cell
 	# Create a new cell
 	# The default state is CELL_EMPTY 
 	def initialize()
-		@nextCells = Array.new(@@listCells)
+		@nextCells = Array.new(LIST_CELLS)
 		@state = CELL_EMPTY
 	end
 
@@ -59,5 +59,13 @@ class Cell
 		end
 		raise "Wrong cell state"
 	end
-	
+
+	def marshal_dump()
+		return [@nextCells, @state]
+	end
+
+	def marshal_load(array)
+		@nextCells, @state = array
+	end
+
 end
