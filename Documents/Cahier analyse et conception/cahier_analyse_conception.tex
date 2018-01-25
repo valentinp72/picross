@@ -93,7 +93,7 @@
  	\section{Objectif de l'application}		
 		Nous devons réaliser un jeu de type picross (aussi appelé nonogramme, logigramme ou hanjie) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
 		
-		\section{Outils}
+	\section{Outils}
 		
 		Afin de réaliser notre application de Picross, nous utilisons plusieurs outils. Ruby est le langage utilisé pour programmer le logiciel, incluant une documentation généré par Rdoc et l'utilisation des bibliothèques de Gtk pour la la réalisation des interfaces graphiques.
 LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF.
@@ -106,13 +106,24 @@ Pour simplifier la vérification de la qualité du code produit, nous utilisons 
 \chapter{Conception générale}
 
     \section{conduite de projet}
-    \includegraphics{../ganttDetaille.png}
+    
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Gant détaillé}
+\includegraphics[width=17cm]{../UML/}
+    \end{figure}
+    
     \\
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
     
     \section{Fonctionnalité}
       // Cas d'utilisation 
+      
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Cas d’utilisation}
+	\includegraphics[width=17cm]{../UML/UseCase_diagram/UseCase1.png}
+    \end{figure}
+      
       
       Description des cas d'utilisation
 
@@ -134,7 +145,12 @@ Pour cela, it doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 
     \section{Diagramme de classe}
     
-    	%../UML/DiagrammeClasse.png
+    \begin{figure}[H]
+	\caption{Diagramme de \textit{Classes}
+	\includegraphics[width=17cm]{../UML/Class_Diagram/DiagrammeClasse.png}
+    \end{figure}
+    \\
+    	
       
 	Le diagramme de classe ci-dessus présente les différentes classes que nous allons implémenter afin de programmer notre application. Nous avons tout d’abord la classe Picross qui est la racine permettant de rassembler toutes les autres classes et qui représente l’ensemble du jeu. Cette classe est liée à 3 modules principaux : l’Interface Homme-Machine, les données utilisateur, ainsi que le système de jeu.
 
