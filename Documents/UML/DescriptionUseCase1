@@ -10,3 +10,14 @@ Le Jacoboni peut à tout moment décider de recommencer la grille.
 Le Jacoboni peut gérer son profil (créer un profil ou le supprimer).
 
 C'est la fin du Jacoboni !
+__________________________________________________________________________________________________________________________
+Description des cas d'utilisation
+
+Le but de Pierre est de jouer sur une grille de Picross.
+Pour cela, Pierre doit avoir un profil. Il peut donc en créer un nouveau s'il en a envie, ou s'authentifier à un profil déjà existant.
+Pierre doit ensuite selectionner une grille à l'aide du menu. Il a le choix entre trois types de jeu:
+	- Le didacticiel, permettant d'apprendre les règles du jeu. 
+	- Le mode classique, permettant de jouer sur plusieurs grilles de tailles et difficultés variables.
+	- Le mode évolutif, agrandissant la taille de la grille au fur et à mesure que Pierre résoudra celle-ci.
+A tout moment, Pierre peut utiliser l'aide intégrée au jeu pour se débloquer. Il peut aussi choisir de recommencer la grille s'il le souhaite.
+
