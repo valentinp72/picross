@@ -1,6 +1,13 @@
 ## 
-# This class represents a cell in a Picross.  
-# Each cell have a state (white, black or crossed when the player is sure the cell should be white).  
+# File          :: Cell.rb
+# Author        :: PELLOIN Valentin
+# Licence       :: MIT License
+# Creation date :: 01/27/2018
+# Last update   :: 01/27/2018
+# Version       :: 0.1
+#
+# This class represents a cell in a *Picross*.  
+# Each cell have a state (white, black or crossed when the player is sure the cell should be white).
 # The cells also have a link to its hypothesis.
 
 class Cell
@@ -16,18 +23,19 @@ class Cell
 	# List of all possible states in a ordered array
 	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
 
-	# * +state+      - The state of the cell
-	# * +nextCells+  - The array of the nexts cells after rotation
-	# * +hypothesis+ - The hypothesis to this cell
-
+	# +state+      - The state of the cell
 	attr_reader :state
+	
+	# +nextCells+  - The array of the nexts cells after rotation
+	# +hypothesis+ - The hypothesis to this cell
+	
 	private_constant :LIST_CELLS
 
 	##
-	# Create a new cell, with a default state of CELL_WHITE 
+	# Create a new cell, with a default state of CELL_WHITE .
 	# * *Arguments* :
 	#   - +hypothesis+ -> the hypothesis that this cell is belonging
-	#   - +state+ -> the state the cell starts whith (default CELL_WHITE)
+	#   - +state+      -> the state the cell starts whith (default CELL_WHITE)
 	def initialize(hypothesis, state=CELL_WHITE)
 		@nextCells  = Array.new(LIST_CELLS)
 		@state      = state
@@ -41,7 +49,9 @@ class Cell
 
 	##
 	# Clone the current cell in a new cell.  
-	# The hypothesis is kept the same 
+	# The hypothesis is kept the same
+	# * *Returns* :
+	#   - the new cloned cell
 	def clone()
 		cState      = @state
 		cHypothesis = @hypothesis
@@ -49,9 +59,11 @@ class Cell
 	end
 
 	##
-	# Change the cell state to state
+	# Change the cell state to state.
 	# * *Arguments* :
 	#   - +state+ -> the state to put the cell at
+	# * *Returns* :
+	#   - the cell itself
 	# * *Raises* :
 	#   - +ArgumentError+ -> if state is not valide (not CELL_WHITE, CELL_BLACK or CELL_CROSSED)
 	def state=(state)
@@ -64,7 +76,9 @@ class Cell
 	end
 
 	##
-	# Change the state to the next one (EMPTY -> FULL -> CROSSED -> EMPTY ...)
+	# Change the state to the next one (EMPTY -> FULL -> CROSSED -> EMPTY ...).
+	# * *Returns* :
+	#   - the cell itself
 	def stateRotate()
 		self.state = @nextCells.first
 		@nextCells.rotate!
@@ -72,7 +86,9 @@ class Cell
 	end
 
 	##
-	# Return the cell to a printable String
+	# Return the cell to a printable String.
+	# * *Returns* :
+	#   - the cell converted to a String
 	def to_s()
 		case @state
 			when CELL_WHITE
@@ -85,12 +101,24 @@ class Cell
 		raise "Wrong cell state"
 	end
 
+	##
+	# Convert the cell to an array, allowing Marshal to dump the object.
+	# * *Returns* :
+	#   - the cell converted to an array
 	def marshal_dump()
 		return [@nextCells, @state, @hypothesis]
 	end
 
+	##
+	# Update all the instances variables from the array given, 
+	# allowing Marshal to load a cell.
+	# * *Arguments* :
+	#   - +array+ -> the array to transform to instances variables
+	# * *Returns* :
+	#   - the cell itself
 	def marshal_load(array)
 		@nextCells, @state, @hypothesis = array
+		return self
 	end
 
 end

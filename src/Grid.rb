@@ -1,22 +1,34 @@
 require_relative 'Cell'
 
-##
-# Represent a grid, composed of cells
+## 
+# File          :: Grid.rb
+# Author        :: PELLOIN Valentin
+# Licence       :: MIT License
+# Creation date :: 01/27/2018
+# Last update   :: 01/27/2018
+# Version       :: 0.1
+#
+# Represent a grid, composed of cells.
 
 class Grid
 
-	# @columns
-	# @lines
-	# @grid
-
-	attr_reader :columns, :lines, :grid
+	# +columns+ - The number of columns of the grid
+	attr_reader :columns
+	
+	# +lines+   - The number of lines of the grid
+	attr_reader :lines
+	
+	# +grid+    - The array of arrays that contains all the cells
+	attr_reader :grid
 	attr_writer :grid
 
 	##
 	# Create a grid of size line x columns  
-	# lines      : an integer  
-	# columns    : an integer
-	# hypothesis : the future hypothesis of all created cells, if no hypothesis, the grid is not created.
+	# * *Arguments* :
+	#   - +lines+      -> an integer greater than 0
+	#   - +columns+    -> an integer greater than 0
+	#   - +hypothesis+ -> optional, the future hypothesis of all created cells, 
+	#     if no hypothesis, the grid is not created.
 	def initialize(lines, columns, hypothesis=nil)
 		@lines   = lines
 		@columns = columns
@@ -28,6 +40,8 @@ class Grid
 
 	##
 	# Return an exact copy of self (every cell is duplicated)
+	# * *Returns* :
+	#   - the cloned grid
 	def clone()
 		cLines   = @lines
 		cColumns = @columns
@@ -41,7 +55,14 @@ class Grid
 	end
 
 	##
-	# Return the cell at position (line, column)
+	# Return the cell at given position
+	# * *Arguments* :
+	#   - +line+   -> the line of the wanted cell
+	#   - +column+ -> the column of the wanted cell
+	# * *Returns* :
+	#   - the cell at (line, column)
+	# * *Raises* :
+	#   - +InvalidCellPosition+ -> if given coordinates are invalid
 	def getCellPosition(line, column)
 		if line >= @lines or line < 0 or column >= @columns or column < 0 then
 			raise "InvalidCellPosition"
@@ -49,9 +70,10 @@ class Grid
 		return @grid[line][column]
 	end
 
-
 	##
-	# Return the cell, for debug printing
+	# Return the grid into a String, for debug printing
+	# * *Returns* :
+	#   - a String representing the grid
 	def to_s()
 		r = " "
 
@@ -76,12 +98,24 @@ class Grid
 		return r
 	end
 
+	##
+	# Convert the grid to an array, allowing Marshal to dump the object.
+	# * *Returns* :
+	#   - the grid converted to an array
 	def marshal_dump()
 		return [@columns, @lines, @grid]
 	end
 
+	##
+	# Update all the instances variables from the array given, 
+	# allowing Marshal to load a grid.
+	# * *Arguments* :
+	#   - +array+ -> the array to transform to instances variables
+	# * *Returns* :
+	#   - the grid itself
 	def marshal_load(array)
 		@columns, @lines, @grid = array
+		return self
 	end
 
 end
