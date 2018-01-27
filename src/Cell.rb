@@ -1,45 +1,59 @@
 ## 
-# This class represents a cell in a Picross  
+# This class represents a cell in a Picross.  
+# Each cell have a state (white, black or crossed when the player is sure the cell should be white).  
+# The cells also have a link to its hypothesis.
 
 class Cell
 
-	##
-	# Cell states : either CELL_EMPTY, CELL_CROSSED, or CELL_FULL
-	CELL_WHITE   = 0 # default cell
-	CELL_BLACK   = 1 # black
-	CELL_CROSSED = 2 # cross 
+	# Cell states : either CELL_WHITE, CELL_BLACK, or CELL_CROSSED
+		# Default state, the cell is white
+		CELL_WHITE   = 0 
+		# The cell state is colored 
+		CELL_BLACK   = 1 
+		# The cell state is white, and should remain (crossed)
+		CELL_CROSSED = 2
 
 	# List of all possible states in a ordered array
 	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
 
-	# @state      - The state of the cell
-	# @nextCells  - The array of the nexts cells after rotation
-	# @hypothesis - The hypothesis to this cell
+	# * +state+      - The state of the cell
+	# * +nextCells+  - The array of the nexts cells after rotation
+	# * +hypothesis+ - The hypothesis to this cell
 
 	attr_reader :state
+	private_constant :LIST_CELLS
 
 	##
-	# Create a new cell
-	# The default state is CELL_EMPTY 
-	def initialize(hypothesis, state=CELL_WHITE, nextCells=Array.new(LIST_CELLS))
-		@nextCells  = nextCells
+	# Create a new cell, with a default state of CELL_WHITE 
+	# * *Arguments* :
+	#   - +hypothesis+ -> the hypothesis that this cell is belonging
+	#   - +state+ -> the state the cell starts whith (default CELL_WHITE)
+	def initialize(hypothesis, state=CELL_WHITE)
+		@nextCells  = Array.new(LIST_CELLS)
 		@state      = state
 		@hypothesis = hypothesis
+
+		# update the next cells so that the next one is just following the current state
+		while @nextCells.last != @state do
+			@nextCells.rotate!
+		end
 	end
 
 	##
-	# Clone the current cell in a new cell
+	# Clone the current cell in a new cell.  
 	# The hypothesis is kept the same 
 	def clone()
-		cNextCells  = @nextCells.clone
 		cState      = @state
 		cHypothesis = @hypothesis
-		return Cell.new(cHypothesis, cState, cNextCells)
+		return Cell.new(cHypothesis, cState)
 	end
 
 	##
 	# Change the cell state to state
-	# If state is not valid (CELL_EMPTY, CELL_CROSSED, CELL_FULL), raise an ArgumentError exception
+	# * *Arguments* :
+	#   - +state+ -> the state to put the cell at
+	# * *Raises* :
+	#   - +ArgumentError+ -> if state is not valide (not CELL_WHITE, CELL_BLACK or CELL_CROSSED)
 	def state=(state)
 		if state != CELL_WHITE and state != CELL_BLACK and state != CELL_CROSSED then
 			raise ArgumentError, 'Argument state should be a valid state!'
