@@ -8,6 +8,7 @@ class Hypothesis
 	# @color
 
 	attr_reader :grid
+	attr_writer :grid
 
 	def initialize(grid)
 		@grid  = grid

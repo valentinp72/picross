@@ -12,16 +12,23 @@ class Hypotheses
 		@stack   = Array.new()
 		@lines   = lines
 		@columns = columns
-
-		addNewHypothesis()
+	
+		# We create and push the default hypothesis
+		defaultHypothesis      = Hypothesis.new(nil)
+		defaultGrid            = Grid.new(lines, columns, defaultHypothesis)
+		defaultHypothesis.grid = defaultGrid
+		@stack.push(defaultHypothesis)
 	end
 
 	def getWorkingHypothesis()
+		print @stack.last.class
 		return @stack.last
 	end
 	
 	def addNewHypothesis()
-		@stack.push(Hypothesis.new(Grid.new(@lines, @columns)))
+		newGrid = getWorkingHypothesis.grid.clone
+		newHypothesis = Hypothesis.new(newGrid)
+		@stack.push(newHypothesis)
 		return @stack.length - 1
 	end
 
@@ -38,36 +45,18 @@ class Hypotheses
 		if hypothesisID < 0 or hypothesisID >= @stack.length then
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
-		newBaseGrid = getGlobalGrid(hypothesisID)
+		newBaseGrid = @stack[hypothesisID]
 		@stack = @stack.slice(hypothesisID + 1..-1)
-		@stack.unshift(Hypothesis.new(newBaseGrid))
+		@stack.unshift(newBaseGrid)
+		return self
 	end
 
-
-	def getGlobalGrid(maxHypothesis)
-		grid = Grid.new(@lines, @columns)
-	
-		@stack.take(maxHypothesis + 1).each do |hypothesis|
-			tmpGrid = hypothesis.grid
-
-			0.upto(@lines - 1) do |j|
-				0.upto(@columns - 1) do |i|
-					if tmpGrid.grid[j][i].state != Cell::CELL_EMPTY then
-						grid.grid[j][i] = tmpGrid.grid[j][i]
-					end
-				end
-			end
-
-		end
-		return grid
-	end
 
 	def to_s()
-		rslt = "\n\n\nPRINTING HYPOTHESES SUM: \n"
-		@stack.reverse.each do |hypothesis|
-			rslt += hypothesis.to_s + "\n"
+		rslt = "\n\n\nPRINTING ALL HYPOTHESES (#{@stack.length}): \n"
+		@stack.reverse.each_with_index do |hypothesis, index|
+			rslt += "n° #{@stack.length - index - 1} : "+ hypothesis.to_s + "\n"
 		end
-		rslt += "\n===>\n" + getGlobalGrid(@stack.length - 1).to_s
 		return rslt
 	end
 
