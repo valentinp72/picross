@@ -1,6 +1,6 @@
 ##
 # File          :: Chapter.rb
-# Author        :: Thibault Brocherieux
+# Author        :: BROCHERIEUX Thibault
 # Licence       :: MIT License
 # Creation date :: 01/28/2018
 # Last update   :: 01/28/2018
@@ -10,18 +10,20 @@
 # A chapter is composed of several map.
 
 class Chapter
+
   ##
   # Create a chapter, the chapter is locked by default
   # * *Arguments* :
 	#   - +title+ -> the title of the chapter
-	#   - +starsRequired+ -> the number of stars required to unlock the chapter
+  #   - +levels+ -> List of map that are part of this chapter
   #   - +isUnlocked+ -> Wether or not the chapter is unlocked
-  #   - +mapList+ -> List of map that are part of this chapter
-  def initialize(title, starsRequired, isUnlocked=false, mapList)
+  #   - +starsRequired+ -> the number of stars required to unlock the chapter
+
+  def initialize(title, levels, starsRequired, isUnlocked=false)
     @title = title
+    @levels = levels
     @starsRequired = starsRequired
     @isUnlocked = isUnlocked
-    @mapList = mapList
   end
 
   def playLevel(index)
@@ -33,7 +35,7 @@ class Chapter
   # * *Returns* :
   #   - the chapter into a String object
   def to_s()
-    return "Chapter : #{@title}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}, mapList : #{@mapList}"
+    return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}, "
   end
 
   ##
@@ -41,7 +43,7 @@ class Chapter
   # * *Returns* :
   #   - the chapter converted to an array
   def marshal_dump()
-    return [@title, @starsRequired, @isUnlocked, @mapList]
+    return [@title, @levels, @starsRequired, @isUnlocked]
   end
 
   ##
@@ -52,7 +54,7 @@ class Chapter
   # * *Returns* :
   #   - the chapter object itself
   def marshal_load(array)
-    @title, @starsRequired, @isUnlocked, @mapList = array
+    @title, @levels, @starsRequired, @isUnlocked = array
     return self
   end
 end
