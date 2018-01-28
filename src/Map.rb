@@ -13,7 +13,7 @@
 
 class Map
 
-	# +hypotheses+ - The hypotheses stack used to allow the player to do hypotheses about the solution
+	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_reader :hypotheses
 
 	# +timeToDo+    - The estimated time to resolve the game
