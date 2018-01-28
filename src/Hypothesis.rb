@@ -12,7 +12,7 @@
 
 class Hypothesis
 
-	# *grid* - The grid of the hypothesis
+	# The grid of the hypothesis
 	attr_reader :grid
 	attr_writer :grid
 

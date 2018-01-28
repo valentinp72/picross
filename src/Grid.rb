@@ -12,13 +12,13 @@ require_relative 'Cell'
 
 class Grid
 
-	# +columns+ - The number of columns of the grid
+	# The number of columns of the grid
 	attr_reader :columns
 	
-	# +lines+   - The number of lines of the grid
+	# The number of lines of the grid
 	attr_reader :lines
 	
-	# +grid+    - The array of arrays that contains all the cells
+	# The array of arrays that contains all the cells
 	attr_reader :grid
 	attr_writer :grid
 

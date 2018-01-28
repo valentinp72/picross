@@ -6,27 +6,26 @@
 # Last update   :: 01/27/2018
 # Version       :: 0.1
 #
-# This class represents a cell in a *Picross*.  
+# This class represents a cell in a Picross.  
 # Each cell have a state (white, black or crossed when the player is sure the cell should be white).
 # The cells also have a link to its hypothesis.
 
 class Cell
 
-	# Cell states : either CELL_WHITE, CELL_BLACK, or CELL_CROSSED
-		# Default state, the cell is white
-		CELL_WHITE   = 0 
-		# The cell state is colored 
-		CELL_BLACK   = 1 
-		# The cell state is white, and should remain (crossed)
-		CELL_CROSSED = 2
+	# Default state, the cell is white
+	CELL_WHITE   = 0 
+	# The cell state is colored 
+	CELL_BLACK   = 1 
+	# The cell state is white, and should remain (crossed)
+	CELL_CROSSED = 2
 
 	# List of all possible states in a ordered array
 	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
 
-	# +state+      - The state of the cell
+	# The state of the cell
 	attr_reader :state
 	
-	# +hypothesis+ - The hypothesis to this cell
+	# The hypothesis to this cell
 	attr_reader :hypothesis
 	attr_writer :hypothesis
 

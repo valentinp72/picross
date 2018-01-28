@@ -18,7 +18,6 @@ class Chapter
 	#   - +levels+ -> List of map that are part of this chapter
 	#   - +isUnlocked+ -> Wether or not the chapter is unlocked
 	#   - +starsRequired+ -> the number of stars required to unlock the chapter
-
 	def initialize(title, levels, starsRequired, isUnlocked=false)
 		@title = title
 		@levels = levels
