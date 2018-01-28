@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title>Hypothesis - Picross Documentation</title>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
+<link href='../css/bootstrap.min.css' media='screen' rel='stylesheet' type='text/css'>
+<link href='../css/application.css' media='screen' rel='stylesheet' type='text/css'>
+<link href='../css/coderay.css' media='screen' rel='stylesheet' type='text/css'>
+<script src='../js/jquery.js' type='text/javascript'></script>
+<script src='../js/bootstrap.min.js' type='text/javascript'></script>
+<script src='../js/index.js' type='text/javascript'></script>
+<script src='../js/application.js' type='text/javascript'></script>
+</head>
+<body class='class'>
+<div class='navbar navbar-fixed-top'>
+<div class='navbar-inner'>
+<div class='container'>
+<a class='btn btn-navbar' data-target='.nav-collapse' data-toggle='collapse'>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+</a>
+<a href=".." class="brand">Picross Documentation</a>
+<div class='nav-collapse'>
+<ul class='nav'>
+<li class='dropdown'>
+<a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+Classes
+<b class='caret'></b>
+</a>
+<ul class='dropdown-menu' role='menu'>
+<li><a href="Cell.html">Cell</a></li><li><a href="Chapter.html">Chapter</a></li><li><a href="Grid.html">Grid</a></li><li><a href="Hypotheses.html">Hypotheses</a></li><li><a href="Hypothesis.html">Hypothesis</a></li><li><a href="Map.html">Map</a></li><li><a href="Picross.html">Picross</a></li>
+</ul>
+</li>
+<li class='dropdown'>
+<a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+Files
+<b class='caret'></b>
+</a>
+<ul class='dropdown-menu' role='menu'>
+<li><a href="../files/README_md.html">README.md</a></li>
+<li><a href="../files/src/Cell_rb.html">Cell.rb</a></li>
+<li><a href="../files/src/Chapter_rb.html">Chapter.rb</a></li>
+<li><a href="../files/src/Grid_rb.html">Grid.rb</a></li>
+<li><a href="../files/src/Hypotheses_rb.html">Hypotheses.rb</a></li>
+<li><a href="../files/src/Hypothesis_rb.html">Hypothesis.rb</a></li>
+<li><a href="../files/src/Map_rb.html">Map.rb</a></li>
+<li><a href="../files/src/Picross_rb.html">Picross.rb</a></li>
+<li><a href="../files/src/test_rb.html">test.rb</a></li>
+</ul>
+</li>
+</ul>
+<form class='navbar-search pull-right'>
+<input class='search-query span2' id='search-query' placeholder='Search methods' type='text'>
+<ul aria-labelledby='search-query' class='dropdown-menu' id='search-results' role='menu'></ul>
+</form>
+</div>
+</div>
+</div>
+</div>
+<div id='main'>
+<div class='container' id='documentation'>
+<div class='row'>
+<div class='span9'>
+<div class='page-header'>
+<h1 class='name'>
+<span class='type'>class</span>
+Hypothesis
+
+</h1>
+</div>
+<section id='content'>
+<div id='text'>
+<div id='description'><table class="rdoc-list note-list"><tbody><tr><td class='label'>File          </td><td>
+<p>Hypothesis.rb</p>
+</td></tr><tr><td class='label'>Author        </td><td>
+<p>PELLOIN Valentin</p>
+</td></tr><tr><td class='label'>Licence       </td><td>
+<p>MIT License</p>
+</td></tr><tr><td class='label'>Creation date </td><td>
+<p>01/27/2018</p>
+</td></tr><tr><td class='label'>Last update   </td><td>
+<p>01/27/2018</p>
+</td></tr><tr><td class='label'>Version       </td><td>
+<p>0.1</p>
+</td></tr></tbody></table>
+
+<p>This class represent an hypothesis.  An hypothesis is a stack of grids,
+where the top one is the current game.</p>
+
+<p>Each hypothesis have a color, so the game can display the hypothesis
+differently.</p>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-grid'>grid</a>
+</td>
+<td class='context-item-value'>[RW]</td>
+<td class='context-item-desc'>
+<p><strong>grid</strong> - The grid of the hypothesis</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<article id='public class-methods'>
+<h2>Public Class methods</h2>
+<a name='method-c-new'></a>
+<section class='method public-class' id='method-method-c-new'>
+<h3 class='synopsis'>
+<span class='name'>new</span>
+<span class='arguments'>(grid)</span>
+
+</h3>
+<div class='description'>
+
+<p>Creation of an hypothesis.</p>
+
+<p>Currently, the color is choosed randomly.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><strong>grid</strong> -&gt; the grid of hypothesis to create</p>
+</li></ul>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-c-new-source'>
+<span class='show'>
+<span class='icon-resize-full'></span>
+Show
+</span>
+<span class='hide'>
+<span class='icon-resize-small'></span>
+Hide
+</span>
+Source
+</a>
+<div class='collapse' id='method-c-new-source'>
+<div class="CodeRay">
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(grid)
+        <span style="color:#33B">@grid</span>  = grid
+        <span style="color:#33B">@color</span> = {<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">RED</span><span style="color:#710">&quot;</span></span> =&gt; rand(<span style="color:#00D">0</span>..<span style="color:#00D">255</span>), <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">GREEN</span><span style="color:#710">&quot;</span></span> =&gt; rand(<span style="color:#00D">0</span>..<span style="color:#00D">255</span>), <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">BLUE</span><span style="color:#710">&quot;</span></span> =&gt; rand(<span style="color:#00D">0</span>..<span style="color:#00D">255</span>)}
+<span style="color:#080;font-weight:bold">end</span></pre></div>
+</div>
+
+</div>
+</div>
+</section>
+</article>
+<article id='public instance-methods'>
+<h2>Public Instance methods</h2>
+<a name='method-i-marshal_dump'></a>
+<section class='method public-instance' id='method-method-i-marshal_dump'>
+<h3 class='synopsis'>
+<span class='name'>marshal_dump</span>
+<span class='arguments'>()</span>
+
+</h3>
+<div class='description'>
+
+<p>Convert the hypothesis to an array, allowing Marshal to dump the object.</p>
+<ul><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p>the hypothesis converted to an array</p>
+</li></ul>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-marshal_dump-source'>
+<span class='show'>
+<span class='icon-resize-full'></span>
+Show
+</span>
+<span class='hide'>
+<span class='icon-resize-small'></span>
+Hide
+</span>
+Source
+</a>
+<div class='collapse' id='method-i-marshal_dump-source'>
+<div class="CodeRay">
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">marshal_dump</span>()
+        <span style="color:#080;font-weight:bold">return</span> [<span style="color:#33B">@grid</span>, <span style="color:#33B">@color</span>]
+<span style="color:#080;font-weight:bold">end</span></pre></div>
+</div>
+
+</div>
+</div>
+</section>
+<a name='method-i-marshal_load'></a>
+<section class='method public-instance' id='method-method-i-marshal_load'>
+<h3 class='synopsis'>
+<span class='name'>marshal_load</span>
+<span class='arguments'>(array)</span>
+
+</h3>
+<div class='description'>
+
+<p>Update all the instances variables from the array given,  allowing Marshal
+to load an hypothesis.</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>array</code> -&gt; the array to transform to instances variables</p>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p>the hypothesis itself</p>
+</li></ul>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-marshal_load-source'>
+<span class='show'>
+<span class='icon-resize-full'></span>
+Show
+</span>
+<span class='hide'>
+<span class='icon-resize-small'></span>
+Hide
+</span>
+Source
+</a>
+<div class='collapse' id='method-i-marshal_load-source'>
+<div class="CodeRay">
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">marshal_load</span>(array)
+        <span style="color:#33B">@grid</span>, <span style="color:#33B">@color</span> = array
+        <span style="color:#080;font-weight:bold">return</span> <span style="color:#069">self</span>
+<span style="color:#080;font-weight:bold">end</span></pre></div>
+</div>
+
+</div>
+</div>
+</section>
+<a name='method-i-to_s'></a>
+<section class='method public-instance' id='method-method-i-to_s'>
+<h3 class='synopsis'>
+<span class='name'>to_s</span>
+<span class='arguments'>()</span>
+
+</h3>
+<div class='description'>
+
+<p>Converts the hypothesis to a String, for printing</p>
+<ul><li>
+<p><strong>Returns</strong> :</p>
+<ul><li>
+<p>the hypothesis into a String</p>
+</li></ul>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-to_s-source'>
+<span class='show'>
+<span class='icon-resize-full'></span>
+Show
+</span>
+<span class='hide'>
+<span class='icon-resize-small'></span>
+Hide
+</span>
+Source
+</a>
+<div class='collapse' id='method-i-to_s-source'>
+<div class="CodeRay">
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">to_s</span>()
+        <span style="color:#080;font-weight:bold">return</span> <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Color: </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@color</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#b0b">\n</span><span style="color:#710">&quot;</span></span> + <span style="color:#33B">@grid</span>.to_s
+<span style="color:#080;font-weight:bold">end</span></pre></div>
+</div>
+
+</div>
+</div>
+</section>
+</article>
+</div>
+</div>
+
+</div>
+</section>
+</div>
+<div class='span3'>
+<ul class='nav nav-list'>
+<li class='nav-header'>Defined IN</li>
+<li>
+<a href="../files/src/Hypothesis_rb.html">src/Hypothesis.rb</a>
+</li>
+<li class='nav-header'>Parent</li>
+<li>
+<strong>
+<a href="../files/src/Hypothesis_rb.html">Hypothesis.rb</a>
+</strong>
+</li>
+<li class='divider'></li>
+<li class='nav-header'>Public Class</li>
+<li><a href="#method-c-new">new</a></li>
+<li class='nav-header'>Public Instance</li>
+<li><a href="#attribute-i-grid">grid</a></li>
+<li><a href="#method-i-marshal_dump">marshal_dump</a></li>
+<li><a href="#method-i-marshal_load">marshal_load</a></li>
+<li><a href="#method-i-to_s">to_s</a></li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+<footer>
+<div class='container'>
+<p>
+Generated by
+<a href="https://github.com/rdoc/rdoc">RDoc 4.3.0</a>
+.
+</p>
+<p>
+Generated with the
+<a href="http://github.com/ngs/hanna-bootstrap">Hanna Bootstrap RDoc Generator 0.0.5</a>
+.
+</p>
+</div>
+</footer>
+</body>
+</html>
