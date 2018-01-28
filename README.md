@@ -4,4 +4,4 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ccc2c521ed263e2370a0/maintainability)](https://codeclimate.com/repos/5a624aeae596c21745002d54/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ccc2c521ed263e2370a0/test_coverage)](https://codeclimate.com/repos/5a624aeae596c21745002d54/test_coverage)
 
-
+###[Documentation RDoc](https://valentinp72.github.io/picross/doc/)
