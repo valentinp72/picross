@@ -68,11 +68,12 @@ puts map2
 require_relative 'Map'
 
 
-solution = Grid.new(5, 5, "solution")
-solution.randomCells
-print "Solution : \n", solution
+#solution = Grid.new(5, 5, "solution")
+#solution.randomCells
+#print "Solution : \n", solution
 
-map = Map.new(60, 1, 5, 5, solution)
+#map = Map.new("Ma map a moi !", 60, 1, 5, 5, solution)
+map = Map.load("testMap.map")
 map.rotateStateAt(0, 0)
 print map
 
@@ -81,3 +82,7 @@ map.rotateStateAt(0, 0)
 print map
 map.hypotheses.reject(newHypo)
 print map
+
+map.save("testMap.map")
+
+

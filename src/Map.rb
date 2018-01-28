@@ -25,31 +25,32 @@ class Map
 	##
 	# Create a new map object
 	# * *Arguments* :
+	#   - +name+         -> a String representing the name of the map
 	#   - +timeToDo+     -> estimated time to resolve the map
 	#   - +difficulty+   -> estimated difficulty of the map
 	#   - +lines+        -> number of lines of the map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
-	def initialize(timeToDo, difficulty, lines, columns, solutionGrid)
-		@timeToDo   = timeToDo
-		@difficulty = difficulty
-		@hypotheses = Hypotheses.new(lines, columns)
-		@solution   = solutionGrid
-
+	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid)
+		@name        = name
+		@timeToDo    = timeToDo
+		@difficulty  = difficulty
+		@hypotheses  = Hypotheses.new(lines, columns)
+		@solution    = solutionGrid
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
 	end
 
 	##
 	#
-	def Map.load(data)
-		return Marshal.load(data)
+	def Map.load(fileName)
+		return Marshal.load(File.read(fileName))
 	end
 
 	##
 	#
-	def save()
-		return Marshal.dump(self)
+	def save(fileName)
+		return File.open(fileName, 'w') { |f| f.write(Marshal.dump(self)) }
 	end
 
 	def reset()
@@ -148,7 +149,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@timeToDo, @difficulty, @hypotheses, @solution]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution]
 	end
 
 	##
@@ -159,7 +160,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@timeToDo, @difficulty, @hypotheses, @solution = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution = array
 		return self
 	end
 
