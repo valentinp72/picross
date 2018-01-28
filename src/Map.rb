@@ -13,10 +13,14 @@
 
 class Map
 
-	# +timeToDo+   - The estimated time to resolve the game
-	# +difficulty+ - The estimated difficulty of the map
 	# +hypotheses+ - The hypotheses stack used to allow the player to do hypotheses about the solution
-	# +solution+   - The solution (a Grid) of the map
+	attr_reader :hypotheses
+
+	# +timeToDo+    - The estimated time to resolve the game
+	# +difficulty+  - The estimated difficulty of the map
+	# +solution+    - The solution (a Grid) of the map
+	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
+	# +lneSolution+ - The numbers representing the lines solution (An array of arrays) 
 
 	##
 	# Create a new map object
@@ -31,6 +35,9 @@ class Map
 		@difficulty = difficulty
 		@hypotheses = Hypotheses.new(lines, columns)
 		@solution   = solutionGrid
+
+		@clmSolution = computeColumnSolution(@solution)
+		@lneSolution = computeLineSolution(@solution)
 	end
 
 	##
@@ -47,6 +54,81 @@ class Map
 
 	def reset()
 
+	end
+
+	##
+	# Rotate the state of the cell on the higher hypothesis 
+	# at given coordinates.
+	# (CELL_WHITE -> CELL_BLACK -> CELL_CROSSED -> CELL_WHITE ... )
+	# * *Arguments* :
+	#   - +line+   -> the line of the cell to rotate
+	#   - +column+ -> the column of the cell to rotate
+	# * *Returns* :
+	#   - the updated cell
+	# * *Raises* : 
+	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	def rotateStateAt(line, column)
+		hypothesis = @hypotheses.getWorkingHypothesis()
+		cell = hypothesis.grid.getCellPosition(line, column)
+		cell.stateRotate()
+		cell.hypothesis = hypothesis
+		return self
+	end
+
+	##
+	# Convert the solution grid to columns numbers 
+	# that help player to solve the game.
+	# * *Arguments* : 
+	#   - +solutionGrid+ -> the solution grid
+	# * *Returns* :
+	#   - the array containing the numbers composing the columns
+	def computeColumnSolution(solutionGrid)
+		columnSolution = Array.new(solutionGrid.columns) { Array.new() }
+
+		0.upto(solutionGrid.columns - 1) do |i|
+			size = 0
+			0.upto(solutionGrid.lines - 1) do |j|
+				if solutionGrid.grid[j][i].state == Cell::CELL_BLACK then
+					size += 1
+				elsif size != 0 then
+					columnSolution[i].push(size)
+					size = 0
+				end
+			end
+			if size != 0 then
+				columnSolution[i].push(size)
+				size = 0
+			end
+		end
+		return columnSolution
+	end
+
+	##
+	# Convert the solution grid to lines numbers 
+	# that help player to solve the game.
+	# * *Arguments* : 
+	#   - +solutionGrid+ -> the solution grid
+	# * *Returns* :
+	#   - the array containing the numbers composing the lines
+	def computeLineSolution(solutionGrid)
+		lineSolution = Array.new(solutionGrid.lines) { Array.new() }
+
+		0.upto(solutionGrid.lines - 1) do |i|
+			size = 0
+			0.upto(solutionGrid.columns - 1) do |j|
+				if solutionGrid.grid[i][j].state == Cell::CELL_BLACK then
+					size += 1
+				elsif size != 0 then
+					lineSolution[i].push(size)
+					size = 0
+				end
+			end
+			if size != 0 then
+				lineSolution[i].push(size)
+				size = 0
+			end
+		end
+		return lineSolution 
 	end
 
 	def help(helpType)

@@ -12,7 +12,7 @@ while true do
 end
 =end
 require_relative 'Hypotheses'
-#=begin
+=begin
 
 puts "Create hypotheses"
 hy = Hypotheses.new(5, 5)
@@ -64,3 +64,20 @@ rslt = map1.save()
 map2 = Map.load(rslt)
 puts map2
 =end
+
+require_relative 'Map'
+
+
+solution = Grid.new(5, 5, "solution")
+solution.randomCells
+print "Solution : \n", solution
+
+map = Map.new(60, 1, 5, 5, solution)
+map.rotateStateAt(0, 0)
+print map
+
+newHypo = map.hypotheses.addNewHypothesis()
+map.rotateStateAt(0, 0)
+print map
+map.hypotheses.reject(newHypo)
+print map

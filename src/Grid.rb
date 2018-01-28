@@ -55,6 +55,21 @@ class Grid
 	end
 
 	##
+	# Change all cells states to a random one
+	# * *Returns* :
+	#   - the grid itself
+	def randomCells()
+		@grid.each do |lines|
+			lines.each do |cell|
+				if rand(0..1) == 0 then
+					cell.stateRotate
+				end
+			end
+		end
+		return self
+	end
+
+	##
 	# Return the cell at given position
 	# * *Arguments* :
 	#   - +line+   -> the line of the wanted cell

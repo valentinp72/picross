@@ -26,8 +26,11 @@ class Cell
 	# +state+      - The state of the cell
 	attr_reader :state
 	
-	# +nextCells+  - The array of the nexts cells after rotation
 	# +hypothesis+ - The hypothesis to this cell
+	attr_reader :hypothesis
+	attr_writer :hypothesis
+
+	# +nextCells+  - The array of the nexts cells after rotation
 	
 	private_constant :LIST_CELLS
 
