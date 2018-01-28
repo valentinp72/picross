@@ -12,17 +12,17 @@
 
 class Picross
 
-  ##
-  # Create a picross, empty by default
-  # * *Arguments* :
+	##
+	# Create a picross, empty by default
+	# * *Arguments* :
 	#   - +users+ -> list of chapter(s) that are composing the game
-  #   - +chapters+ -> list of user(s) that composing the game
-  def initialize(users=nil, chapters=nil)
-    @users = users
-    @chapters = chapters
-  end
+	#   - +chapters+ -> list of user(s) that composing the game
+	def initialize(users=nil, chapters=nil)
+		@users = users
+		@chapters = chapters
+	end
 
-  ##
+	##
 	# Retuns the picross to a string, for debug only
 	# * *Returns* :
 	#   - the picross into a String object
