@@ -125,17 +125,28 @@ Pour simplifier la vérification de la qualité du code produit, nous utilisons 
       %Description des cas d'utilisation
 
 	Le but de l'utilisateur est de jouer sur une grille de Picross.
-Pour cela, it doit avoir un profil. Il peut donc en créer un nouveau s'il en a envie, ou s'authentifier à un profil déjà existant.
+Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a envie, ou s'authentifier à un profil déjà existant.
 	Le joueur doit ensuite selectionner une grille à l'aide du menu. Il a le choix entre trois types de jeu:
 	- Le didacticiel, permettant d'apprendre les règles du jeu. 
 	- Le mode classique, permettant de jouer sur plusieurs grilles de tailles et difficultés variables.
-	- Le mode évolutif, agrandissant la taille de la grille au fur et à mesure que Pierre résoudra celle-ci.
+	- Le mode évolutif, agrandissant la taille de la grille au fur et à mesure que le joueur résoudra celle-ci.
 	A tout moment, celui-ci peut utiliser l'aide intégrée au jeu pour se débloquer. Il peut aussi choisir de recommencer la grille s'il le souhaite.
 
       
-	\section{utilisation de profils}
-	\section{partie classique}
-	\section{parties evolutives et didacticiel}
+	\section{Profils}
+	\section{Partie classique}
+	
+	Une partie en mode classique permettra de jouer sur une grille normale de Picross disponible dans plusieurs difficultés et tailles laissés au choix de l'utilisateur. Ce mode suivra les règles basiques du Picross et comprendra notre système d'aide.
+	
+	\section{Parties evolutives}
+	
+	Une partie en mode évolutif est un mode alternatif du mode classique. La difficulté de la grille est laissée au choix de l'utilisateur et la taille est quand à elle imposée à celle d'une grille 5x5 (cases). Les règles sont les mêmes que pour le mode classique excepté que la partie ne se finit quand la grille 5x5 est remplie. Lorsque l'utilisateur réussi cette grille, elle évolue en une grille plus grande (10x10) et les chiffres sur chaque ligne et colonne sont modifiés tout en gardant le coin supérieur gauche déja réalisé par l'utilisateur (voir schémas ci-dessous). Une fois la 10x10 réussie, la grille évolue une nouvelle fois en 15x15 et ainsi de suite jusqu'à ce que la grille ait atteint la taille maximale de 25x25. Une fois la 25x25 remplie, le joueur à gagné la partie. Le système d'aide sera également disponible sur cette grille.
+	
+	% schéma exemple partie évolutive
+	
+	\section{Didacticiel}
+	
+	Le mode didacticiel est un mode spécial qui ne comporte qu'une seule grille et qui à pour but d'apprendre les règles basiques du Picross aux joueurs débutants. La partie est guidée coup par coup afin que l'utilisateur comprenne la logique de résolution d'une partie de Picross. Le système d'aide  est inutile dans ce mode et n'est  donc pas disponible.
 	
 	// Schéma liens entre écrans
 	// Description
