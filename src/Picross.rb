@@ -16,9 +16,9 @@ class Picross
   # Create a picross, empty by default
   # * *Arguments* :
 	#   - +users+ -> list of chapter(s) that are composing the game
-  #   - +chapters+ -> list of user(s) that composing the game 
+  #   - +chapters+ -> list of user(s) that composing the game
   def initialize(users=nil, chapters=nil)
-    @Users = users
+    @users = users
     @chapters = chapters
   end
 
