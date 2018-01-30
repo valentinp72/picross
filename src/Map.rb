@@ -1,3 +1,5 @@
+require_relative './Hypotheses'
+
 ## 
 # File          :: Map.rb
 # Author        :: PELLOIN Valentin
