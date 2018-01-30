@@ -8,10 +8,11 @@
 
 ## Installation 
 
-git@github.com:valentinp72/picross.git
-
 ```shell
 git clone https://github.com/valentinp72/picross.git
+# or:
+# git clone git@github.com:valentinp72/picross.git
+
 cd picross
 gem install bundle
 bundle install
