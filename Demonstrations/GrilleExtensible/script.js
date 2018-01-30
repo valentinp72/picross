@@ -285,9 +285,11 @@ function exportCarte() {
 
 function loadCarte(stringCarte) {
 	load = window.prompt("Chargement : ","Entrez votre sauvegarde ici");
-	carte = JSON.parse(load);
+	//carte = JSON.parse(load);
+	clearCarte();
+	solution = JSON.parse(load);
+	window.prompt(carte);
 	nombresInit();
-//	clearCarte();
 }
 function clearCarte() {
 	for(var i = 0 ; i < HAUTEUR_CARTE ; i++) {
