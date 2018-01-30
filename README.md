@@ -8,6 +8,8 @@
 
 ## Installation 
 
+git@github.com:valentinp72/picross.git
+
 ```shell
 git clone https://github.com/valentinp72/picross.git
 cd picross

@@ -11,6 +11,8 @@
 
 class Chapter
 
+	attr_reader :title, :levels, :starsRequired, :isUnlocked
+
 	##
 	# Create a chapter, the chapter is locked by default
 	# * *Arguments* :
@@ -34,7 +36,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter into a String object
 	def to_s()
-		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}, "
+		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}"
 	end
 
 	##
