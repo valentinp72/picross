@@ -30,7 +30,7 @@ Classes
 <b class='caret'></b>
 </a>
 <ul class='dropdown-menu' role='menu'>
-<li><a href="Cell.html">Cell</a></li><li><a href="Chapter.html">Chapter</a></li><li><a href="Grid.html">Grid</a></li><li><a href="Hypotheses.html">Hypotheses</a></li><li><a href="Hypothesis.html">Hypothesis</a></li><li><a href="Map.html">Map</a></li><li><a href="Picross.html">Picross</a></li>
+<li><a href="Cell.html">Cell</a></li><li><a href="Chapter.html">Chapter</a></li><li><a href="GlobalStatistics.html">GlobalStatistics</a></li><li><a href="Grid.html">Grid</a></li><li><a href="Hypotheses.html">Hypotheses</a></li><li><a href="Hypothesis.html">Hypothesis</a></li><li><a href="Map.html">Map</a></li><li><a href="Picross.html">Picross</a></li><li><a href="Statistics.html">Statistics</a></li><li><a href="Timer.html">Timer</a></li><li><a href="User.html">User</a></li>
 </ul>
 </li>
 <li class='dropdown'>
@@ -42,11 +42,15 @@ Files
 <li><a href="../files/README_md.html">README.md</a></li>
 <li><a href="../files/src/Cell_rb.html">Cell.rb</a></li>
 <li><a href="../files/src/Chapter_rb.html">Chapter.rb</a></li>
+<li><a href="../files/src/GlobalStatistics_rb.html">GlobalStatistics.rb</a></li>
 <li><a href="../files/src/Grid_rb.html">Grid.rb</a></li>
 <li><a href="../files/src/Hypotheses_rb.html">Hypotheses.rb</a></li>
 <li><a href="../files/src/Hypothesis_rb.html">Hypothesis.rb</a></li>
 <li><a href="../files/src/Map_rb.html">Map.rb</a></li>
 <li><a href="../files/src/Picross_rb.html">Picross.rb</a></li>
+<li><a href="../files/src/Statistics_rb.html">Statistics.rb</a></li>
+<li><a href="../files/src/Timer_rb.html">Timer.rb</a></li>
+<li><a href="../files/src/User_rb.html">User.rb</a></li>
 <li><a href="../files/src/test_rb.html">test.rb</a></li>
 </ul>
 </li>
@@ -91,6 +95,41 @@ Chapter
 <div id='context'>
 </div>
 <div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-isUnlocked'>isUnlocked</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-levels'>levels</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-starsRequired'>starsRequired</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-title'>title</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'></td>
+</tr>
+</table>
+</div>
+</div>
 <div id='methods'>
 <article id='public class-methods'>
 <h2>Public Class methods</h2>
@@ -299,7 +338,7 @@ Source
 <div class='collapse' id='method-i-to_s-source'>
 <div class="CodeRay">
   <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">to_s</span>()
-        <span style="color:#080;font-weight:bold">return</span> <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Chapter : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@title</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, levels : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@levels</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, stars required : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@starsRequired</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, unlocked? : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@isUnlocked</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, </span><span style="color:#710">&quot;</span></span>
+        <span style="color:#080;font-weight:bold">return</span> <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Chapter : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@title</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, levels : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@levels</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, stars required : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@starsRequired</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, unlocked? : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@isUnlocked</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>
 <span style="color:#080;font-weight:bold">end</span></pre></div>
 </div>
 
@@ -329,9 +368,13 @@ Source
 <li class='nav-header'>Public Class</li>
 <li><a href="#method-c-new">new</a></li>
 <li class='nav-header'>Public Instance</li>
+<li><a href="#attribute-i-isUnlocked">isUnlocked</a></li>
+<li><a href="#attribute-i-levels">levels</a></li>
 <li><a href="#method-i-marshal_dump">marshal_dump</a></li>
 <li><a href="#method-i-marshal_load">marshal_load</a></li>
 <li><a href="#method-i-playLevel">playLevel</a></li>
+<li><a href="#attribute-i-starsRequired">starsRequired</a></li>
+<li><a href="#attribute-i-title">title</a></li>
 <li><a href="#method-i-to_s">to_s</a></li>
 </ul>
 </div>

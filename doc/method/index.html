@@ -30,7 +30,7 @@ Classes
 <b class='caret'></b>
 </a>
 <ul class='dropdown-menu' role='menu'>
-<li><a href="../classes/Cell.html">Cell</a></li><li><a href="../classes/Chapter.html">Chapter</a></li><li><a href="../classes/Grid.html">Grid</a></li><li><a href="../classes/Hypotheses.html">Hypotheses</a></li><li><a href="../classes/Hypothesis.html">Hypothesis</a></li><li><a href="../classes/Map.html">Map</a></li><li><a href="../classes/Picross.html">Picross</a></li>
+<li><a href="../classes/Cell.html">Cell</a></li><li><a href="../classes/Chapter.html">Chapter</a></li><li><a href="../classes/GlobalStatistics.html">GlobalStatistics</a></li><li><a href="../classes/Grid.html">Grid</a></li><li><a href="../classes/Hypotheses.html">Hypotheses</a></li><li><a href="../classes/Hypothesis.html">Hypothesis</a></li><li><a href="../classes/Map.html">Map</a></li><li><a href="../classes/Picross.html">Picross</a></li><li><a href="../classes/Statistics.html">Statistics</a></li><li><a href="../classes/Timer.html">Timer</a></li><li><a href="../classes/User.html">User</a></li>
 </ul>
 </li>
 <li class='dropdown'>
@@ -42,11 +42,15 @@ Files
 <li><a href="../files/README_md.html">README.md</a></li>
 <li><a href="../files/src/Cell_rb.html">Cell.rb</a></li>
 <li><a href="../files/src/Chapter_rb.html">Chapter.rb</a></li>
+<li><a href="../files/src/GlobalStatistics_rb.html">GlobalStatistics.rb</a></li>
 <li><a href="../files/src/Grid_rb.html">Grid.rb</a></li>
 <li><a href="../files/src/Hypotheses_rb.html">Hypotheses.rb</a></li>
 <li><a href="../files/src/Hypothesis_rb.html">Hypothesis.rb</a></li>
 <li><a href="../files/src/Map_rb.html">Map.rb</a></li>
 <li><a href="../files/src/Picross_rb.html">Picross.rb</a></li>
+<li><a href="../files/src/Statistics_rb.html">Statistics.rb</a></li>
+<li><a href="../files/src/Timer_rb.html">Timer.rb</a></li>
+<li><a href="../files/src/User_rb.html">User.rb</a></li>
 <li><a href="../files/src/test_rb.html">test.rb</a></li>
 </ul>
 </li>
@@ -64,57 +68,71 @@ Files
 <h1>Method Index</h1>
 <ol class='methods' id='index-entries'>
 <li><a href="../classes/Grid.html#method-columns"><li><strong>#columns</strong><small>Grid</small></li></a></li>
-<li><a href="../classes/Hypothesis.html#method-grid"><li><strong>#grid</strong><small>Hypothesis</small></li></a></li>
 <li><a href="../classes/Grid.html#method-grid"><li><strong>#grid</strong><small>Grid</small></li></a></li>
+<li><a href="../classes/Hypothesis.html#method-grid"><li><strong>#grid</strong><small>Hypothesis</small></li></a></li>
 <li><a href="../classes/Map.html#method-hypotheses"><li><strong>#hypotheses</strong><small>Map</small></li></a></li>
 <li><a href="../classes/Cell.html#method-hypothesis"><li><strong>#hypothesis</strong><small>Cell</small></li></a></li>
+<li><a href="../classes/Chapter.html#method-isUnlocked"><li><strong>#isUnlocked</strong><small>Chapter</small></li></a></li>
+<li><a href="../classes/Chapter.html#method-levels"><li><strong>#levels</strong><small>Chapter</small></li></a></li>
 <li><a href="../classes/Grid.html#method-lines"><li><strong>#lines</strong><small>Grid</small></li></a></li>
+<li><a href="../classes/User.html#method-pseudo"><li><strong>#pseudo</strong><small>User</small></li></a></li>
+<li><a href="../classes/Chapter.html#method-starsRequired"><li><strong>#starsRequired</strong><small>Chapter</small></li></a></li>
 <li><a href="../classes/Cell.html#method-state"><li><strong>#state</strong><small>Cell</small></li></a></li>
+<li><a href="../classes/Statistics.html#method-stats"><li><strong>#stats</strong><small>Statistics</small></li></a></li>
+<li><a href="../classes/Timer.html#method-time"><li><strong>#time</strong><small>Timer</small></li></a></li>
+<li><a href="../classes/Chapter.html#method-title"><li><strong>#title</strong><small>Chapter</small></li></a></li>
 <a href="../classes/Map.html#method-c-load"><li><strong>::load</strong><small>Map</small></li></a>
 <a href="../classes/Cell.html#method-c-new"><li><strong>::new</strong><small>Cell</small></li></a>
+<a href="../classes/User.html#method-c-new"><li><strong>::new</strong><small>User</small></li></a>
+<a href="../classes/Timer.html#method-c-new"><li><strong>::new</strong><small>Timer</small></li></a>
+<a href="../classes/Statistics.html#method-c-new"><li><strong>::new</strong><small>Statistics</small></li></a>
 <a href="../classes/Picross.html#method-c-new"><li><strong>::new</strong><small>Picross</small></li></a>
-<a href="../classes/Hypothesis.html#method-c-new"><li><strong>::new</strong><small>Hypothesis</small></li></a>
 <a href="../classes/Chapter.html#method-c-new"><li><strong>::new</strong><small>Chapter</small></li></a>
 <a href="../classes/Map.html#method-c-new"><li><strong>::new</strong><small>Map</small></li></a>
-<a href="../classes/Grid.html#method-c-new"><li><strong>::new</strong><small>Grid</small></li></a>
+<a href="../classes/Hypothesis.html#method-c-new"><li><strong>::new</strong><small>Hypothesis</small></li></a>
 <a href="../classes/Hypotheses.html#method-c-new"><li><strong>::new</strong><small>Hypotheses</small></li></a>
+<a href="../classes/Grid.html#method-c-new"><li><strong>::new</strong><small>Grid</small></li></a>
 <a href="../classes/Hypotheses.html#method-i-addNewHypothesis"><li><strong>#addNewHypothesis</strong><small>Hypotheses</small></li></a>
-<a href="../classes/Cell.html#method-i-clone"><li><strong>#clone</strong><small>Cell</small></li></a>
+<a href="../classes/User.html#method-i-changeName"><li><strong>#changeName</strong><small>User</small></li></a>
 <a href="../classes/Grid.html#method-i-clone"><li><strong>#clone</strong><small>Grid</small></li></a>
+<a href="../classes/Cell.html#method-i-clone"><li><strong>#clone</strong><small>Cell</small></li></a>
 <a href="../classes/Map.html#method-i-computeColumnSolution"><li><strong>#computeColumnSolution</strong><small>Map</small></li></a>
 <a href="../classes/Map.html#method-i-computeLineSolution"><li><strong>#computeLineSolution</strong><small>Map</small></li></a>
 <a href="../classes/Grid.html#method-i-getCellPosition"><li><strong>#getCellPosition</strong><small>Grid</small></li></a>
+<a href="../classes/User.html#method-i-getStats"><li><strong>#getStats</strong><small>User</small></li></a>
 <a href="../classes/Hypotheses.html#method-i-getWorkingHypothesis"><li><strong>#getWorkingHypothesis</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Map.html#method-i-help"><li><strong>#help</strong><small>Map</small></li></a>
-<a href="../classes/Hypothesis.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Hypothesis</small></li></a>
-<a href="../classes/Chapter.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Chapter</small></li></a>
-<a href="../classes/Hypotheses.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Grid.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Grid</small></li></a>
+<a href="../classes/Chapter.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Chapter</small></li></a>
 <a href="../classes/Picross.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Picross</small></li></a>
+<a href="../classes/Hypotheses.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Cell.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Cell</small></li></a>
+<a href="../classes/Hypothesis.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Hypothesis</small></li></a>
 <a href="../classes/Map.html#method-i-marshal_dump"><li><strong>#marshal_dump</strong><small>Map</small></li></a>
-<a href="../classes/Picross.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Picross</small></li></a>
-<a href="../classes/Cell.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Cell</small></li></a>
-<a href="../classes/Chapter.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Chapter</small></li></a>
-<a href="../classes/Grid.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Grid</small></li></a>
-<a href="../classes/Hypotheses.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Hypotheses</small></li></a>
-<a href="../classes/Hypothesis.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Hypothesis</small></li></a>
 <a href="../classes/Map.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Map</small></li></a>
+<a href="../classes/Chapter.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Chapter</small></li></a>
+<a href="../classes/Hypothesis.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Hypothesis</small></li></a>
+<a href="../classes/Picross.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Picross</small></li></a>
+<a href="../classes/Grid.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Grid</small></li></a>
+<a href="../classes/Cell.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Cell</small></li></a>
+<a href="../classes/Hypotheses.html#method-i-marshal_load"><li><strong>#marshal_load</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Chapter.html#method-i-playLevel"><li><strong>#playLevel</strong><small>Chapter</small></li></a>
 <a href="../classes/Grid.html#method-i-randomCells"><li><strong>#randomCells</strong><small>Grid</small></li></a>
 <a href="../classes/Hypotheses.html#method-i-reject"><li><strong>#reject</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Map.html#method-i-reset"><li><strong>#reset</strong><small>Map</small></li></a>
 <a href="../classes/Map.html#method-i-rotateStateAt"><li><strong>#rotateStateAt</strong><small>Map</small></li></a>
 <a href="../classes/Map.html#method-i-save"><li><strong>#save</strong><small>Map</small></li></a>
+<a href="../classes/User.html#method-i-setStats"><li><strong>#setStats</strong><small>User</small></li></a>
+<a href="../classes/Timer.html#method-i-startTimer"><li><strong>#startTimer</strong><small>Timer</small></li></a>
 <a href="../classes/Cell.html#method-i-state-3D"><li><strong>#state=</strong><small>Cell</small></li></a>
 <a href="../classes/Cell.html#method-i-stateRotate"><li><strong>#stateRotate</strong><small>Cell</small></li></a>
-<a href="../classes/Hypotheses.html#method-i-to_s"><li><strong>#to_s</strong><small>Hypotheses</small></li></a>
 <a href="../classes/Grid.html#method-i-to_s"><li><strong>#to_s</strong><small>Grid</small></li></a>
-<a href="../classes/Chapter.html#method-i-to_s"><li><strong>#to_s</strong><small>Chapter</small></li></a>
 <a href="../classes/Map.html#method-i-to_s"><li><strong>#to_s</strong><small>Map</small></li></a>
-<a href="../classes/Cell.html#method-i-to_s"><li><strong>#to_s</strong><small>Cell</small></li></a>
-<a href="../classes/Picross.html#method-i-to_s"><li><strong>#to_s</strong><small>Picross</small></li></a>
 <a href="../classes/Hypothesis.html#method-i-to_s"><li><strong>#to_s</strong><small>Hypothesis</small></li></a>
+<a href="../classes/Chapter.html#method-i-to_s"><li><strong>#to_s</strong><small>Chapter</small></li></a>
+<a href="../classes/Picross.html#method-i-to_s"><li><strong>#to_s</strong><small>Picross</small></li></a>
+<a href="../classes/Hypotheses.html#method-i-to_s"><li><strong>#to_s</strong><small>Hypotheses</small></li></a>
+<a href="../classes/Cell.html#method-i-to_s"><li><strong>#to_s</strong><small>Cell</small></li></a>
 <a href="../classes/Hypotheses.html#method-i-validate"><li><strong>#validate</strong><small>Hypotheses</small></li></a>
 </ol>
 

@@ -1,10 +1,14 @@
-Sun, 28 Jan 2018 22:40:38 +0100
-README.md	Sun, 28 Jan 2018 22:40:17 +0100
+Wed, 31 Jan 2018 00:11:38 +0100
+README.md	Wed, 31 Jan 2018 00:11:32 +0100
 src/Cell.rb	Sun, 28 Jan 2018 22:28:35 +0100
-src/Chapter.rb	Sun, 28 Jan 2018 22:29:05 +0100
+src/Chapter.rb	Tue, 30 Jan 2018 21:11:16 +0100
+src/GlobalStatistics.rb	Tue, 30 Jan 2018 21:11:16 +0100
 src/Grid.rb	Sun, 28 Jan 2018 22:28:19 +0100
 src/Hypotheses.rb	Sun, 28 Jan 2018 22:16:06 +0100
 src/Hypothesis.rb	Sun, 28 Jan 2018 22:28:48 +0100
-src/Map.rb	Sun, 28 Jan 2018 22:16:06 +0100
+src/Map.rb	Tue, 30 Jan 2018 21:11:16 +0100
 src/Picross.rb	Sun, 28 Jan 2018 22:16:06 +0100
+src/Statistics.rb	Tue, 30 Jan 2018 21:11:16 +0100
+src/Timer.rb	Tue, 30 Jan 2018 21:11:16 +0100
+src/User.rb	Tue, 30 Jan 2018 21:11:16 +0100
 src/test.rb	Sun, 28 Jan 2018 22:16:06 +0100

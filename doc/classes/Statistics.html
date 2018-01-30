@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8'>
-<title> - Picross Documentation</title>
+<title>Statistics - Picross Documentation</title>
 <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
 <link href='../css/bootstrap.min.css' media='screen' rel='stylesheet' type='text/css'>
 <link href='../css/application.css' media='screen' rel='stylesheet' type='text/css'>
@@ -12,7 +12,7 @@
 <script src='../js/index.js' type='text/javascript'></script>
 <script src='../js/application.js' type='text/javascript'></script>
 </head>
-<body class='file'>
+<body class='class'>
 <div class='navbar navbar-fixed-top'>
 <div class='navbar-inner'>
 <div class='container'>
@@ -65,10 +65,120 @@ Files
 </div>
 <div id='main'>
 <div class='container' id='documentation'>
-<h1>Class Index</h1>
-<ol class='classes' id='index-entries'>
-<li><a href="Cell.html">Cell</a></li><li><a href="Chapter.html">Chapter</a></li><li><a href="GlobalStatistics.html">GlobalStatistics</a></li><li><a href="Grid.html">Grid</a></li><li><a href="Hypotheses.html">Hypotheses</a></li><li><a href="Hypothesis.html">Hypothesis</a></li><li><a href="Map.html">Map</a></li><li><a href="Picross.html">Picross</a></li><li><a href="Statistics.html">Statistics</a></li><li><a href="Timer.html">Timer</a></li><li><a href="User.html">User</a></li>
-</ol>
+<div class='row'>
+<div class='span9'>
+<div class='page-header'>
+<h1 class='name'>
+<span class='type'>class</span>
+Statistics
+
+</h1>
+</div>
+<section id='content'>
+<div id='text'>
+<div id='description'><table class="rdoc-list note-list"><tbody><tr><td class='label'>File          </td><td>
+<p>Statistics.rb</p>
+</td></tr><tr><td class='label'>Author        </td><td>
+<p>COHEN Mehdi</p>
+</td></tr><tr><td class='label'>Licence       </td><td>
+<p>MIT Licence</p>
+</td></tr><tr><td class='label'>Creation date </td><td>
+<p>01/27/2018</p>
+</td></tr><tr><td class='label'>Last update   </td><td>
+<p>01/30/2018</p>
+</td></tr></tbody></table>
+
+<p>This class represents the player&#39;s statistics linked to a map</p>
+</div>
+<div id='context'>
+</div>
+<div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-stats'>stats</a>
+</td>
+<td class='context-item-value'>[RW]</td>
+<td class='context-item-desc'>
+<p><code>stats</code>      - player&#39;s statistics on a map</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div id='methods'>
+<article id='public class-methods'>
+<h2>Public Class methods</h2>
+<a name='method-c-new'></a>
+<section class='method public-class' id='method-method-c-new'>
+<h3 class='synopsis'>
+<span class='name'>new</span>
+<span class='arguments'>(stats)</span>
+
+</h3>
+<div class='description'>
+
+<p>Create a new <a href="Statistics.html">Statistics</a> object</p>
+<ul><li>
+<p><strong>Arguments</strong> :</p>
+<ul><li>
+<p><code>stats</code>          -&gt; player&#39;s statistics</p>
+</li></ul>
+</li></ul>
+
+</div>
+<div class='source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-c-new-source'>
+<span class='show'>
+<span class='icon-resize-full'></span>
+Show
+</span>
+<span class='hide'>
+<span class='icon-resize-small'></span>
+Hide
+</span>
+Source
+</a>
+<div class='collapse' id='method-c-new-source'>
+<div class="CodeRay">
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(stats)
+        <span style="color:#33B">@stats</span> = stats
+<span style="color:#080;font-weight:bold">end</span></pre></div>
+</div>
+
+</div>
+</div>
+</section>
+</article>
+</div>
+</div>
+
+</div>
+</section>
+</div>
+<div class='span3'>
+<ul class='nav nav-list'>
+<li class='nav-header'>Defined IN</li>
+<li>
+<a href="../files/src/Statistics_rb.html">src/Statistics.rb</a>
+</li>
+<li class='nav-header'>Parent</li>
+<li>
+<strong>
+<a href="../files/src/Statistics_rb.html">Statistics.rb</a>
+</strong>
+</li>
+<li class='divider'></li>
+<li class='nav-header'>Public Class</li>
+<li><a href="#method-c-new">new</a></li>
+<li class='nav-header'>Public Instance</li>
+<li><a href="#attribute-i-stats">stats</a></li>
+</ul>
+</div>
+</div>
 
 </div>
 </div>

@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8'>
-<title>Picross - Picross Documentation</title>
+<title>Timer - Picross Documentation</title>
 <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'>
 <link href='../css/bootstrap.min.css' media='screen' rel='stylesheet' type='text/css'>
 <link href='../css/application.css' media='screen' rel='stylesheet' type='text/css'>
@@ -70,32 +70,45 @@ Files
 <div class='page-header'>
 <h1 class='name'>
 <span class='type'>class</span>
-Picross
+Timer
 
 </h1>
 </div>
 <section id='content'>
 <div id='text'>
 <div id='description'><table class="rdoc-list note-list"><tbody><tr><td class='label'>File          </td><td>
-<p>Chapter.rb</p>
+<p>Timer.rb</p>
 </td></tr><tr><td class='label'>Author        </td><td>
-<p>BROCHERIEUX Thibault</p>
+<p>COHEN Mehdi</p>
 </td></tr><tr><td class='label'>Licence       </td><td>
-<p>MIT License</p>
+<p>MIT Licence</p>
 </td></tr><tr><td class='label'>Creation date </td><td>
-<p>01/28/2018</p>
+<p>01/27/2018</p>
 </td></tr><tr><td class='label'>Last update   </td><td>
-<p>01/28/2018</p>
-</td></tr><tr><td class='label'>Version       </td><td>
-<p>0.1</p>
+<p>01/30/2018</p>
 </td></tr></tbody></table>
 
-<p>This class represents the application. A picross is composed of several
-chapters. A picross is composed of several users.</p>
+<p>This class represents a <a href="Timer.html">Timer</a></p>
 </div>
 <div id='context'>
 </div>
 <div id='section'>
+<div id='attribute-list'>
+<h2 class='section-bar'>Attributes</h2>
+<div class='name-list'>
+<table>
+<tr class='top-aligned-row context-row'>
+<td class='context-item-name'>
+<a name='attribute-i-time'>time</a>
+</td>
+<td class='context-item-value'>[R]</td>
+<td class='context-item-desc'>
+<p><code>timer</code>      - basic timer</p>
+</td>
+</tr>
+</table>
+</div>
+</div>
 <div id='methods'>
 <article id='public class-methods'>
 <h2>Public Class methods</h2>
@@ -103,18 +116,16 @@ chapters. A picross is composed of several users.</p>
 <section class='method public-class' id='method-method-c-new'>
 <h3 class='synopsis'>
 <span class='name'>new</span>
-<span class='arguments'>(users=nil, chapters=nil)</span>
+<span class='arguments'>(t=0)</span>
 
 </h3>
 <div class='description'>
 
-<p>Create a picross, empty by default</p>
+<p>Create a new <a href="Timer.html">Timer</a> object</p>
 <ul><li>
 <p><strong>Arguments</strong> :</p>
 <ul><li>
-<p><code>users</code> -&gt; list of chapter(s) that are composing the game</p>
-</li><li>
-<p><code>chapters</code> -&gt; list of user(s) that composing the game</p>
+<p><code>time</code>           -&gt; basic timer (hh/mm/ss)</p>
 </li></ul>
 </li></ul>
 
@@ -133,9 +144,8 @@ Source
 </a>
 <div class='collapse' id='method-c-new-source'>
 <div class="CodeRay">
-  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(users=<span style="color:#069">nil</span>, chapters=<span style="color:#069">nil</span>)
-        <span style="color:#33B">@users</span> = users
-        <span style="color:#33B">@chapters</span> = chapters
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">initialize</span>(t=<span style="color:#00D">0</span>)
+        <span style="color:#33B">@time</span> = t
 <span style="color:#080;font-weight:bold">end</span></pre></div>
 </div>
 
@@ -145,26 +155,26 @@ Source
 </article>
 <article id='public instance-methods'>
 <h2>Public Instance methods</h2>
-<a name='method-i-marshal_dump'></a>
-<section class='method public-instance' id='method-method-i-marshal_dump'>
+<a name='method-i-startTimer'></a>
+<section class='method public-instance' id='method-method-i-startTimer'>
 <h3 class='synopsis'>
-<span class='name'>marshal_dump</span>
+<span class='name'>startTimer</span>
 <span class='arguments'>()</span>
 
 </h3>
 <div class='description'>
 
-<p>Convert the picross to an array, allowing Marshal to dump the object.</p>
+<p>Method for launching a timer</p>
 <ul><li>
 <p><strong>Returns</strong> :</p>
 <ul><li>
-<p>the picross converted to an array</p>
+<p>the time passed since the launching</p>
 </li></ul>
 </li></ul>
 
 </div>
 <div class='source'>
-<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-marshal_dump-source'>
+<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-startTimer-source'>
 <span class='show'>
 <span class='icon-resize-full'></span>
 Show
@@ -175,97 +185,24 @@ Hide
 </span>
 Source
 </a>
-<div class='collapse' id='method-i-marshal_dump-source'>
+<div class='collapse' id='method-i-startTimer-source'>
 <div class="CodeRay">
-  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">marshal_dump</span>()
-        <span style="color:#080;font-weight:bold">return</span> [<span style="color:#33B">@users</span>, <span style="color:#33B">@chapters</span>]
-<span style="color:#080;font-weight:bold">end</span></pre></div>
-</div>
+  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">startTimer</span>
 
-</div>
-</div>
-</section>
-<a name='method-i-marshal_load'></a>
-<section class='method public-instance' id='method-method-i-marshal_load'>
-<h3 class='synopsis'>
-<span class='name'>marshal_load</span>
-<span class='arguments'>(array)</span>
+        <span style="color:#080;font-weight:bold">while</span> <span style="color:#069">true</span>
+                sleep <span style="color:#00D">1</span>
+                <span style="color:#33B">@time</span> +=<span style="color:#00D">1</span>
+                hours = <span style="color:#33B">@time</span>/<span style="color:#00D">3600</span>
+                min = (<span style="color:#33B">@time</span> - (hours*<span style="color:#00D">3600</span>)) / <span style="color:#00D">60</span>
+                sec = <span style="color:#33B">@time</span> - (hours*<span style="color:#00D">3600</span>) - (min*<span style="color:#00D">60</span>)
 
-</h3>
-<div class='description'>
+                h = hours &lt; <span style="color:#00D">10</span> ? <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">0</span><span style="color:#710">&quot;</span></span> + hours.to_s : hours.to_s
+                m = min &lt; <span style="color:#00D">10</span> ? <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">0</span><span style="color:#710">&quot;</span></span> + min.to_s : min.to_s
+                s = sec &lt; <span style="color:#00D">10</span> ? <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">0</span><span style="color:#710">&quot;</span></span> + sec.to_s : sec.to_s
+                system <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">clear</span><span style="color:#710">&quot;</span></span>
+                puts h + <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">:</span><span style="color:#710">&quot;</span></span> + m + <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">:</span><span style="color:#710">&quot;</span></span> + s
+        <span style="color:#080;font-weight:bold">end</span>
 
-<p>Update all the instances variables from the array given, allowing Marshal
-to load a map object.</p>
-<ul><li>
-<p><strong>Arguments</strong> :</p>
-<ul><li>
-<p><code>array</code> -&gt; the array to transform to instances variables</p>
-</li></ul>
-</li><li>
-<p><strong>Returns</strong> :</p>
-<ul><li>
-<p>the picross object itself</p>
-</li></ul>
-</li></ul>
-
-</div>
-<div class='source'>
-<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-marshal_load-source'>
-<span class='show'>
-<span class='icon-resize-full'></span>
-Show
-</span>
-<span class='hide'>
-<span class='icon-resize-small'></span>
-Hide
-</span>
-Source
-</a>
-<div class='collapse' id='method-i-marshal_load-source'>
-<div class="CodeRay">
-  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">marshal_load</span>(array)
-        <span style="color:#33B">@users</span>, <span style="color:#33B">@chapters</span> = array
-        <span style="color:#080;font-weight:bold">return</span> <span style="color:#069">self</span>
-<span style="color:#080;font-weight:bold">end</span></pre></div>
-</div>
-
-</div>
-</div>
-</section>
-<a name='method-i-to_s'></a>
-<section class='method public-instance' id='method-method-i-to_s'>
-<h3 class='synopsis'>
-<span class='name'>to_s</span>
-<span class='arguments'>()</span>
-
-</h3>
-<div class='description'>
-
-<p>Retuns the picross to a string, for debug only</p>
-<ul><li>
-<p><strong>Returns</strong> :</p>
-<ul><li>
-<p>the picross into a String object</p>
-</li></ul>
-</li></ul>
-
-</div>
-<div class='source'>
-<a class='btn btn-mini source-toggle collapsed' data-toggle='collapse' href='#method-i-to_s-source'>
-<span class='show'>
-<span class='icon-resize-full'></span>
-Show
-</span>
-<span class='hide'>
-<span class='icon-resize-small'></span>
-Hide
-</span>
-Source
-</a>
-<div class='collapse' id='method-i-to_s-source'>
-<div class="CodeRay">
-  <div class="code"><pre><span style="color:#080;font-weight:bold">def</span> <span style="color:#06B;font-weight:bold">to_s</span>()
-        <span style="color:#080;font-weight:bold">return</span> <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Users : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@users</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">, chapters : </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span><span style="color:#33B">@chapters</span><span style="font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>
 <span style="color:#080;font-weight:bold">end</span></pre></div>
 </div>
 
@@ -283,21 +220,20 @@ Source
 <ul class='nav nav-list'>
 <li class='nav-header'>Defined IN</li>
 <li>
-<a href="../files/src/Picross_rb.html">src/Picross.rb</a>
+<a href="../files/src/Timer_rb.html">src/Timer.rb</a>
 </li>
 <li class='nav-header'>Parent</li>
 <li>
 <strong>
-<a href="../files/src/Picross_rb.html">Picross.rb</a>
+<a href="../files/src/Timer_rb.html">Timer.rb</a>
 </strong>
 </li>
 <li class='divider'></li>
 <li class='nav-header'>Public Class</li>
 <li><a href="#method-c-new">new</a></li>
 <li class='nav-header'>Public Instance</li>
-<li><a href="#method-i-marshal_dump">marshal_dump</a></li>
-<li><a href="#method-i-marshal_load">marshal_load</a></li>
-<li><a href="#method-i-to_s">to_s</a></li>
+<li><a href="#method-i-startTimer">startTimer</a></li>
+<li><a href="#attribute-i-time">time</a></li>
 </ul>
 </div>
 </div>
