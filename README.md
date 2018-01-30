@@ -19,7 +19,7 @@ bundle install
 ```
 
 ## Documentation
-[**Link to generated RDoc**](https://valentinp72.github.io/picross/doc/)
+[**Link to generated RDoc**](https://picross.vlntn.pw/doc/)
 
 ```
 rake doc
