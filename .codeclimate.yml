@@ -20,3 +20,11 @@ engines:
         enabled: false
       Rubocop/Layout/EmptyLinesAroundClassBody:
         enabled: false
+      Rubocop/Naming/FileName:
+        enabled: false
+      Rubocop/Layout/IndentationWidth:
+        enabled: false
+      Rubocop/Layout/Tab:
+        enabled: false
+
+

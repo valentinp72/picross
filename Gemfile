@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gem 'rmagick'
 gem 'rdoc', '~> 4.3'
 gem 'hanna-nouveau'
 gem 'hanna-bootstrap'
