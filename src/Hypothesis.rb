@@ -12,6 +12,8 @@
 
 class Hypothesis
 
+	SOLUTION_HYPOTHESIS = "solution_hypothesis"
+
 	# The grid of the hypothesis
 	attr_reader :grid
 	attr_writer :grid

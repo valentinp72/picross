@@ -1,4 +1,5 @@
 require_relative 'Cell'
+require_relative 'Hypothesis'
 
 ## 
 # File          :: Grid.rb
@@ -80,7 +81,7 @@ class Grid
 	#   - +InvalidCellPosition+ -> if given coordinates are invalid
 	def getCellPosition(line, column)
 		if line >= @lines or line < 0 or column >= @columns or column < 0 then
-			raise "InvalidCellPosition"
+			raise "InvalidCellPosition (#{line}, #{column}) not correct"
 		end
 		return @grid[line][column]
 	end

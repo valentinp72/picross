@@ -36,7 +36,7 @@ describe Grid do
 		# We know that the first cell is empty
 		grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 		string = grid.to_s
-  	expect(string[8]).to eq "░"
+		expect(string[8]).to eq "█"
 	
 		grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
 		string = grid.to_s
@@ -44,6 +44,6 @@ describe Grid do
 
 		grid.getCellPosition(0,0).state = Cell::CELL_BLACK
 		string = grid.to_s
-		expect(string[8]).to eq "█"
+		expect(string[8]).to eq "░"
 	end
 end
