@@ -28,3 +28,5 @@ engines:
         enabled: false
       Rubocop/Layout/Tab:
         enabled: false
+      Rubocop/Naming/VariableName:
+        enabled: false
