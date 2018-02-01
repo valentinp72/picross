@@ -114,8 +114,39 @@ Pour simplifier la vérification de la qualité du code produit, nous utilisons 
    
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
+
+   \section{besoins fonctionnels}
+   
+    En plus de la generation et de la gestion d'une partie, le programme doit contenir les fonctionnalités suivantes:
     
-    \section{Diagramme de cas d'utilisations}
+    	1.Proposer une aide adaptée au niveau de difficulté
+		1.1 appel d'aide sanctionné, sauf cas contraire
+		1.2 niveau didacticiel
+		
+	2.Utilisation d'un chronomètre
+		2.1 generation de scores en fin de partie
+		2.2 mise en pause possible
+		
+	3.Hypothèses
+		3.1 creer une hypothèse
+		3.2 valider une hypothèse
+		3.3 annuler une hypothèse
+		
+	4.Système de sauvegardes
+		4.1 sauvegardes effectuées automatiquement à l'arret
+		4.2 Chargement automatique des auvegardes au redemarrage de la partie
+		
+	5.Statistiques
+		5.1mise à jour automatique des statistiques
+		5.2 Consultables dans le menu associé
+		
+	6 IHM
+		6.1 grilles en noir et blanc, avec couleurs réservées aux hypothèses
+		6.2 jouable uniquement ou clavier, ou uniquement a la souris, ou avec les 2
+		6.3 mise en valeur des chiffres associés aux cases cochées
+		6.4 affichage de la quantité de cases colorées en une selection (selection multiple)
+		
+   \section{Diagramme de cas d'utilisations}
       
     \begin{figure}[H]
 	\caption{Diagramme de \textit{Cas d’utilisation}}
