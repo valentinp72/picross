@@ -115,8 +115,39 @@ Le language de programmation Ruby est utilisé pour programmer le logiciel, incl
    
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
+
+   \section{besoins fonctionnels}
+   
+    En plus de la generation et de la gestion d'une partie, le programme doit contenir les fonctionnalités suivantes:
     
-    \section{Diagramme de cas d'utilisations}
+    	1.Proposer une aide adaptée au niveau de difficulté
+		1.1 appel d'aide sanctionné, sauf cas contraire
+		1.2 niveau didacticiel
+		
+	2.Utilisation d'un chronomètre
+		2.1 generation de scores en fin de partie
+		2.2 mise en pause possible
+		
+	3.Hypothèses
+		3.1 creer une hypothèse
+		3.2 valider une hypothèse
+		3.3 annuler une hypothèse
+		
+	4.Système de sauvegardes
+		4.1 sauvegardes effectuées automatiquement à l'arret
+		4.2 Chargement automatique des auvegardes au redemarrage de la partie
+		
+	5.Statistiques
+		5.1mise à jour automatique des statistiques
+		5.2 Consultables dans le menu associé
+		
+	6 IHM
+		6.1 grilles en noir et blanc, avec couleurs réservées aux hypothèses
+		6.2 jouable uniquement ou clavier, ou uniquement a la souris, ou avec les 2
+		6.3 mise en valeur des chiffres associés aux cases cochées
+		6.4 affichage de la quantité de cases colorées en une selection (selection multiple)
+		
+   \section{Diagramme de cas d'utilisations}
       
     \begin{figure}[H]
 	\caption{Diagramme de \textit{Cas d’utilisation}}
@@ -152,6 +183,15 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 	
 	Une partie en mode didacticiel est une partie guidée afin que l'utilisateur comprenne la logique de résolution d'une partie de \textit{picross}. Les mouvements de celui-ci sont donc restreint aux coups (cocher ou colorier) que lui dit de jouer l'application.
 	
+	\section{erreurs}
+	
+		E1: Selection d'un chapitre non-déverouillé
+			Peut arriver lors de la selection d'un chapitre
+			Traitement: accés bloqué au chapitre et mesage rappellant le nombre d'étoiles manquante pour y accéder.
+		E2: Arret de la partie en cours
+			Peut arriver en cours de partie
+			Traitement: lors du redemarrage de la partie, affichage d'un avertissement (partie quittée de façon non conventionnelle) et reprise au dernier point de sauvegarde.
+			
   \section{Aides}
 
   L'utilisateur possède un nombre d'aides gratuites quand il commence à jouer et peut en récupérer en terminant un certain nombre de grille. Quand il est en jeu, il peut les utiliser afin de se débloquer sans pénalité de temps. S'il ne possède plus d'aides gratuites, alors il peut continuer d'utiliser l'aide, mais celle-ci aura un coût (en temps) proportionnel à la difficulté du picross qui sera appliqué à chaque utilisation. La difficulté influence aussi le type d'aide appliqué:
@@ -174,7 +214,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
     
     \begin{figure}[H]
 	\caption{Diagramme de \textit{Classes}}
-	\includegraphics[width=17cm]{../UML/Class_Diagram/DiagrammeClasse.png}
+	\includegraphics[width=17cm]{../UML/Class_diagram/DiagrammeClasse.png}
     \end{figure}
     
     	
@@ -191,36 +231,28 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 
 	\section{Exemple partie évolutive}
 	
-	\begin{figure}[H]
-    		\begin{minipage}[c]{.46\linewidth}
-        		\includegraphics[width=5cm]{../Images/cat/cat1.png}
-       			 \caption{Grille 5x5}
-    		\end{minipage}
-
-    		\begin{minipage}[c]{.46\linewidth}
-        		\includegraphics[width=5cm]{../Images/cat/cat2.png}
-			\caption{Grille 10x10}
-	    	\end{minipage}
-
-		\begin{minipage}[c]{.46\linewidth}
+		Deux exemples de grilles sont disponibles sous forme de gif animé aux liens suivants :
+		 \begin{itemize}
+    		 \item \url{https://picross.vlntn.pw/Documents/Images/cat.gif}
+   	   	 \item \url{https://picross.vlntn.pw/Documents/Images/mouse.gif}
+		 \end{itemize}
+		
+		Le premier gif est également disponible sous format d'un ensemble d'images :
+	
+		\begin{figure}[H]
+	       	 	\includegraphics[width=5cm]{../Images/cat/cat1.png}
+			\hspace{1cm}
+          		\includegraphics[width=5cm]{../Images/cat/cat2.png}
+			\hspace{1cm}
 			\includegraphics[width=5cm]{../Images/cat/cat3.png}
-			\caption{Grille 15x15}
-		\end{minipage}
-	\end{figure}
-
-	\\
-	\begin{figure}[H]
-		\begin{minipage}[c]{.46\linewidth}
-			\includegraphics[width=5cm]{../Images/cat/cat4.png}
-			\caption{Grille 20x20}
-		\end{minipage}
-
-		\begin{minipage}[c]{.46\linewidth}
-			\includegraphics[width=5cm]{../Images/cat/cat5.png}
-			\caption{Grille 25x25}
-		\end{minipage}
-	\end{figure}
-
+			\hspace{1cm}
+          		\includegraphics[width=5cm]{../Images/cat/cat4.png}
+			\hspace{1cm}
+          		\includegraphics[width=5cm]{../Images/cat/cat5.png}
+			\hspace{1cm}
+			\includegraphics[width=5cm]{../Images/cat/cat6.png}
+		\end{figure}
+		
 	
 	\section{Maquettes de l'interface}
       
