@@ -2,7 +2,7 @@ require_relative 'Hypothesis'
 require_relative 'Grid'
 require_relative 'Cell'
 
-## 
+##
 # File          :: Hypotheses.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
@@ -10,11 +10,10 @@ require_relative 'Cell'
 # Last update   :: 01/27/2018
 # Version       :: 0.1
 #
-# This class represents hypotheses. This is a stack of hypothesis.  
+# This class represents hypotheses. This is a stack of hypothesis.
 # It is possible to create new hypothesis that are based on the
 # precedent hypothesis. Each hypothesis can also be validated or
 # rejected.
-
 class Hypotheses
 
 	# +lines+   - The number of lines of every hypothesis in the stack
@@ -22,7 +21,7 @@ class Hypotheses
 	# +stack+   - An array of hypothesis used as a stack
 
 	##
-	# Creation of a stack of hypothesis, ie an Hypotheses.  
+	# Creation of a stack of hypothesis, ie an Hypotheses.
 	# This automatically create a default hypothesis, with an empty grid
 	# inside.
 	# * *Arguments* :
@@ -32,7 +31,7 @@ class Hypotheses
 		@stack   = Array.new()
 		@lines   = lines
 		@columns = columns
-	
+
 		# We create and push the default hypothesis
 		defaultHypothesis      = Hypothesis.new(nil)
 		defaultGrid            = Grid.new(lines, columns, defaultHypothesis)
@@ -41,7 +40,7 @@ class Hypotheses
 	end
 
 	##
-	# Return the working hypothesis, the hypothesis that is 
+	# Return the working hypothesis, the hypothesis that is
 	# at the top of the stack.
 	# * *Returns* :
 	#   - the working hypothesis
@@ -61,9 +60,9 @@ class Hypotheses
 	end
 
 	##
-	# Reject the hypothesis identified by its ID.  
+	# Reject the hypothesis identified by its ID.
 	# This will also reject all hypothesis that are based on
-	# the rejected hypothesis.  
+	# the rejected hypothesis.
 	# Rejection: the hypothesis is destroyed, changing the current working
 	# hypothesis to the previous one.
 	# * *Arguments* :
@@ -76,14 +75,14 @@ class Hypotheses
 		if hypothesisID <= 0 or hypothesisID >= @stack.length then
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
-		
+
 		@stack.pop(@stack.length - hypothesisID)
 		return self
 	end
 
 	##
-	# Validate the hypothesis identified by the given id.  
-	# This will also validate all other hypothesis previous to this one.  
+	# Validate the hypothesis identified by the given id.
+	# This will also validate all other hypothesis previous to this one.
 	# Validation: the hypothesis is fusionned with the lower one.
 	# * *Arguments* :
 	#   - +hypothesisID+ -> the id of the hypothesis to validate
@@ -112,7 +111,7 @@ class Hypotheses
 		end
 		return rslt
 	end
-	
+
 	##
 	# Convert the hypotheses to an array, allowing Marshal to dump the object.
 	# * *Returns* :
@@ -122,7 +121,7 @@ class Hypotheses
 	end
 
 	##
-	# Update all the instances variables from the array given, 
+	# Update all the instances variables from the array given,
 	# allowing Marshal to load a hypotheses object.
 	# * *Arguments* :
 	#   - +array+ -> the array to transform to instances variables
