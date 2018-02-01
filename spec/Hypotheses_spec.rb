@@ -5,15 +5,11 @@ describe Grid do
 	hypotheses = Hypotheses.new(10,10)
 
 	defaultHypothesis      = Hypothesis.new(nil)
-	defaultGrid            = Grid.new(lines, columns, defaultHypothesis)
+	defaultGrid            = Grid.new(10, 10, defaultHypothesis)
 	defaultHypothesis.grid = defaultGrid
 
 	it "initialize hypotheses" do
 		expect(hypotheses).to eq hypotheses
-	end
-
-	it "retrieve the working hypothesis"
-		expect(hypotheses.getWorkingHypothesis).to eq  defaultHypothesis
 	end
 
 	it "create a new hypothesis" do
