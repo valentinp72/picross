@@ -191,6 +191,8 @@ class PicrossRecognizerImage
 
 	##
 	# Removes the bottom text of the image
+	# * *Returns* :
+	#   - the object itself
 	def removeBottomText!()
 		@image.crop!(0, 0, @image.columns, @image.rows - TEXT_HEIGHT)
 		return self
@@ -200,6 +202,8 @@ class PicrossRecognizerImage
 	# Forces the image to be constitued of excaclty 3 colors.  
 	# The three colors are "white", "black" and a sort of gray, that is
 	# used between cells.
+	# * *Returns* :
+	#   - the object itself
 	def forceColors!()
 		# we force our image to be constitued of 3 colors excactly (white, black, and the gray between cells)
 		@image = @image.trim.posterize(3).trim
@@ -207,7 +211,9 @@ class PicrossRecognizerImage
 	end
 
 	##
-	# Removes the solution numbrs (up and left of the image)
+	# Removes the solution numbrs (up and left of the image).
+	# * *Returns* :
+	#   - the object itself
 	def removeNumbers!()
 		# calculation of numbers size
 		firstLine   = @image.get_pixels(0, 0, @image.columns, 1)
@@ -222,7 +228,7 @@ class PicrossRecognizerImage
 	end
 
 	##
-	# Convert the pixel at given coordinates to a 'boolean' Float color number
+	# Convert the pixel at given coordinates to a 'boolean' Float color number.
 	# * *Arguments* :
 	#   - +column+ -> the column to take the pixel from
 	#   - +row+    -> the row to take the pixel from
@@ -241,7 +247,9 @@ class PicrossRecognizerImage
 	end
 
 	##
-	# Removes the gray lines (vertical and horizontal) in the image
+	# Removes the gray lines (vertical and horizontal) in the image.
+	# * *Returns* :
+	#   - the object itself
 	def removeGrayLines!()
 		pixels = []
 		width  = 0
@@ -271,31 +279,42 @@ class PicrossRecognizerImage
 	##
 	# Set all the cells to be exactly the same size (by default, 
 	# the outer ones are not x12 but x11).  
-	# This simply add a 1px white border around all the image
+	# This simply add a 1px white border around all the image.
+	# * *Returns* :
+	#   - the object itself
 	def formalizeCellsSize!()
 		# we add a border around the grid, because all the exteriors cells
 		# are not 12*12, but 12*11 or 11*11
 		@image.border!(1,1, "white")
+		return self
 	end
 
 	##
-	# Scales the image so that a cell is excactly 1px x 1px
+	# Scales the image so that a cell is excactly 1px x 1px.
+	# * *Returns* :
+	#   - the object itself
 	def scaleImage!()
 		# we scale down the image so that a cell is 1px x 1px
 		width  = (@image.columns / CELL_SIZE).floor
 		height = (@image.rows    / CELL_SIZE).floor
 		@image.scale!(width, height)
 		@image = @image.posterize(2)
+		return self
 	end
 
 	##
-	# Saves the working temporary image to a _saved image
+	# Saves the working temporary image to a _saved image.
+	# * *Returns* :
+	#   - the object itself
 	def save()
 		@image.write(@dir + "/" + @name + "_saved" + @ext)
+		return self
 	end
 
 	##
-	# Converts the image to a grid
+	# Converts the image to a Grid.
+	# * *Returns* :
+	#   - the Grid
 	def to_grid()
 		lines   = @image.rows
 		columns = @image.columns

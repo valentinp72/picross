@@ -23,8 +23,8 @@ class Grid
 	attr_reader :grid
 	attr_writer :grid
 
-	# Exception when the wanted cell is invalid
-	class InvalidCellPosition < StandardError; end
+	# Exception when the wanted cell is invalid.
+	class InvalidCellPositionException < StandardError; end
 	
 	##
 	# Create a grid of size line x columns  
@@ -82,10 +82,10 @@ class Grid
 	# * *Returns* :
 	#   - the cell at (line, column)
 	# * *Raises* :
-	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	#   - +InvalidCellPositionException+ -> if given coordinates are invalid
 	def getCellPosition(line, column)
 		if line >= @lines or line < 0 or column >= @columns or column < 0 then
-			raise InvalidCellPosition, "(#{line}, #{column}) not correct"
+			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"
 		end
 		return @grid[line][column]
 	end

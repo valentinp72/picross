@@ -15,6 +15,11 @@ require_relative 'Hypotheses'
 
 class Map
 
+	# Exception when the map to load does not exists.
+	class MapNotFoundException < StandardError; end
+	# Exception when the map cannot be load by Marshal (not a marshal file?).
+	class CorruptedMapException < StandardError; end
+
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_reader :hypotheses
 
@@ -44,15 +49,32 @@ class Map
 	end
 
 	##
-	#
+	# Load the file map to a new Map object.
+	# * *Arguments* :
+	#   - +fileName+ -> the map to load
+	# * *Returns* :
+	#   - the Map object corresponding to the object to load
+	# * *Raises* :
+	#   - +MapNotFoundException+  -> if the file does not exists
+	#   - +CorruptedMapException+ -> if the file is corrupted to Marshal (not a Marshal file?)
 	def Map.load(fileName)
-		return Marshal.load(File.read(fileName))
+		raise MapNotFoundException unless File.exists?(fileName)
+		begin
+			return Marshal.load(File.read(fileName))
+		rescue
+			raise CorruptedMapException
+		end
 	end
 
 	##
-	#
+	# Save the Map object to the given file name.
+	# * *Arguments* :
+	#   - +fileName+ -> the output file
+	# * *Returns* :
+	#   - the object itself
 	def save(fileName)
-		return File.open(fileName, 'w') { |f| f.write(Marshal.dump(self)) }
+		File.open(fileName, 'w') { |f| f.write(Marshal.dump(self)) }
+		return self
 	end
 
 	def reset()
