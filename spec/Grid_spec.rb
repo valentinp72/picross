@@ -27,7 +27,7 @@ describe Grid do
 	end
 
 	it "should raise an error if going out of the grid" do
-		expect{grid.getCellPosition(6,6).state}.to raise_error()
+		expect{grid.getCellPosition(6,6).state}.to raise_error(Grid::InvalidCellPosition)
 	end
 
 

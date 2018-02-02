@@ -1,4 +1,4 @@
-require_relative './Hypotheses'
+require_relative 'Hypotheses'
 
 ## 
 # File          :: Map.rb
@@ -143,7 +143,15 @@ class Map
 	# * *Returns* :
 	#   - the map into a String object
 	def to_s()
-		return "Difficulty: #{@difficulty}, time to do: #{@timeToDo}, hypotheses: #{@hypotheses}, solution: #{@solution}"
+		res  = "Printing Map -#{self.object_id}-\n\t"
+		res += " - Name            : #{@name}\n\t"
+		res += " - Difficulty      : #{@difficulty}\n\t"
+		res += " - Time to do      : #{@timeToDo}\n\t"
+		res += " - Hypotheses      : \n#{@hypotheses}\n\t"
+		res += " - Solution        : \n#{@solution}\n\t"
+		res += " - Columns solution: #{@clmSolution}\n\t"
+		res += " - Lines solution  : #{@lneSolution}\n"
+		return res
 	end
 
 	##
