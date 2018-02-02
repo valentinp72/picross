@@ -30,3 +30,5 @@ engines:
         enabled: false
       Rubocop/Naming/VariableName:
         enabled: false
+      Rubocop/Style/AndOr:
+        enabled: false
