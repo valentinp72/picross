@@ -1,5 +1,10 @@
 *.DS_Store
 
+# github deploy
+README.html
+github-sync.php
+.htaccess
+
 *.gem
 *.rbc
 /.config
