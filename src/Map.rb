@@ -77,8 +77,13 @@ class Map
 		return self
 	end
 
+	##
+	# Resets the stack of hypotheses to a blank one
+	# * *Returns* :
+	#   - the object itself
 	def reset()
-
+		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
+		return self
 	end
 
 	##

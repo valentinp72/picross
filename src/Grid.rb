@@ -91,6 +91,48 @@ class Grid
 	end
 
 	##
+	# Calls the given block for every line in the Grid.
+	# * *Yields* :
+	#   - an Array of Cell of every lines in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_line()
+		@grid.each do |line|
+			yield line
+		end
+		return self
+	end
+
+	##
+	# Calls the given block for every column in the Grid.
+	# * *Yields* :
+	#   - an Array of Cell of every columns in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_column()
+		@grid.transpose.each do |column|
+			yield column
+		end
+		return self
+	end
+
+	##
+	# Calls the given block for every cell in the Grid, from
+	# top left to bottom right.
+	# * *Yields* :
+	#   - a Cell for every cell in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_cell()
+		self.each_line do |line|
+			line.each do |cell|
+				yield cell
+			end
+		end
+		return self
+	end
+
+	##
 	# Return the grid into a String, for debug printing
 	# * *Returns* :
 	#   - a String representing the grid
