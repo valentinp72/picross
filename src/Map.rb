@@ -23,6 +23,8 @@ class Map
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_reader :hypotheses
 
+	attr_reader :solution
+
 	# +timeToDo+    - The estimated time to resolve the game
 	# +difficulty+  - The estimated difficulty of the map
 	# +solution+    - The solution (a Grid) of the map
@@ -114,24 +116,9 @@ class Map
 	#   - the array containing the numbers composing the columns
 	def computeColumnSolution(solutionGrid)
 		columnSolution = Array.new(solutionGrid.columns) { Array.new() }
-
-		0.upto(solutionGrid.columns - 1) do |i|
-			size = 0
-			0.upto(solutionGrid.lines - 1) do |j|
-				if solutionGrid.grid[j][i].state == Cell::CELL_BLACK then
-					size += 1
-				elsif size != 0 then
-					columnSolution[i].push(size)
-					size = 0
-				end
-			end
-			if size != 0 then
-				columnSolution[i].push(size)
-				size = 0
-			end
-		end
-		return columnSolution
+		return computeGenericSolution(columnSolution, :each_column_with_index, solutionGrid)
 	end
+
 
 	##
 	# Convert the solution grid to lines numbers 
@@ -142,23 +129,38 @@ class Map
 	#   - the array containing the numbers composing the lines
 	def computeLineSolution(solutionGrid)
 		lineSolution = Array.new(solutionGrid.lines) { Array.new() }
+		return computeGenericSolution(lineSolution, :each_line_with_index, solutionGrid)
+	end
 
-		0.upto(solutionGrid.lines - 1) do |i|
+	##
+	# Convert the solutionGrid into an array of numbers (in solutionArray), according
+	# to the loopType method givent.
+	# * *Arguments* :
+	#   - +solutionArray+ -> the array to put the solution in
+	#   - +loopType+      -> a method name that allow looping solutionGrid, and getting the element and the index. Recommendend:
+	#     - +:each_column_with_index+
+	#     - +:each_line_with_index+
+	#   - +solutionGrid+  -> the grid to computize the numbers
+	# * *Returns* :
+	#   - the solutionArray array of arrays of numbers
+	def computeGenericSolution(solutionArray, loopType, solutionGrid)
+		solutionGrid.send(loopType) do |columnOrLine, i|
 			size = 0
-			0.upto(solutionGrid.columns - 1) do |j|
-				if solutionGrid.grid[i][j].state == Cell::CELL_BLACK then
+
+			columnOrLine.each do |cell|
+				if cell.state == Cell::CELL_BLACK then
 					size += 1
 				elsif size != 0 then
-					lineSolution[i].push(size)
+					solutionArray[i].push(size)
 					size = 0
 				end
 			end
 			if size != 0 then
-				lineSolution[i].push(size)
+				solutionArray[i].push(size)
 				size = 0
 			end
 		end
-		return lineSolution 
+		return solutionArray		
 	end
 
 	def help(helpType)

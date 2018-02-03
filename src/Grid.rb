@@ -103,6 +103,13 @@ class Grid
 		return self
 	end
 
+	def each_line_with_index()
+		@grid.each_index do |i|
+			yield @grid[i], i
+		end
+		return self
+	end
+
 	##
 	# Calls the given block for every column in the Grid.
 	# * *Yields* :
@@ -112,6 +119,14 @@ class Grid
 	def each_column()
 		@grid.transpose.each do |column|
 			yield column
+		end
+		return self
+	end
+
+	def each_column_with_index()
+		tmpGrid = @grid.transpose
+		tmpGrid.each_index do |i|
+			yield tmpGrid[i], i
 		end
 		return self
 	end
