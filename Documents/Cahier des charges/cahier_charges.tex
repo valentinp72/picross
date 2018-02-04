@@ -1,33 +1,20 @@
-\documentclass{report}
+\documentclass[a4paper, 12pt]{report}
 
 
 %%%%%%%%%%%%%%%%%%
 %   Liste des packages utilisés  %
 %%%%%%%%%%%%%%%%%%
 
-% (oui y'en a 95% qui sont inutiles ^^)
-
-\usepackage{amssymb}
-\usepackage{array}
-\usepackage{hyperref}
-\usepackage{booktabs}
-\usepackage{multirow}
 \usepackage{float}
 \usepackage{lmodern} %Pack de police
-\usepackage{color}
-\usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx}
 \usepackage[utf8x]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{natbib}
 \usepackage[francais]{babel}
 \usepackage{caption}
-\usepackage{listings}
-\usepackage{booktabs}
-\usepackage[top=2cm, bottom=2cm,left=2cm, right=2cm]{geometry}
-\usepackage{blindtext}
+\usepackage[top=2.5cm, bottom=2.5cm,left=2cm, right=2cm]{geometry}
 \usepackage{setspace}
-\usepackage{graphicx}
+\usepackage{fancyhdr}
 \usepackage{titlesec, blindtext, color} % titres spéciaux + couleur pour les chapter
 
 % on transforme les chapters en juste le numéro suivi du titre, avec un barre grisse
@@ -35,28 +22,50 @@
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
-\begin{document}
+%Définition du style des bords de page
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{\rightmark}
+\lfoot{Groupe n\up{o}2}
+\cfoot{}
+\rfoot{Page \thepage}
 
+\begin{document}
 
 %%%%%%%%%%%
 %  Page de garde  %
 %%%%%%%%%%%
 \begin{titlepage}
-	\begin{center}
+
 	
+
 		\begin{spacing}{1.5}
-			Projet Picross\\
-			\vspace*{\fill}
+			\begin{minipage}{0.4\textwidth}
+					\includegraphics[width=3cm]{logo.png}
+			\end{minipage}
+			\begin{minipage}{0.5\textwidth}\raggedleft
+					Projet Picross\\
+			\end{minipage}
+						\vspace*{\fill}
+
 		\end{spacing}
-		
-		\begin{spacing}{2.5}
+	
+
+	
+	\begin{center}
+		\begin{spacing}{2}
+		    \hrule \vspace{1cm}
 			\textbf{\Huge Application de création et d'aide à la résolution de puzzle \textit{picross}}\\[0.5cm]
 			\textbf{\huge Cahier des charges} \\
+			\vspace{1cm}
+			\hrule
+
 			\vspace*{\fill}
-			\textit{Étudiants :}
 		\end{spacing}
 
 		\begin{spacing}{1.15}
+			\large\textbf{Groupe n\up{o}2} :\\
 			\large
 			\textsc{Brinon} Baptiste\\
 			\textsc{Brocherieux} Thibault\\
@@ -67,13 +76,12 @@
 			\textsc{Pastouret} Gilles\\
 			\textsc{Pelloin} Valentin\\
 			\vspace*{\fill}
-			\textbf{Groupe n\up{o}2} \\
+			%\textbf{Groupe n\up{o}2} \\
 			\textnormal{\large Licence Informatique\\ Le Mans Université\\ \today}
 		\end{spacing}
 		
 	\end{center}
 \end{titlepage}
-
 
 %%%%%%%%%%
 %    Sommaire    %
@@ -81,84 +89,175 @@
 \renewcommand{\contentsname}{Sommaire}
 \tableofcontents
 
-
+\newpage
 \chapter{Présentation}
-
+\vspace*{0.5cm}
 	\section{Introduction}
 
-		Dans le cadre de l'unité d'enseignement « Génie logiciel 2 » de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application. \\
-		Ce document décrit le contexte, les besoins fonctionnels, les objectifs et les contraintes définis par les clients. Un premier découpage des étapes nécessaires à la réalisation du projet donne lieu dans le document à un planning prévisionnel.
+		Dans le cadre de l'unité d'enseignement « Génie logiciel 2 » de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur le développement d'une application.
+		
+		Ce document décrit le contexte, les besoins fonctionnels, les objectifs et les contraintes définis par les clients. Un premier découpage des étapes nécessaires à la réalisation du projet donne lieu, dans le document, à un planning prévisionnel.
 
 	
- 	\section{Objectif de l'application}		
-		Nous devons réaliser un jeu de type picross (aussi appelé \textit{nonogramme}, logigramme ou \textit{hanjie}) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
+ 	\section{Objectifs de l'application}	
+ 	
+		Nous devons réaliser un jeu de type picross, aussi appelé \textit{nonogramme}, \textit{logigramme} ou \textit{hanjie}, qui, au même titre que les mots croisés ou le Sudoku, nécessite une réflexion plus ou moins importante en fonction de la difficulté des grilles.
+		
+		L'application permet ainsi à un utilisateur de résoudre des grilles, et de l'aider dans leur réalisation.
 
 	\section{Règles du \textit{picross}}
-		Le picross est un jeu de type puzzle. Le jeu consiste à découvrir un dessin sur une grille en noircissant des cases d'après des indices donnés.	
-		Pour pouvoir déterminer les cases à colorier, on dispose de groupes de nombres indiqués à une extrémité de chaque ligne et colonne.
-		\newline
-		Les nombres indiqués permettent d'identifier la taille des blocs de cases à colorier sur la ligne ou colonne ainsi que leur ordre.
-		\newline
-		Chaque groupe de cases doit être séparé des autres par une case blanche ou plus.
 	
+		Le picross est un jeu de type puzzle. Le jeu consiste à découvrir un dessin sur une grille de taille variable (5x5, 10x10, etc.), en noircissant des cases à l'aide d'indices donnés en marge.
+		Les nombres indiqués permettent d'identifier la longueur des blocs de cases à colorier sur la ligne ou colonne. Ces indices se lisent de haut en bas, et de gauche à droite.
+		
+		Chaque groupe de cases doit être séparé des autres d'au moins une case blanche.
+		
+		Ci-dessous, un exemple de grille résolue :
+		
+	\begin{figure}[H]
+		\centering
+		\caption{Exemple de grille résolue}
+		\includegraphics[width=8cm]{picross.png}
+	\end{figure}
 		
 \chapter{Spécification des besoins}
+\vspace*{0.5cm}
 
-		\section{Mode de jeu}
-			Le jeu est composé de plusieurs chapitres de plus en plus difficiles. Chaque chapitre regroupe des grilles de différentes tailles. Au début du jeu, seul le premier chapitre est débloqué et les autres se débloquent au fur et à mesure que le joueur termine les grilles.\\
-			Un chapitre à part du mode de jeu classique contient des niveaux particuliers où la grille évolue durant la partie. Dans ces niveaux, la taille de la grille augmente à mesure que l'utilisateur complète la grille existante.
+		\section{Modes de jeu}
+		
+			L'application est composée de différents modes de jeu :
+			\begin{itemize}
+            	\item Le didactitiel : permet la découverte du jeu.
+            	\item Le mode classique : divisé en plusieurs chapitres de difficultés variables.
+            	\item Le mode évolutif : composé de plusieurs grilles s'élargissant au cours de la partie.
+        	\end{itemize}
+
+	    \section{Didacticiel}
+	    
+		    Un chapitre de l'application est présent comme didacticiel. Ce chapitre est optionnel et permet aux joueurs   débutants de se familiariser avec les règles du \textit{picross} ainsi qu'à l'utilisation de l'application. Il consiste en plusieurs parties guidées. Les grilles du didacticiel font découvrir les notions du jeu, telles que :
+		    \begin{itemize}
+            	\item colorier et cocher une case,
+            	\item utiliser les aides et les hypothèses,
+            	\item acquérir les automatismes de résolution,
+        	\end{itemize}
+		    en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du \textit{picross}.
+		    
+		\subsubsection{Mode classique}
+		
+		    Le mode classique est un mode permettant au joueur de compléter des grilles de tailles variées, allant de 5x5 à 20x20, et de difficultés croissantes, plus le joueur progresse dans le jeu.
+		    
+		    Au commencement, seul le premier chapitre est débloqué. Le joueur peut débloquer les chapitres suivant en collectant suffisamment d'étoiles, qu'il peut gagner à la résolution de chaque grille.
+		    
+		    La difficulté d'une grille est caractérisée par sa taille ainsi que le nombre de ses indices. Plus une grille est grande, en possédant de nombreux indices faibles, plus elle est difficile à être résolue.
+		    
+		\subsubsection{Mode évolutif}
+		
+		    Le mode évolutif est un mode permettant au joueur de compléter des grilles qui croissent au cours de la partie.
+		    
+		    Ainsi, le joueur commencera sur une grille de taille 5x5. Une fois celle-ci résolue, elle évoluera en grille de taille 10x10, tout en gardant ce que le joueur avait déjà réalisé. 
+		    
+		    Ce processus se répète jusqu'à la résolution totale de la grille, afin de découvrir une image.
+			
+
+		\section{Aides}
+		
+			Un système d'aide est intégré au jeu, permettant au joueur d'être assisté lorsque ce dernier est dans l'incapacité de progresser. Il y de ce fait plusieurs types d'aides, dépendant de la difficulté des chapitres.
+			\begin{itemize}
+			\item Pour un chapitre facile, l'aide permet de colorier une ligne ou une colonne entière. 
+			
+			\item Pour un chapitre de difficulté moyenne, l'aide permet uniquement de colorier un groupe de bloc d'une ligne ou d'une colonne. 
+			
+			\item Pour un chapitre difficile, l'aide permet d'indiquer la ligne ou la colonne où se trouve une case correcte non coloriée. 
+			\end{itemize}
+			
+			Plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours de sa partie de \textit{picross}. 
+
+		\section{Hypothèses}	
+		
+			À tout moment durant une partie, le joueur peut décider d'utiliser un système d'hypothèses. 
+			
+			Ceci permet au joueur d'émettre des suppositions quant à la réalisation d'une grille, lorsqu'il n'est pas sûr de lui. Le système actif, permet de colorier les cases d'une autre couleur, représentant un niveau d'hypothèse. Ce système est limité à 5 niveaux, pour un souci de clarté, chacun représentés par une couleur différente.
+			
+			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler. Cela a pour effet de supprimer toutes les autres hypothèses posées après celle annulée. Ceci le fait donc revenir à l'état de l'hypothèse précédente.
+			
+			En revanche, il peut décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 
 		\section{Score}
-			On évalue le score d'un joueur sur une grille par le nombre d'étoiles obtenues. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles décernées au joueur lorsque celui-ci termine le niveau est calculé en fonction du temps qu'il a mis à résoudre la grille. Chaque chapitre du jeu se débloque automatiquement dès que le nombre d'étoiles requis à son déverrouillage est atteint. Plus un chapitre contient de grilles difficiles, plus le nombre d'étoiles requises est élevé.\\
-			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment, le chronomètre est alors mis en pause.
-
-				
-		\section{Statistiques}
-			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'aux grilles. Les statistiques du joueur comportent son score total (nombre total d'étoiles), le nombre de niveaux et de chapitres réussis. Les statistiques pour chaque grille sont le meilleur temps effectué par le joueur, ainsi que le nombre d'aides utilisées.
-
-			
-		\section{Aide}
-			Plusieurs aides sont proposées aux joueurs. Le type d'aide dépend de la difficulté du chapitre. Pour un chapitre facile, l'aide colorie directement toute une ligne ou une colonne. Pour un chapitre de difficulté moyenne, l'aide colorie seulement une case correcte sur la grille. Pour un chapitre de difficile, l'aide indique la ligne ou la colonne où se trouve une case correcte non coloriée. Plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours de sa partie de \textit{picross}. 
-
-		\section{Hypothèses}			
-			À tout moment durant une partie, le joueur peut décider d'utiliser le mode hypothèse. Durant celui-ci, les cases qu'il remplit par la suite sont d'une autre couleur que celle de base. Il peut créer jusqu'à cinq hypothèses simultanées, imbriquées les unes dans les autres.\\
-			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler. Cela a pour effet de supprimer toutes les autres hypothèses posées après celle annulée. Ceci le fait donc revenir à l'état de l'hypothèse précédente.\\
-			En revanche, il peut décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 		
-		\section{Didacticiel}
-			Un chapitre de l'application est présent comme didacticiel. Ce chapitre est optionnel et permet aux joueurs débutants de se familiariser avec les règles du \textit{picross}. Il consiste en plusieurs parties guidées d'une grille simple de \textit{picross} en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du \textit{picross}.
+			On évalue le score d'un joueur sur une grille par le nombre d'étoiles obtenues au total. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles décernées au joueur, lorsque celui-ci termine le niveau, est calculé en fonction du temps qu'il a mis à résoudre la grille. Le système d'hypothèses n'impacte pas le score obtenu. 
 			
-		\section{Interface homme-machine}
-			L'application est utilisable intégralement à la souris ou au clavier ou en utilisant les deux, au choix de l'utilisateur.
-			L'utilisateur peut également sélectionner une suite de cases verticale ou horizontale et de la colorier d'un seul coup, à la souris comme au clavier. Lors de cette sélection, le nombre de cases sélectionnées est affiché.\\
-			L'application sauvegarde automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à n'importe quel moment.
-			L'application est disponible en français et en anglais, avec un système qui permet de rajouter des langues supplémentaires ultérieurement.
+			Les chapitres du jeu se débloquent automatiquement, une fois que le nombre total d'étoiles requis est atteint par le joueur pour les déverrouiller.
 			
-\chapter{Spécification des contraintes}
+			Plus un chapitre contient de grilles difficiles, plus le nombre d'étoiles requis pour le débloquer est élevé.
+			
+			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment. Le chronomètre est alors arrêté, et la grille est masquée, rendant impossible toute interaction avec.
 
+		\section{Statistiques}
+		
+			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'aux grilles. 
+			
+			Les statistiques liées au joueur comportent son score total, le nombre de niveaux et de chapitres accomplis. 
+		
+			Les statistiques associées à chaque grilles sont le meilleur temps effectué par le joueur, ainsi que le nombre d'aides utilisées.
+
+		\section{Interface homme-machine}
+		
+			L'utilisateur possède le choix de jouer à la souris, au clavier, ou même les deux à la fois.
+			
+			Il peut également sélectionner un groupe de cases verticale ou horizontale et le colorier d'un seul coup, à la souris comme au clavier. Lors de cette action, le nombre de cases sélectionnées est affiché pour aider le joueur. 
+			
+			L'application sauvegarde automatiquement la partie après chaque action du joueur afin de pouvoir reprendre n'importe quelle grille à tout moment.
+			
+			L'application est disponible pour le moment en français et en anglais, avec un système permettant de rajouter des langues supplémentaires ultérieurement.
+
+
+\chapter{Spécification des contraintes}
+\vspace*{0.5cm}
 	\section{Conception}
-		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via \textit{RDoc}. Celle-ci sera livrée avec les livrables. L'interface doit être programmée avec \textit{GTK}.
+	
+		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via \textit{RDoc}. Celle-ci sera remise avec les livrables. L'interface doit être programmée avec \textit{GTK}.
 		
 	\section{Cartes et interface}
-		Une carte doit être seulement en noir et blanc afin de ne pas confondre des cases colorées avec les hypothèses qui sont elles aussi colorées.
-		La grille doit prendre suffisamment de place sur la fenêtre de manière à être facilement lisible et jouable malgré l'importante quantité de chiffres. La taille de grille peut être au maximum de taille 25x25.
-		Lorsqu'une carte est complète, elle doit représenter une forme évocatrice en noir et blanc.
+	
+		Une carte est composée de cases noires, représentant celles validées par le joueur, et blanches, afin de ne pas les confondre avec les cases colorées du système d'hypothèses.
+		La joueur à également la possibilité de marquer une case d'une croix, afin d'indiquer qu'elle doit rester vide.
+		
+		La grille doit prendre suffisamment de place sur la fenêtre de manière à être facilement lisible et jouable malgré l'importante quantité de chiffres. La taille maximale d'une grille est de 25x25.
+		
+		Lorsqu'une grille est complétée, celle-ci représente une forme évocatrice, telle qu'un objet ou un animal.
 	
 	\section{Limitation de l'aide}
-		L'utilisation de l'aide n'a pas de limite. Une perte de temps est infligée lors de l'utilisation d'une aide. Ceci impacte donc les étoiles remportées à la fin de la partie. La pénalité et le temps de jeu sont indiqués séparément. Le total est pris en compte au moment du calcul du score. De plus le joueur possède des aides n'infligeant pas de pénalité. Celles-ci sont obtenues lorsque le joueur complète des niveaux. 
+	
+		L'utilisation de l'aide n'est pas limité. Cependant, un temps de pénalité est attribué lors de l'utilisation d'une aide. Ceci impacte donc les étoiles remportées à la fin de la partie. 
+		
+		La pénalité et le temps de jeu sont indiqués séparément. Le total des deux indique le temps final passé sur la grille, servant à calculer le score obtenu. 
+		
+		Le joueur possède également des aides n'infligeant pas de pénalité. Celles-ci sont obtenues lorsque le joueur complète un niveau ou un chapitre. 
 	
 	\section{Gameplay}
-		Lors d'une pause, le chronomètre est arrêté. Le joueur pourrait ainsi résoudre le \textit{picross} sans que le temps ne défile, ce qui briserait le système de scores. Pour éviter cela, on effectue un masquage de la grille.
+	
+		Lors d'une pause, le chronomètre est arrêté. Le joueur aurait la possibilité de résoudre la grille sans que le temps ne défile, brisant ainsi le système de scores. 
+		Pour éviter cela, on effectue un masquage de la grille.
 		
 	\section{Didacticiel}
-		Le didacticiel est jouable à n'importe quel moment. Il se trouve dans un chapitre spécial. Ce chapitre n'est pas obligatoire. Ce chapitre octroie tout de même des étoiles. \\
-		Il contient le nécessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score).
 	
+		Le didacticiel est un chapitre spécial du jeu accessible à n'importe quel moment. Il se trouve sur le menu principal. 
+		Il n'est pas obligatoire, mais recommandé pour un nouveau joueur afin d'apprendre les bases du jeu. Ce chapitre octroie tout de même des étoiles.
+		
+		Il contient le nécessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score).
+
+
 	\section{Sauvegardes \& hypothèses}
-		Les sauvegardes sont réalisées automatiquement. L'utilisateur ne peut donc pas réaliser de sauvegardes manuelles. Lors d'une sauvegarde, l'ensemble des hypothèses de la partie sont enregistrées distinctement. Le nombre d'hypothèses est limité afin de conserver la clarté de la carte. Le maximum est fixé à 5 hypothèses simultanées.
+	
+		Les sauvegardes sont réalisées automatiquement. L'utilisateur ne peut donc pas réaliser de sauvegardes manuelles. 
+		
+		Lors d'une sauvegarde, l'ensemble des hypothèses de la grille en cours est également enregistré. Le nombre d'hypothèses est limité afin de conserver la clarté de la carte. Le maximum est fixé à 5 hypothèses simultanées.
+		
+		Ainsi, lorsque le joueur souhaite reprendre sa partie, il retrouve son avancée telle qu'il l'a laissée lors de son dernier temps de jeu.
 	
 	\section{Délais}
-		Le programme doit être terminé pour le 12 avril 2018, soit approximativement 3 mois pour réaliser le projet. L'utilisation de ce temps est indiquée sur le diagramme de \textit{Gantt} suivant :
+	
+		Le logiciel doit être terminé pour le Jeudi 12 Avril 2018, soit approximativement 3 mois pour la réalisation de ce projet. L'organisation de ce temps est représentée sur le diagramme de \textit{Gantt} suivant :
 
 	\begin{figure}[H]
 		\centering
@@ -166,14 +265,16 @@
 		\includegraphics[width=17cm]{ganttGeneral.png}
 	\end{figure}	     
 		
-		Un diagramme de \textit{Gantt} détaillé de la phase de réalisation sera donné dans le cahier d'analyse et de conception.
+		Un diagramme de \textit{Gantt} détaillé de la phase de réalisation est donné dans le cahier d'analyse et de conception.
+
 		
-\chapter{Livrables attendus}
+\chapter{Livrables}
+\vspace*{0.5cm}
 	Les livrables rendus à l'issue de ce projet sont :
 	\begin{itemize}
 	\item Le cahier des charges
-	\item Le cahier de conception
-	\item Le logiciel terminé et fonctionnel
+	\item Le cahier de conception et d'analyse
+	\item Le logiciel fonctionnel respectant le cahier des charges
 	\item La documentation (\textit{RDoc})
 	\item Le manuel utilisateur
 	\end{itemize}

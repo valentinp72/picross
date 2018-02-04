@@ -14,16 +14,16 @@ describe Cell do
 	end
 
 	it "should display the cell" do
-			expect(cell.to_s).to eq "░"
+			expect(cell.to_s).to eq "█"
 
 			cell.state = Cell::CELL_WHITE
-			expect(cell.to_s).to eq "░"
+			expect(cell.to_s).to eq "█"
 
 			cell.state = Cell::CELL_CROSSED
 			expect(cell.to_s).to eq "X"
 
 			cell.state = Cell::CELL_BLACK
-			expect(cell.to_s).to eq "█"
+			expect(cell.to_s).to eq "░"
 	end
 
 

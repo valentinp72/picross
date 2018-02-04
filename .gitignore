@@ -1,5 +1,10 @@
 *.DS_Store
 
+# github deploy
+README.html
+github-sync.php
+.htaccess
+
 *.gem
 *.rbc
 /.config
@@ -34,7 +39,7 @@ build-iPhoneSimulator/
 ## Documentation cache and generated files:
 /.yardoc/
 /_yardoc/
-#/doc/
+/doc/
 /rdoc/
 
 ## Environment normalization:

@@ -8,6 +8,8 @@ engines:
   rubocop:
     enabled: true
     checks:
+      Rubocop/Style/DefWithParentheses:
+        enabled: false
       Rubocop/Style/AsciiComments:
         enabled: false
       Rubocop/Style/StringLiterals:
@@ -26,5 +28,7 @@ engines:
         enabled: false
       Rubocop/Layout/Tab:
         enabled: false
-
-
+      Rubocop/Naming/VariableName:
+        enabled: false
+      Rubocop/Style/AndOr:
+        enabled: false

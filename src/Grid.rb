@@ -1,4 +1,5 @@
 require_relative 'Cell'
+require_relative 'Hypothesis'
 
 ## 
 # File          :: Grid.rb
@@ -22,6 +23,9 @@ class Grid
 	attr_reader :grid
 	attr_writer :grid
 
+	# Exception when the wanted cell is invalid.
+	class InvalidCellPositionException < StandardError; end
+	
 	##
 	# Create a grid of size line x columns  
 	# * *Arguments* :
@@ -69,6 +73,7 @@ class Grid
 		return self
 	end
 
+
 	##
 	# Return the cell at given position
 	# * *Arguments* :
@@ -77,12 +82,69 @@ class Grid
 	# * *Returns* :
 	#   - the cell at (line, column)
 	# * *Raises* :
-	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	#   - +InvalidCellPositionException+ -> if given coordinates are invalid
 	def getCellPosition(line, column)
 		if line >= @lines or line < 0 or column >= @columns or column < 0 then
-			raise "InvalidCellPosition"
+			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"
 		end
 		return @grid[line][column]
+	end
+
+	##
+	# Calls the given block for every line in the Grid.
+	# * *Yields* :
+	#   - an Array of Cell of every lines in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_line()
+		@grid.each do |line|
+			yield line
+		end
+		return self
+	end
+
+	def each_line_with_index()
+		@grid.each_index do |i|
+			yield @grid[i], i
+		end
+		return self
+	end
+
+	##
+	# Calls the given block for every column in the Grid.
+	# * *Yields* :
+	#   - an Array of Cell of every columns in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_column()
+		@grid.transpose.each do |column|
+			yield column
+		end
+		return self
+	end
+
+	def each_column_with_index()
+		tmpGrid = @grid.transpose
+		tmpGrid.each_index do |i|
+			yield tmpGrid[i], i
+		end
+		return self
+	end
+
+	##
+	# Calls the given block for every cell in the Grid, from
+	# top left to bottom right.
+	# * *Yields* :
+	#   - a Cell for every cell in the Grid
+	# * *Returns* :
+	#   - the Grid itself
+	def each_cell()
+		self.each_line do |line|
+			line.each do |cell|
+				yield cell
+			end
+		end
+		return self
 	end
 
 	##

@@ -94,11 +94,11 @@ class Cell
 	def to_s()
 		case @state
 			when CELL_WHITE
-				return "░"
+				return "█"
 			when CELL_CROSSED
 				return "X"
 			when CELL_BLACK
-				return "█"
+				return "░"
 		end
 		raise "Wrong cell state"
 	end
