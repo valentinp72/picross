@@ -1,0 +1,47 @@
+
+(Voir https://www.thonky.com/picross/ pour mieux comprendre les exemples)
+
+1) Lignes pleines 
+Exemples : -indice=5 et grille 5*5 ---> on remplit tout
+	   -indice=1/4/3 et grille 10*10 -----> 1+1(vide)+4+1(vide)+3 = 10 ---> on remplit de façon à laisser un blanc entre chaque groupe	
+
+Codage : (Pour une ligne/colonne)
+
+Si : sommeIndices + (nbIndice-1) == taille de grille
+	Coloriage de façon à laisser un blanc entre chaque groupe
+fSi
+
+
+2) Overlap (chevauchement)
+Exemples : -indice=7 et grille 10*10 ---> 4 cases du milieu à colorier
+	   -indice=2/4 et grille 10*10 ---> case7 à colorier (chevauchement pour l'indice 4 en case 7)
+
+Codage : (Pour une ligne/colonne)
+-On test chaque combinaison possible des indices dans la grille et pour chacune d'elle on créer un tableau d'entier des cases qui seront coloriées
+-on fait l'intersection de tout les tableaux et on obtient les cases qui sont sûre d'être noires
+
+Exemple du codage pour indice=7 et grille 10*10
+1ère combinaison : [1,2,3,4,5,6,7]
+2ème combinaison : [2,3,4,5,6,7,8]
+3ème combinaison : [3,4,5,6,7,8,9]
+4ème combinaison : [4,5,6,7,8,9,10]
+Intersection ---> [4,5,6,7] ---> on colorie les cases 4,5,6 et 7
+
+
+3) Edges (extrémités)
+Exemples : -indice=2 et grille 10*10 avec case10 coloriée ---> case à colorier sera obligatoirement la 9
+
+Codage : (Pour une ligne/colonne)
+
+Si : case1Noir
+	colorier les (premierIndice-1) cases qui suivent case1
+fSi
+Si : case10Noir
+	colorier les (dernierIndice-1) cases qui précèdent case10
+fSi
+
+Problème : il faut être sûr de la couleur de la case 1 ou 10 et non se baser sur ce qu'a mit l'utilisateur. 
+
+
+4) Pour certaines grilles de picross difficiles, le joueur peut être bloqué et doit colorier une case sans pouvoir être sûr qu'elle soit bonne. Il doit ensuite essayer de se débloquer avec les techniques ci-dessus et s'il trouve une erreur il doit revenir au moment où il a choisi la case et en choisir une autre.
+---> Comment implémenter cela ?
