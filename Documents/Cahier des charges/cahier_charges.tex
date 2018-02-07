@@ -12,7 +12,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
 \usepackage{caption}
-\usepackage[top=2cm, bottom=2cm,left=1.6cm, right=1.6cm]{geometry}
+\usepackage[top=2cm, bottom=2cm,left=2cm, right=2cm]{geometry}
 \usepackage{setspace}
 \usepackage{fancyhdr}
 \usepackage{titlesec, blindtext, color} % titres spéciaux + couleur pour les chapter
@@ -22,14 +22,26 @@
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
+
 %Définition du style des bords de page
 \pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\bsc{\thechapter{}- } #1}{}}
 \lhead{}
 \chead{}
-\rhead{\rightmark}
+\rhead{\leftmark}
 \lfoot{Groupe n\up{o}2}
 \cfoot{}
 \rfoot{Page \thepage}
+
+\fancypagestyle{plain}{%
+    \lhead{}
+    \chead{}
+    \rhead{}
+    \renewcommand{\headrulewidth}{0pt}
+    \lfoot{Groupe n\up{o}2}
+    \cfoot{}
+    \rfoot{Page \thepage}
+}
 
 \begin{document}
 
@@ -38,9 +50,9 @@
 %%%%%%%%%%%
 \begin{titlepage}
 
-	
 
-		\begin{spacing}{1.5}
+
+	\begin{spacing}{1.5}
 			\begin{minipage}{0.4\textwidth}
 					\includegraphics[width=3cm]{logo.png}
 			\end{minipage}
@@ -49,10 +61,10 @@
 			\end{minipage}
 						\vspace*{\fill}
 
-		\end{spacing}
-	
+	\end{spacing}
 
-	
+
+
 	\begin{center}
 		\begin{spacing}{2}
 		    \hrule \vspace{1cm}
@@ -62,6 +74,8 @@
 			\hrule
 
 			\vspace*{\fill}
+
+
 		\end{spacing}
 
 		\begin{spacing}{1.15}
@@ -88,24 +102,33 @@
 %%%%%%%%%%
 \renewcommand{\contentsname}{Sommaire}
 \tableofcontents
+\thispagestyle{empty}
+\thispagestyle{plain}
 
-\newpage
+
+
 \chapter{Présentation}
+\thispagestyle{empty}
+\thispagestyle{plain}
 \vspace*{0.5cm}
 	\section{Introduction}
+	\vspace*{0.2cm}
 
 		Dans le cadre de l'unité d'enseignement « Génie logiciel 2 » de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur le développement d'une application.
 		
-		Ce document décrit le contexte, les objectifs, les besoins et les contraintes définis par les clients. Un premier découpage des étapes nécessaires à la réalisation du projet donne lieu, dans le document, à un planning prévisionnel.
+		Ce document décrit le contexte, les objectifs, les besoins et les contraintes définis par les clients. Un premier découpage des étapes nécessaires à la réalisation du projet donne lieu, dans le document, à un planning prévisionnel.	\vspace*{0.2cm}
 
-	
- 	\section{Objectifs de l'application}	
+
+ 	\section{Objectifs de l'application}
+ 	\vspace*{0.2cm}
  	
 		Nous devons réaliser un jeu de type picross, aussi appelé \textit{nonogramme}, \textit{logigramme} ou \textit{hanjie}, qui, au même titre que les mots croisés ou le Sudoku, nécessite une réflexion plus ou moins importante en fonction de la difficulté des grilles.
 		
-		L'application permet ainsi à un utilisateur de résoudre des grilles, et de l'aider dans sa réalisation.
+		L'application permet ainsi à un utilisateur de résoudre des grilles, et de l'aider dans leur réalisation.
+	\vspace*{0.2cm}
 
 	\section{Règles du \textit{picross}}
+	\vspace*{0.2cm}
 	
 		Le picross est un jeu de type puzzle. Le jeu consiste à découvrir un dessin sur une grille de taille variable (5x5, 10x10, etc.), en noircissant des cases à l'aide d'indices donnés en marge.
 		Les nombres indiqués permettent d'identifier la longueur des blocs de cases à colorier sur la ligne ou colonne. Ces indices se lisent de haut en bas, et de gauche à droite.
@@ -117,13 +140,17 @@
 	\begin{figure}[H]
 		\centering
 		\caption{Exemple de grille résolue}
-		\includegraphics[width=5.5cm]{picross.png}
+		\includegraphics[width=4cm]{picross.png}
 	\end{figure}
-		
+	
+
 \chapter{Spécification des besoins}
+\thispagestyle{empty}
+\thispagestyle{plain}
 \vspace*{0.5cm}
 
 		\section{Modes de jeu}
+		\vspace*{0.2cm}
 		
 			L'application est composée de différents modes de jeu :
 			\begin{itemize}
@@ -132,7 +159,7 @@
             	\item Le mode évolutif : composé de plusieurs grilles s'élargissant au cours de la partie.
         	\end{itemize}
 
-	    \subsubsection{Didacticiel}
+	    \subsection{Didacticiel}
 	    
 		    Un chapitre de l'application est présent comme didacticiel. Ce chapitre est optionnel et permet aux joueurs   débutants de se familiariser avec les règles du \textit{picross} ainsi qu'à l'utilisation de l'application. Il consiste en plusieurs parties guidées. Les grilles du didacticiel font découvrir les notions du jeu, telles que :
 		    \begin{itemize}
@@ -142,7 +169,7 @@
         	\end{itemize}
 		    en expliquant au joueur les actions à réaliser étape par étape afin de finir la grille. L'application contient également un rappel des règles générales du \textit{picross}.
 		    
-		\subsubsection{Mode classique}
+		\subsection{Mode classique}
 		
 		    Le mode classique est un mode permettant au joueur de compléter des grilles de tailles variées, allant de 5x5 à 20x20, et de difficultés croissantes, plus le joueur progresse dans le jeu.
 		    
@@ -150,7 +177,7 @@
 		    
 		    La difficulté d'une grille est caractérisée par sa taille ainsi que le nombre de ses indices. Plus une grille est grande, en possédant de nombreux indices faibles, plus elle est difficile à être résolue.
 		    
-		\subsubsection{Mode évolutif}
+		\subsection{Mode évolutif}
 		
 		    Le mode évolutif est un mode permettant au joueur de compléter des grilles qui croissent au cours de la partie.
 		    
@@ -160,6 +187,7 @@
 			
 
 		\section{Aides}
+		\vspace*{0.2cm}
 		
 			Un système d'aide est intégré au jeu, permettant au joueur d'être assisté lorsque ce dernier est dans l'incapacité de progresser. Il y de ce fait plusieurs types d'aides, dépendant de la difficulté des chapitres.
 			\begin{itemize}
@@ -169,20 +197,22 @@
 			
 			\item Pour un chapitre difficile, l'aide permet d'indiquer la ligne ou la colonne où se trouve une case correcte non coloriée. 
 			\end{itemize}
-			
-			Plus le joueur avance dans des chapitres difficiles, moins celui-ci est autorisé à utiliser d'aides au cours de sa partie de \textit{picross}. 
 
-		\section{Hypothèses}	
+
+
+		\section{Hypothèses}
+		\vspace*{0.2cm}
 		
 			À tout moment durant une partie, le joueur peut décider d'utiliser un système d'hypothèses. 
 			
-			Ceci permet au joueur d'émettre des suppositions quant à la réalisation d'une grille, lorsqu'il n'est pas sûr de lui. Le système actif permet de colorier les cases d'une autre couleur, représentant un niveau d'hypothèse. Ce système est limité à 5 niveaux, pour un souci de clarté, chacun représentés par une couleur différente.
+			Ceci permet au joueur d'émettre des suppositions quant à la réalisation d'une grille, lorsqu'il n'est pas sûr de lui. Le système actif, permet de colorier les cases d'une autre couleur, représentant un niveau d'hypothèse. Ce système est limité à 5 niveaux, pour un souci de clarté, chacun représentés par une couleur différente.
 			
 			Si le joueur se rend compte que l'une de ses hypothèses est fausse, il peut l'annuler. Cela a pour effet de supprimer toutes les autres hypothèses posées après celle annulée. Ceci le fait donc revenir à l'état de l'hypothèse précédente.
 			
 			En revanche, il peut décider qu'une hypothèse est vraie. Dans ce cas, toutes les autres hypothèses qui interviennent avant celle-ci le deviennent aussi. Les cases colorées changent alors de couleur, et deviennent des cases normales.
 
 		\section{Score}
+		\vspace*{0.2cm}
 		
 			On évalue le score d'un joueur sur une grille par le nombre d'étoiles obtenues au total. Un joueur peut gagner quatre étoiles par grille au maximum. Le nombre d'étoiles décernées au joueur, lorsque celui-ci termine le niveau, est calculé en fonction du temps qu'il a mis à résoudre la grille. Le système d'hypothèses n'impacte pas le score obtenu. 
 			
@@ -193,6 +223,7 @@
 			Durant une partie, le joueur peut mettre le jeu en pause à n'importe quel moment. Le chronomètre est alors arrêté, et la grille est masquée, rendant impossible toute interaction avec.
 
 		\section{Statistiques}
+		\vspace*{0.2cm}
 		
 			En plus du score, l'application garde en mémoire certaines statistiques associées au joueur ainsi qu'aux grilles. 
 			
@@ -201,6 +232,7 @@
 			Les statistiques associées à chaque grilles sont le meilleur temps effectué par le joueur, ainsi que le nombre d'aides utilisées.
 
 		\section{Interface homme-machine}
+		\vspace*{0.2cm}
 		
 			L'utilisateur possède le choix de jouer à la souris, au clavier, ou même les deux à la fois.
 			
@@ -212,12 +244,16 @@
 
 
 \chapter{Spécification des contraintes}
+\thispagestyle{empty}
+\thispagestyle{plain}
 \vspace*{0.5cm}
 	\section{Conception}
+	\vspace*{0.2cm}
 	
 		Le client demande que le logiciel soit réalisé en Ruby, et que la documentation soit engendrée via \textit{RDoc}. Celle-ci sera remise avec les livrables. L'interface doit être programmée avec \textit{GTK}.
 		
 	\section{Cartes et interface}
+	\vspace*{0.2cm}
 	
 		Une carte est composée de cases noires, représentant celles validées par le joueur, et blanches, afin de ne pas les confondre avec les cases colorées du système d'hypothèses.
 		La joueur a également la possibilité de marquer une case d'une croix, afin d'indiquer qu'elle doit rester vide.
@@ -225,29 +261,34 @@
 		La grille doit prendre suffisamment de place sur la fenêtre de manière à être facilement lisible et jouable malgré l'importante quantité de chiffres. La taille maximale d'une grille est de 25x25.
 		
 		Lorsqu'une grille est complétée, celle-ci représente une forme évocatrice, telle qu'un objet ou un animal.
+
 	
 	\section{Limitation de l'aide}
+	\vspace*{0.2cm}
 	
 		L'utilisation de l'aide n'est pas limité. Cependant, un temps de pénalité est attribué lors de l'utilisation d'une aide. Ceci impacte donc les étoiles remportées à la fin de la partie. 
 		
 		La pénalité et le temps de jeu sont indiqués séparément. Le total des deux indique le temps final passé sur la grille, servant à calculer le score obtenu. 
 		
-		Le joueur possède également des aides n'infligeant pas de pénalité. Celles-ci sont obtenues lorsque le joueur complète un niveau ou un chapitre. 
+		Le joueur possède également des aides n'infligeant pas de pénalité. Celles-ci sont obtenues lorsque le joueur complète un niveau ou un chapitre.
 	
 	\section{Gameplay}
+	\vspace*{0.2cm}
 	
 		Lors d'une pause, le chronomètre est arrêté. Le joueur aurait la possibilité de résoudre la grille sans que le temps ne défile, brisant ainsi le système de scores. 
 		Pour éviter cela, on effectue un masquage de la grille.
 		
 	\section{Didacticiel}
+	\vspace*{0.2cm}
 	
-		Le didacticiel est un chapitre spécial du jeu, accessible à n'importe quel moment. Il se trouve sur le menu principal. 
+		Le didacticiel est un chapitre spécial du jeu accessible à n'importe quel moment. Il se trouve sur le menu principal. 
 		Il n'est pas obligatoire, mais recommandé pour un nouveau joueur afin d'apprendre les bases du jeu. Ce chapitre octroie tout de même des étoiles.
 		
 		Il contient le nécessaire pour expliquer toutes les règles ainsi que le fonctionnement du logiciel (explication de l'interface, système de score).
 
 
 	\section{Sauvegardes \& hypothèses}
+	\vspace*{0.2cm}
 	
 		Les sauvegardes sont réalisées automatiquement. L'utilisateur ne peut donc pas réaliser de sauvegardes manuelles. 
 		
@@ -256,8 +297,10 @@
 		Ainsi, lorsque le joueur souhaite reprendre sa partie, il retrouve son avancée telle qu'il l'a laissée lors de son dernier temps de jeu.
 	
 	\section{Délais}
+	\vspace*{0.2cm}
 	
 		Le logiciel doit être terminé pour le Jeudi 12 Avril 2018, soit approximativement 3 mois pour la réalisation de ce projet. L'organisation de ce temps est représentée sur le diagramme de \textit{Gantt} suivant :
+	\vspace*{0.5cm}
 
 	\begin{figure}[H]
 		\centering
@@ -267,8 +310,10 @@
 		
 		Un diagramme de \textit{Gantt} détaillé de la phase de réalisation est donné dans le dossier d'analyse et de conception.
 
-		
+
 \chapter{Livrables}
+\thispagestyle{empty}
+\thispagestyle{plain}
 \vspace*{0.5cm}
 	Les livrables rendus à l'issue de ce projet sont :
 	\begin{itemize}
