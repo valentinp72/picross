@@ -35,6 +35,14 @@
 \newcommand{\hsp}{\hspace{20pt}}
 \titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{gray75}{|}\hsp}{0pt}{\Huge\bfseries}
 
+
+%\titleformat{\chapter}[display]
+%	{\normalfont\huge\bfseries}{}{0pt}{\Huge}
+\renewcommand\thesubsection{\arabic{subsection}}
+
+\titlespacing*{\subsection}{0pt}{2.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+
 \begin{document}
 
 
@@ -116,50 +124,52 @@ Le language de programmation Ruby est utilisé pour programmer le logiciel, incl
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
 
-   \section{besoins fonctionnels}
+   \section{Besoins fonctionnels}
    
     En plus de la génération et de la gestion d'une partie, le programme doit contenir les fonctionnalités suivantes:
-    
-    	1.Proposer une aide adaptée au niveau de difficulté
-		1.1 appel d'aide sanctionné, sauf cas contraire
-			L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite.
-		1.2 niveau didacticiel
-			L'utilisateur peut accéder à un chapitre dédié à l'apprentissage des règles du picross et du fonctionnement du logiciel.
-			
-	2.Utilisation d'un chronomètre
-		2.1 generation de scores en fin de partie
-			A la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
-		2.2 mise en pause possible
-			A n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée
+
+ \setcounter{secnumdepth}{5}
+ 
+ 	\subsection{Proposer une aide adaptée au niveau de difficulté}
+ 		\subsubsection{Appel d'aide sanctionné, sauf cas contraire}
+ 				L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite.
+		\subsubsection{Niveau didacticiel}
+				L'utilisateur peut accéder à un chapitre dédié à l'apprentissage des règles du picross et du fonctionnement du logiciel.
+
+    \subsection{Utilisation d'un chronomètre}
+			\subsubsection{Génération de scores en fin de partie}
+				A la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
+			\subsubsection{Mise en pause possible}
+				A n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée
 	
-	3.Hypothèses
-		3.1 creer une hypothèse
+	\subsection{Hypothèses}
+		\subsubsection{Créer une hypothèse}
 			Durant la partie, le joueur peut créer une nouvelle hypothèse en cliquant sur le bouton associé. Les cases colorées seront alors d'une couleur différente.
-		3.2 valider une hypothèse
+		\subsubsection{Valider une hypothèse}
 			Lorsque l'hypothèse s'avère juste, l'utilisateur peut choisir de la valider. Les cases colorées deviennent alors noires et l'hypothèse disparait de celles en cours.
-		3.3 annuler une hypothèse
-			Lorsque l'hypothèse est fausse, l'utilisateur pour l'annuler. Les cases colorées suite à la creation de l'hypothèses sont alors blanchies.
+		\subsubsection{Annuler une hypothèse}
+			Lorsque l'hypothèse est fausse, l'utilisateur pour l'annuler. Les cases colorées suite à la création de l'hypothèse sont alors blanchies.
 		
-	4.Système de sauvegardes
-		4.1 Sauvegardes effectuées automatiquement
+	\subsection{Système de sauvegardes}
+		\subsubsection{Sauvegardes effectuées automatiquement}
 			A chaque modification de la grille, une nouvelle sauvegarde est effectuée automatiquement, sauvegardant aussi la valeur du chronomètre.
-		4.2 Chargement automatique des sauvegardes au redemarrage de la partie
-			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprends là ou il était arrété, et la grille est affichée là ou l'avait laissée le joueur
+		\subsubsection{Chargement automatique des sauvegardes au redémarrage de la partie}
+			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprends là ou il était arrêté, et la grille est affichée là ou l'avait laissée le joueur
 			
-	5.Statistiques
-		5.1 Mise à jour automatique des statistiques
-			à chaque fin de partie, les statistiques sont mises à jour en fonction du score que le joueur à réalisé lors de cette partie.	
-		5.2 Consultables dans le menu associé
+	\subsection{Statistiques}
+		\subsubsection{Mise à jour automatique des statistiques}
+			A chaque fin de partie, les statistiques sont mises à jour en fonction du score que le joueur à réalisé lors de cette partie.	
+		\subsubsection{Consultables dans le menu associé}
 			Dans les menus, le joueur peut afficher ses statistiques.
 			
-	6 IHM
-		6.1 Grilles en noir et blanc, avec couleurs réservées aux hypothèses.
+	\subsection{Interface Homme Machine}
+		\subsubsection{Grilles en noir et blanc, avec couleurs réservées aux hypothèses.}
 			Les cases sont blanches, et peuvent etre colorées en noir. Lors d'une hypothèse, la couleur peut varier.
-		6.2 Jouable uniquement au clavier, ou uniquement à la souris, ou avec les 2
+		\subsubsection{Jouable uniquement au clavier, ou uniquement à la souris, ou avec les 2}
 			Le joueur peut jouer avec les périphériques qu'il désire, que ce soit seulement au clavier, seulement à la souris, ou les deux en même temps.
-		6.3 Mise en valeur des chiffres associés aux cases cochées
+		\subsubsection{Mise en valeur des chiffres associés aux cases cochées}
 			Quand le joueur colorie des cases, le programme identifie de quel chiffre il s'agit et le met en valeur de façon à faciliter la lisibilité de la grille.
-		6.4 Affichage de la quantité de cases colorées en une selection (selection multiple)
+		\subsubsection{Affichage de la quantité de cases colorées en une selection (selection multiple)}
 			Quand l'utilisateur selectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement concernées.
 		
    \section{Diagramme de cas d'utilisations}
@@ -275,7 +285,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
       		Ci-dessous les maquettes réalisées pour l'interface de notre application en français. Lorsque le joueur lance l'application, il tombe sur l'écran (1) lui demandant de rentrer son pseudo pour permettre à chaque joueur d'avoir son propre profil. S'il rentre un pseudo déjà existant, il charge son profil avec ses statistiques et ses chapitres débloqués sinon un nouveau profil est créer. L'utilisateur arrive ensuite sur la page d'accueil du logiciel (2) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. Le bouton \textit{Options} renvoit sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (4). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tout les chapitres du jeu, didacticiel et mode évolutif inclus. Après avoir choisi un chapitre, il arrive sur la sélection de la grille (6) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (7).
 		
 		
-	\begin{figure}[h]
+	\begin{figure}[H]
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Premier_ecran.png}
@@ -289,7 +299,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
     		\end{minipage}
 	\end{figure}
 	
-	\begin{figure}[h]
+	\begin{figure}[H]
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Options.png}
@@ -303,7 +313,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
     		\end{minipage}
 	\end{figure}
 	
-	\begin{figure}[h]
+	\begin{figure}[H]
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Jouer.png}
