@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
 
-require "open-uri"
-require "nokogiri"
+require 'open-uri'
+require 'nokogiri'
 require 'optparse'
+
+require_relative 'PicrossRecognizer'
 
 ##
 # File          :: RetrievePicrossWeb.rb
@@ -22,8 +24,10 @@ class RetrievePicrossWeb
 
 	def RetrievePicrossWeb.mainProgram()
 
-		arguments = PicrossRecognizer.getArgs()
+		arguments = RetrievePicrossWeb.getArgs()
 		print "inside\n"
+		print arguments
+
 
 		if(arguments[:link]) then
 			RetrievePicrossWeb.fromURL(arguments[:link])
