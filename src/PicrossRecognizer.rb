@@ -4,25 +4,25 @@ require 'optparse'
 require 'rmagick'
 
 require_relative 'Map'
-require_relative 'Grid' 
-require_relative 'Hypothesis' 
+require_relative 'Grid'
+require_relative 'Hypothesis'
 
-## 
+##
 # File          :: PicrossRecognizer.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/01/2018
-# Last update   :: 02/02/2018
+# Last update   :: 02/07/2018
 # Version       :: 0.1
 #
 # This program is used to convert picross images from http://www.nonograms.org to
-# a grid, that is inside a Map object.  
+# a grid, that is inside a Map object.
 # When this program is used, the picross image in parameter is converted and save to
-# a file with the same name but with a .map extension, that is a Map.  
+# a file with the same name but with a .map extension, that is a Map.
 #
 #
-# Usage: 
-# 		./PicrossRecognizer.rb [options] <image file>  
+# Usage:
+# 		./PicrossRecognizer.rb [options] <image file>
 # 		./PicrossRecognizer.rb -h # for all options
 
 class PicrossRecognizer
@@ -35,20 +35,20 @@ class PicrossRecognizer
 	def PicrossRecognizer.mainProgram(arg=nil)
 
 		if(arg != nil) then
-			arg.each do |x| 
+			arg.each do |x|
 				ARGV << x
 			end
 		end
-		
+
 
 		arguments    = PicrossRecognizer.getArgs()
 		solutionGrid = PicrossRecognizer.recognize(arguments[:imageFile], arguments[:saveImage])
 
-		map  = Map.new(arguments[:name], 
-					   arguments[:time], 
-					   arguments[:difficulty], 
-					   solutionGrid.lines, 
-					   solutionGrid.columns, 
+		map  = Map.new(arguments[:name],
+					   arguments[:time],
+					   arguments[:difficulty],
+					   solutionGrid.lines,
+					   solutionGrid.columns,
 					   solutionGrid)
 
 		print map if arguments[:verbose]
@@ -59,20 +59,20 @@ class PicrossRecognizer
 
 	##
 	# Get all the program arguments. The program exit if the program usage
-	# is not correct.  
+	# is not correct.
 	# * *Returns* :
 	#   - An Hash, containing arguments and options:
 	#     - +:imageFile+  > image path
 	#     - +:difficulty+ > difficulty given by the user (default 0)
 	#     - +:name+       > wanted name of the map (default the name of the image file)
-	#     - +:time+       > estimated time to resolve the map (default 0) 
+	#     - +:time+       > estimated time to resolve the map (default 0)
 	#     - +:output+     > output file for the map (default the name of the image.map)
 	#     - +:saveImage+  > boolean, indicate if we should save the converted image (default false)
-	#     - +:verbose+    > boolean, indicate if the should be in verbose mode (default false) 
+	#     - +:verbose+    > boolean, indicate if the should be in verbose mode (default false)
 	def PicrossRecognizer.getArgs()
 		arguments = {}
 
-		# default options values 
+		# default options values
 		arguments[:difficulty] = 0
 		arguments[:name]       = "Unknown"
 		arguments[:time]       = 0
@@ -95,12 +95,12 @@ class PicrossRecognizer
 			raise OptionParser::MissingArgument, ' <image file>'
 		end
 		arguments[:imageFile]  = ARGV.first
-		
+
 		if !arguments[:output] then
-			arguments[:output] = PicrossRecognizer.getOutputFile(arguments[:imageFile]) 
+			arguments[:output] = PicrossRecognizer.getOutputFile(arguments[:imageFile])
 		end
 
-		return arguments 
+		return arguments
 	end
 
 	##
@@ -113,7 +113,7 @@ class PicrossRecognizer
 		# let's say originalFile = "/home/toto/image.png"
 
 		dir  = File.dirname(originalFile)       # dir  = "/home/toto"
-		ext  = File.extname(originalFile)       # ext  = ".png" 
+		ext  = File.extname(originalFile)       # ext  = ".png"
 		name = File.basename(originalFile, ext) # name = "image"
 
 		# we want something like "/home/toto/image.map"
@@ -136,7 +136,7 @@ class PicrossRecognizer
 		image.removeGrayLines!
 		image.formalizeCellsSize!
 		image.scaleImage!
-		
+
 		image.save() if shouldSave
 
 		return image.to_grid
@@ -144,7 +144,7 @@ class PicrossRecognizer
 
 end
 
-## 
+##
 # File          :: PicrossRecognizer.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
@@ -170,7 +170,7 @@ class PicrossRecognizerImage
 	WHITE_COLOR = "white"
 
 	# Height of the nonograms.org text in the images (in pixels)
-	TEXT_HEIGHT = 10 
+	TEXT_HEIGHT = 10
 	# Size, in pixels of a standard cell
 	CELL_SIZE   = 12
 
@@ -184,12 +184,12 @@ class PicrossRecognizerImage
 		if not File.file?(file) then
 			raise ArgumentError, "file does not exist"
 		end
-		
+
 		@ext = File.extname(file)
 		if not VALID_EXTENSIONS.include?(@ext.downcase) then
 			raise ArgumentError, "file is not a valid image (should be a #{VALID_EXTENSIONS})"
 		end
-		
+
 		@dir   = File.dirname(file)
 		@file  = file
 		@name  = File.basename(file, @ext)
@@ -206,7 +206,7 @@ class PicrossRecognizerImage
 	end
 
 	##
-	# Forces the image to be constitued of excaclty 3 colors.  
+	# Forces the image to be constitued of excaclty 3 colors.
 	# The three colors are "white", "black" and a sort of gray, that is
 	# used between cells.
 	# * *Returns* :
@@ -284,8 +284,8 @@ class PicrossRecognizerImage
 	end
 
 	##
-	# Set all the cells to be exactly the same size (by default, 
-	# the outer ones are not x12 but x11).  
+	# Set all the cells to be exactly the same size (by default,
+	# the outer ones are not x12 but x11).
 	# This simply add a 1px white border around all the image.
 	# * *Returns* :
 	#   - the object itself
@@ -348,6 +348,8 @@ end
 
 # Let's begin!
 
-if __FILE__==$0 then 
+# Only execute it when it's called from command line
+# Not when required
+if __FILE__==$0 then
 	PicrossRecognizer.mainProgram
 end
