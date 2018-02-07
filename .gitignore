@@ -61,8 +61,9 @@ build-iPhoneSimulator/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 
-# Asta lock files
+# Astah lock files
 *.lock
+*.bak
 
 # Latex
 *.aux
