@@ -38,10 +38,14 @@
 
 %\titleformat{\chapter}[display]
 %	{\normalfont\huge\bfseries}{}{0pt}{\Huge}
-\renewcommand\thesubsection{\arabic{subsection}}
 
 \titlespacing*{\subsection}{0pt}{2.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
 \titlespacing*{\subsubsection}{0pt}{1.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
+
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
 
 \begin{document}
 
@@ -50,21 +54,34 @@
 %  Page de garde  %
 %%%%%%%%%%%
 \begin{titlepage}
-	\begin{center}
-	
+
+
 		\begin{spacing}{1.5}
-			Projet Picross\\
-			\vspace*{\fill}
+			\begin{minipage}{0.4\textwidth}
+					\includegraphics[width=3cm]{logo.png}
+			\end{minipage}
+			\begin{minipage}{0.5\textwidth}\raggedleft
+					Projet Picross\\
+			\end{minipage}
+						\vspace*{\fill}
+
 		\end{spacing}
-		
-		\begin{spacing}{2.5}
+	
+
+	
+	\begin{center}
+		\begin{spacing}{2}
+		    \hrule \vspace{1cm}
 			\textbf{\Huge Application de création et d'aide à la résolution de puzzle \textit{picross}}\\[0.5cm]
-			\textbf{\huge Cahier d'analyse et conception} \\
+			\textbf{\huge Dossier d'analyse et de conception} \\
+			\vspace{1cm}
+			\hrule
+
 			\vspace*{\fill}
-			\textit{Étudiants :}
 		\end{spacing}
 
 		\begin{spacing}{1.15}
+			\large\textbf{Groupe n\up{o}2} :\\
 			\large
 			\textsc{Brinon} Baptiste\\
 			\textsc{Brocherieux} Thibault\\
@@ -75,7 +92,7 @@
 			\textsc{Pastouret} Gilles\\
 			\textsc{Pelloin} Valentin\\
 			\vspace*{\fill}
-			\textbf{Groupe n°2} \\
+			%\textbf{Groupe n\up{o}2} \\
 			\textnormal{\large Licence Informatique\\ Le Mans Université\\ \today}
 		\end{spacing}
 		
@@ -104,12 +121,30 @@
 	\section{Outils}
 		
 		Afin de réaliser notre application de \textit{picross}, nous utilisons plusieurs outils.
-LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF.
+		
+	LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF. \\
 \textit{Git} et \textit{GitHub} permettent le partage d'informations et la mise en commun du code ainsi que les livrables associés. Nous nous servons de \textit{Discord} afin de communiquer au sein du groupe, partager nos idées, nos informations et notre travail.
-Pour concevoir les différents diagrammes UML, nous avons recours au logiciel \textit{Astah} et au site internet \textit{Tom's Planner}.
-Afin de créer les maquettes du logiciel (disponibles en Annexe) permettant d’avoir un rendu de la future interface graphique, nous avons utilisé le logiciel \textit{Balsamiq}.
-Pour simplifier la vérification de la qualité du code produit, nous utilisons Code Climate (maintenabilité) ainsi que Travis CI(compilation et tests).
-Le language de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}. L’utilisation des bibliothèques de \textit{GTK} sera utilisé pour la réalisation des interfaces graphiques.
+
+	Pour concevoir les différents diagrammes UML, nous avons recours au logiciel \textit{Astah} et au site internet \textit{Tom's Planner}\footnote{Site web de \textit{Tom's Planner} : \url{http://tomsplanner.fr/}}.
+
+	Afin de créer les maquettes du logiciel (disponibles en Annexe) permettant d’avoir un rendu de la future interface graphique, nous avons utilisé le logiciel \textit{Balsamiq}\footnote{Nos maquettes sont disponibles ici : \url{https://balsamiq.cloud/sxl7v/pw3tb/r599E}}.
+
+	Pour simplifier la vérification de la qualité du code produit, nous utilisons Code Climate (maintenabilité) ainsi que Travis CI (compilation et tests).
+
+	Le language de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}\footnote{\label{rdoc}Notre documentation en temps réel est disponible à l'adresse \url{https://picross.vlntn.pw/doc/}}. L’utilisation des bibliothèques de \textit{GTK} sera utilisé pour la réalisation des interfaces graphiques.
+	
+	\subsection{Gems utilisés}
+	Nous utilisons les \textit{gems} Ruby suivants:
+	\begin{description}
+	\item[RSpec :] écriture et compilation des tests unitaires
+	\item[simplecov :] calcul et affichage du taux de couverte des tests unitaires
+	\item[RDoc :] génération de la documentation en ligne \footnoteref{rdoc}
+	\item[hanna-bootstrap :] thème responsive pour \textit{RDoc}
+	\item[rake :] gestions des taches automatiques de notre projet (compilation de la documentation, tests unitaires)
+	\item[rmagick :] conversion automatique d'images de picross trouvés sur internet
+	\item[gtk3] : liens Ruby vers les bibliothèques d'interface graphique GTK3
+	\item[Bundler :] installation automatique de tous les \textit{gems}
+	\end{description}
 
 		
 \chapter{Conception générale}
@@ -127,7 +162,8 @@ Le language de programmation Ruby est utilisé pour programmer le logiciel, incl
    \section{Besoins fonctionnels}
    
     En plus de la génération et de la gestion d'une partie, le programme doit contenir les fonctionnalités suivantes:
-
+    
+%\renewcommand\thesubsection{\arabic{subsection}}
  \setcounter{secnumdepth}{5}
  
  	\subsection{Proposer une aide adaptée au niveau de difficulté}
