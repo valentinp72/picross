@@ -208,6 +208,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 	
 	Une partie en mode didacticiel est une partie guidée afin que l'utilisateur comprenne la logique de résolution d'une partie de \textit{picross}. Les mouvements de celui-ci sont donc restreint aux coups (cocher ou colorier) que lui dit de jouer l'application.
 	
+
 	\section{erreurs}
 	
 		E1: Selection d'un chapitre non-déverouillé
@@ -215,7 +216,14 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 			Traitement: accés bloqué au chapitre et mesage rappellant le nombre d'étoiles manquante pour y accéder.
 		E2: Arret de la partie en cours
 			Peut arriver en cours de partie
-			Traitement: lors du redemarrage de la partie, affichage d'un avertissement (partie quittée de façon non conventionnelle) et reprise au dernier point de sauvegarde.
+			Traitement: lors du redemarrage de la partie, reprise au dernier point de sauvegarde.
+		
+                E3 : Lancement d'une deuxième instance
+                        Dans ce cas, un message d'erreur affiche que le lancement à été bloqué.
+
+                E4 : Quitter le menu Options sans validation de celles-ci
+                         Affichage d'un message prévenant que les modifications n'ont pas été enregistrées avant de   fermer le menu. Le message propose d'enregistrer les modifications ou de les perdre, avant de quitter le menu.
+	
 			
   \section{Aides}
 
