@@ -1,4 +1,9 @@
+# opened file copy
+*~
+
+# Mac files
 *.DS_Store
+._*
 
 # github deploy
 README.html
