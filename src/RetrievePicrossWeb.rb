@@ -25,18 +25,13 @@ class RetrievePicrossWeb
 	def RetrievePicrossWeb.mainProgram()
 
 		arguments = RetrievePicrossWeb.getArgs()
-		print "inside\n"
-		print arguments
-
 
 		if(arguments[:link]) then
 			RetrievePicrossWeb.fromURL(arguments[:link])
-			print "lien\n"
 		end
 
 		if(arguments[:file])then
 			RetrievePicrossWeb.fromFILE(arguments[:file])
-			print "file\n"
 		end
 
 	end
@@ -44,18 +39,22 @@ class RetrievePicrossWeb
 	def RetrievePicrossWeb.getArgs()
 		arguments = {}
 
+
 		# default options values
 		arguments[:file] = nil
 		arguments[:link] = nil
 
 		parser = OptionParser.new do |opt|
+			opt.banner += ' '
 			opt.on('-f', '--file INPUT_FILE', 'file containing links for one chapter')    { |o| arguments[:file] = o }
 			opt.on('-l', '--link NONOGRAM_LINK', 'nonogram\'s link')    { |o| arguments[:link] = o }
 		end
 		parser.parse!
 
-		if ARGV.length != 1 then
+
+		if ARGV.length != 0 then
 			puts parser.help, "\n"
+			exit
 		end
 		return arguments
 	end
@@ -90,34 +89,37 @@ class RetrievePicrossWeb
 		#title
 
 		title=/«([^»]*)»/.match(title.to_s)
-		fn = title[1].split /(?<=.)\.(?=[^.])(?!.*\.[^.])/m
-		fn.map! { |s| s.gsub /[^a-z0-9\-]+/i, '_' }
+		fn = title[1].split(/(?<=.)\.(?=[^.])(?!.*\.[^.])/m)
+		fn.map! { |s| s.gsub(/[^a-z0-9\-]+/i, '_') }
 		title = fn.join '.'
 		title.downcase!
-		puts title
 
 		# COLUMN LINE
 		temp = /([0-9]*)x([0-9]*)/.match(detail.shift)
 
-		line = temp[1]
-		column = temp[2]
+		#line = temp[1]
+		#column = temp[2]
 
 
 		temp = /title="([0-9]*)\/10"/.match(detail.shift.to_s)
-		picture = temp[1]
+		#picture = temp[1]
 		temp = /title="([0-9]*)\/10"/.match(detail.shift.to_s)
 		difficulty = temp[1]
 
 		#puts line, column, picture, difficulty
 
-		File.open('#{title[1]}.png', 'wb') do |fo|
+		File.open("#{title}.png", 'wb') do |fo|
 		  fo.write open(answer).read
 		end
-		return PicrossRecognizer.mainProgram("--difficulty #{difficulty} #{title[1]}.png")
-		#exec("./PicrossRecognizer.rb --difficulty #{difficulty} answer.png")
+		
+		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","#{title}.png"])
+		File.delete("#{title}.png")
+		
+		return map		
 
 	end
-
 end
 
-RetrievePicrossWeb.mainProgram
+if __FILE__==$0 then
+	RetrievePicrossWeb.mainProgram
+end

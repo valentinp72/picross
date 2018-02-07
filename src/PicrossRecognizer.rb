@@ -32,7 +32,14 @@ class PicrossRecognizer
 	# file PicrossRecognizer.rb is executed.
 	# * *Returns* :
 	#   - the converted Map
-	def PicrossRecognizer.mainProgram()
+	def PicrossRecognizer.mainProgram(arg=nil)
+
+		if(arg != nil) then
+			arg.each do |x| 
+				ARGV << x
+			end
+		end
+		
 
 		arguments    = PicrossRecognizer.getArgs()
 		solutionGrid = PicrossRecognizer.recognize(arguments[:imageFile], arguments[:saveImage])
@@ -340,5 +347,7 @@ end
 #  -- Plato
 
 # Let's begin!
-PicrossRecognizer.mainProgram
 
+if __FILE__==$0 then 
+	PicrossRecognizer.mainProgram
+end
