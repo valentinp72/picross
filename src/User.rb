@@ -1,60 +1,34 @@
-require_relative 'Statistics'
+load 'UserSettings.rb'
+require_relative 'UserSettings'
 
 ##
-# File		:: User.rb
-# Author	:: COHEN Mehdi
-# Licence	:: MIT Licence
+# File			:: User.rb
+# Author		:: COHEN Mehdi
+# Licence		:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 01/30/2018
+# Last update	:: 02/12/2018
 #
-# This class represents a user profile
+# This class represents a user's profile
 # 
 class User
 
-	# +name+	- player's name
-	# +statistics+	- player's statistics
+	# +name+		- player's name
+	# +settings+	- player's settings
 
-	attr_accessor :pseudo
+	attr_accessor :name
+	private_class_method :new
 
 	##
-	# Create a new Profile object
+	# Creates a new User object
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
-	#   - +statistics+	-> player's statistics
-	def initialize(name, stats)
+	def User.create(name)
+		new(name)
+	end 
+	
+	def initialize(name)
 		@name = name
-		@statistics = Statistics.new(stats)
+		@settings = UserSettings.new()
 	end
 
-	##
-	# * *Returns* :
-	#   - player's statistics
-	def getStats
-		return @statistics.stats
-	end
-
-	##
-	# Updates player's statistics
-	# * *Returns* :
-	#   - the new statistics
-	def setStats(newStats)
-		@statistics.stats = newStats
-	end
-
-	##
-  	# Change the user's name
-  	# * *Returns* :
-	#   - the new name
-  	def changeName(newName)
-  	  @name = newName
-  	end
 end
-
-=begin
-x = "stats test"
-y = "new stats test"
-user = User.new("toto", x)
-puts user.getStats
-user.setStats(y)
-puts user.getStats
-=end
