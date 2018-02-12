@@ -36,5 +36,14 @@ class UserSettings
 			 raise InvalidLanguageException
 		end
 	end
+
+	def marshal_dump ()
+		[@language]
+	end
+
+	def marshal_load (array)
+		@language = array
+		return self
+	end
 	
 end

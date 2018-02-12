@@ -12,10 +12,13 @@ require_relative 'UserSettings'
 # 
 class User
 
-	# +name+		- player's name
-	# +settings+	- player's settings
+	# +name+			- player's name
+	# +settings+		- player's settings
+	# +availableHelps+	- amount of help that the player can spend
 
 	attr_accessor :name
+	attr_reader :settings
+	
 	private_class_method :new
 
 	##
@@ -29,6 +32,46 @@ class User
 	def initialize(name)
 		@name = name
 		@settings = UserSettings.new()
+		@availableHelps = 0
 	end
-
+	
+	##
+	# Adds an amount of helps to the available help count
+	# * *Arguments* :
+	#   - +amount+		-> a Fixnum representing an amount of help
+	def addHelp (amount)
+		unless (amount < 0)
+			@availableHelps += amount
+		else
+			raise NegativeAmountException
+		end
+	end
+	
+	##
+	# removes an amount of helps to the available help count
+	# * *Arguments* :
+	#   - +amount+		-> a Fixnum representing an amount of help
+	def removeHelp (amount)
+		unless (amount < 0)
+			@availableHelps += amount
+		else
+			raise NegativeAmountException
+		end
+	end
+	
+	##
+	#
+	def marshal_dump ()
+		dumpedSettings = @settings.marshal_dump()
+		[@name,dumpedSettings,@availableHelps]
+	end
+	##
+	#
+	def marshal_load (array)
+		@name,dumpedSettings,@availableHelps = array
+		@settings.marshal_load(dumpedSettings)
+		return self
+	end
+	
+	##Je crois que j'ai fais NIMP sur le marshal mais j'y reviens plus tard
 end
