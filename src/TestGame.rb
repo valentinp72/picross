@@ -11,7 +11,9 @@ class Application < Gtk::Application
 		signal_connect "activate" do |application|
 			window = GameWindow.new(application)
 			window.present
+		end
 
+		signal_connect "startup" do |application|
 			builder = Gtk::Builder.new()
 			builder.add_from_file("app-menu.ui")
 			set_app_menu(builder.get_object("appmenu"))
