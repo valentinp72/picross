@@ -1,60 +1,77 @@
-require_relative 'Statistics'
+load 'UserSettings.rb'
+require_relative 'UserSettings'
 
 ##
-# File		:: User.rb
-# Author	:: COHEN Mehdi
-# Licence	:: MIT Licence
+# File			:: User.rb
+# Author		:: COHEN Mehdi
+# Licence		:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 01/30/2018
+# Last update	:: 02/12/2018
 #
-# This class represents a user profile
+# This class represents a user's profile
 # 
 class User
 
-	# +name+	- player's name
-	# +statistics+	- player's statistics
+	# +name+			- player's name
+	# +settings+		- player's settings
+	# +availableHelps+	- amount of help that the player can spend
 
-	attr_accessor :pseudo
+	attr_accessor :name
+	attr_reader :settings
+	
+	private_class_method :new
 
 	##
-	# Create a new Profile object
+	# Creates a new User object
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
-	#   - +statistics+	-> player's statistics
-	def initialize(name, stats)
+	def User.create(name)
+		new(name)
+	end 
+	
+	def initialize(name)
 		@name = name
-		@statistics = Statistics.new(stats)
+		@settings = UserSettings.new()
+		@availableHelps = 0
 	end
-
+	
 	##
-	# * *Returns* :
-	#   - player's statistics
-	def getStats
-		return @statistics.stats
+	# Adds an amount of helps to the available help count
+	# * *Arguments* :
+	#   - +amount+		-> a Fixnum representing an amount of help
+	def addHelp (amount)
+		unless (amount < 0)
+			@availableHelps += amount
+		else
+			raise NegativeAmountException
+		end
 	end
-
+	
 	##
-	# Updates player's statistics
-	# * *Returns* :
-	#   - the new statistics
-	def setStats(newStats)
-		@statistics.stats = newStats
+	# removes an amount of helps to the available help count
+	# * *Arguments* :
+	#   - +amount+		-> a Fixnum representing an amount of help
+	def removeHelp (amount)
+		unless (amount < 0)
+			@availableHelps += amount
+		else
+			raise NegativeAmountException
+		end
 	end
-
+	
 	##
-  	# Change the user's name
-  	# * *Returns* :
-	#   - the new name
-  	def changeName(newName)
-  	  @name = newName
-  	end
+	#
+	def marshal_dump ()
+		dumpedSettings = @settings.marshal_dump()
+		[@name,dumpedSettings,@availableHelps]
+	end
+	##
+	#
+	def marshal_load (array)
+		@name,dumpedSettings,@availableHelps = array
+		@settings.marshal_load(dumpedSettings)
+		return self
+	end
+	
+	##Je crois que j'ai fais NIMP sur le marshal mais j'y reviens plus tard
 end
-
-=begin
-x = "stats test"
-y = "new stats test"
-user = User.new("toto", x)
-puts user.getStats
-user.setStats(y)
-puts user.getStats
-=end

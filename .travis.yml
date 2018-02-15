@@ -2,9 +2,10 @@ env:
   global:
     - CC_TEST_REPORTER_ID=7a12086c2cd20f0d9bd08f69da22d2eb1f9908af0c3640eefcab158438c41c1d
 
+sudo: required
 language: ruby
 rvm:
-  - 2.2.0
+  - 2.3.3
 
 
 before_script:
