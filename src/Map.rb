@@ -22,12 +22,12 @@ class Map
 
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_reader :hypotheses
-
+	
+	#The solution (a Grid) of the map
 	attr_reader :solution
 
 	# +timeToDo+    - The estimated time to resolve the game
 	# +difficulty+  - The estimated difficulty of the map
-	# +solution+    - The solution (a Grid) of the map
 	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
 	# +lneSolution+ - The numbers representing the lines solution (An array of arrays) 
 

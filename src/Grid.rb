@@ -147,6 +147,15 @@ class Grid
 		return self
 	end
 
+	def each_cell_with_index()
+		self.each_line_with_index do |line, j|
+			line.each_index do |i|
+				yield @grid[j][i], j, i
+			end
+		end
+		return self
+	end
+
 	##
 	# Return the grid into a String, for debug printing
 	# * *Returns* :
