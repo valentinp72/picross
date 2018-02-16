@@ -1,6 +1,7 @@
 require_relative '../Frame'
 
 require_relative '../../Map'
+require_relative '../../Cell'
 
 class GameFrame < Frame
 
@@ -11,22 +12,27 @@ class GameFrame < Frame
 		setGame()
 
 		@area.signal_connect('button_press_event') do |draw, button|
-#print "click '#{button.y}, #{button.x}' \n"
-			gridPosY = (button.y / @cellSize * 1000).floor / 1000.0
-			gridPosX = (button.x / @cellSize * 1000).floor / 1000.0
-			cell = @grid.getCellPosition(gridPosY, gridPosX)
-			cell.stateRotate
-			@wantedState = cell.state
-			puts @wantedState
-#print @grid
-			@area.queue_draw
-#userClickedAt(button.y, button.x)
+			gridPosY, gridPosX = getPositions(button.y, button.x)
+			if gridPosY != nil and gridPosX != nil then
+				print "#{gridPosY}, #{gridPosX}\n"
+				cell = @grid.getCellPosition(gridPosY, gridPosX)
+				print cell
+				if button.button == 1 then
+					cell.stateRotate
+				else
+					cell.state = Cell::CELL_CROSSED
+				end
+				puts cell
+				@wantedState = cell.state
+				@area.queue_draw
+				@lastClickedY = gridPosY
+				@lastClickedX = gridPosX
+			end
 		end
 
-		@area.signal_connect('motion_notify_event') do |draw, motionEvent|#draw, button|
-			if motionEvent.state.button1_mask? then
+		@area.signal_connect('motion_notify_event') do |draw, motionEvent|
+			if motionEvent.state.button1_mask? || motionEvent.state.button2_mask? then
 				# on a bougé en cliquant
-#print "click '#{motionEvent.y / @cellSize}, #{motionEvent.x / @cellSize}' \n"
 				userClickedAt(motionEvent.y, motionEvent.x)
 			end
 		end
@@ -40,20 +46,32 @@ class GameFrame < Frame
 	end
 
 	def userClickedAt(yPos, xPos)
-		gridPosY = (yPos / @cellSize * 1000).floor / 1000.0
-		gridPosX = (xPos / @cellSize * 1000).floor / 1000.0
-		if gridPosX != @lastClickedX || gridPosY != @lastClickedY then
-			begin
-				@grid.getCellPosition(gridPosY, gridPosX).state = @wantedState
-				@area.queue_draw
-				@lastClickedY = gridPosY
-				@lastClickedX = gridPosX
-			rescue
-				print "Invalid position"
+		gridPosY, gridPosX = getPositions(yPos, xPos)
+		if gridPosY != nil and gridPosX != nil then
+			if gridPosX != @lastClickedX || gridPosY != @lastClickedY then
+				begin
+					@grid.getCellPosition(gridPosY, gridPosX).state = @wantedState
+					@area.queue_draw
+					@lastClickedY = gridPosY
+					@lastClickedX = gridPosX
+				rescue
+					print "Invalid position"
+				end
 			end
 		end
 	end
 
+	def getPositions(yFramePosition, xFramePosition)
+		gridPosY = (yFramePosition / @cellSize).floor 
+		gridPosX = (xFramePosition / @cellSize).floor 
+
+		if @grid.validPosition?(gridPosY, gridPosX) then
+			return [gridPosY, gridPosX]
+		else
+			return nil
+		end
+	end
+	
 	def setGame()
 
 		@area.signal_connect "draw" do

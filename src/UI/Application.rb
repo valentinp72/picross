@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'gtk3'
 
 require_relative 'Window'

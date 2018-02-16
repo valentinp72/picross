@@ -73,6 +73,16 @@ class Grid
 		return self
 	end
 
+	##
+	# Returns true if the given position is a valid coordinate, false otherwise
+	# * *Arguments* :
+	#   - +line+ -> the line to check at
+	#   - +column+ -> the column to check at
+	# * *Returns* :
+	#   - true if correct, false otherwise
+	def validPosition?(line, column)
+		return line < @lines && line >= 0 && column < @columns && column >= 0
+	end
 
 	##
 	# Return the cell at given position
@@ -84,7 +94,7 @@ class Grid
 	# * *Raises* :
 	#   - +InvalidCellPositionException+ -> if given coordinates are invalid
 	def getCellPosition(line, column)
-		if line >= @lines or line < 0 or column >= @columns or column < 0 then
+		if not validPosition?(line, column)
 			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"
 		end
 		return @grid[line][column]

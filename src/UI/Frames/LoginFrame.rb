@@ -10,7 +10,7 @@ class LoginFrame < Frame
 		@btn_login.set_size_request 70, 30
 
 		@btn_login.signal_connect("clicked") do
-			self.parent.setFrame(GameFrame.new(Map.load('../test.map')))
+			self.parent.setFrame(GameFrame.new(Map.load('../planet.map')))
 		end
 		add(@btn_login)
 	end

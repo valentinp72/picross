@@ -20,7 +20,7 @@ class Cell
 	CELL_CROSSED = 2
 
 	# List of all possible states in a ordered array
-	LIST_CELLS   = [CELL_BLACK, CELL_CROSSED, CELL_WHITE]
+	LIST_CELLS   = [CELL_BLACK, CELL_WHITE]
 
 	# The state of the cell
 	attr_reader :state
