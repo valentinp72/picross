@@ -24,9 +24,9 @@ class Application < Gtk::Application
 
 		signal_connect "startup" do |application|
 			builder = Gtk::Builder.new()
-			builder.add_from_file("app-menu.ui")
-			set_app_menu(builder.get_object("appmenu"))
-			set_menubar(builder.get_object("menubar"))
+#builder.add_from_file("app-menu.ui")
+#			set_app_menu(builder.get_object("appmenu"))
+#			set_menubar(builder.get_object("menubar"))
 		end
 
 		addAllActions(["about", "preferences", "quit", "close"])
