@@ -1,4 +1,4 @@
-require 'Application'
+require_relative 'Application'
 
 class Frame < Gtk::Frame
 
