@@ -12,7 +12,7 @@ class UserSettings
 	## Class variables :
 	# +validLang+ - List of supported languages
 	
-	@@validLang = ['FR']
+	@@validLang = ["FR"]
 	
 	## Instance variable :
 	# +language+	- the game's displayed language
@@ -42,8 +42,11 @@ class UserSettings
 	end
 
 	def marshal_load (array)
-		@language = array
+		@language = array[0]
 		return self
 	end
 	
+	def to_s
+		return "language=#{@language}"
+	end
 end
