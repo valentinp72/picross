@@ -1,9 +1,10 @@
-load 'UserSettings.rb'
 require_relative 'UserSettings'
+require_relative 'Chapter'
+require 'fileutils'
 
 ##
 # File			:: User.rb
-# Author		:: COHEN Mehdi
+# Author		:: COHEN Mehdi & PASTOURET Gilles
 # Licence		:: MIT Licence
 # Creation date	:: 01/27/2018
 # Last update	:: 02/12/2018
@@ -11,9 +12,16 @@ require_relative 'UserSettings'
 # This class represents a user's profile
 # 
 class User
-
+	## Class variables
+	# +userDirectoryPath+
+	
+	@@allUsersPath = './Users/'
+	
+	## Instance variables
 	# +name+			- player's name
 	# +settings+		- player's settings
+	# +chapters+			- array of chapters own by the user
+	# +userPath+
 	# +availableHelps+	- amount of help that the player can spend
 
 	attr_accessor :name
@@ -32,8 +40,45 @@ class User
 	def initialize(name)
 		@name = name
 		@settings = UserSettings.new()
+		@userPath = @@allUsersPath+'User_'+name+'/'
+		#@chapters = Chapter.default ##loads default chapters
+		
 		@availableHelps = 0
 	end
+	
+	
+	def save
+		## Create the user's directory if it doesn't exist
+		if(!Dir.exists?(@userPath))
+			FileUtils::mkdir_p(@userPath)
+		end
+		## Saving marshalled User and UserSettings
+		configFile = File.new(@userPath+'Sconfig','w')
+		dataConfig = marshal_dump()
+		
+		configFile.write(Marshal.dump(dataConfig))
+		configFile.close
+		
+		## Saving chapters
+		#@chapters.each do |chap|
+		#	chap.save(@userPath+'Chapters/')
+		#end
+	end
+	
+	##
+	#
+	def marshal_dump ()
+		dumpedSettings = @settings.marshal_dump()
+		[@name,dumpedSettings,@availableHelps]
+	end
+	##
+	#
+	def marshal_load (array)
+		@name,dumpedSettings,@availableHelps = array
+		@settings.marshal_load(dumpedSettings)
+		return self
+	end
+	
 	
 	##
 	# Adds an amount of helps to the available help count
@@ -59,19 +104,9 @@ class User
 		end
 	end
 	
-	##
-	#
-	def marshal_dump ()
-		dumpedSettings = @settings.marshal_dump()
-		[@name,dumpedSettings,@availableHelps]
-	end
-	##
-	#
-	def marshal_load (array)
-		@name,dumpedSettings,@availableHelps = array
-		@settings.marshal_load(dumpedSettings)
-		return self
-	end
-	
-	##Je crois que j'ai fais NIMP sur le marshal mais j'y reviens plus tard
 end
+
+##Test
+
+user = User.create('Mehdi')
+user.save
