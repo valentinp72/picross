@@ -5,10 +5,9 @@ require_relative '../../User'
 class LoginFrame < Frame
 
 	def initialize()
-		puts __FILE__
 		super()
 		self.border_width = 100
-		@path = File.expand_path(File.dirname(__FILE__) + '/' + '../../Users')
+		@path = File.expand_path(File.dirname(__FILE__) + '/' + '../../../Users')
 
 
 		@comboBox = Gtk::ComboBoxText.new
@@ -29,7 +28,6 @@ class LoginFrame < Frame
 	end
 
 	def getSelectedUser()
-		puts "\n\n#{@path+'/User_'+@comboBox.active_text}\n\n"
 		return User.load(@path + "/User_" + @comboBox.active_text)
 	end
 
