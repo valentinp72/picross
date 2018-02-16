@@ -37,8 +37,7 @@ class RetrievePicrossWeb
 		# The two options are exclusive, it's either one or the other
 		if(arguments[:link]) then
 			RetrievePicrossWeb.fromURL(arguments[:link])
-		elsif condition
-			(arguments[:file])then
+		elsif (arguments[:file])then
 			RetrievePicrossWeb.fromFILE(arguments[:file])
 		end
 
