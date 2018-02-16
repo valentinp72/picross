@@ -29,6 +29,7 @@
 \usepackage{setspace}
 \usepackage{graphicx}
 \usepackage{titlesec, blindtext, color} % titres spéciaux + couleur pour les chapter
+\usepackage{fancyhdr}
 
 % on transforme les chapters en juste le numéro suivi du titre, avec un barre grisse
 \definecolor{gray75}{gray}{0.75}
@@ -46,6 +47,27 @@
 \makeatletter
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 \makeatother
+
+
+%Définition du style des bords de page
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\bsc{\thechapter{}- } #1}{}}
+\lhead{}
+\chead{}
+\rhead{\leftmark}
+\lfoot{Groupe n\up{o}2}
+\cfoot{}
+\rfoot{Page \thepage}
+
+\fancypagestyle{plain}{%
+    \lhead{}
+    \chead{}
+    \rhead{}
+    \renewcommand{\headrulewidth}{0pt}
+    \lfoot{Groupe n\up{o}2}
+    \cfoot{}
+    \rfoot{Page \thepage}
+}
 
 \begin{document}
 
@@ -105,9 +127,13 @@
 %%%%%%%%%%
 \renewcommand{\contentsname}{Sommaire}
 \tableofcontents
+\thispagestyle{empty}
+\thispagestyle{plain}
 
 
 \chapter{Présentation}
+\thispagestyle{empty}
+\thispagestyle{plain}
 
 	\section{Introduction}
 
@@ -148,6 +174,8 @@
 
 		
 \chapter{Conception générale}
+\thispagestyle{empty}
+\thispagestyle{plain}
 
     \section{Diagramme de Gantt détaillé}
     
@@ -158,7 +186,7 @@
    
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
-
+\newpage
    \section{Besoins fonctionnels}
    
     En plus de la génération et de la gestion d'une partie, le programme doit contenir les fonctionnalités suivantes:
@@ -294,15 +322,11 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
     \item En mode normal : coloriage d'une case correcte 
     \item En mode difficile : indication d'une ligne ou colonne où se trouve une case correcte non coloriée
     \end{itemize}
-
-
-  \section{IHM}
-  
-  Les maquettes de l'interface sont accessibles en Annexe.
-  
   
 			
 \chapter{Conception détaillé}
+\thispagestyle{empty}
+\thispagestyle{plain}
 
     \section{Diagramme de classe}
     
@@ -322,6 +346,8 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 
 
 \chapter{Annexes}
+\thispagestyle{empty}
+\thispagestyle{plain}
 
 		\section{Exemple partie évolutive}
 	
