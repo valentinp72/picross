@@ -1,5 +1,6 @@
 require_relative '../Frame'
 require_relative 'HomeFrame'
+require_relative 'NewUserFrame'
 require_relative '../../User'
 
 class LoginFrame < Frame
@@ -13,16 +14,26 @@ class LoginFrame < Frame
 		@comboBox = Gtk::ComboBoxText.new
 		retrieveUser.each{|u| @comboBox.append_text(u)}
 
-		@btn_login = Gtk::Button.new(:label => "Login")
-		@btn_login.set_size_request 70, 30
+		@loginBtn = Gtk::Button.new(:label => "Login")
 
-		@btn_login.signal_connect("clicked") do
-			self.parent.setFrame(HomeFrame.new(getSelectedUser))
+		@createBtn = Gtk::Button.new(:label => "Create new account")
+
+		@vbox = Gtk::Box.new(:vertical, 3)
+		@vbox.pack_start(@comboBox, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@loginBtn, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@createBtn, :expand => true, :fill => true, :padding =>2)
+
+		@loginBtn.signal_connect("clicked") do
+			user = getSelectedUser
+			if(user != nil) then
+				self.parent.setFrame(HomeFrame.new(user))
+			end
 		end
 
-		@vbox = Gtk::Box.new(:vertical, 2)
-		@vbox.pack_start(@comboBox, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@btn_login, :expand => true, :fill => true, :padding =>2)
+		@createBtn.signal_connect("clicked") do
+			self.parent.setFrame(NewUserFrame.new())
+		end
+
 		add(@vbox)
 
 	end

@@ -8,28 +8,29 @@ class HomeFrame < Frame
 		super()
 		self.border_width = 100
 
-		config = YAML.load(File.open("../config.yml"))
+		#Retrieve user's language
 		lang = user.settings.language
-		puts "\n" + lang + "\n"
-		puts config["languages"]["fr"]
+		config = YAML.load(File.open("../../Config/lang_#{lang}"))
 
 		@vbox = Gtk::Box.new(:vertical, 5)
 
-		@playBtn = Gtk::Button.new(:label => config["languages"][lang]["play"])
-		@rankBtn = Gtk::Button.new(:label => config["languages"][lang]["rank"])
-		@ruleBtn = Gtk::Button.new(:label => config["languages"][lang]["rule"])
-		@optionBtn = Gtk::Button.new(:label => config["languages"][lang]["option"])
-		@exitBtn = Gtk::Button.new(:label => config["languages"][lang]["exit"])
+		@playBtn = Gtk::Button.new(:label => config["home"]["play"])
+		@rankBtn = Gtk::Button.new(:label => config["home"]["rank"])
+		@ruleBtn = Gtk::Button.new(:label => config["home"]["rule"])
+		@optiBtn = Gtk::Button.new(:label => config["home"]["option"])
+		@exitBtn = Gtk::Button.new(:label => config["button"]["exit"])
 
 		@vbox.pack_start(@playBtn, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@rankBtn, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@ruleBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@optionBtn, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@optiBtn, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@exitBtn, :expand => true, :fill => true, :padding =>2)
 
 		@playBtn.signal_connect("clicked") do
 			self.parent.setFrame(GameFrame.new(Map.load('../test.map')))
 		end
+		#Add vbox to frame
 		add(@vbox)
+
 	end
 end
