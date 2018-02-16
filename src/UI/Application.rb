@@ -24,7 +24,8 @@ class Application < Gtk::Application
 
 		signal_connect "startup" do |application|
 			builder = Gtk::Builder.new()
-			builder.add_from_file("app-menu.ui")
+			appmenuPath = File.expand_path(File.dirname(__FILE__) + '/app-menu.ui')
+			builder.add_from_file(appmenuPath)
 			set_app_menu(builder.get_object("appmenu"))
 			set_menubar(builder.get_object("menubar"))
 		end
