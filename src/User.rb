@@ -1,4 +1,3 @@
-load 'UserSettings.rb'
 require_relative 'UserSettings'
 
 ##
@@ -9,7 +8,7 @@ require_relative 'UserSettings'
 # Last update	:: 02/12/2018
 #
 # This class represents a user's profile
-# 
+#
 class User
 
 	# +name+			- player's name
@@ -18,23 +17,17 @@ class User
 
 	attr_accessor :name
 	attr_reader :settings
-	
-	private_class_method :new
 
 	##
 	# Creates a new User object
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
-	def User.create(name)
-		new(name)
-	end 
-	
 	def initialize(name)
 		@name = name
 		@settings = UserSettings.new()
 		@availableHelps = 0
 	end
-	
+
 	##
 	# Adds an amount of helps to the available help count
 	# * *Arguments* :
@@ -46,7 +39,7 @@ class User
 			raise NegativeAmountException
 		end
 	end
-	
+
 	##
 	# removes an amount of helps to the available help count
 	# * *Arguments* :
@@ -58,20 +51,27 @@ class User
 			raise NegativeAmountException
 		end
 	end
-	
-	##
-	#
-	def marshal_dump ()
-		dumpedSettings = @settings.marshal_dump()
-		[@name,dumpedSettings,@availableHelps]
-	end
-	##
-	#
-	def marshal_load (array)
-		@name,dumpedSettings,@availableHelps = array
-		@settings.marshal_load(dumpedSettings)
+
+	def save()
+		print(Dir.pwd)
+		File.open("../Users/User_#{@name}" , 'w'){|f| f.write(Marshal.dump(self))}
 		return self
 	end
-	
-	##Je crois que j'ai fais NIMP sur le marshal mais j'y reviens plus tard
+
+	def User.load(filename)
+		return Marshal.load(File.read(filename))
+	end
+	##
+	#
+	def marshal_dump()
+		[@name,@settings,@availableHelps]
+	end
+
+	##
+	#
+	def marshal_load(array)
+		@name,@settings,@availableHelps = array
+		return self
+	end
+
 end

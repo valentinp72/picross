@@ -1,0 +1,15 @@
+---
+languages:
+   en :
+    play : "Play"
+    rank : "Ranking"
+    rule : "Rules"
+    option : "Options"
+    exit : "Exit"
+   fr :
+    play : "Jouer"
+    rank : "Classement"
+    rule : "Regles"
+    option : "Options"
+    exit : "Quitter"
+...

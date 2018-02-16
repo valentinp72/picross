@@ -6,26 +6,26 @@
 # Last update	:: 02/12/2018
 #
 # This class defines the settings of an user
-# 
+#
 
 class UserSettings
 	## Class variables :
 	# +validLang+ - List of supported languages
-	
-	@@validLang = ['FR']
-	
+
+	@@validLang = ["fr","en"]
+
 	## Instance variable :
 	# +language+	- the game's displayed language
-	
+
 	attr_reader :language
-	
+
 	##
 	# Initialises the language to a default value
 	#
 	def initialize()
 		@language = @@validLang[0]
 	end
-	
+
 	##
 	# Changes the language value
 	#
@@ -37,13 +37,13 @@ class UserSettings
 		end
 	end
 
-	def marshal_dump ()
+	def marshal_dump()
 		[@language]
 	end
 
-	def marshal_load (array)
-		@language = array
+	def marshal_load(array)
+		@language = array[0]
 		return self
 	end
-	
+
 end
