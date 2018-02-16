@@ -7,6 +7,10 @@
 #
 # This class represents a Timer
 # 
+
+
+### En chantier !!!
+
 class Timer
 	@elapsedTime
 	@timerThread
