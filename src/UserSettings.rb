@@ -47,6 +47,6 @@ class UserSettings
 	end
 	
 	def to_s
-		print "language="+@language+"\n"
+		return "language=#{@language}"
 	end
 end

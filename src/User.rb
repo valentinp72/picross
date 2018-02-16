@@ -1,10 +1,11 @@
 require_relative 'UserSettings'
 require_relative 'Chapter'
+require_relative 'Map'
 require 'fileutils'
 
 ##
 # File			:: User.rb
-# Author		:: COHEN Mehdi & PASTOURET Gilles
+# Author		:: COHEN Mehdi, PASTOURET Gilles
 # Licence		:: MIT Licence
 # Creation date	:: 01/27/2018
 # Last update	:: 02/12/2018
@@ -32,15 +33,25 @@ class User
 	##
 	# Creates a new User object
 	# * *Arguments* :
-	#   - +name+		-> a String representing the user's name
+	#   - +name+ -> a String representing the user's name
 	def User.create(name)
 		new(name,'create')
 	end 
 	
+	##
+	# Loads a new User object
+	# * *Arguments* :
+	#   - +name+ -> a String representing the user's name
 	def User.load(name)
 		new(name,'load')
 	end 
 	
+	##
+	# Initialises a user by creation or loading
+	# * *Arguments* :
+	#   - +name+ -> Name of the user
+	#   - +mode+ -> 'load' to load from a serialized object 
+	#				or 'create' to create a new one
 	def initialize(name,mode)
 		@name = name
 		@userPath = @@allUsersPath+'User_'+name+'/'
@@ -48,7 +59,8 @@ class User
 		
 		if mode=='create'
 			@name = name
-			#@chapters = Chapter.default ##loads default chapters
+			@chapters = [Chapter.new('Chapter_test1', [], 99),
+						Chapter.new('Chapter_test2', [], 99)] ##loads default chapters
 			@availableHelps = 0
 			
 		elsif mode=='load'
@@ -66,7 +78,27 @@ class User
 		end
 	end
 	
+	##
+	# Prepare the object for a Marshal dump by converting the chapter 
+	# into an array.
+	# * *Returns* :
+	#   - the user and its components converted into an array
+	def marshal_dump ()
+		dumpedSettings = @settings.marshal_dump()
+		[@name,dumpedSettings,@availableHelps]
+	end
 	
+	##
+	# Updates all the instance variables from the given array
+	# * *Arguments* :
+	#   - +array+ -> the array to transform to instances variables
+	# * *Returns* :
+	#   - this object
+	def marshal_load (array)
+		@name,dumpedSettings,@availableHelps = array
+		@settings.marshal_load(dumpedSettings)
+		return self
+	end
 	
 	##
 	# Saves a user and his associated chapters
@@ -75,33 +107,21 @@ class User
 		if(!Dir.exists?(@userPath))
 			FileUtils::mkdir_p(@userPath)
 		end
-		## Saving marshalled User and UserSettings
+		## Saving the dumped User+UserSettings into config
 		configFile = File.new(@userPath+'config','w')
 		dataConfig = self.marshal_dump()
-		
-		puts Marshal.dump(dataConfig).to_s.inspect ###
 		
 		configFile.write(Marshal.dump(dataConfig))
 		configFile.close
 		
 		## Saving chapters
-		#@chapters.each do |chap|
-		#	chap.save(@userPath+'Chapters/')
-		#end
-	end
-	
-	##
-	#
-	def marshal_dump ()
-		dumpedSettings = @settings.marshal_dump()
-		[@name,dumpedSettings,@availableHelps]
-	end
-	##
-	#
-	def marshal_load (array)
-		@name,dumpedSettings,@availableHelps = array
-		@settings.marshal_load(dumpedSettings)
-		return self
+		chaptersPath = @userPath+'Chapters'
+		if(!Dir.exists?(chaptersPath))
+			FileUtils::mkdir_p(chaptersPath)
+		end
+		@chapters.each do |chap|
+			chap.save(@userPath+'Chapters/')
+		end
 	end
 	
 	
@@ -129,11 +149,10 @@ class User
 		end
 	end
 	
+	##
+	# Returns a String representing the user
 	def to_s
-		print "User_"+@name+": "
-		print "availableHelps="+@availableHelps.to_s+"\n"
-		print "Settings :"
-		print @settings.to_s
+		return "User : name=#{@name} availableHelps=#{@availableHelps}"
 	end
 end
 
@@ -141,9 +160,10 @@ end
 ###Test
 user1 = User.create('Mehdi')
 print "#####Avant recharge : \n"
-print user1.to_s
+print user1.to_s+' '+user1.settings.to_s
+user1.save()
 
 user2 = User.load('Mehdi')
 puts "\n#####Après recharge : \n"
-print user2.to_s
+print user2.to_s+' '+user2.settings.to_s
 
