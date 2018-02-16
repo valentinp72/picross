@@ -8,7 +8,9 @@ class HomeFrame < Frame
 		super()
 		self.border_width = 100
 
-		config = YAML.load(File.open("../config.yml"))
+		configFile = File.expand_path(File.dirname(__FILE__) + '/' + '../../config.yml')
+
+		config = YAML.load(File.open(configFile))
 		lang = user.settings.language
 		puts "\n" + lang + "\n"
 		puts config["languages"]["fr"]
@@ -28,7 +30,8 @@ class HomeFrame < Frame
 		@vbox.pack_start(@exitBtn, :expand => true, :fill => true, :padding =>2)
 
 		@playBtn.signal_connect("clicked") do
-			self.parent.setFrame(GameFrame.new(Map.load('../test.map')))
+			tmpMapPath = File.expand_path(File.dirname(__FILE__) + '/../../map.tmp/planet.map')
+			self.parent.setFrame(GameFrame.new(Map.load(tmpMapPath)))
 		end
 		add(@vbox)
 	end

@@ -22,6 +22,7 @@ BUILD_ALL_FOLDERS  = [BUILD_MAC_OS, BUILD_LINUX_x86, BUILD_LINUX_x86_64]
 
 # application source folder
 SOURCE_FOLDER      = 'src/'
+OTHER_FOLDERS      = ['Users/']
 
 # ruby file to be excecuted by the application
 EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
@@ -109,6 +110,7 @@ task :build_macOS do
 	FileUtils.mkdir_p(sourceFolder)
 	FileUtils.cp_r(RUBY_BIN_MAC_OS, sourceFolder + 'ruby/')
 	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)
+	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)
 	FileUtils.cp(EXECUTABLE_SCRIPT, sourceFolder)
 
 	resourcesFolder = outputFolder + 'Resources/'
