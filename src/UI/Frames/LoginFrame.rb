@@ -1,11 +1,13 @@
 require_relative '../Frame'
+require_relative 'HomeFrame'
+require_relative '../../User'
 
 class LoginFrame < Frame
 
 	def initialize()
 		super()
 		self.border_width = 100
-
+		@path = "../../Users"
 
 
 		@comboBox = Gtk::ComboBoxText.new
@@ -15,19 +17,21 @@ class LoginFrame < Frame
 		@btn_login.set_size_request 70, 30
 
 		@btn_login.signal_connect("clicked") do
-			self.parent.setFrame(HomeFrame.new())
+			self.parent.setFrame(HomeFrame.new(getSelectedUser))
 		end
 
 		@vbox = Gtk::Box.new(:vertical, 2)
 		@vbox.pack_start(@comboBox, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@btn_login, :expand => true, :fill => true, :padding =>2)
-
-		#add(@btn_login)
+		add(@vbox)
 
 	end
 
+	def getSelectedUser()
+		return User.load("../../Users/User_" + @comboBox.active_text)
+	end
+
 	def retrieveUser()
-		path = "../Users"
-		return Dir.entries(path).select { |f| f.match(/User\_(.*)/)}.select{|x| x.slice!(0,5)}
+		return Dir.entries(@path).select { |f| f.match(/User\_(.*)/)}.select{|x| x.slice!(0,5)}
 	end
 end
