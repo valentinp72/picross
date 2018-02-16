@@ -1,5 +1,6 @@
 
-(Voir https://www.thonky.com/picross/ pour mieux comprendre les exemples)
+(Voir https://www.thonky.com/picross/ pour mieux comprendre les exemples
+et https://rosettacode.org/wiki/Nonogram_solver (Java, Python...)
 
 1) Lignes pleines 
 Exemples : -indice=5 et grille 5*5 ---> on remplit tout
