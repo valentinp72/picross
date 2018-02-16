@@ -34,27 +34,52 @@ class User
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
 	def User.create(name)
-		new(name)
+		new(name,'create')
 	end 
 	
-	def initialize(name)
+	def User.load(name)
+		new(name,'load')
+	end 
+	
+	def initialize(name,mode)
 		@name = name
-		@settings = UserSettings.new()
 		@userPath = @@allUsersPath+'User_'+name+'/'
-		#@chapters = Chapter.default ##loads default chapters
+		@settings = UserSettings.new()
 		
-		@availableHelps = 0
+		if mode=='create'
+			@name = name
+			#@chapters = Chapter.default ##loads default chapters
+			@availableHelps = 0
+			
+		elsif mode=='load'
+			if(Dir.exists?(@userPath))
+				configFile = File.open(@userPath+'config','r')
+				
+				binaryConfig = ''
+				while !configFile.eof?
+					binaryConfig += configFile.gets
+				end
+				
+				self.marshal_load(Marshal.load(binaryConfig))
+				configFile.close
+			end
+		end
 	end
 	
 	
-	def save
+	
+	##
+	# Saves a user and his associated chapters
+	def save ()
 		## Create the user's directory if it doesn't exist
 		if(!Dir.exists?(@userPath))
 			FileUtils::mkdir_p(@userPath)
 		end
 		## Saving marshalled User and UserSettings
-		configFile = File.new(@userPath+'Sconfig','w')
-		dataConfig = marshal_dump()
+		configFile = File.new(@userPath+'config','w')
+		dataConfig = self.marshal_dump()
+		
+		puts Marshal.dump(dataConfig).to_s.inspect ###
 		
 		configFile.write(Marshal.dump(dataConfig))
 		configFile.close
@@ -104,9 +129,21 @@ class User
 		end
 	end
 	
+	def to_s
+		print "User_"+@name+": "
+		print "availableHelps="+@availableHelps.to_s+"\n"
+		print "Settings :"
+		print @settings.to_s
+	end
 end
 
-##Test
 
-user = User.create('Mehdi')
-user.save
+###Test
+user1 = User.create('Mehdi')
+print "#####Avant recharge : \n"
+print user1.to_s
+
+user2 = User.load('Mehdi')
+puts "\n#####Après recharge : \n"
+print user2.to_s
+
