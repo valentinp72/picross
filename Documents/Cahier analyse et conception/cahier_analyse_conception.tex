@@ -131,7 +131,7 @@
 
 	Pour simplifier la vérification de la qualité du code produit, nous utilisons Code Climate (maintenabilité) ainsi que Travis CI (compilation et tests).
 
-	Le language de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}\footnote{\label{rdoc}Notre documentation en temps réel est disponible à l'adresse \url{https://picross.vlntn.pw/doc/}}. L’utilisation des bibliothèques de \textit{GTK} sera utilisé pour la réalisation des interfaces graphiques.
+	Le langage de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}\footnote{\label{rdoc}Notre documentation en temps réel est disponible à l'adresse \url{https://picross.vlntn.pw/doc/}}. L’utilisation des bibliothèques de \textit{GTK} sera utilisé pour la réalisation des interfaces graphiques.
 	
 	\subsection{Gems utilisés}
 	Nous utilisons les \textit{gems} Ruby suivants:
@@ -171,8 +171,8 @@
 \toprule
 \textbf{Catégorie}                                          & \multicolumn{1}{c}{\textbf{Besoins Fonctionnels}}                                             \\ \midrule
 \multicolumn{1}{|c|}{\multirow{3}{*}{\textbf{Aide}}}        & \multicolumn{1}{l|}{BF1.1: Gagner une utilisation d'aide}                                     \\ \cmidrule(l){2-2} 
-\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF1.2 : Utiliser une aide gratuite}                                       \\ \cmidrule(l){2-2} 
-\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF1.3 :  Acheter une aide}                                                \\ \midrule
+\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF1.2 : Acheter une aide}                                       \\ \cmidrule(l){2-2} 
+\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF1.3 :  Utiliser une aide gratuite}                                                \\ \midrule
 \multicolumn{1}{|c|}{\multirow{3}{*}{\textbf{Chronomètre}}} & \multicolumn{1}{l|}{BF2.1 :  Accéder au score à la fin d'une partie}                          \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF2.2 : Mettre la partie en pause}                                        \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF2.3: Reprendre une partie mise en pause}                                \\ \midrule
@@ -183,56 +183,55 @@
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF4.2 : Charger automatiquement une partie à son lancement}               \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF4.3 : Stocker localement les sauvegardes}                               \\ \midrule
 \multicolumn{1}{|c|}{\multirow{4}{*}{\textbf{IHM}}}         & \multicolumn{1}{l|}{BF5.1 : Afficher la grille en noir et blanc}                              \\ \cmidrule(l){2-2} 
-\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.2 : Etre compatible avec plusieurs peripheriques (clavier, souris)}   \\ \cmidrule(l){2-2} 
+\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.2 : Être compatible avec plusieurs périphériques (clavier, souris)}   \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.3 : Mettre en valeur des chiffres associés aux cases remplies}        \\ \cmidrule(l){2-2} 
-\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.4 : Afficher la quantité de cases selectionnées (selection multiple)} \\ \bottomrule
+\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.4 : Afficher la quantité de cases sélectionnées (sélection multiple)} \\ \bottomrule
 \end{tabular}
 \end{table}    
     
 %\renewcommand\thesubsection{\arabic{subsection}}
  \setcounter{secnumdepth}{5}
  
- 	\subsection{Proposer une aide adaptée au niveau de difficulté}
- 		\subsubsection{Appel d'aide sanctionné, sauf cas contraire}
- 				L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite.
-		\subsubsection{Niveau didacticiel}
-				L'utilisateur peut accéder à un chapitre dédié à l'apprentissage des règles du picross et du fonctionnement du logiciel.
+ 	\subsection{Aide}
+ 	    \subsubsection{Gagner une utilisation d'aide}
+ 	            L'utilisateur a la possibilité de gagner des aides gratuites en complétant des grilles et en terminant les niveaux.
+ 		\subsubsection{Acheter une aide}
+ 			    Durant une partie, si il en a besoin, le joueur peut utiliser une aide en échange d'une pénalité de temps, sauf s'il en dispose d'une gratuite.
+		\subsubsection{Utiliser une aide gratuite}
+				L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite, en quel cas, l'aide n'entraînera aucune pénalité de temps.
 
-    \subsection{Utilisation d'un chronomètre}
-			\subsubsection{Génération de scores en fin de partie}
+    \subsection{chronomètre}
+			\subsubsection{Accéder au score à la fin d'une partie}
 				A la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
-			\subsubsection{Mise en pause possible}
-				A n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée
-	
+			\subsubsection{Mettre la partie en pause}
+				A n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée.
+	        \subsubsection{Reprendre une partie mise en pause}
+    			Suite à une mise en pause, le joueur peut dés qu'il est prêt, relancer la partie.
 	\subsection{Hypothèses}
 		\subsubsection{Créer une hypothèse}
 			Durant la partie, le joueur peut créer une nouvelle hypothèse en cliquant sur le bouton associé. Les cases colorées seront alors d'une couleur différente.
 		\subsubsection{Valider une hypothèse}
-			Lorsque l'hypothèse s'avère juste, l'utilisateur peut choisir de la valider. Les cases colorées deviennent alors noires et l'hypothèse disparait de celles en cours.
+			Lorsque l'hypothèse s'avère juste, l'utilisateur peut choisir de la valider. Les cases colorées deviennent alors noires et l'hypothèse disparaît de celles en cours.
 		\subsubsection{Annuler une hypothèse}
 			Lorsque l'hypothèse est fausse, l'utilisateur pour l'annuler. Les cases colorées suite à la création de l'hypothèse sont alors blanchies.
 		
-	\subsection{Système de sauvegardes}
-		\subsubsection{Sauvegardes effectuées automatiquement}
+	\subsection{Sauvegarde}
+		\subsubsection{Effectuer les sauvegardes automatiquement}
 			A chaque modification de la grille, une nouvelle sauvegarde est effectuée automatiquement, sauvegardant aussi la valeur du chronomètre.
-		\subsubsection{Chargement automatique des sauvegardes au redémarrage de la partie}
-			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprends là ou il était arrêté, et la grille est affichée là ou l'avait laissée le joueur
-			
-	\subsection{Statistiques}
-		\subsubsection{Mise à jour automatique des statistiques}
-			A chaque fin de partie, les statistiques sont mises à jour en fonction du score que le joueur à réalisé lors de cette partie.	
-		\subsubsection{Consultables dans le menu associé}
-			Dans les menus, le joueur peut afficher ses statistiques.
+		\subsubsection{Charger automatiquement une partie à son lancement}
+			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprends là ou il était arrêté, et la grille est affichée là ou l'avait laissée le joueur.
+		\subsubsection{Stocker localement les sauvegardes}
+			Les sauvegardes sont conservées sur la machine de l'utilisateur. Elles ne sont donc pas en ligne.
 			
 	\subsection{Interface Homme Machine}
-		\subsubsection{Grilles en noir et blanc, avec couleurs réservées aux hypothèses.}
-			Les cases sont blanches, et peuvent etre colorées en noir. Lors d'une hypothèse, la couleur peut varier.
-		\subsubsection{Jouable uniquement au clavier, ou uniquement à la souris, ou avec les 2}
+		\subsubsection{Afficher la grille en noir et blanc}
+			Les cases sont blanches, et sont colorées en noir lors de leur validation par le joueur.
+		\subsubsection{Être compatible avec plusieurs périphériques}
 			Le joueur peut jouer avec les périphériques qu'il désire, que ce soit seulement au clavier, seulement à la souris, ou les deux en même temps.
-		\subsubsection{Mise en valeur des chiffres associés aux cases cochées}
+		\subsubsection{Mettre en valeur des chiffres associés aux cases remplies}
 			Quand le joueur colorie des cases, le programme identifie de quel chiffre il s'agit et le met en valeur de façon à faciliter la lisibilité de la grille.
-		\subsubsection{Affichage de la quantité de cases colorées en une selection (selection multiple)}
-			Quand l'utilisateur selectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement concernées.
+		\subsubsection{Afficher la quantité de cases sélectionnées}
+			Quand l'utilisateur sélectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement concernées.
 		
    \section{Diagramme de cas d'utilisations}
       
@@ -259,7 +258,7 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 		Dans le mode classique, le joueur a accès à plusieurs fonctionnalités. Il doit tout d'abord choisir un chapitre débloqué puis une grille. Ensuite, quand il se trouve en partie, il peut tout d'abord interagir avec la grille en cochant une case afin de se repérer dans les cases qui ne doivent pas être coloriées ou en coloriant une case. Il peut également enlever une coche ou une couleur d'une case s'il s'aperçoit qu'il s'est trompé. Il peut aussi sélectionner un groupe de cases à colorier, cocher ou vider. \\
 		Au niveau de l'interface, l'utilisateur peut, à l'aide de boutons, réinitialiser la grille s'il souhaite repartir de zéro ou la valider s'il pense l'avoir finie. S'il la réussit, il sera renvoyé dans le chapitre en cours. Il peut également utiliser différentes aides (en cliquant sur un bouton) qui diffèrent par la clarté de l'indice, leur coût et leur pénalité. Enfin, l'utilisateur peut quitter la partie quand il le souhaite, la grille est sauvegardée automatiquement.
 	
-	\section{Mode evolutif}
+	\section{Mode évolutif}
 	
 	Lors d'une partie en mode évolutif, le joueur choisit une des grilles du mode. Chaque grille choisie a une taille fixe de 5x5 (cases). Pour résoudre cette grille, il a accès aux mêmes fonctionnalités qu'une partie classique soit interagir avec la grille et avec l'interface. \\
 Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) tout en gardant le coin supérieur gauche identique à la grille 5x5 réalisée par l'utilisateur (voir exemple en Annexe). Après cela, le joueur doit remplir la grille 10x10 en ayant les mêmes fonctionnalités que précédemment puis la grille évolue une nouvelle fois en 15x15 et ainsi de suite jusqu'à atteindre la taille maximale de 25x25. Une fois la grille 25x25 réussie, le joueur gagne la partie et est renvoyé sur le choix de la grille.
@@ -273,12 +272,12 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 
 	\section{erreurs}
 	
-		E1: Selection d'un chapitre non-déverouillé
-			Peut arriver lors de la selection d'un chapitre
-			Traitement: accés bloqué au chapitre et mesage rappellant le nombre d'étoiles manquante pour y accéder.
-		E2: Arret de la partie en cours
+		E1: Sélection d'un chapitre non-déverrouillé
+			Peut arriver lors de la sélection d'un chapitre
+			Traitement: accès bloqué au chapitre et message rappelant le nombre d'étoiles manquante pour y accéder.
+		E2: Arrêt de la partie en cours
 			Peut arriver en cours de partie
-			Traitement: lors du redemarrage de la partie, reprise au dernier point de sauvegarde.
+			Traitement: lors du redémarrage de la partie, reprise au dernier point de sauvegarde.
 		
                 E3 : Lancement d'une deuxième instance
                         Dans ce cas, un message d'erreur affiche que le lancement à été bloqué.
@@ -299,7 +298,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 
   \section{IHM}
   
-  Les maquettes de l'interface sont accessibles en Annexe. Une simulation de l'IHM est disponible à l'adresse suivante : \url{https://balsamiq.cloud/sxl7v/pw3tb/r599E}
+  Les maquettes de l'interface sont accessibles en Annexe.
   
   
 			
@@ -359,7 +358,7 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Premier_ecran.png}
-        			\caption{(1) Ecran de connexion}
+        			\caption{(1) Écran de connexion}
     		\end{minipage}
     		\hfill
    		\begin{minipage}[c]{.46\linewidth}
