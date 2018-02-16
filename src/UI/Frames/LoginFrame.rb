@@ -24,9 +24,9 @@ class LoginFrame < Frame
 		@vbox.pack_start(@createBtn, :expand => true, :fill => true, :padding =>2)
 
 		@loginBtn.signal_connect("clicked") do
+			if(@comboBox.active_text != nil) then
 			user = getSelectedUser
-			if(user != nil) then
-				self.parent.setFrame(HomeFrame.new(user))
+			self.parent.setFrame(HomeFrame.new(user))
 			end
 		end
 

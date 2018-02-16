@@ -1,5 +1,6 @@
 require 'yaml'
 
+require_relative 'HomeFrame'
 require_relative '../Frame'
 
 class OptionFrame < Frame
@@ -8,17 +9,23 @@ class OptionFrame < Frame
 		super()
 		self.border_width = 100
 
-		@path = "../../Config"
-		config = YAML.load(File.open("../../Config/lang_#{user.settings.language}"))
-
+		#Retrieve user's language
+		lang = user.settings.language
+		@path = File.dirname(__FILE__) + '/' + "../../../Config/"
+		configFile = File.expand_path(@path + "lang_#{lang}")
+		config = YAML.load(File.open(configFile))
 
 		@vbox = Gtk::Box.new(:vertical, 3)
 		@hbox = Gtk::Box.new(:horizontal, 2)
 
 		@langLabel = Gtk::Label.new(config["option"]["chooseLanguage"])
 
+
 		@comboBox = Gtk::ComboBoxText.new
-		retrieveLanguage.each{|u| @comboBox.append_text(u)}
+		langs = retrieveLanguage
+		langs.each{|u| @comboBox.append_text(u)}
+		# Set default value to the current use language
+		@comboBox.set_active(langs.index(lang))
 
 		@cancelBtn = Gtk::Button.new(:label => config["button"]["cancel"])
 		@validBtn = Gtk::Button.new(:label => config["button"]["valid"])
@@ -34,7 +41,7 @@ class OptionFrame < Frame
 		end
 
 		@validBtn.signal_connect("clicked") do
-			if(@comboBox.active_text != nil && @comboBox.active_text != lang) then
+			if(@comboBox.active_text != nil) then
 					user.settings.language= @comboBox.active_text
 					self.parent.setFrame(HomeFrame.new(user))
 			end
