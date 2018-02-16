@@ -17,7 +17,9 @@ class GameFrame < Frame
 				print "#{gridPosY}, #{gridPosX}\n"
 				cell = @grid.getCellPosition(gridPosY, gridPosX)
 				print cell
+				print button.button, "\n"
 				if button.button == 1 then
+					print "on rotate la cell\n"
 					cell.stateRotate
 				else
 					cell.state = Cell::CELL_CROSSED
