@@ -110,7 +110,7 @@ class Cell
 	# * *Returns* :
 	#   - the cell converted to an array
 	def marshal_dump()
-		return [@nextCells, @state, @hypothesis]
+		return [@state, @hypothesis]
 	end
 
 	##
@@ -121,7 +121,7 @@ class Cell
 	# * *Returns* :
 	#   - the cell itself
 	def marshal_load(array)
-		@nextCells, @state, @hypothesis = array
+		@state, @hypothesis = array
 		initialize(@hypothesis, @state)
 		return self
 	end

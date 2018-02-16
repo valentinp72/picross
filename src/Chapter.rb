@@ -40,7 +40,7 @@ class Chapter
 	end
 
 	##
-	# Convert the chapter to an array, allowing Marshal to dump the object.
+	# Converts the chapter to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the chapter converted to an array
 	def marshal_dump()
@@ -48,7 +48,7 @@ class Chapter
 	end
 
 	##
-	# Update all the instances variables from the array given,
+	# Updates all the instance variables from the given array,
 	# allowing Marshal to load a chapter object.
 	# * *Arguments* :
 	#   - +array+ -> the array to transform to instances variables
@@ -57,5 +57,15 @@ class Chapter
 	def marshal_load(array)
 		@title, @levels, @starsRequired, @isUnlocked = array
 		return self
+	end
+	
+	##
+	def save(path)
+		## Saving the dumped Chapter into a file
+		chapterFile = File.new(path+title+'.chp','w')
+		dataChapter = self.marshal_dump()
+		
+		chapterFile.write(Marshal.dump(dataChapter))
+		chapterFile.close
 	end
 end

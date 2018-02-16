@@ -72,6 +72,4 @@ class User
 	def marshal_load(array)
 		@name,@settings,@availableHelps = array
 		return self
-	end
-
 end
