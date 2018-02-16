@@ -9,8 +9,9 @@ class NewUserFrame < Frame
 		super()
 		self.border_width = 100
 
-		config = YAML.load(File.open("../../Config/lang_english"))
-		@path = "../../Users"
+		#Retrieve lang_english (Login is always in english)
+		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_english")
+		config = YAML.load(File.open(configFile))
 
 		@vbox = Gtk::Box.new(:vertical, 3)
 		@hbox = Gtk::Box.new(:horizontal, 2)
@@ -47,9 +48,4 @@ class NewUserFrame < Frame
 		#Add vbox to frame
 		add(@vbox)
 	end
-
-	def retrieveLanguage()
-		return Dir.entries(@path).select { |f| f.match(/lang\_(.*)/)}.select{|x| x.slice!(0,5)}
-	end
-
 end
