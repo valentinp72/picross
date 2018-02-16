@@ -1,5 +1,6 @@
 require 'yaml'
-
+require_relative 'GameFrame'
+require_relative 'OptionFrame'
 require_relative '../Frame'
 
 class HomeFrame < Frame
@@ -8,15 +9,12 @@ class HomeFrame < Frame
 		super()
 		self.border_width = 100
 
-<<<<<<< HEAD
 		#Retrieve user's language
-=======
-		configFile = File.expand_path(File.dirname(__FILE__) + '/' + '../../config.yml')
-
-		config = YAML.load(File.open(configFile))
->>>>>>> dev_appBuilding
 		lang = user.settings.language
-		config = YAML.load(File.open("../../Config/lang_#{lang}"))
+		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_#{lang}")
+		config = YAML.load(File.open(configFile))
+
+
 
 		@vbox = Gtk::Box.new(:vertical, 5)
 
@@ -36,6 +34,15 @@ class HomeFrame < Frame
 			tmpMapPath = File.expand_path(File.dirname(__FILE__) + '/../../map.tmp/planet.map')
 			self.parent.setFrame(GameFrame.new(Map.load(tmpMapPath)))
 		end
+
+		@optiBtn.signal_connect("clicked") do
+			self.parent.setFrame(OptionFrame.new(user))
+		end
+
+		@exitBtn.signal_connect("clicked") do
+				Gtk.main_quit
+		end
+
 		#Add vbox to frame
 		add(@vbox)
 
