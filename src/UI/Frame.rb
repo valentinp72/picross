@@ -1,5 +1,3 @@
-require 'Application'
-
 class Frame < Gtk::Frame
 
 	def initialize()

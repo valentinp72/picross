@@ -1,5 +1,3 @@
-require 'Application'
-
 class Window < Gtk::ApplicationWindow
 
 	def initialize(application)
