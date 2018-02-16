@@ -115,7 +115,15 @@ class GameFrame < Frame
 
 		@area.signal_connect('button_press_event') do |draw, button|
 #print "click '#{button.y}, #{button.x}' \n"
-			userClickedAt(button.y, button.x)
+			gridPosY = (button.y / @cellSize * 1000).floor / 1000.0
+			gridPosX = (button.x / @cellSize * 1000).floor / 1000.0
+			cell = @grid.getCellPosition(gridPosY, gridPosX)
+			cell.stateRotate
+			@wantedState = cell.state
+			puts @wantedState
+#print @grid
+			@area.queue_draw
+#userClickedAt(button.y, button.x)
 		end
 
 		@area.signal_connect('motion_notify_event') do |draw, motionEvent|#draw, button|
