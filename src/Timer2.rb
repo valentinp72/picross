@@ -8,53 +8,71 @@
 # This class represents a Timer
 # 
 class Timer
-	@timerThread
 	@elapsedTime
+	@timerThread
 	
-	private_class_method :new
-	
-	def Timer.create(sec=0)
-		new(sec)
-	end
+	attr_reader :elapsedTime
 	
 	##
 	# Create a new Timer object
-	def initialize(sec)
-		@elapsedTime = sec
+	def initialize
+		@elapsedTime = 0
 	end
-	##
-	# Method for launching a timer
-	def start
-		unless @timerThread == nil
-			@timerThread.wakeup
-		else
-			@timerThread = Thread.new(@elapsedTime) 
-			{ |startingTime|
-				startingTime += Time.now.to_i
-				while true
-					elapsedT = Time.now.to_i - startingTime
-					hh = elapsedT/3600
-					mm = (elapsedT%3600)/60
-					ss = elapsedT%60
-					
-					%%interface%
-					hr = hh<10? "0"+hh.to_s : hh.to_s
-					min = mm<10 ? "0"+mm.to_s : mm.to_s
-					sec = ss<10 ? "0"+ss.to_s : ss.to_s
-			  		system "clear"
-					puts hr+":"+min+":"+sec
-				end
-			}
-		end
-	end	
+	
+	def Thread.run
+		startingTime = Time.now.to_i - @elapsedTime
+		while true
+			@elapsedTime = Time.now.to_i - startingTime
+			sleep 0.2
 		
-	
-	def pause
-		Thread.stop()
+			hh=(@elapsedTime/3600)
+			mm=(@elapsedTime%3600)/60
+			ss=@elapsedTime%60
+		
+			hr = hh<10? "0"+hh.to_s : hh.to_s
+			min = mm<10 ? "0"+mm.to_s : mm.to_s
+			sec = ss<10 ? "0"+ss.to_s : ss.to_s
+			system "clear"
+			puts hr+":"+min+":"+sec
+		end
 	end
-	
-	def stop
+		
+	##
+	def start
+		@timerThread = Thread.new{}
+		Thread.run
+	end	
+	##
+	def pause
 		@timerThread.join
 	end
-
+	
+	def hours
+		(@elapsedTime/3600)%24
+	end
+	def minutes
+		(@elapsedTime%3600)/60
+	end
+	def seconds
+		@elapsedTime%60
+	end
 end 
+
+##Test
+
+myTimer = Timer.new
+myTimer.start
+=begin
+while true
+	hh = myTimer.hours
+	mm = myTimer.minutes
+	ss = myTimer.seconds
+	
+	hr = hh<10? "0"+hh.to_s : hh.to_s
+	min = mm<10 ? "0"+mm.to_s : mm.to_s
+	sec = ss<10 ? "0"+ss.to_s : ss.to_s
+	system "clear"
+	puts hr+":"+min+":"+sec
+	
+	sleep 0.5
+=end
