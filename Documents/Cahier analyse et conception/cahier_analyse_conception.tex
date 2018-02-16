@@ -130,26 +130,27 @@
 \thispagestyle{empty}
 \thispagestyle{plain}
 
-
 \chapter{Présentation}
 \thispagestyle{empty}
 \thispagestyle{plain}
 
 	\section{Introduction}
 
-		Dans le cadre de l'unité d'enseignement "Génie logiciel 2" de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application. \\
+		Dans le cadre de l'unité d'enseignement "Génie logiciel 2" de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application.
+		
 		Ce document permet de présenter les solutions au cahier des charges, ainsi que l'architecture du programme demandé. Celui-ci est divisé en plusieurs parties : l’architecture du jeu, la gestion d'une partie, l'aide à la résolution du picross, %la gestion des statistiques du joueur (scores, niveaux débloqués, …)% ainsi que l’interface graphique. Ce document décrit aussi l'utilisation du temps qui nous est imparti. 
 
 	
  	\section{Objectif de l'application}		
-		Nous devons réaliser un jeu de type picross (aussi appelé \textit{nonogramme}, logigramme ou \textit{hanjie}) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
+		Nous devons réaliser un jeu de type picross (aussi appelé \textit{nonogramme}, \textit{logigramme} ou \textit{hanjie}) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
 		
 	\section{Outils}
 		
 		Afin de réaliser notre application de \textit{picross}, nous utilisons plusieurs outils.
 		
-	LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF. \\
-\textit{Git} et \textit{GitHub} permettent le partage d'informations et la mise en commun du code ainsi que les livrables associés. Nous nous servons de \textit{Discord} afin de communiquer au sein du groupe, partager nos idées, nos informations et notre travail.
+	LaTeX est utilisé pour rédiger et mettre en forme les différents livrables avant de les convertir en format PDF. 
+	
+    \textit{Git} et \textit{GitHub} permettent le partage d'informations et la mise en commun du code ainsi que les livrables associés. Nous nous servons de \textit{Discord} afin de communiquer au sein du groupe, partager nos idées, nos informations et notre travail.
 
 	Pour concevoir les différents diagrammes UML, nous avons recours au logiciel \textit{Astah} et au site internet \textit{Tom's Planner}\footnote{Site web de \textit{Tom's Planner} : \url{http://tomsplanner.fr/}}.
 
@@ -185,7 +186,10 @@
     \end{figure}
    
      À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
-    Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
+    
+    Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. 
+    
+    Les modules sont imbriqués les uns dans les autres, c'est-à-dire que certains dépendent d'autres modules. Sans les modules gameplay et carte réalisés, le module IHM ne peut être réalisé. 
 \newpage
    \section{Besoins fonctionnels}
    
@@ -212,7 +216,7 @@
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF4.3 : Stocker localement les sauvegardes}                               \\ \midrule
 \multicolumn{1}{|c|}{\multirow{4}{*}{\textbf{IHM}}}         & \multicolumn{1}{l|}{BF5.1 : Afficher la grille en noir et blanc}                              \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.2 : Être compatible avec plusieurs périphériques (clavier, souris)}   \\ \cmidrule(l){2-2} 
-\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.3 : Mettre en valeur des chiffres associés aux cases remplies}        \\ \cmidrule(l){2-2} 
+\multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.3 : Mettre en valeur des indices associés aux cases remplies}        \\ \cmidrule(l){2-2} 
 \multicolumn{1}{|c|}{}                                      & \multicolumn{1}{l|}{BF5.4 : Afficher la quantité de cases sélectionnées (sélection multiple)} \\ \bottomrule
 \end{tabular}
 \end{table}    
@@ -228,7 +232,7 @@
 		\subsubsection{Utiliser une aide gratuite}
 				L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite, en quel cas, l'aide n'entraînera aucune pénalité de temps.
 
-    \subsection{chronomètre}
+    \subsection{Chronomètre}
 			\subsubsection{Accéder au score à la fin d'une partie}
 				A la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
 			\subsubsection{Mettre la partie en pause}
@@ -256,10 +260,10 @@
 			Les cases sont blanches, et sont colorées en noir lors de leur validation par le joueur.
 		\subsubsection{Être compatible avec plusieurs périphériques}
 			Le joueur peut jouer avec les périphériques qu'il désire, que ce soit seulement au clavier, seulement à la souris, ou les deux en même temps.
-		\subsubsection{Mettre en valeur des chiffres associés aux cases remplies}
-			Quand le joueur colorie des cases, le programme identifie de quel chiffre il s'agit et le met en valeur de façon à faciliter la lisibilité de la grille.
+		\subsubsection{Mettre en valeur des indices associés aux cases remplies}
+			Quand le joueur colorie des cases, le programme identifie de quel bloc de cases il s'agit et met en valeur l'indice associé, de façon à faciliter la lisibilité de la grille.
 		\subsubsection{Afficher la quantité de cases sélectionnées}
-			Quand l'utilisateur sélectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement concernées.
+			Quand l'utilisateur sélectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement sélectionnées.
 		
    \section{Diagramme de cas d'utilisations}
       
@@ -279,17 +283,20 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 	\item Le mode classique, permettant de jouer sur plusieurs grilles de tailles et difficultés variables.
 	\item Le mode évolutif, agrandissant la taille de la grille au fur et à mesure que le joueur résoudra celle-ci.
 	\end{itemize}
+	
 	À tout moment, celui-ci peut utiliser l'aide intégrée au jeu pour se débloquer. Il peut aussi choisir de recommencer la grille s'il le souhaite.
 
       
 	\section{Mode classique}
-		Dans le mode classique, le joueur a accès à plusieurs fonctionnalités. Il doit tout d'abord choisir un chapitre débloqué puis une grille. Ensuite, quand il se trouve en partie, il peut tout d'abord interagir avec la grille en cochant une case afin de se repérer dans les cases qui ne doivent pas être coloriées ou en coloriant une case. Il peut également enlever une coche ou une couleur d'une case s'il s'aperçoit qu'il s'est trompé. Il peut aussi sélectionner un groupe de cases à colorier, cocher ou vider. \\
+		Dans le mode classique, le joueur a accès à plusieurs fonctionnalités. Il doit tout d'abord choisir un chapitre débloqué puis une grille. Ensuite, quand il se trouve en partie, il peut tout d'abord interagir avec la grille en cochant une case afin de se repérer dans les cases qui ne doivent pas être coloriées ou en coloriant une case. Il peut également enlever une coche ou une couleur d'une case s'il s'aperçoit qu'il s'est trompé. Il peut aussi sélectionner un groupe de cases à colorier, cocher ou vider. 
+		
 		Au niveau de l'interface, l'utilisateur peut, à l'aide de boutons, réinitialiser la grille s'il souhaite repartir de zéro ou la valider s'il pense l'avoir finie. S'il la réussit, il sera renvoyé dans le chapitre en cours. Il peut également utiliser différentes aides (en cliquant sur un bouton) qui diffèrent par la clarté de l'indice, leur coût et leur pénalité. Enfin, l'utilisateur peut quitter la partie quand il le souhaite, la grille est sauvegardée automatiquement.
 	
 	\section{Mode évolutif}
 	
-	Lors d'une partie en mode évolutif, le joueur choisit une des grilles du mode. Chaque grille choisie a une taille fixe de 5x5 (cases). Pour résoudre cette grille, il a accès aux mêmes fonctionnalités qu'une partie classique soit interagir avec la grille et avec l'interface. \\
-Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) tout en gardant le coin supérieur gauche identique à la grille 5x5 réalisée par l'utilisateur (voir exemple en Annexe). Après cela, le joueur doit remplir la grille 10x10 en ayant les mêmes fonctionnalités que précédemment puis la grille évolue une nouvelle fois en 15x15 et ainsi de suite jusqu'à atteindre la taille maximale de 25x25. Une fois la grille 25x25 réussie, le joueur gagne la partie et est renvoyé sur le choix de la grille.
+	Lors d'une partie en mode évolutif, le joueur choisit une des grilles du mode. Chaque grille choisie a une taille fixe de 5x5 (cases). Pour résoudre cette grille, il a accès aux mêmes fonctionnalités qu'une partie classique soit interagir avec la grille et avec l'interface.
+	
+    Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) tout en gardant le coin supérieur gauche identique à la grille 5x5 réalisée par l'utilisateur (voir exemple en Annexe). Après cela, le joueur doit remplir la grille 10x10 en ayant les mêmes fonctionnalités que précédemment puis la grille évolue une nouvelle fois en 15x15 et ainsi de suite jusqu'à atteindre la taille maximale de 25x25. Une fois la grille 25x25 réussie, le joueur gagne la partie et est renvoyé sur le choix de la grille.
 	
 	% schéma exemple partie évolutive
 	
@@ -298,19 +305,20 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 	Une partie en mode didacticiel est une partie guidée afin que l'utilisateur comprenne la logique de résolution d'une partie de \textit{picross}. Les mouvements de celui-ci sont donc restreint aux coups (cocher ou colorier) que lui dit de jouer l'application.
 	
 
-	\section{erreurs}
+	\section{Erreurs}
 	
 		E1: Sélection d'un chapitre non-déverrouillé
 			Peut arriver lors de la sélection d'un chapitre
 			Traitement: accès bloqué au chapitre et message rappelant le nombre d'étoiles manquante pour y accéder.
+			
 		E2: Arrêt de la partie en cours
 			Peut arriver en cours de partie
 			Traitement: lors du redémarrage de la partie, reprise au dernier point de sauvegarde.
 		
-                E3 : Lancement d'une deuxième instance
+        E3 : Lancement d'une deuxième instance
                         Dans ce cas, un message d'erreur affiche que le lancement à été bloqué.
 
-                E4 : Quitter le menu Options sans validation de celles-ci
+        E4 : Quitter le menu Options sans validation de celles-ci
                          Affichage d'un message prévenant que les modifications n'ont pas été enregistrées avant de   fermer le menu. Le message propose d'enregistrer les modifications ou de les perdre, avant de quitter le menu.
 	
 			
@@ -377,7 +385,19 @@ Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) 
 	
 	\section{Maquettes de l'interface}
       
-      		Ci-dessous les maquettes réalisées pour l'interface de notre application en français. Lorsque le joueur lance l'application, il tombe sur l'écran (1) lui demandant de rentrer son pseudo pour permettre à chaque joueur d'avoir son propre profil. S'il rentre un pseudo déjà existant, il charge son profil avec ses statistiques et ses chapitres débloqués sinon un nouveau profil est créer. L'utilisateur arrive ensuite sur la page d'accueil du logiciel (2) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. Le bouton \textit{Options} renvoit sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (4). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tout les chapitres du jeu, didacticiel et mode évolutif inclus. Après avoir choisi un chapitre, il arrive sur la sélection de la grille (6) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (7).
+      		Ci-dessous les maquettes réalisées pour l'interface de notre application en français. 
+      		
+      		Lorsque le joueur lance l'application, il tombe sur l'écran (1) lui demandant de rentrer son pseudo pour permettre à chaque joueur d'avoir son propre profil. S'il rentre un pseudo déjà existant, il charge son profil avec ses statistiques et ses chapitres débloqués sinon un nouveau profil est créer. 
+      		
+      		L'utilisateur arrive ensuite sur la page d'accueil du logiciel (2) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. 
+      		
+      		Le bouton \textit{Options} renvoit sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. 
+      		
+      		Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (4). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. 
+      		
+      		Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tout les chapitres du jeu, didacticiel et mode évolutif inclus. 
+      		
+      		Après avoir choisi un chapitre, il arrive sur la sélection de la grille (6) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (7).
 		
 		
 	\begin{figure}[H]
