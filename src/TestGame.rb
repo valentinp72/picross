@@ -5,7 +5,7 @@ require_relative 'Map'
 #require_relative 'PicrossZone'
 
 class Application < Gtk::Application
-	
+
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
 
@@ -22,7 +22,7 @@ class Application < Gtk::Application
 			set_app_menu(builder.get_object("appmenu"))
 			set_menubar(builder.get_object("menubar"))
 		end
-		
+
 		addAllActions(["about", "preferences", "quit", "close"])
 
 	end
@@ -62,7 +62,7 @@ class Application < Gtk::Application
 end
 
 class Window < Gtk::ApplicationWindow
-	
+
 	def initialize(application)
 		super(application)
 	end
@@ -128,14 +128,14 @@ class GameFrame < Frame
 
 		@area.signal_connect('motion_notify_event') do |draw, motionEvent|#draw, button|
 			if motionEvent.state.button1_mask? then
-				# on a bougé en cliquant	
+				# on a bougé en cliquant
 #print "click '#{motionEvent.y / @cellSize}, #{motionEvent.x / @cellSize}' \n"
 				userClickedAt(motionEvent.y, motionEvent.x)
 			end
 		end
 
-		@area.events |= (Gdk::EventMask::BUTTON_PRESS_MASK | 
-		                 Gdk::EventMask::POINTER_MOTION_MASK) 
+		@area.events |= (Gdk::EventMask::BUTTON_PRESS_MASK |
+		                 Gdk::EventMask::POINTER_MOTION_MASK)
 
 		@lastClickedX = nil
 		@lastClickedY = nil
@@ -158,13 +158,13 @@ class GameFrame < Frame
 	end
 
 	def setGame()
-		
+
 		@area.signal_connect "draw" do
 			cr = @area.window.create_cairo_context
-			# GDK_comma	
+			# GDK_comma
 			allowedW = self.parent.width_request
 			allowedH = self.parent.height_request
-		
+
 			sizeX_tmp = allowedW / @grid.columns
 			sizeY_tmp = allowedH / @grid.lines
 
@@ -173,7 +173,7 @@ class GameFrame < Frame
 			@grid.each_cell_with_index do |cell, j, i|
 				posX = i * @cellSize
 				posY = j * @cellSize
-				
+
 				case cell.state
 					when Cell::CELL_BLACK
 						cr.set_source_rgb 0.0, 0.0, 0.0
@@ -190,7 +190,7 @@ class GameFrame < Frame
 			end
 
 		end
-		
+
 		@area.show
 		add(@area)
 	end
