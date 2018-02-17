@@ -54,7 +54,7 @@ class NewUserFrame < Frame
 			# Check if entry is not nil
 			if(@entry.text != nil) then
 				# Check if the user already exist?
-				if(retrieveUser.include? @entry.text )
+				if(!retrieveUser.include? @entry.text )
 					# Check if entry only contains letters, numbers and "_"
 					if(@entry.text.match(/[a-zA-Z0-9_]*/) ) then
 						user = User.new(@entry.text)
