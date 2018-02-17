@@ -9,5 +9,6 @@ option :
 button :
   valid : "Validate"
   cancel : "Cancel"
+  return : "Go back"
   exit : "Exit"
 ...
