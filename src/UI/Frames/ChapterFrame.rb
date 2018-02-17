@@ -1,5 +1,6 @@
 require 'yaml'
-#require_relative 'MapFrame'
+
+require_relative 'MapFrame'
 require_relative 'HomeFrame'
 require_relative '../Frame'
 
@@ -39,7 +40,7 @@ class ChapterFrame < Frame
 			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
 
 			@buttonsList[x].signal_connect("clicked") do
-				#self.parent.setFrame(MapFrame.new(user.chapters[x]))
+				self.parent.setFrame(MapFrame.new(user,user.chapters[x]))
 			end
 		end
 
