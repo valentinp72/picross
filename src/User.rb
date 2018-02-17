@@ -26,6 +26,16 @@ class User
 		@name = name
 		@settings = UserSettings.new()
 		@availableHelps = 0
+		@chapters = Array.new()
+
+		# Retrieve all default chapters
+		chapterFolder = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/Default/chapters/")
+		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
+
+		chapterFile.each do |f|
+			@chapters.push(Chapter.load(chapterFolder + f))
+		end
+		
 	end
 
 	##
