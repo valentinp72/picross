@@ -1,0 +1,12 @@
+---
+chapter :
+  title : "Chapter 1"
+  stars : 0
+  unlocked : true
+  levels :
+    - bunny
+    - mouse
+    - owl
+    - planet
+    - tiny_heart
+...
