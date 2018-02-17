@@ -45,6 +45,38 @@ class GameFrame < Frame
 		@lastClickedX = nil
 		@lastClickedY = nil
 		@wantedState  = Cell::CELL_CROSSED
+
+		# Add label
+		@label1 = Gtk::Label.new("Label 1")
+		@label2 = Gtk::Label.new("Label 2")
+		@label3 = Gtk::Label.new("Label 3")
+
+		# Add horizontal box containing 3 boxes
+		@hbox2 = Gtk::Box.new(:horizontal, 3)
+		@hbox2.pack_start(@label1, :expand => true, :fill => true, :padding =>2)
+		@hbox2.pack_start(@label2, :expand => true, :fill => true, :padding =>2)
+		@hbox2.pack_start(@label3, :expand => true, :fill => true, :padding =>2)
+
+		# Add label
+		@label4 = Gtk::Label.new("Label 4")
+		@label5 = Gtk::Label.new("Label 5")
+		@label6 = Gtk::Label.new("Label 6")
+
+		# Add vertical box containing 3 boxes
+		@vbox2 = Gtk::Box.new(:vertical, 3)
+		@vbox2.pack_start(@label4, :expand => true, :fill => true, :padding =>2)
+		@vbox2.pack_start(@label5, :expand => true, :fill => true, :padding =>2)
+		@vbox2.pack_start(@label6, :expand => true, :fill => true, :padding =>2)
+
+		# Add horizontal box containing 2 boxes
+		@hbox = Gtk::Box.new(:horizontal, 2)
+		@hbox.pack_start(@area, :expand => true, :fill => true, :padding =>2)
+		#@hbox.pack_start(@vbox2, :expand => true, :fill => true, :padding =>2)
+
+		# Add vertical box containing 2 boxes
+		@vbox = Gtk::Box.new(:vertical, 2)
+		@vbox.pack_start(@hbox2, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@hbox, :expand => true, :fill => true, :padding =>2)
 	end
 
 	def userClickedAt(yPos, xPos)
@@ -64,8 +96,8 @@ class GameFrame < Frame
 	end
 
 	def getPositions(yFramePosition, xFramePosition)
-		gridPosY = (yFramePosition / @cellSize).floor 
-		gridPosX = (xFramePosition / @cellSize).floor 
+		gridPosY = (yFramePosition / @cellSize).floor
+		gridPosX = (xFramePosition / @cellSize).floor
 
 		if @grid.validPosition?(gridPosY, gridPosX) then
 			return [gridPosY, gridPosX]
@@ -73,7 +105,7 @@ class GameFrame < Frame
 			return nil
 		end
 	end
-	
+
 	def setGame()
 
 		@area.signal_connect "draw" do
@@ -110,6 +142,7 @@ class GameFrame < Frame
 
 		@area.show
 		add(@area)
+		#add(@vbox)
 	end
 
 end
