@@ -1,6 +1,6 @@
 require_relative 'Hypotheses'
 
-## 
+##
 # File          :: Map.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
@@ -8,8 +8,8 @@ require_relative 'Hypotheses'
 # Last update   :: 01/27/2018
 # Version       :: 0.1
 #
-# This class represents a map in a *Picross*.  
-# A map has an estimated time to be done, a difficulty, a stack of 
+# This class represents a map in a *Picross*.
+# A map has an estimated time to be done, a difficulty, a stack of
 # hypotheses (Hypotheses object), and a solution grid.
 # Every map can be saved to a file, and then loaded back, using Marshal.
 
@@ -22,14 +22,14 @@ class Map
 
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_reader :hypotheses
-	
+
 	#The solution (a Grid) of the map
-	attr_reader :solution
+	attr_reader :solution, :name, :difficulty
 
 	# +timeToDo+    - The estimated time to resolve the game
 	# +difficulty+  - The estimated difficulty of the map
 	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
-	# +lneSolution+ - The numbers representing the lines solution (An array of arrays) 
+	# +lneSolution+ - The numbers representing the lines solution (An array of arrays)
 
 	##
 	# Create a new map object
@@ -89,7 +89,7 @@ class Map
 	end
 
 	##
-	# Rotate the state of the cell on the higher hypothesis 
+	# Rotate the state of the cell on the higher hypothesis
 	# at given coordinates.
 	# (CELL_WHITE -> CELL_BLACK -> CELL_CROSSED -> CELL_WHITE ... )
 	# * *Arguments* :
@@ -97,7 +97,7 @@ class Map
 	#   - +column+ -> the column of the cell to rotate
 	# * *Returns* :
 	#   - the updated cell
-	# * *Raises* : 
+	# * *Raises* :
 	#   - +InvalidCellPosition+ -> if given coordinates are invalid
 	def rotateStateAt(line, column)
 		hypothesis = @hypotheses.getWorkingHypothesis()
@@ -108,9 +108,9 @@ class Map
 	end
 
 	##
-	# Convert the solution grid to columns numbers 
+	# Convert the solution grid to columns numbers
 	# that help player to solve the game.
-	# * *Arguments* : 
+	# * *Arguments* :
 	#   - +solutionGrid+ -> the solution grid
 	# * *Returns* :
 	#   - the array containing the numbers composing the columns
@@ -121,9 +121,9 @@ class Map
 
 
 	##
-	# Convert the solution grid to lines numbers 
+	# Convert the solution grid to lines numbers
 	# that help player to solve the game.
-	# * *Arguments* : 
+	# * *Arguments* :
 	#   - +solutionGrid+ -> the solution grid
 	# * *Returns* :
 	#   - the array containing the numbers composing the lines
@@ -160,7 +160,7 @@ class Map
 				size = 0
 			end
 		end
-		return solutionArray		
+		return solutionArray
 	end
 
 	def help(helpType)
@@ -192,7 +192,7 @@ class Map
 	end
 
 	##
-	# Update all the instances variables from the array given, 
+	# Update all the instances variables from the array given,
 	# allowing Marshal to load a map object.
 	# * *Arguments* :
 	#   - +array+ -> the array to transform to instances variables
