@@ -1,6 +1,6 @@
 require 'yaml'
-require_relative 'GameFrame'
-require_relative 'OptionFrame'
+#require_relative 'MapFrame'
+require_relative 'HomeFrame'
 require_relative '../Frame'
 
 ##
@@ -24,36 +24,27 @@ class ChapterFrame < Frame
 		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_#{lang}")
 		config = YAML.load(File.open(configFile))
 
+		# Create vertical box containing all chapters buttons
+		@vbox = Gtk::Box.new(:vertical, user.chapters.length)
 
+		# Create a return button
+		@returnBtn = Gtk::Button.new(:label => config["button"]["return"])
+		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
 
-		# Create 5 button
-		@playBtn = Gtk::Button.new(:label => config["home"]["play"])
-		@rankBtn = Gtk::Button.new(:label => config["home"]["rank"])
-		@ruleBtn = Gtk::Button.new(:label => config["home"]["rule"])
-		@optiBtn = Gtk::Button.new(:label => config["home"]["option"])
-		@exitBtn = Gtk::Button.new(:label => config["button"]["exit"])
+		# List of bouttons
+		@buttonsList = Array.new(user.chapters.length + 1)
 
-		# Create vertical box containing 5 boxes
-		@vbox = Gtk::Box.new(:vertical, 5)
-		@vbox.pack_start(@playBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@rankBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@ruleBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@optiBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@exitBtn, :expand => true, :fill => true, :padding =>2)
+		0.upto(user.chapters.length - 1)  do |x|
+			@buttonsList[x] = Gtk::Button.new(:label => user.chapters[x].title)
+			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
 
-		@playBtn.signal_connect("clicked") do
-			tmpMapPath = File.expand_path(File.dirname(__FILE__) + '/../../map.tmp/planet.map')
-			self.parent.setFrame(GameFrame.new(Map.load(tmpMapPath)))
+			@buttonsList[x].signal_connect("clicked") do
+				#self.parent.setFrame(MapFrame.new(user.chapters[x]))
+			end
 		end
 
-		# Redirecting user towards option menu
-		@optiBtn.signal_connect("clicked") do
-			self.parent.setFrame(OptionFrame.new(user))
-		end
-
-		# Exit programms
-		@exitBtn.signal_connect("clicked") do
-				Gtk.main_quit
+		@returnBtn.signal_connect("clicked") do
+			self.parent.setFrame(HomeFrame.new(user))
 		end
 
 		# Add vbox to frame
