@@ -11,6 +11,11 @@
 
 class Chapter
 
+	# Exception when the chapter to load does not exists.
+	class ChapterNotFoundException < StandardError; end
+	# Exception when the chapter cannot be load by Marshal (not a marshal file?).
+	class CorruptedChapterException < StandardError; end
+
 	attr_reader :title, :levels, :starsRequired, :isUnlocked
 
 	##
@@ -40,6 +45,36 @@ class Chapter
 	end
 
 	##
+	# Load the file chapter to a new Chapter object.
+	# * *Arguments* :
+	#   - +fileName+ -> the chapter to load
+	# * *Returns* :
+	#   - the Chapter object corresponding to the object to load
+	# * *Raises* :
+	#   - +ChapterNotFoundException+  -> if the file does not exists
+	#   - +CorruptedChapterException+ -> if the file is corrupted to Marshal (not a Marshal file?)
+	def Chapter.load(fileName)
+		raise ChapterNotFoundException unless File.exists?(fileName)
+		begin
+			return Marshal.load(File.read(fileName))
+		rescue
+			raise CorruptedChapterException
+		end
+	end
+
+	##
+	# Save the Chapter object to the given file name.
+	# * *Arguments* :
+	#   - +dir+ -> the output directory
+	# * *Returns* :
+	#   - the object itself
+	def save(dir)
+		fileName = dir + @title + ".chp"
+		File.open(fileName, 'w') { |f| f.write(Marshal.dump(self)) }
+		return self
+	end
+
+	##
 	# Converts the chapter to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the chapter converted to an array
@@ -57,15 +92,5 @@ class Chapter
 	def marshal_load(array)
 		@title, @levels, @starsRequired, @isUnlocked = array
 		return self
-	end
-	
-	##
-	def save(path)
-		## Saving the dumped Chapter into a file
-		chapterFile = File.new(path+title+'.chp','w')
-		dataChapter = self.marshal_dump()
-		
-		chapterFile.write(Marshal.dump(dataChapter))
-		chapterFile.close
 	end
 end
