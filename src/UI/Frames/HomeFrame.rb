@@ -1,5 +1,5 @@
 require 'yaml'
-require_relative 'GameFrame'
+require_relative 'ChapterFrame'
 require_relative 'OptionFrame'
 require_relative '../Frame'
 
@@ -43,7 +43,7 @@ class HomeFrame < Frame
 
 		@playBtn.signal_connect("clicked") do
 			tmpMapPath = File.expand_path(File.dirname(__FILE__) + '/../../map.tmp/planet.map')
-			self.parent.setFrame(GameFrame.new(Map.load(tmpMapPath)))
+			self.parent.setFrame(ChapterFrame.new(user))
 		end
 
 		# Redirecting user towards option menu
