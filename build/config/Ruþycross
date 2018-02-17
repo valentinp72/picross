@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-cd `dirname $0`
-#ruby/bin/ruby src/UI/Application.rb
-/Users/Valentin/.rbenv/shims/ruby src/UI/Application.rb
