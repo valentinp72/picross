@@ -29,9 +29,11 @@ github-sync.php
 .dat*
 .repl_history
 #build/*
-!build/ruby/*
-!build/config/*
+#!build/ruby/*
+#!build/config/*
+build/ruby
 build/output/
+build/vendor
 *.bridgesupport
 build-iPhoneOS/
 build-iPhoneSimulator/
