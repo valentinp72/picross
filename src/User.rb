@@ -1,4 +1,5 @@
 require_relative 'UserSettings'
+require_relative 'Chapter'
 
 ##
 # File			:: User.rb
@@ -33,7 +34,8 @@ class User
 		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
 
 		chapterFile.each do |f|
-			@chapters.push(Chapter.load(chapterFolder + f))
+			puts chapterFolder + f
+			@chapters.push(Chapter.load(chapterFolder + "/"+ f))
 		end
 
 	end
@@ -75,13 +77,13 @@ class User
 	##
 	#
 	def marshal_dump()
-		[@name,@settings,@availableHelps]
+		[@name,@settings,@availableHelps,@chapters]
 	end
 
 	##
 	#
 	def marshal_load(array)
-		@name,@settings,@availableHelps = array
+		@name,@settings,@availableHelps,@chapters = array
 		return self
 	end
 end
