@@ -16,7 +16,7 @@ class User
 	# +availableHelps+	- amount of help that the player can spend
 
 	attr_accessor :name
-	attr_reader :settings
+	attr_reader :settings, :availableHelps, :chapters
 
 	##
 	# Creates a new User object
@@ -35,7 +35,7 @@ class User
 		chapterFile.each do |f|
 			@chapters.push(Chapter.load(chapterFolder + f))
 		end
-		
+
 	end
 
 	##
