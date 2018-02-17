@@ -1,6 +1,45 @@
 require 'rspec/core/rake_task'
 require 'rdoc/task'
 
+###########################
+#                         #
+# MAIN PROJECT RAKE TASKS #
+#                         #
+###########################
+
+# Default task: we run all tests
+task :default => [:tests, :doc]
+
+# tests => we run RSpec (unit tests + code coverage) 
+task :tests => [:spec]
+
+# doc => we run rdoc
+task :doc => [:rdoc]
+
+# spec => RSpec for unit tests and code coverage with simplecov
+RSpec::Core::RakeTask.new(:spec)
+
+# rdoc => RDoc for generating documentation (with hanna-bootstrap generator)
+RDoc::Task.new do |rdoc|
+	rdoc.main = "README.md"
+	rdoc.rdoc_files.include("README.md")
+	rdoc.rdoc_files.include("src/*.rb")
+	rdoc.rdoc_dir = "doc"
+	rdoc.title = "Picross Documentation"
+	rdoc.generator = "bootstrap"
+end
+
+
+#################################
+#                               #
+# APPLICATION PLATFORM BUILDING #
+#                               #
+#################################
+
+#############
+# CONSTANTS #
+#############
+
 # the application output name
 APPLICATION_NAME    = 'Rubycross'
 
@@ -34,6 +73,8 @@ EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
 MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/Info.plist'
 MAC_OS_APP_ICON    = BUILD_ROOT + 'config/icon.icns'
 EXECUTABLE_SCRIPT  = BUILD_ROOT + 'config/Rubycross'
+
+# Content of the main executable
 EXECUTABLE_CONTENT = 
 %Q[#!/usr/bin/env bash
 
@@ -53,6 +94,8 @@ OUTPUT_FILE="$CURRENTDATE.log"
 $SELFDIR/ruby/bin/ruby -rbundler/setup $SELFDIR/#{EXECUTABLE_RB} > $SELFDIR/#{LOG_FOLDER_NAME}$OUTPUT_FILE 2>&1
 
 ]
+
+# bundle config file (force to use local gems)
 BUNDLE_CONFIG_CONTENT =
 %Q[BUNDLE_PATH: .
 BUNDLE_WITHOUT: development
@@ -64,31 +107,21 @@ RUBY_BIN_ROOT         = BUILD_ROOT    + 'ruby/' + RUBY_BUILD_VERSION + '/'
 RUBY_BIN_MAC_OS       = RUBY_BIN_ROOT + 'osx/'
 RUBY_BIN_LINUX_x86    = RUBY_BIN_ROOT + 'linux_x86/'
 RUBY_BIN_LINUX_x86_64 = RUBY_BIN_ROOT + 'linux_x86_64/'
-RUBY_BIN_ALL_FOLDERS  = [RUBY_BIN_MAC_OS, RUBY_BIN_LINUX_x86, RUBY_BIN_LINUX_x86_64]
-
-# Default task: we run all tests
-task :default => [:tests, :doc]
-
-# tests => we run RSpec (unit tests + code coverage) 
-task :tests => [:spec]
-
-# doc => we run rdoc
-task :doc => [:rdoc]
-
-# spec => RSpec for unit tests and code coverage with simplecov
-RSpec::Core::RakeTask.new(:spec)
-
-# rdoc => RDoc for generating documentation (with hanna-bootstrap generator)
-RDoc::Task.new do |rdoc|
-	rdoc.main = "README.md"
-	rdoc.rdoc_files.include("README.md")
-	rdoc.rdoc_files.include("src/*.rb")
-	rdoc.rdoc_dir = "doc"
-	rdoc.title = "Picross Documentation"
-	rdoc.generator = "bootstrap"
-end
 
 # application build for all OS
+RUBY_BIN_ALL_FOLDERS  = [RUBY_BIN_MAC_OS, RUBY_BIN_LINUX_x86, RUBY_BIN_LINUX_x86_64]
+
+# the ruby binaries links
+RUBY_URL_MAC_OS       = "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-20150715-2.2.2-osx.tar.gz"
+RUBY_URL_LINUX_x86    = "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-20150715-2.2.2-linux-x86.tar.gz"
+RUBY_URL_LINUX_x86_64 = "http://d6r77u77i8pq3.cloudfront.net/releases/traveling-ruby-20150715-2.2.2-linux-x86_64.tar.gz" 
+
+
+###################
+# Main Rake tasks #
+###################
+
+# build all packages for all platforms
 task :build_all => [:build_prepare, :build_macOS]
 
 # preparation of applications building
@@ -104,7 +137,7 @@ task :build_prepare do
 	# check if all ruby binaries are present
 	RUBY_BIN_ALL_FOLDERS.each do |rubyBin|
 		if not File.exist?(rubyBin) then
-			raise "Error: no such ruby binary #{rubyBin}\nPlease download it from:\n\thttps://traveling-ruby.s3-us-west-2.amazonaws.com/list.html\n\n"
+			raise "Error: no such ruby binary #{rubyBin}\nPlease download it with `rake build_getRuby`\n\n"
 		end
 	end
 
@@ -116,6 +149,31 @@ task :build_prepare do
 	# create the executable script
 	File.write(EXECUTABLE_SCRIPT, EXECUTABLE_CONTENT)
 	FileUtils.chmod_R('u+x', EXECUTABLE_SCRIPT)
+
+end
+
+# download ruby binaries
+task :build_getRuby do
+
+	# start by removing the old ruby binaries if exist
+	FileUtils.rm_rf(RUBY_BIN_ROOT)
+
+	# then re-create the destination folders
+	FileUtils.mkdir_p(RUBY_BIN_MAC_OS)
+	FileUtils.mkdir_p(RUBY_BIN_LINUX_x86)
+	FileUtils.mkdir_p(RUBY_BIN_LINUX_x86_64)
+
+	# get the given archive with wget, and untar-it
+	# auto-remove the archive
+	def wget_untar(tarURL, destinationFolder, osNameInfo)
+		puts "Getting #{osNameInfo} ruby binaries..."
+		sh "wget -qO- #{tarURL} | tar xz -C #{destinationFolder}"
+		puts "Done!\n\n"
+	end
+
+	wget_untar(RUBY_URL_MAC_OS,       RUBY_BIN_MAC_OS, "macOS")
+	wget_untar(RUBY_URL_LINUX_x86,    RUBY_BIN_LINUX_x86, "linux_x86")
+	wget_untar(RUBY_URL_LINUX_x86_64, RUBY_BIN_LINUX_x86_64, "linux_x86_64")
 
 end
 
@@ -139,6 +197,11 @@ task :build_vendor do
 
 end
 
+
+##################
+# Plaform builds #
+##################
+
 # macOS application build
 task :build_macOS do
 	if not File.exists?(MAC_OS_INFO_PLIST) then
@@ -153,23 +216,20 @@ task :build_macOS do
 	# application informations
 	FileUtils.cp(MAC_OS_INFO_PLIST, outputFolder + 'Info.plist')
 
-	# all sources
+	# all sources folder
 	sourceFolder = outputFolder + 'MacOS/'
 	FileUtils.mkdir_p(sourceFolder)
 
 	FileUtils.cp_r(RUBY_BIN_MAC_OS, sourceFolder + 'ruby/') # ruby binaries
-	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder) # gems
-	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder) # the souce folder
-	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder) # all other folders that are not sources
-	FileUtils.cp(EXECUTABLE_SCRIPT, sourceFolder) # the executable
-
-	FileUtils.mkdir_p(sourceFolder + LOG_FOLDER_NAME) # log folder
-
+	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
+	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
+	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
+	FileUtils.cp(EXECUTABLE_SCRIPT, sourceFolder)           # the executable
+	FileUtils.mkdir_p(sourceFolder + LOG_FOLDER_NAME)       # log folder
 
 	# all resources
 	resourcesFolder = outputFolder + 'Resources/'
 	FileUtils.mkdir_p(resourcesFolder)
 	FileUtils.cp(MAC_OS_APP_ICON, resourcesFolder)
-
 
 end
