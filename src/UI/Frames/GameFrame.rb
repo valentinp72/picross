@@ -3,49 +3,104 @@ require_relative '../Frame'
 require_relative '../../Map'
 require_relative '../../Cell'
 
+
+class Drag
+
+	# @startPosition
+	# @lastPosition
+
+	def initialize(grid, yPos, xPos, newState=nil)
+		@grid = grid
+		
+		@yStart = yPos
+		@xStart = xPos
+		@yLast  = yPos
+		@xLast  = xPos
+
+		cell = @grid.getCellPosition(yPos, xPos)
+		if newState == nil then
+			cell.stateRotate
+		else
+			cell.state = newState
+		end
+		@newState = cell.state
+	end
+
+	def validPosition?(yPos, xPos)
+		return yPos != nil || xPos != nil
+	end
+
+	def update(yNew, xNew)
+		if validPosition?(yNew, xNew) then
+			if yNew != @yLast || xNew != @xLast then
+
+				if xNew == @xStart then
+					# vertical line
+					ys = [@yStart, yNew]
+					ys.min.upto(ys.max) do |y|
+						self.cellUpdate(y, @xStart)
+					end
+				elsif yNew == @yStart then
+					# horizontal line
+					xs = [@xStart, xNew]
+					xs.min.upto(xs.max) do |x|
+						self.cellUpdate(@yStart, x)
+					end
+				end
+
+				@yLast = yNew
+				@xLast = xNew
+			end
+		end
+	end
+
+	def cellUpdate(yPos, xPos)
+		@grid.getCellPosition(yPos, xPos).state = @newState
+	end
+
+end
+
 class GameFrame < Frame
 
 	def initialize(map)
 		super()
 		@area = Gtk::DrawingArea.new
 		@grid = map.solution
+		@drag = nil
+		
 		setGame()
-
-		@area.signal_connect('button_press_event') do |draw, button|
-			gridPosY, gridPosX = getPositions(button.y, button.x)
-			if gridPosY != nil and gridPosX != nil then
-				print "#{gridPosY}, #{gridPosX}\n"
-				cell = @grid.getCellPosition(gridPosY, gridPosX)
-				print cell
-				print button.button, "\n"
-				if button.button == 1 then
-					print "on rotate la cell\n"
-					cell.stateRotate
-				else
-					cell.state = Cell::CELL_CROSSED
-				end
-				puts cell
-				@wantedState = cell.state
-				@area.queue_draw
-				@lastClickedY = gridPosY
-				@lastClickedX = gridPosX
-			end
-		end
-
-		@area.signal_connect('motion_notify_event') do |draw, motionEvent|
-			if motionEvent.state.button1_mask? || motionEvent.state.button2_mask? then
-				# on a bougé en cliquant
-				userClickedAt(motionEvent.y, motionEvent.x)
-			end
-		end
+		createLayout()
 
 		@area.events |= (Gdk::EventMask::BUTTON_PRESS_MASK |
-		                 Gdk::EventMask::POINTER_MOTION_MASK)
+						 Gdk::EventMask::BUTTON_RELEASE_MASK |
+		                 Gdk::EventMask::POINTER_MOTION_MASK |
+						 Gdk::EventMask::POINTER_MOTION_HINT_MASK)
 
-		@lastClickedX = nil
-		@lastClickedY = nil
-		@wantedState  = Cell::CELL_CROSSED
 
+		@area.signal_connect('button_press_event') do |widget, event|
+			gridPosY, gridPosX = getPositions(event.y, event.x)
+			@drag = Drag.new(@grid, gridPosY, gridPosX)
+			@area.queue_draw
+		end
+
+		@area.signal_connect('button_release_event') do |widget, event|
+			#gridPosY, gridPosX = getPositions(event.y, event.x)
+			@drag = nil
+		end
+		
+		@area.signal_connect('motion_notify_event') do |widget, event|
+			if event.state.button1_mask? || event.state.button2_mask? then
+				gridPosY, gridPosX = getPositions(event.y, event.x)
+				if @drag != nil then
+					@drag.update(gridPosY, gridPosX)			
+					@area.queue_draw
+				end
+			end
+		end
+
+	end
+
+	def createLayout()
 		# Add label
 		@label1 = Gtk::Label.new("Label 1")
 		@label2 = Gtk::Label.new("Label 2")
@@ -70,7 +125,7 @@ class GameFrame < Frame
 
 		# Add horizontal box containing 2 boxes
 		@hbox = Gtk::Box.new(:horizontal, 2)
-		@hbox.pack_start(@area, :expand => true, :fill => true, :padding =>2)
+#@hbox.pack_start(@area, :expand => true, :fill => true, :padding =>2)
 		#@hbox.pack_start(@vbox2, :expand => true, :fill => true, :padding =>2)
 
 		# Add vertical box containing 2 boxes

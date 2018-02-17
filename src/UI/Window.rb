@@ -2,7 +2,7 @@ class Window < Gtk::ApplicationWindow
 
 	def initialize(application)
 		super(application)
-		testIcon = File.expand_path(File.dirname(__FILE__) + "../../../Documents/Logo/test_logo.png")
+		testIcon = File.expand_path(File.dirname(__FILE__) + "/../assets/logo.png")
 		self.set_icon_from_file(testIcon)
 	end
 

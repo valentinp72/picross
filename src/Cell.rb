@@ -47,8 +47,6 @@ class Cell
 		while @nextCells.last != @state do
 			@nextCells.rotate!
 		end
-
-		print "state: #{@state}, nextCells #{@nextCells}\n"
 	end
 
 	##
