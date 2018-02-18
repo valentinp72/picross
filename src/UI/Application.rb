@@ -20,8 +20,9 @@ class Application < Gtk::Application
 
 		signal_connect "activate" do |application|
 			window = MainWindow.new(application)
-			map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
-			window.setFrame(GameFrame.new(map))
+#map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
+#			window.setFrame(GameFrame.new(map))
+			window.setFrame(LoginFrame.new)
 			window.present
 			window.show_all
 		end
