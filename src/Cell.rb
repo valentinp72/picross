@@ -20,7 +20,7 @@ class Cell
 	CELL_CROSSED = 2
 
 	# List of all possible states in a ordered array
-	LIST_CELLS   = [CELL_BLACK, CELL_WHITE]
+	LIST_CELLS   = [CELL_BLACK,   CELL_WHITE]
 
 	# The state of the cell
 	attr_reader :state
@@ -85,6 +85,14 @@ class Cell
 		self.state = @nextCells.first
 		@nextCells.rotate!
 		return self
+	end
+
+	def stateInvertCross()
+		if self.state == CELL_CROSSED then
+			self.state = CELL_WHITE
+		else
+			self.state = CELL_CROSSED
+		end
 	end
 
 	##

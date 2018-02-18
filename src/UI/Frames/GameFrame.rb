@@ -9,7 +9,7 @@ class Drag
 	# @startPosition
 	# @lastPosition
 
-	def initialize(grid, yPos, xPos, newState=nil)
+	def initialize(grid, yPos, xPos, shouldCross=false)
 		@grid = grid
 		
 		@yStart = yPos
@@ -18,12 +18,13 @@ class Drag
 		@xLast  = xPos
 
 		cell = @grid.getCellPosition(yPos, xPos)
-		if newState == nil then
-			cell.stateRotate
+		if shouldCross then
+			cell.stateInvertCross
 		else
-			cell.state = newState
+			cell.stateRotate
 		end
 		@newState = cell.state
+		sleep 0.001
 	end
 
 	def validPosition?(yPos, xPos)
@@ -62,6 +63,9 @@ end
 
 class GameFrame < Frame
 
+	BUTTON_LEFT_CLICK  = 1
+	BUTTON_RIGHT_CLICK = 3 
+
 	def initialize(map)
 		super()
 		@area = Gtk::DrawingArea.new
@@ -79,17 +83,20 @@ class GameFrame < Frame
 
 		@area.signal_connect('button_press_event') do |widget, event|
 			gridPosY, gridPosX = getPositions(event.y, event.x)
-			@drag = Drag.new(@grid, gridPosY, gridPosX)
+			if event.button == BUTTON_LEFT_CLICK then
+				@drag = Drag.new(@grid, gridPosY, gridPosX)
+			elsif event.button == BUTTON_RIGHT_CLICK then
+				@drag = Drag.new(@grid, gridPosY, gridPosX, true)
+			end
 			@area.queue_draw
 		end
 
 		@area.signal_connect('button_release_event') do |widget, event|
-			#gridPosY, gridPosX = getPositions(event.y, event.x)
 			@drag = nil
 		end
 		
 		@area.signal_connect('motion_notify_event') do |widget, event|
-			if event.state.button1_mask? || event.state.button2_mask? then
+			if event.state.button1_mask? || event.state.button3_mask? then
 				gridPosY, gridPosX = getPositions(event.y, event.x)
 				if @drag != nil then
 					@drag.update(gridPosY, gridPosX)			
@@ -132,22 +139,6 @@ class GameFrame < Frame
 		@vbox = Gtk::Box.new(:vertical, 2)
 		@vbox.pack_start(@hbox2, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@hbox, :expand => true, :fill => true, :padding =>2)
-	end
-
-	def userClickedAt(yPos, xPos)
-		gridPosY, gridPosX = getPositions(yPos, xPos)
-		if gridPosY != nil and gridPosX != nil then
-			if gridPosX != @lastClickedX || gridPosY != @lastClickedY then
-				begin
-					@grid.getCellPosition(gridPosY, gridPosX).state = @wantedState
-					@area.queue_draw
-					@lastClickedY = gridPosY
-					@lastClickedX = gridPosX
-				rescue
-					print "Invalid position"
-				end
-			end
-		end
 	end
 
 	def getPositions(yFramePosition, xFramePosition)
