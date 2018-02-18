@@ -13,6 +13,7 @@ class Window < Gtk::ApplicationWindow
 		self.child = frame
 		frame.show_all
 		@frame = frame
+
 	end
 
 end

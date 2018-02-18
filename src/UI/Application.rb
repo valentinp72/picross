@@ -3,6 +3,8 @@
 
 require 'gtk3'
 
+require_relative '../Map'
+
 require_relative 'Window'
 require_relative 'Windows/MainWindow'
 require_relative 'Windows/PreferencesWindow'
@@ -18,7 +20,8 @@ class Application < Gtk::Application
 
 		signal_connect "activate" do |application|
 			window = MainWindow.new(application)
-			window.setFrame(LoginFrame.new())
+			map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
+			window.setFrame(GameFrame.new(map))
 			window.present
 			window.show_all
 		end
