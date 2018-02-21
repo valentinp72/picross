@@ -4,7 +4,7 @@ require_relative '../../Map'
 require_relative '../../Cell'
 require_relative '../../Drag'
 
-class CellButton < Gtk::ToggleButton
+class CellButton < Gtk::EventBox
 
 	attr_reader :cell
 
@@ -13,27 +13,7 @@ class CellButton < Gtk::ToggleButton
 		#self.set_focus_on_click(false)
 #self.set_imddage()
 
-		css_provider = Gtk::CssProvider.new
-		css_provider.load(data: "
-			button {
-				background-image: none;
-				background-color: white;
-				border-radius:    0px;
-				box-shadow:       none;
-				border-width:     1px;
-				border-color:     black;
-			}
-			button:hover {
-			}
-			button:active {
-				background-color: red;
-			}
-			button .toggle {
-				background-color: blue;
-			}
-		")
-
-		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		self.add(Gtk::Label.new("l"))
 
 		@cell = cell
 	end
