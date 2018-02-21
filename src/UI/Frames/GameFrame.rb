@@ -4,6 +4,41 @@ require_relative '../../Map'
 require_relative '../../Cell'
 require_relative '../../Drag'
 
+class CellButton < Gtk::ToggleButton
+
+	attr_reader :cell
+
+	def initialize(cell)
+		super()
+		#self.set_focus_on_click(false)
+#self.set_imddage()
+
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: "
+			button {
+				background-image: none;
+				background-color: white;
+				border-radius:    0px;
+				box-shadow:       none;
+				border-width:     1px;
+				border-color:     black;
+			}
+			button:hover {
+			}
+			button:active {
+				background-color: red;
+			}
+			button .toggle {
+				background-color: blue;
+			}
+		")
+
+		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+
+		@cell = cell
+	end
+
+end
 
 class PicrossFrame < Frame
 	
@@ -12,8 +47,8 @@ class PicrossFrame < Frame
 
 	def initialize(grid)
 		super()
+		self.border_width = 20
 		@grid = grid
-		self.label = "PicrossFrame"
 
 #	puts self.methods
 #		print self.realize
@@ -24,93 +59,16 @@ class PicrossFrame < Frame
 	end
 
 	def createArea()
-		@area = Gtk::DrawingArea.new
-		@drag = nil
-		
+		@cells = Gtk::Grid.new
 
-		@area.events |= (Gdk::EventMask::BUTTON_PRESS_MASK |
-						 Gdk::EventMask::BUTTON_RELEASE_MASK |
-		                 Gdk::EventMask::POINTER_MOTION_MASK |
-						 Gdk::EventMask::POINTER_MOTION_HINT_MASK)
-
-
-		@area.signal_connect('button_press_event') do |widget, event|
-			gridPosY, gridPosX = getPositions(event.y, event.x)
-			if event.button == BUTTON_LEFT_CLICK then
-				@drag = Drag.new(@grid, gridPosY, gridPosX)
-			elsif event.button == BUTTON_RIGHT_CLICK then
-				@drag = Drag.new(@grid, gridPosY, gridPosX, true)
-			end
-			@area.queue_draw
-		end
-
-		@area.signal_connect('button_release_event') do |widget, event|
-			@drag = nil
+		@grid.each_cell_with_index do |cell, line, column|
+			@cells.attach(CellButton.new(cell), line, column, 1, 1)
 		end
 		
-		@area.signal_connect('motion_notify_event') do |widget, event|
-			if event.state.button1_mask? || event.state.button3_mask? then
-				gridPosY, gridPosX = getPositions(event.y, event.x)
-				if @drag != nil then
-					@drag.update(gridPosY, gridPosX)			
-					@area.queue_draw
-				end
-			end
-		end
-		
-		setGame()
-		return @area
+		add(@cells)
 	end
 
-	def getPositions(yFramePosition, xFramePosition)
-		gridPosY = (yFramePosition / @cellSize).floor
-		gridPosX = (xFramePosition / @cellSize).floor
 
-		if @grid.validPosition?(gridPosY, gridPosX) then
-			return [gridPosY, gridPosX]
-		else
-			return nil
-		end
-	end
-	
-
-	def setGame()
-
-		@area.signal_connect "draw" do
-			cr = @area.window.create_cairo_context
-			# GDK_comma
-			allowedW = 00#self.parent.width_request
-			allowedH = 00#self.parent.height_request
-
-			sizeX_tmp = allowedW / @grid.columns
-			sizeY_tmp = allowedH / @grid.lines
-
-			@cellSize = [sizeX_tmp, sizeY_tmp].min
-
-			@grid.each_cell_with_index do |cell, j, i|
-				posX = i * @cellSize
-				posY = j * @cellSize
-
-				case cell.state
-					when Cell::CELL_BLACK
-						cr.set_source_rgb 0.0, 0.0, 0.0
-					when Cell::CELL_WHITE
-						cr.set_source_rgb 1.0, 1.0, 1.0
-					when Cell::CELL_CROSSED
-						cr.set_source_rgb 0.8, 0.8, 0.8
-					else
-						cr.set_source_rgb 1.0, 0.0, 0.0
-				end
-
-				cr.rectangle(posX, posY, @cellSize, @cellSize)
-				cr.fill
-			end
-
-		end
-
-		@area.show
-		add(@area)
-	end
 end
 
 class GameFrame < Frame
@@ -119,7 +77,6 @@ class GameFrame < Frame
 	def initialize(map)
 		super()
 		self.border_width = 10
-		self.label = "GameFrame"
 		@grid = map.solution
 		@map  = map
 
