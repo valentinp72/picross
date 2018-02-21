@@ -5,6 +5,10 @@
 *.DS_Store
 ._*
 
+# Users
+Users/*
+!Users/Default/
+
 # github deploy
 README.html
 github-sync.php

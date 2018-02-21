@@ -69,12 +69,23 @@ GEMFILES_PATHS     = ['Gemfile', 'Gemfile.lock']
 # ruby file to be excecuted by the application
 EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
 
-# application configuration
-MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/Info.plist'
-MAC_OS_APP_ICON    = BUILD_ROOT + 'config/icon.icns'
-EXECUTABLE_SCRIPT  = BUILD_ROOT + 'config/Rubycross'
+# macos application configuration
+MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/macOS/Info.plist'
+MAC_OS_RSCR_PATH   = BUILD_ROOT + 'config/macOS/Resources/'
+MAC_OS_RESOURCES   = ['icon.icns', 'lib/', 'share/']
+MAC_OS_DYLIBS      = BUILD_ROOT + 'config/macOS/macOS_required_dylib.txt'
+MAC_OS_TYPELIBS    = BUILD_ROOT + 'config/macOS/macOS_required_typelib.txt'
+MAC_OS_ENV_VARS    = {
+	"DYLD_LIBRARY_PATH" => "$ROOT/Resources/lib/",
+	"GI_TYPELIB_PATH"   => "$ROOT/Resources/lib/"
+}
+MAC_OS_DYLIB_LINKS = {
+	"libepoxy.0.dylib" => "libepoxy.dylib",
+	"libgraphite2.3.0.1.dylib" => "libgraphite2.3.dylib"
+}
 
 # Content of the main executable
+EXECUTABLE_NAME  = 'Rubycross'
 EXECUTABLE_CONTENT = 
 %Q[#!/usr/bin/env bash
 
@@ -88,11 +99,43 @@ SELFDIR="`cd \"$SELFDIR\" && pwd`"
 export BUNDLE_GEMFILE="$SELFDIR/vendor/Gemfile"
 unset BUNDLE_IGNORE_CONFIG
 
+# Create an ouput log file name, based on the date and time
 CURRENTDATE=`date '+%Y-%m-%d_%H_%M_%S'`
 OUTPUT_FILE="$CURRENTDATE.log"
+]
 
+# https://github.com/jralls/gtk-mac-bundler
+EXECUTABLE_MAC_OS_ADDITIONAL =
+%Q[
+tmp="$SELFDIR"
+bundle=`dirname "$tmp"`
+bundle_contents="$bundle"
+bundle_res="$bundle_contents"/Resources
+bundle_lib="$bundle_res"/lib
+bundle_bin="$bundle_res"/bin
+bundle_data="$bundle_res"/share
+bundle_etc="$bundle_res"/etc
+
+export DYLD_LIBRARY_PATH="$bundle_lib"
+export XDG_CONFIG_DIRS="$bundle_etc"/xdg
+export XDG_DATA_DIRS="$bundle_data"
+export GTK_DATA_PREFIX="$bundle_res"
+export GTK_EXE_PREFIX="$bundle_res"
+export GTK_PATH="$bundle_res"
+export GTK2_RC_FILES="$bundle_etc/gtk-2.0/gtkrc"
+export GTK_IM_MODULE_FILE="$bundle_etc/gtk-2.0/gtk.immodules"
+#N.B. When gdk-pixbuf was separated from Gtk+ the location of the
+#loaders cache changed as well. Depending on the version of Gtk+ that
+#you built with you may still need to use the old location:
+#export GDK_PIXBUF_MODULE_FILE="$bundle_etc/gtk-2.0/gdk-pixbuf.loaders"
+export GDK_PIXBUF_MODULE_FILE="$bundle_lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+export PANGO_LIBDIR="$bundle_lib"
+export PANGO_SYSCONFDIR="$bundle_etc"
+]
+
+EXECUTABLE_COMMAND =
+%Q[
 $SELFDIR/ruby/bin/ruby -rbundler/setup $SELFDIR/#{EXECUTABLE_RB} > $SELFDIR/#{LOG_FOLDER_NAME}$OUTPUT_FILE 2>&1
-
 ]
 
 # bundle config file (force to use local gems)
@@ -146,9 +189,6 @@ task :build_prepare do
 		raise "Error: vendor files not presents. Install gems with `rake build_vendor`"
 	end
 
-	# create the executable script
-	File.write(EXECUTABLE_SCRIPT, EXECUTABLE_CONTENT)
-	FileUtils.chmod_R('u+x', EXECUTABLE_SCRIPT)
 
 end
 
@@ -220,16 +260,85 @@ task :build_macOS do
 	sourceFolder = outputFolder + 'MacOS/'
 	FileUtils.mkdir_p(sourceFolder)
 
-	FileUtils.cp_r(RUBY_BIN_MAC_OS, sourceFolder + 'ruby/') # ruby binaries
+	rubyFolder = sourceFolder + 'ruby/'
+	FileUtils.cp_r(RUBY_BIN_MAC_OS, rubyFolder)# ruby binaries
 	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
 	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
 	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
-	FileUtils.cp(EXECUTABLE_SCRIPT, sourceFolder)           # the executable
 	FileUtils.mkdir_p(sourceFolder + LOG_FOLDER_NAME)       # log folder
+
+	# create the executable script
+	open(sourceFolder + EXECUTABLE_NAME, 'w') do |exec|
+		
+		exec.puts EXECUTABLE_CONTENT
+		
+		# as we are on macOS, we include the commands for the bundled app
+		exec.puts EXECUTABLE_MAC_OS_ADDITIONAL
+
+		exec.puts EXECUTABLE_COMMAND
+	end
+	FileUtils.chmod_R('u+x', sourceFolder + EXECUTABLE_NAME)
 
 	# all resources
 	resourcesFolder = outputFolder + 'Resources/'
 	FileUtils.mkdir_p(resourcesFolder)
-	FileUtils.cp(MAC_OS_APP_ICON, resourcesFolder)
+	MAC_OS_RESOURCES.each do |rsrc|
+		FileUtils.cp_r(MAC_OS_RSCR_PATH + rsrc, resourcesFolder)
+	end
+
+
+	libFolder = resourcesFolder + 'lib/'
+	FileUtils.mkdir_p(libFolder)
+	
+	# get all needed dylib and add them to Resources/lib
+	File.readlines(MAC_OS_DYLIBS).each do |line|
+		# ignore # comments
+		if not line[0] == '#' then
+			file = line.strip
+			FileUtils.cp_r(file, libFolder + File.basename(file))
+		end
+	end
+
+	# we add all the needed links to some dylib
+	MAC_OS_DYLIB_LINKS.each do |source, target|
+		FileUtils.ln_s(source, libFolder + target)
+	end
+
+	# get all needed typelib and add them to Resources/lib
+	File.readlines(MAC_OS_TYPELIBS).each do |line|
+		# ignore # comments
+		if not line[0] == '#' then
+			file = line.strip
+			FileUtils.cp_r(file, libFolder + File.basename(file))
+		end
+	end
+
+	# add macOS environment variables to the ruby binary
+	# due to SIP, on macOS 10.11+, environment variables 
+	# like DYLD_LIBRARY_PATH are no longer propagated on 
+	# shells scripts with exec, so we need to add variables 
+	# just before the real binary gets executed
+	# 
+	# https://en.wikipedia.org/wiki/System_Integrity_Protection
+	# https://github.com/oracle/node-oracledb/issues/231
+	rubyFile = rubyFolder + 'bin/ruby'
+
+	# we get an array containg every line of the original file,
+	# and we add our lines
+	linesRubyFile = File.readlines(rubyFile)
+	MAC_OS_ENV_VARS.each do |var, value|
+		# add our variables after the fifth line (the sixth being the exec command)
+		linesRubyFile.insert(5, "export #{var}=#{value}")
+	end
+	# the we write back everything into the file
+	File.open(rubyFile, "w") do |file|
+		linesRubyFile.each do |line|
+			file.puts line
+		end
+	end
+	
+	# then we need to add the resource folder in the ruby folder
+	# => symbolic link
+	FileUtils.ln_s("../../Resources", rubyFolder)
 
 end

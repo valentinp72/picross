@@ -1,0 +1,31 @@
+# Get this file content by running the game, and then
+# lsof -p PID_GAME | grep REG | grep .dylib | egrep -o '/usr/.*'
+# where PID_GAME is the pid of the game (`ps` to get it)
+#
+/usr/local/Cellar/glib/2.54.3/lib/libgobject-2.0.0.dylib
+/usr/local/Cellar/glib/2.54.3/lib/libglib-2.0.0.dylib
+/usr/local/Cellar/gettext/0.19.8.1/lib/libintl.8.dylib
+/usr/local/Cellar/glib/2.54.3/lib/libgthread-2.0.0.dylib
+/usr/local/Cellar/gmp/6.1.2_1/lib/libgmp.10.dylib
+/usr/local/Cellar/pcre/8.41/lib/libpcre.1.dylib
+/usr/local/Cellar/libffi/3.2.1/lib/libffi.6.dylib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/libgirepository-1.0.1.dylib
+/usr/local/Cellar/glib/2.54.3/lib/libgmodule-2.0.0.dylib
+/usr/local/Cellar/glib/2.54.3/lib/libgio-2.0.0.dylib
+/usr/local/Cellar/atk/2.26.1/lib/libatk-1.0.0.dylib
+/usr/local/Cellar/cairo/1.14.12/lib/libcairo.2.dylib
+/usr/local/Cellar/freetype/2.9/lib/libfreetype.6.dylib
+/usr/local/Cellar/pixman/0.34.0_1/lib/libpixman-1.0.dylib
+/usr/local/Cellar/fontconfig/2.12.6/lib/libfontconfig.1.dylib
+/usr/local/Cellar/libpng/1.6.34/lib/libpng16.16.dylib
+/usr/lib/libexpat.1.dylib
+/usr/local/Cellar/cairo/1.14.12/lib/libcairo-gobject.2.dylib
+/usr/local/Cellar/pango/1.40.14/lib/libpango-1.0.0.dylib
+/usr/local/Cellar/pango/1.40.14/lib/libpangocairo-1.0.0.dylib
+/usr/local/Cellar/pango/1.40.14/lib/libpangoft2-1.0.0.dylib
+/usr/local/Cellar/harfbuzz/1.7.5/lib/libharfbuzz.0.dylib
+/usr/local/Cellar/graphite2/1.3.10/lib/libgraphite2.3.0.1.dylib
+/usr/local/Cellar/gdk-pixbuf/2.36.11/lib/libgdk_pixbuf-2.0.0.dylib
+/usr/local/Cellar/gtk+3/3.22.26/lib/libgdk-3.0.dylib
+/usr/local/Cellar/libepoxy/1.4.3/lib/libepoxy.0.dylib
+/usr/local/Cellar/gtk+3/3.22.26/lib/libgtk-3.0.dylib
