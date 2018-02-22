@@ -11,10 +11,11 @@ class CellButton < Gtk::EventBox
 
 	attr_reader :cell
 
-	def initialize(cell, drag)
+	def initialize(cell, drag, cells)
 		super()
-		@cell = cell
-		@drag = drag
+		@cell  = cell
+		@drag  = drag
+		@cells = cells
 
 		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
 		@widget  = Gtk::Image.new(:surface => @surface)
@@ -43,8 +44,6 @@ class CellButton < Gtk::EventBox
 		self.events |= (
 			Gdk::EventMask::BUTTON_PRESS_MASK |
 			Gdk::EventMask::BUTTON_RELEASE_MASK |
-			Gdk::EventMask::POINTER_MOTION_MASK |
-			Gdk::EventMask::POINTER_MOTION_HINT_MASK |
 			Gdk::EventMask::ENTER_NOTIFY_MASK |
 			Gdk::EventMask::LEAVE_NOTIFY_MASK)
 
@@ -52,11 +51,15 @@ class CellButton < Gtk::EventBox
 			
 			# force to not grab focus on current button
 			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
+
+			puts "je suis la cell #{@cell} : #{@cell.posX}, #{@cell.posY}"
+
 			if event.button == BUTTON_LEFT_CLICK then
 				@drag.startLeftDrag(@cell)
 			elsif event.button == BUTTON_RIGHT_CLICK then
 				@drag.startRightDrag(@cell)
 			end
+
 			self.setCSSClass
 
 		end
@@ -67,6 +70,10 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
+			@drag.changedCells.each do |toUpdateCell|
+				toUpdateCell.state = @drag.wantedCell
+				cells.get_child_at(toUpdateCell.posX, toUpdateCell.posX).setCSSClass
+			end
 			self.setCSSClass
 		end
 
@@ -79,6 +86,7 @@ class CellButton < Gtk::EventBox
 	end
 
 	def setCSSClass()
+		puts "Je suis la cell #{@cell.posX}, #{@cell.posY}, #{@cell.state}"
 		wantedClass = ""
 		if @cell.state == Cell::CELL_BLACK then
 			wantedClass = "activated"
@@ -118,12 +126,11 @@ class PicrossFrame < Frame
 		@cells = Gtk::Grid.new
 
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag), column, line, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag, @cells), column, line, 1, 1)
 		end
-		
+
 		add(@cells)
 	end
-
 
 end
 
@@ -138,12 +145,6 @@ class GameFrame < Frame
 
 		self.createMainLayout
 
-#
-#		self.signal_connect('size-allocate') do 
-#			print 'h'
-#			print self.parent.queue_draw
-			#self.queue_draw
-#		end
 		@main.show_all
 	end
 
@@ -158,7 +159,7 @@ class GameFrame < Frame
 		@main.pack_start(@content, :expand => true, :fill => true)
 
 		self.add(@main)
-#self.set_size_request(500, 500)
+	
 	end
 
 	def createHeaderLayout()
@@ -179,7 +180,6 @@ class GameFrame < Frame
 
 		
 		@content = Gtk::Box.new(:horizontal)
-#		@content.set_size_request(600, 600)
 		
 		@picross = PicrossFrame.new(@grid)
 		@sideBar = createSideBarLayout()

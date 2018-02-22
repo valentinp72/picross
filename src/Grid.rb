@@ -38,7 +38,11 @@ class Grid
 		@columns = columns
 
 		if hypothesis != nil then
-			@grid = Array.new(lines) { Array.new(columns) { Cell.new(hypothesis) } }
+			@grid = Array.new(lines) do |j|
+				Array.new(columns) do |i| 
+					Cell.new(hypothesis, j, i)
+				end
+			end
 		end
 	end
 
