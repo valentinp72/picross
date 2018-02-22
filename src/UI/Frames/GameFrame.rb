@@ -35,73 +35,47 @@ class CellButton < Gtk::EventBox
 				background-color: white;
 			}
 		")
-		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		@widget.style_context.add_provider(
+				css_provider, 
+				Gtk::StyleProvider::PRIORITY_USER
+		)
 
-		self.set_can_focus(false)
-		self.set_can_default(false)
-#self.unset_flags(CAN_FOCUS)
-	self.events |= (Gdk::EventMask::BUTTON_PRESS_MASK |
-Gdk::EventMask::BUTTON_RELEASE_MASK |
-Gdk::EventMask::POINTER_MOTION_MASK |
-Gdk::EventMask::POINTER_MOTION_HINT_MASK |
-Gdk::EventMask::ENTER_NOTIFY_MASK |
-Gdk::EventMask::LEAVE_NOTIFY_MASK)
+		self.events |= (
+			Gdk::EventMask::BUTTON_PRESS_MASK |
+			Gdk::EventMask::BUTTON_RELEASE_MASK |
+			Gdk::EventMask::POINTER_MOTION_MASK |
+			Gdk::EventMask::POINTER_MOTION_HINT_MASK |
+			Gdk::EventMask::ENTER_NOTIFY_MASK |
+			Gdk::EventMask::LEAVE_NOTIFY_MASK)
 
-		@hasLeaved = true
 		self.signal_connect('button_press_event') do |widget, event|
 			
-			puts "BUTTON_PRESS #{widget.has_focus?}"
+			# force to not grab focus on current button
+			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 			if event.button == BUTTON_LEFT_CLICK then
-#		@drag.startLeftDrag(@cell)
+				@drag.startLeftDrag(@cell)
 			elsif event.button == BUTTON_RIGHT_CLICK then
-#		@drag.startRightDrag(@cell)
+				@drag.startRightDrag(@cell)
 			end
 			self.setCSSClass
+
 		end
 
 		self.signal_connect('button_release_event') do |widget, event|
-#@drag.reset
-			puts "BUTTON_RELEASE"
-			if @hasLeaved == false then
-#puts "Je suis la case #{@cell} et j'ai release"
-#@hasLeaved = true
-			end
+			@drag.reset
 		end
 
 		self.signal_connect('enter_notify_event') do |widget, event|
-#			puts "JE RENTRE AU BERCAIL"
-#			puts event.inspect
-#			puts event.state, event.state.inspect
-#if event.state.button1_mask? || event.state.button3_mask? then
-#	puts "j'ai clické"
-#puts "je me déplace #{event.button}"
-		puts "ENTER_EVENT #{event.button}#{widget.has_focus?}"
-#	@drag.update(@cell)
-				self.setCSSClass
-#	end
-
+			@drag.update(@cell)
+			self.setCSSClass
 		end
 
 		self.signal_connect('leave_notify_event') do |widget, event|
-#			@hasLeaved = true
-			puts "LEAVE_EVENT #{event.button}"
 		end
-
-		self.signal_connect('selection_received') do
-			puts "a"
-		end
-
-		self.signal_connect('motion_notify_event') do |widget, event|
-			
-#puts "MOTION_NOTIFY #{event.state.inspect}, #{event.x}, #{event.y}, #{widget}"
-		end
-		self.signal_connect('grab-focus') do
-			puts "b"
-		end
-
 
 		self.setCSSClass()
 		self.add(@widget)
+
 	end
 
 	def setCSSClass()
@@ -146,11 +120,7 @@ class PicrossFrame < Frame
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(CellButton.new(cell, @drag), column, line, 1, 1)
 		end
-
-		@cells.grab_focus
-		@cells.grab_default
-
-
+		
 		add(@cells)
 	end
 

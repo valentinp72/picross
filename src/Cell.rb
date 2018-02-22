@@ -93,6 +93,7 @@ class Cell
 		else
 			self.state = CELL_CROSSED
 		end
+		return self
 	end
 
 	##
