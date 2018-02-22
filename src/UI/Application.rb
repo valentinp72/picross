@@ -25,6 +25,10 @@ class Application < Gtk::Application
 			window.setFrame(LoginFrame.new)
 			window.present
 			window.show_all
+
+			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
+			window.set_keep_above(true)
+
 		end
 
 		signal_connect "startup" do |application|
