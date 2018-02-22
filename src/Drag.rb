@@ -2,56 +2,40 @@ require_relative 'Grid'
 
 class Drag
 
-	# @startPosition
-	# @lastPosition
+	def initialize()
+		self.reset
+	end
 
-	def initialize(grid, yPos, xPos, shouldCross=false)
-		@grid = grid
-		
-		@yStart = yPos
-		@xStart = xPos
-		@yLast  = yPos
-		@xLast  = xPos
+	def startDrag(startCell, wantedCell)
+		@startCell  = startCell
+		@wantedCell = wantedCell 
+		puts "Nouveau drag"
+		puts "Drag: #{@startCell}, #{@wantedCell}"
+	end
 
-		cell = @grid.getCellPosition(yPos, xPos)
-		if shouldCross then
-			cell.stateInvertCross
+	def startLeftDrag(startCell)
+		puts "Left drag begin"
+		startDrag(startCell, startCell.stateRotate.state)
+	end
+
+	def startRightDrag(startCell)
+		puts "Right drag begin"
+		startDrag(startCell, startCell.stateInvertCross.state)
+	end
+
+	def update(cell)
+		puts "Drag: #{@startCell}, #{@wantedCell}"
+		if @startCell != nil && @wantedCell != nil then
+			cell.state = @wantedCell
 		else
-			cell.stateRotate
-		end
-		@newState = cell.state
-	end
-
-	def validDragPosition?(yPos, xPos)
-		return yPos != nil && xPos != nil
-	end
-
-	def update(yNew, xNew)
-		if validDragPosition?(yNew, xNew) then
-			if yNew != @yLast || xNew != @xLast then
-
-				if xNew == @xStart then
-					# vertical line
-					ys = [@yStart, yNew]
-					ys.min.upto(ys.max) do |y|
-						self.cellUpdate(y, @xStart)
-					end
-				elsif yNew == @yStart then
-					# horizontal line
-					xs = [@xStart, xNew]
-					xs.min.upto(xs.max) do |x|
-						self.cellUpdate(@yStart, x)
-					end
-				end
-
-				@yLast = yNew
-				@xLast = xNew
-			end
+#:print "Error: drag not started, and no wanted cell"
 		end
 	end
 
-	def cellUpdate(yPos, xPos)
-		@grid.getCellPosition(yPos, xPos).state = @newState
+	def reset()
+		puts "rest du drag"
+		@startCell  = nil
+		@wantedCell = nil
 	end
 
 end

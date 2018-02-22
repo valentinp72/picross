@@ -6,35 +6,118 @@ require_relative '../../Drag'
 
 class CellButton < Gtk::EventBox
 
+	BUTTON_LEFT_CLICK  = 1
+	BUTTON_RIGHT_CLICK = 3 
+
 	attr_reader :cell
 
-	def initialize(cell)
+	def initialize(cell, drag)
 		super()
-		#self.set_focus_on_click(false)
-#self.set_imddage()
-
-		self.add(Gtk::Label.new("l"))
-
 		@cell = cell
+		@drag = drag
+
+		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
+		@widget  = Gtk::Image.new(:surface => @surface)
+		
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: "
+			image {
+				background-color: red;
+				border: 1px solid black;
+			}
+			.activated {
+				background-color: black;
+			}
+			.crossed {
+				background-color: gray;
+			}
+			.white {
+				background-color: white;
+			}
+		")
+		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+
+		self.set_can_focus(false)
+		self.events |= (Gdk::EventMask::BUTTON_PRESS_MASK |
+Gdk::EventMask::BUTTON_RELEASE_MASK |
+Gdk::EventMask::POINTER_MOTION_MASK |
+Gdk::EventMask::POINTER_MOTION_HINT_MASK |
+Gdk::EventMask::ENTER_NOTIFY_MASK |
+Gdk::EventMask::LEAVE_NOTIFY_MASK)
+
+		@hasLeaved = true
+		self.signal_connect('button_press_event') do |widget, event|
+			puts "Je suis la case #{@cell} et j'ai press"
+			if event.button == BUTTON_LEFT_CLICK then
+#		@drag.startLeftDrag(@cell)
+			elsif event.button == BUTTON_RIGHT_CLICK then
+#		@drag.startRightDrag(@cell)
+			end
+			self.setCSSClass
+		end
+
+		self.signal_connect('button_release_event') do |widget, event|
+#@drag.reset
+			if @hasLeaved == false then
+				puts "Je suis la case #{@cell} et j'ai release"
+#@hasLeaved = true
+			end
+		end
+
+		self.signal_connect('enter_notify_event') do |widget, event|
+#			puts "JE RENTRE AU BERCAIL"
+#			puts event.inspect
+#			puts event.state, event.state.inspect
+#if event.state.button1_mask? || event.state.button3_mask? then
+#	puts "j'ai clické"
+puts "je me déplace"
+				@drag.update(@cell)
+				self.setCSSClass
+#	end
+		end
+
+		self.signal_connect('leave_notify_event') do |widget, event|
+			@hasLeaved = true
+		end
+
+
+		self.setCSSClass()
+		self.add(@widget)
+	end
+
+	def setCSSClass()
+		wantedClass = ""
+		if @cell.state == Cell::CELL_BLACK then
+			wantedClass = "activated"
+		elsif @cell.state == Cell::CELL_CROSSED then
+			wantedClass = "crossed"
+		else
+			wantedClass = "white"
+		end
+
+		gotIt = false
+		@widget.style_context.classes.each do |className|
+			if not className == wantedClass then
+				@widget.style_context.remove_class(className)
+			else
+				gotIt = true
+			end
+		end
+		if not gotIt then
+			@widget.style_context.add_class(wantedClass)
+		end
 	end
 
 end
 
 class PicrossFrame < Frame
 	
-	BUTTON_LEFT_CLICK  = 1
-	BUTTON_RIGHT_CLICK = 3 
-
 	def initialize(grid)
 		super()
 		self.border_width = 20
 		@grid = grid
+		@drag = Drag.new
 
-#	puts self.methods
-#		print self.realize
-#:		print self.allocated_size
-
-#		self.set_size_request(100, 100)
 		createArea()
 	end
 
@@ -42,7 +125,7 @@ class PicrossFrame < Frame
 		@cells = Gtk::Grid.new
 
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell), line, column, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag), column, line, 1, 1)
 		end
 		
 		add(@cells)
