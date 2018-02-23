@@ -7,7 +7,7 @@ require_relative '../../Drag'
 class CellButton < Gtk::EventBox
 
 	BUTTON_LEFT_CLICK  = 1
-	BUTTON_RIGHT_CLICK = 3 
+	BUTTON_RIGHT_CLICK = 3
 
 	attr_reader :cell
 
@@ -19,7 +19,7 @@ class CellButton < Gtk::EventBox
 
 		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
 		@widget  = Gtk::Image.new(:surface => @surface)
-		
+
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: "
 			image {
@@ -37,7 +37,7 @@ class CellButton < Gtk::EventBox
 			}
 		")
 		@widget.style_context.add_provider(
-				css_provider, 
+				css_provider,
 				Gtk::StyleProvider::PRIORITY_USER
 		)
 
@@ -48,7 +48,7 @@ class CellButton < Gtk::EventBox
 			Gdk::EventMask::LEAVE_NOTIFY_MASK)
 
 		self.signal_connect('button_press_event') do |widget, event|
-			
+
 			# force to not grab focus on current button
 			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 
@@ -112,7 +112,7 @@ class CellButton < Gtk::EventBox
 end
 
 class PicrossFrame < Frame
-	
+
 	def initialize(grid)
 		super()
 		self.border_width = 20
@@ -150,21 +150,22 @@ class GameFrame < Frame
 
 
 	def createMainLayout()
-	
+
 		@header  = createHeaderLayout()
-		@content = createContentLayout() 
+		@content = createContentLayout()
 
 		@main = Gtk::Box.new(:vertical, 2)
 		@main.pack_start(@header)
 		@main.pack_start(@content, :expand => true, :fill => true)
 
 		self.add(@main)
-	
+
 	end
 
 	def createHeaderLayout()
-	
-		btnBack   = Gtk::Button.new(:label => "Back")
+
+		testIcon = File.expand_path(File.dirname(__FILE__) + "/../../assets/btnReturn.png")
+		btnBack  = Gtk::Image.new(testIcon)
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -172,15 +173,16 @@ class GameFrame < Frame
 		@header.pack_start(btnBack,   :expand => true, :fill => true)
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
-	
+
+
 		return @header
 	end
 
 	def createContentLayout()
 
-		
+
 		@content = Gtk::Box.new(:horizontal)
-		
+
 		@picross = PicrossFrame.new(@grid)
 		@sideBar = createSideBarLayout()
 
@@ -193,11 +195,23 @@ class GameFrame < Frame
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new("Timer")
-		@reset = Gtk::Button.new(:label => "Reset")
-		@pause = Gtk::Button.new(:label => "Pause")
-		@hypot = Gtk::Button.new(:label => "Hypotheses")
-		@help  = Gtk::Button.new(:label => "Help")
-
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@reset  = Gtk::Image.new(image)
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@pause  = Gtk::Image.new(image)
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@hypot  = Gtk::Image.new(image)
+		@help  = Gtk::Button.new(:label => "help")
+		##css_provider = Gtk::CssProvider.new
+		##css_provider.load(data: "
+		##	image{
+		##		background-image: url(image);
+		##	}
+		#{#}")
+		##@help.style_context.add_provider(
+		##		css_provider,
+		##		Gtk::StyleProvider::PRIORITY_USER
+		##)
 		@sideBar = Gtk::Box.new(:vertical)
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
 		@sideBar.pack_start(@reset, :expand => true, :fill => true)
