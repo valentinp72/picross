@@ -10,7 +10,7 @@ require_relative 'Windows/MainWindow'
 require_relative 'Windows/PreferencesWindow'
 
 require_relative 'Frame'
-require_relative 'Frames/GameFrame'
+require_relative 'Frames/Game/GameFrame'
 require_relative 'Frames/LoginFrame'
 
 class Application < Gtk::Application
