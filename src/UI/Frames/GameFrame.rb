@@ -177,7 +177,7 @@ class GameFrame < Frame
 	def initialize(map)
 		super()
 		self.border_width = 10
-		@grid = map.solution#hypotheses.getWorkingHypothesis.grid
+		@grid = map.hypotheses.getWorkingHypothesis.grid
 		@map  = map
 
 		self.createMainLayout
