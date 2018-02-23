@@ -1,5 +1,5 @@
 require 'yaml'
-require_relative 'GameFrame'
+require_relative 'Game/GameFrame'
 require_relative 'ChapterFrame'
 require_relative '../Frame'
 

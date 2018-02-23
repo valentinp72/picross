@@ -41,7 +41,13 @@ class Drag
 				calcDirections(cell)
 			end
 			if validDirections?(cell) then
-				cell.state = @wantedCell
+				if cell.state != @wantedCell then
+					if cell.state == Cell::CELL_CROSSED then
+						cell.stateInvertCross
+					else
+						cell.stateRotate
+					end
+				end
 				updateFromTo(@startCell, cell)
 			end
 		end
