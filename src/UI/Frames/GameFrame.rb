@@ -113,7 +113,11 @@ end
 
 class PicrossFrame < Frame
 
+<<<<<<< HEAD
 	def initialize(grid, columnSolution, lineSolution)
+=======
+	def initialize(grid)
+>>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		super()
 		self.border_width = 20
 		@grid = grid
@@ -207,7 +211,12 @@ class GameFrame < Frame
 
 	def createHeaderLayout()
 
+<<<<<<< HEAD
 		btnBack   = Gtk::Button.new(:label => "Back")
+=======
+		testIcon = File.expand_path(File.dirname(__FILE__) + "/../../assets/btnReturn.png")
+		btnBack  = Gtk::Image.new(testIcon)
+>>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -216,6 +225,10 @@ class GameFrame < Frame
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		return @header
 	end
 
@@ -224,7 +237,11 @@ class GameFrame < Frame
 
 		@content = Gtk::Box.new(:horizontal)
 
+<<<<<<< HEAD
 		@picross = PicrossFrame.new(@grid, @map.clmSolution, @map.lneSolution)
+=======
+		@picross = PicrossFrame.new(@grid)
+>>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
@@ -236,11 +253,23 @@ class GameFrame < Frame
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new("Timer")
-		@reset = Gtk::Button.new(:label => "Reset")
-		@pause = Gtk::Button.new(:label => "Pause")
-		@hypot = Gtk::Button.new(:label => "Hypotheses")
-		@help  = Gtk::Button.new(:label => "Help")
-
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@reset  = Gtk::Image.new(image)
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@pause  = Gtk::Image.new(image)
+		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
+		@hypot  = Gtk::Image.new(image)
+		@help  = Gtk::Button.new(:label => "help")
+		##css_provider = Gtk::CssProvider.new
+		##css_provider.load(data: "
+		##	image{
+		##		background-image: url(image);
+		##	}
+		#{#}")
+		##@help.style_context.add_provider(
+		##		css_provider,
+		##		Gtk::StyleProvider::PRIORITY_USER
+		##)
 		@sideBar = Gtk::Box.new(:vertical)
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
 		@sideBar.pack_start(@reset, :expand => true, :fill => true)
