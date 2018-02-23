@@ -42,7 +42,6 @@ class HomeFrame < Frame
 		@vbox.pack_start(@exitBtn, :expand => true, :fill => true, :padding =>2)
 
 		@playBtn.signal_connect("clicked") do
-			tmpMapPath = File.expand_path(File.dirname(__FILE__) + '/../../map.tmp/planet.map')
 			self.parent.setFrame(ChapterFrame.new(user))
 		end
 
@@ -53,7 +52,7 @@ class HomeFrame < Frame
 
 		# Exit programms
 		@exitBtn.signal_connect("clicked") do
-				Gtk.main_quit
+			self.parent.application.action_quit_cb
 		end
 
 		# Add vbox to frame

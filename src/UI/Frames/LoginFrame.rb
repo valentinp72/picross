@@ -24,6 +24,7 @@ class LoginFrame < Frame
 		# Create a new comboBox which will hold all the username
 		@comboBox = Gtk::ComboBoxText.new
 		retrieveUser.each{|u| @comboBox.append_text(u)}
+		@comboBox.set_active(0)
 
 		# Add a login button
 		@loginBtn = Gtk::Button.new(:label => "Login")
