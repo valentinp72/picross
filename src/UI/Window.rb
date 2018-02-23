@@ -16,4 +16,8 @@ class Window < Gtk::ApplicationWindow
 
 	end
 
+	def mainWindow?()
+		return false
+	end
+
 end

@@ -15,13 +15,17 @@ require_relative 'Frames/LoginFrame'
 
 class Application < Gtk::Application
 
+	# The connected user, if any
+	attr_reader :connectedUser
+	attr_writer :connectedUser
+
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
 
+		@connectedUser = nil
+
 		signal_connect "activate" do |application|
 			window = MainWindow.new(application)
-#map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
-#			window.setFrame(GameFrame.new(map))
 			window.setFrame(LoginFrame.new)
 			window.present
 			window.show_all

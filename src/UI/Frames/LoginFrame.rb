@@ -42,6 +42,7 @@ class LoginFrame < Frame
 			#The button login works only if a user is selected.
 			if(@comboBox.active_text != nil) then
 			user = getSelectedUser
+			self.parent.application.connectedUser = user
 			self.parent.setFrame(HomeFrame.new(user))
 			end
 		end

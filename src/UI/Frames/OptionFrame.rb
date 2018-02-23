@@ -53,7 +53,7 @@ class OptionFrame < Frame
 
 		# Cancel -> We return to home
 		@cancelBtn.signal_connect("clicked") do
-			self.parent.setFrame(HomeFrame.new(user))
+			closeOrComeBackToHome(user)
 		end
 
 		# Valid -> We return to home, but we change settings
@@ -62,7 +62,7 @@ class OptionFrame < Frame
 					# Change language
 					user.settings.language= @comboBox.active_text
 					user.save()
-					self.parent.setFrame(HomeFrame.new(user))
+					closeOrComeBackToHome(user)
 			end
 		end
 
@@ -74,6 +74,14 @@ class OptionFrame < Frame
 	# This function retrieve all languages available
 	def retrieveLanguage()
 		return Dir.entries(@path).select { |f| f.match(/lang\_(.*)/)}.select{|x| x.slice!(0,5)}
+	end
+
+	def closeOrComeBackToHome(user)
+		if self.parent.mainWindow? then
+			self.parent.setFrame(HomeFrame.new(user))
+		else
+			self.parent.close
+		end
 	end
 
 end
