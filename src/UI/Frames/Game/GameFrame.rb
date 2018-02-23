@@ -1,5 +1,3 @@
-require_relative '../../Frame'
-
 require_relative '../../../Map'
 
 require_relative '../MapFrame'
