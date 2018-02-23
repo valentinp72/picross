@@ -145,7 +145,7 @@ class RetrievePicrossWeb
 		end
 
 		# We call recognition programm to convert picture to Map Class
-		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","#{title}.png"])
+		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","-n","#{title}","	#{title}.png"])
 		File.delete("#{title}.png")
 
 		# Returns the map

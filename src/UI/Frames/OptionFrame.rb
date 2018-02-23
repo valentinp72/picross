@@ -61,6 +61,7 @@ class OptionFrame < Frame
 			if(@comboBox.active_text != nil) then
 					# Change language
 					user.settings.language= @comboBox.active_text
+					user.save()
 					self.parent.setFrame(HomeFrame.new(user))
 			end
 		end
