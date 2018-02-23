@@ -24,7 +24,7 @@ class Map
 	attr_reader :hypotheses
 
 	#The solution (a Grid) of the map
-	attr_reader :solution, :name, :difficulty
+	attr_reader :solution, :name, :difficulty, :clmSolution, :lneSolution
 
 	# +timeToDo+    - The estimated time to resolve the game
 	# +difficulty+  - The estimated difficulty of the map
