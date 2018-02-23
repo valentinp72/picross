@@ -19,7 +19,7 @@ class CellButton < Gtk::EventBox
 		css_provider.load(data: "
 			image {
 				background-color: red;
-				border: 1px solid black;
+				border: 1px solid white;
 			}
 			.activated {
 				background-color: black;
@@ -30,7 +30,24 @@ class CellButton < Gtk::EventBox
 			.white {
 				background-color: white;
 			}
+
+			.hyp0 {
+				border-color: black;
+			}
+			.hyp1 {
+				border-color: red;
+			}
+			.hyp2 {
+				border-color: green;
+			}
+			.hyp3 {
+				border-color: yellow;
+			}
+			.hyp4 {
+				border-color: blue;
+			}
 		")
+
 		@widget.style_context.add_provider(
 				css_provider,
 				Gtk::StyleProvider::PRIORITY_USER
@@ -75,25 +92,31 @@ class CellButton < Gtk::EventBox
 	end
 
 	def setCSSClass()
-		wantedClass = ""
-		if @cell.state == Cell::CELL_BLACK then
-			wantedClass = "activated"
-		elsif @cell.state == Cell::CELL_CROSSED then
-			wantedClass = "crossed"
-		else
-			wantedClass = "white"
-		end
+		wantedClasses = []
 
-		gotIt = false
-		@widget.style_context.classes.each do |className|
-			if not className == wantedClass then
-				@widget.style_context.remove_class(className)
-			else
-				gotIt = true
-			end
+		state = "white"
+		case @cell.state
+			when Cell::CELL_BLACK
+				state = "activated"
+			when Cell::CELL_CROSSED
+				state = "crossed"
 		end
-		if not gotIt then
-			@widget.style_context.add_class(wantedClass)
+		wantedClasses.push state
+
+		hypothesis = "hyp0"
+		case @cell.hypothesis.id
+			when 0
+				hypothesis = "hyp0"
+			when 1
+				hypothesis = "hyp1"
+		end
+		wantedClasses.push hypothesis
+
+		@widget.style_context.classes.each do |className|
+			@widget.style_context.remove_class(className)
+		end
+		wantedClasses.each do |className|
+			@widget.style_context.add_class(className)
 		end
 	end
 

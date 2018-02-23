@@ -18,16 +18,16 @@ class Hypothesis
 	attr_reader :grid
 	attr_writer :grid
 
-	# *color* - The color of cells of this hypothesis
+	# The id (0 to 4) of the hypothesis
+	attr_reader :id
 
 	##
 	# Creation of an hypothesis.  
-	# Currently, the color is choosed randomly.
 	# * *Arguments* :
 	#   - *grid* -> the grid of hypothesis to create
-	def initialize(grid)
+	def initialize(grid, id)
 		@grid  = grid
-		@color = {"RED" => rand(0..255), "GREEN" => rand(0..255), "BLUE" => rand(0..255)}
+		@id    = id
 	end
 
 	##
@@ -35,7 +35,7 @@ class Hypothesis
 	# * *Returns* :
 	#   - the hypothesis into a String
 	def to_s()
-		return "Color: #{@color}\n" + @grid.to_s
+		return "ID: #{@id}\n" + @grid.to_s
 	end
 
 	##
@@ -43,7 +43,7 @@ class Hypothesis
 	# * *Returns* :
 	#   - the hypothesis converted to an array
 	def marshal_dump()
-		return [@grid, @color]
+		return [@grid, @id]
 	end
 
 	##
@@ -54,7 +54,7 @@ class Hypothesis
 	# * *Returns* :
 	#   - the hypothesis itself
 	def marshal_load(array)
-		@grid, @color = array
+		@grid, @id = array
 		return self
 	end
 
