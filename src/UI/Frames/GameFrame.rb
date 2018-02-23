@@ -113,11 +113,7 @@ end
 
 class PicrossFrame < Frame
 
-<<<<<<< HEAD
 	def initialize(grid, columnSolution, lineSolution)
-=======
-	def initialize(grid)
->>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		super()
 		self.border_width = 20
 		@grid = grid
@@ -211,12 +207,8 @@ class GameFrame < Frame
 
 	def createHeaderLayout()
 
-<<<<<<< HEAD
-		btnBack   = Gtk::Button.new(:label => "Back")
-=======
 		testIcon = File.expand_path(File.dirname(__FILE__) + "/../../assets/btnReturn.png")
 		btnBack  = Gtk::Image.new(testIcon)
->>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -225,10 +217,7 @@ class GameFrame < Frame
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		return @header
 	end
 
@@ -237,11 +226,7 @@ class GameFrame < Frame
 
 		@content = Gtk::Box.new(:horizontal)
 
-<<<<<<< HEAD
 		@picross = PicrossFrame.new(@grid, @map.clmSolution, @map.lneSolution)
-=======
-		@picross = PicrossFrame.new(@grid)
->>>>>>> 0380c233d89f9cf7d764125b97a96da91dede594
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
