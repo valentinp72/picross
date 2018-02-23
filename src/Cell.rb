@@ -20,7 +20,7 @@ class Cell
 	CELL_CROSSED = 2
 
 	# List of all possible states in a ordered array
-	LIST_CELLS   = [CELL_BLACK, CELL_WHITE]
+	LIST_CELLS   = [CELL_BLACK,   CELL_WHITE]
 
 	# The state of the cell
 	attr_reader :state
@@ -28,6 +28,11 @@ class Cell
 	# The hypothesis to this cell
 	attr_reader :hypothesis
 	attr_writer :hypothesis
+
+	# The cell X position
+	attr_reader :posX
+	# The cell Y position
+	attr_reader :posY
 
 	# +nextCells+  - The array of the nexts cells after rotation
 	
@@ -38,17 +43,17 @@ class Cell
 	# * *Arguments* :
 	#   - +hypothesis+ -> the hypothesis that this cell is belonging
 	#   - +state+      -> the state the cell starts whith (default CELL_WHITE)
-	def initialize(hypothesis, state=CELL_WHITE)
+	def initialize(hypothesis, posY, posX, state=CELL_WHITE)
 		@nextCells  = Array.new(LIST_CELLS)
 		@state      = state
 		@hypothesis = hypothesis
+		@posY       = posY
+		@posX       = posX
 
 		# update the next cells so that the next one is just following the current state
 		while @nextCells.last != @state do
 			@nextCells.rotate!
 		end
-
-		print "state: #{@state}, nextCells #{@nextCells}\n"
 	end
 
 	##
@@ -59,7 +64,9 @@ class Cell
 	def clone()
 		cState      = @state
 		cHypothesis = @hypothesis
-		return Cell.new(cHypothesis, cState)
+		cPosX       = @posX
+		cPosY       = @posY
+		return Cell.new(cHypothesis, cPosY, cPosX, cState)
 	end
 
 	##
@@ -89,6 +96,15 @@ class Cell
 		return self
 	end
 
+	def stateInvertCross()
+		if self.state == CELL_CROSSED then
+			self.state = CELL_WHITE
+		else
+			self.state = CELL_CROSSED
+		end
+		return self
+	end
+
 	##
 	# Return the cell to a printable String.
 	# * *Returns* :
@@ -110,7 +126,7 @@ class Cell
 	# * *Returns* :
 	#   - the cell converted to an array
 	def marshal_dump()
-		return [@state, @hypothesis]
+		return [@state, @hypothesis, @posY, @posX]
 	end
 
 	##
@@ -121,8 +137,8 @@ class Cell
 	# * *Returns* :
 	#   - the cell itself
 	def marshal_load(array)
-		@state, @hypothesis = array
-		initialize(@hypothesis, @state)
+		@state, @hypothesis, @posY, @posX = array
+		initialize(@hypothesis, @posY, @posX, @state)
 		return self
 	end
 

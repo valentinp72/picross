@@ -1,0 +1,14 @@
+---
+home :
+  play : "Jouer"
+  rank : "Classement"
+  rule : "Regles"
+  option : "Options"
+option :
+  chooseLanguage : "Choisir la langue"
+button :
+  valid : "Valider"
+  cancel : "Annuler"
+  return : "Retour"
+  exit : "Quitter"
+...

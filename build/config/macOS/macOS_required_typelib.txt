@@ -1,0 +1,18 @@
+# Get this file content by running the game, and then
+# lsof -p PID_GAME | grep REG | grep .typelib | egrep -o '/usr/.*'
+# where PID_GAME is the pid of the game (`ps` to get it)
+#
+/usr/local/Cellar/atk/2.26.1/lib/girepository-1.0/Atk-1.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/GObject-2.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/GLib-2.0.typelib
+/usr/local/Cellar/pango/1.40.14/lib/girepository-1.0/Pango-1.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/cairo-1.0.typelib
+/usr/local/Cellar/pango/1.40.14/lib/girepository-1.0/PangoCairo-1.0.typelib
+/usr/local/Cellar/pango/1.40.14/lib/girepository-1.0/PangoFT2-1.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/freetype2-2.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/fontconfig-2.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/Gio-2.0.typelib
+/usr/local/Cellar/gdk-pixbuf/2.36.11/lib/girepository-1.0/GdkPixbuf-2.0.typelib
+/usr/local/Cellar/gobject-introspection/1.54.1/lib/girepository-1.0/GModule-2.0.typelib
+/usr/local/Cellar/gtk+3/3.22.26/lib/girepository-1.0/Gdk-3.0.typelib
+/usr/local/Cellar/gtk+3/3.22.26/lib/girepository-1.0/Gtk-3.0.typelib

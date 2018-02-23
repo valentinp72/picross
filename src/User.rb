@@ -1,4 +1,5 @@
 require_relative 'UserSettings'
+require_relative 'Chapter'
 
 ##
 # File			:: User.rb
@@ -16,7 +17,7 @@ class User
 	# +availableHelps+	- amount of help that the player can spend
 
 	attr_accessor :name
-	attr_reader :settings
+	attr_reader :settings, :availableHelps, :chapters
 
 	##
 	# Creates a new User object
@@ -26,6 +27,17 @@ class User
 		@name = name
 		@settings = UserSettings.new()
 		@availableHelps = 0
+		@chapters = Array.new()
+
+		# Retrieve all default chapters
+		chapterFolder = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/Default/chapters/")
+		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
+
+		chapterFile.each do |f|
+			puts chapterFolder + f
+			@chapters.push(Chapter.load(chapterFolder + "/"+ f))
+		end
+
 	end
 
 	##
@@ -54,7 +66,8 @@ class User
 
 	def save()
 		print(Dir.pwd)
-		File.open("../Users/User_#{@name}" , 'w'){|f| f.write(Marshal.dump(self))}
+		path = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/User_#{@name}")
+		File.open(path, 'w'){|f| f.write(Marshal.dump(self))}
 		return self
 	end
 
@@ -64,13 +77,13 @@ class User
 	##
 	#
 	def marshal_dump()
-		[@name,@settings,@availableHelps]
+		[@name,@settings,@availableHelps,@chapters]
 	end
 
 	##
 	#
 	def marshal_load(array)
-		@name,@settings,@availableHelps = array
+		@name,@settings,@availableHelps,@chapters = array
 		return self
 	end
 end

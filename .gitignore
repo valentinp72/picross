@@ -5,6 +5,10 @@
 *.DS_Store
 ._*
 
+# Users
+Users/*
+!Users/Default/
+
 # github deploy
 README.html
 github-sync.php
@@ -28,7 +32,12 @@ github-sync.php
 ## Specific to RubyMotion:
 .dat*
 .repl_history
-build/
+#build/*
+#!build/ruby/*
+#!build/config/*
+build/ruby
+build/output/
+build/vendor
 *.bridgesupport
 build-iPhoneOS/
 build-iPhoneSimulator/

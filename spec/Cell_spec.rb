@@ -7,7 +7,7 @@ describe Cell do
 	grid = Grid.new(10,10)
 	hypo = Hypothesis.new(grid)	
 
-	cell = Cell.new(hypo)
+	cell = Cell.new(hypo, 0, 0)
 
 	it "initialize cell" do
 		expect(cell.state).to eq Cell::CELL_WHITE

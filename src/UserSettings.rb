@@ -12,7 +12,7 @@ class UserSettings
 	## Class variables :
 	# +validLang+ - List of supported languages
 
-	@@validLang = ["fr","en"]
+	@@validLang = ["francais","english"]
 
 	## Instance variable :
 	# +language+	- the game's displayed language

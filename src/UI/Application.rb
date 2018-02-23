@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 
 require 'gtk3'
+
+require_relative '../Map'
 
 require_relative 'Window'
 require_relative 'Windows/MainWindow'
@@ -17,14 +20,21 @@ class Application < Gtk::Application
 
 		signal_connect "activate" do |application|
 			window = MainWindow.new(application)
-			window.setFrame(LoginFrame.new())
+#map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
+#			window.setFrame(GameFrame.new(map))
+			window.setFrame(LoginFrame.new)
 			window.present
 			window.show_all
+
+			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
+			window.set_keep_above(true)
+
 		end
 
 		signal_connect "startup" do |application|
 			builder = Gtk::Builder.new()
-			builder.add_from_file("app-menu.ui")
+			appmenuPath = File.expand_path(File.dirname(__FILE__) + '/app-menu.ui')
+			builder.add_from_file(appmenuPath)
 			set_app_menu(builder.get_object("appmenu"))
 			set_menubar(builder.get_object("menubar"))
 		end
