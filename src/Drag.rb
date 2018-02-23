@@ -1,5 +1,3 @@
-require 'set'
-
 require_relative 'Grid'
 
 class Drag
@@ -7,14 +5,23 @@ class Drag
 	attr_reader :changedCells
 	attr_reader :wantedCell
 	
-	def initialize()
+	def initialize(grid, cells)
 		self.reset
+		@grid  = grid
+		@cells = cells
+
+		@xOffset = 0
+		@yOffset = 0
+	end
+
+	def setOffsets(yOfsset, xOffset)
+		@yOffset = yOfsset
+		@xOffset = xOffset
 	end
 
 	def startDrag(startCell, wantedCell)
-		@startCell    = startCell
-		@changedCells = Set[startCell]
-		@wantedCell   = wantedCell
+		@startCell  = startCell
+		@wantedCell = wantedCell
 
 		@xDirection = nil
 		@yDirection = nil
@@ -35,14 +42,31 @@ class Drag
 			end
 			if validDirections?(cell) then
 				cell.state = @wantedCell
-				@changedCells.add(cell)
+				updateFromTo(@startCell, cell)
+			end
+		end
+	end
+
+	def updateFromTo(fromCell, toCell)
+		yPositions = [fromCell.posY, toCell.posY]
+		xPositions = [fromCell.posX, toCell.posX]
+
+		yStart = yPositions.min
+		yEnd   = yPositions.max
+		xStart = xPositions.min
+		xEnd   = xPositions.max
+		(yStart..yEnd).each do |y|
+			(xStart..xEnd).each do |x|
+				btn  = @cells.get_child_at(x + @xOffset, y + @yOffset)
+				cell = @grid.getCellPosition(y, x)
+				cell.state = @wantedCell
+				btn.setCSSClass
 			end
 		end
 	end
 
 	def reset()
 		@startCell    = nil
-		@changedCells = Set[]
 		@wantedCell   = nil
 	end
 

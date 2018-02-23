@@ -52,8 +52,6 @@ class CellButton < Gtk::EventBox
 			# force to not grab focus on current button
 			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 
-			puts "je suis la cell #{@cell} : #{@cell.posX}, #{@cell.posY}"
-
 			if event.button == BUTTON_LEFT_CLICK then
 				@drag.startLeftDrag(@cell)
 			elsif event.button == BUTTON_RIGHT_CLICK then
@@ -70,10 +68,6 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
-			@drag.changedCells.each do |toUpdateCell|
-				toUpdateCell.state = @drag.wantedCell
-				cells.get_child_at(toUpdateCell.posX, toUpdateCell.posX).setCSSClass
-			end
 			self.setCSSClass
 		end
 
@@ -86,7 +80,6 @@ class CellButton < Gtk::EventBox
 	end
 
 	def setCSSClass()
-		puts "Je suis la cell #{@cell.posX}, #{@cell.posY}, #{@cell.state}"
 		wantedClass = ""
 		if @cell.state == Cell::CELL_BLACK then
 			wantedClass = "activated"
@@ -117,7 +110,6 @@ class PicrossFrame < Frame
 		super()
 		self.border_width = 20
 		@grid = grid
-		@drag = Drag.new
 		@lineSolution = lineSolution
 		@columnSolution = columnSolution
 
@@ -126,15 +118,18 @@ class PicrossFrame < Frame
 
 	def createArea()
 		@cells = Gtk::Grid.new
+		@drag  = Drag.new(@grid, @cells)
 
 		lineOffset = @lineSolution.map(&:length).max
 		columnOffset = @columnSolution.map(&:length).max
+
+		@drag.setOffsets(lineOffset, columnOffset)
 
 		createNumbers(@cells, @columnSolution, lineOffset, columnOffset, false)
 		createNumbers(@cells, @lineSolution, lineOffset, columnOffset, true)
 
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag, @cells), column + columnOffset , line + lineOffset, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag, @cells), column + columnOffset, line + lineOffset, 1, 1)
 		end
 
 		add(@cells)
@@ -146,8 +141,9 @@ class PicrossFrame < Frame
 		css_provider.load(data: "
 			.number {
 				min-width : 20px;
-				border : 1px solid lightgray;
-				color : black;
+				min-height: 20px;
+				border    : 1px solid lightgray;
+				color     : black;
 			}
 		")
 
@@ -156,8 +152,6 @@ class PicrossFrame < Frame
 		solution.each do |n|
 			j = 0
 			n = n.reverse.fill(n.size..offset - 1){ nil }
-			print n.reverse
-			puts " "
 			n.reverse.each do |m|
 				label = Gtk::Label.new(m.to_s)
 				label.style_context.add_class("number")
@@ -183,7 +177,7 @@ class GameFrame < Frame
 	def initialize(map)
 		super()
 		self.border_width = 10
-		@grid = map.solution
+		@grid = map.solution#hypotheses.getWorkingHypothesis.grid
 		@map  = map
 
 		self.createMainLayout
@@ -208,7 +202,7 @@ class GameFrame < Frame
 	def createHeaderLayout()
 
 		testIcon = File.expand_path(File.dirname(__FILE__) + "/../../assets/btnReturn.png")
-		btnBack  = Gtk::Image.new(testIcon)
+		btnBack  = Gtk::Image.new(:file => testIcon)
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -239,11 +233,11 @@ class GameFrame < Frame
 
 		@timer = Gtk::Label.new("Timer")
 		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
-		@reset  = Gtk::Image.new(image)
+		@reset  = Gtk::Image.new(:file => image)
 		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
-		@pause  = Gtk::Image.new(image)
+		@pause  = Gtk::Image.new(:file => image)
 		image = File.expand_path(File.dirname(__FILE__) + "/../../assets/pause2.png")
-		@hypot  = Gtk::Image.new(image)
+		@hypot  = Gtk::Image.new(:file => image)
 		@help  = Gtk::Button.new(:label => "help")
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "
