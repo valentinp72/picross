@@ -39,7 +39,7 @@ class MapFrame < Frame
 			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
 
 			@buttonsList[x].signal_connect("clicked") do
-				self.parent.setFrame(GameFrame.new(chapter.levels[x]))
+				self.parent.setFrame(GameFrame.new(user,chapter,chapter.levels[x]))
 			end
 		end
 

@@ -21,7 +21,7 @@ class Map
 	class CorruptedMapException < StandardError; end
 
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
-	attr_reader :hypotheses
+	attr_accessor :hypotheses
 
 	#The solution (a Grid) of the map
 	attr_reader :solution, :name, :difficulty, :clmSolution, :lneSolution
