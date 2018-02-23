@@ -7,7 +7,7 @@ require_relative '../../Drag'
 class CellButton < Gtk::EventBox
 
 	BUTTON_LEFT_CLICK  = 1
-	BUTTON_RIGHT_CLICK = 3 
+	BUTTON_RIGHT_CLICK = 3
 
 	attr_reader :cell
 
@@ -19,7 +19,7 @@ class CellButton < Gtk::EventBox
 
 		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
 		@widget  = Gtk::Image.new(:surface => @surface)
-		
+
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: "
 			image {
@@ -37,7 +37,7 @@ class CellButton < Gtk::EventBox
 			}
 		")
 		@widget.style_context.add_provider(
-				css_provider, 
+				css_provider,
 				Gtk::StyleProvider::PRIORITY_USER
 		)
 
@@ -48,7 +48,7 @@ class CellButton < Gtk::EventBox
 			Gdk::EventMask::LEAVE_NOTIFY_MASK)
 
 		self.signal_connect('button_press_event') do |widget, event|
-			
+
 			# force to not grab focus on current button
 			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 
@@ -112,12 +112,14 @@ class CellButton < Gtk::EventBox
 end
 
 class PicrossFrame < Frame
-	
-	def initialize(grid)
+
+	def initialize(grid, columnSolution, lineSolution)
 		super()
 		self.border_width = 20
 		@grid = grid
 		@drag = Drag.new
+		@lineSolution = lineSolution
+		@columnSolution = columnSolution
 
 		createArea()
 	end
@@ -125,13 +127,54 @@ class PicrossFrame < Frame
 	def createArea()
 		@cells = Gtk::Grid.new
 
+		lineOffset = @lineSolution.map(&:length).max
+		columnOffset = @columnSolution.map(&:length).max
+
+		createNumbers(@cells, @columnSolution, lineOffset, columnOffset, false)
+		createNumbers(@cells, @lineSolution, lineOffset, columnOffset, true)
+
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag, @cells), column, line, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag, @cells), column + columnOffset , line + lineOffset, 1, 1)
 		end
 
 		add(@cells)
 	end
 
+	def createNumbers(cells,solution, lineOffset, columnOffset, isHorizontal)
+
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: "
+			.number {
+				min-width : 20px;
+				border : 1px solid lightgray;
+				color : black;
+			}
+		")
+
+		isHorizontal ? offset = lineOffset : offset = columnOffset
+		i = 0
+		solution.each do |n|
+			j = 0
+			n = n.reverse.fill(n.size..offset - 1){ nil }
+			print n.reverse
+			puts " "
+			n.reverse.each do |m|
+				label = Gtk::Label.new(m.to_s)
+				label.style_context.add_class("number")
+				label.style_context.add_provider(
+						css_provider,
+						Gtk::StyleProvider::PRIORITY_USER
+				)
+				if isHorizontal then
+					cells.attach(label,j,i+lineOffset,1,1)
+				else
+					cells.attach(label,i+columnOffset,j,1,1)
+				end
+				j+= 1
+			end
+			i+= 1
+		end
+	end
 end
 
 class GameFrame < Frame
@@ -150,20 +193,20 @@ class GameFrame < Frame
 
 
 	def createMainLayout()
-	
+
 		@header  = createHeaderLayout()
-		@content = createContentLayout() 
+		@content = createContentLayout()
 
 		@main = Gtk::Box.new(:vertical, 2)
 		@main.pack_start(@header)
 		@main.pack_start(@content, :expand => true, :fill => true)
 
 		self.add(@main)
-	
+
 	end
 
 	def createHeaderLayout()
-	
+
 		btnBack   = Gtk::Button.new(:label => "Back")
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
@@ -172,16 +215,16 @@ class GameFrame < Frame
 		@header.pack_start(btnBack,   :expand => true, :fill => true)
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
-	
+
 		return @header
 	end
 
 	def createContentLayout()
 
-		
+
 		@content = Gtk::Box.new(:horizontal)
-		
-		@picross = PicrossFrame.new(@grid)
+
+		@picross = PicrossFrame.new(@grid, @map.clmSolution, @map.lneSolution)
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
