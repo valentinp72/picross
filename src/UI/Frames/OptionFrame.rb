@@ -1,6 +1,8 @@
 require 'yaml'
 
 require_relative 'HomeFrame'
+require_relative 'Game/GameFrame'
+
 require_relative '../Frame'
 
 ##
@@ -12,6 +14,7 @@ require_relative '../Frame'
 # Version       :: 0.1
 #
 # This class represents the OptionFrame, page where we can change current user's settings
+# This can only be called from HomeFrame
 class OptionFrame < Frame
 
 	def initialize(user)
@@ -60,7 +63,7 @@ class OptionFrame < Frame
 		@validBtn.signal_connect("clicked") do
 			if(@comboBox.active_text != nil) then
 					# Change language
-					user.settings.language= @comboBox.active_text
+					user.settings.language = @comboBox.active_text
 					user.save()
 					closeOrComeBackToHome(user)
 			end
@@ -79,6 +82,26 @@ class OptionFrame < Frame
 	def closeOrComeBackToHome(user)
 		if self.parent.mainWindow? then
 			self.parent.setFrame(HomeFrame.new(user))
+		else
+			self.parent.close
+		end
+	end
+
+end
+
+# This class represents the OptionFrame, page where we can change current user's settings
+# This can only be called from GameFrame
+class GameOptionFrame < OptionFrame
+
+	def initialize(user,chapter,map)
+		super(user)
+		@chapter = chapter
+		@map     = map
+	end
+
+	def closeOrComeBackToHome(user)
+		if self.parent.mainWindow? then
+			self.parent.setFrame(GameFrame.new(user,@chapter,@map))
 		else
 			self.parent.close
 		end

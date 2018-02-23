@@ -4,6 +4,8 @@ require_relative '../../../Map'
 
 require_relative '../MapFrame'
 
+require_relative '../OptionFrame'
+
 require_relative 'PicrossFrame'
 
 class GameFrame < Frame
@@ -65,6 +67,12 @@ class GameFrame < Frame
 				self.parent.setFrame(MapFrame.new(@user,@chapter))
 			end
 		end
+
+		# Redirecting user towards option menu
+		btnOption.signal_connect("clicked") do
+			self.parent.setFrame(GameOptionFrame.new(@user,@chapter,@map))
+		end
+
 		return @header
 	end
 
