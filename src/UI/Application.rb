@@ -19,19 +19,22 @@ class Application < Gtk::Application
 	attr_reader :connectedUser
 	attr_writer :connectedUser
 
+	attr_reader :window
+
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
 
 		@connectedUser = nil
+		@window        = nil
 
 		signal_connect "activate" do |application|
-			window = MainWindow.new(application)
-			window.setFrame(LoginFrame.new)
-			window.present
-			window.show_all
+			@window = MainWindow.new(application)
+			@window.setFrame(LoginFrame.new)
+			@window.present
+			@window.show_all
 
 			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
-			window.set_keep_above(true)
+			@window.set_keep_above(true)
 
 		end
 
@@ -63,8 +66,10 @@ class Application < Gtk::Application
 	end
 
 	def action_preferences_cb()
-		preferences = PreferencesWindow.new(self)
-		preferences.present
+		if @connectedUser != nil then
+			preferences = PreferencesWindow.new(self)
+			preferences.present
+		end
 	end
 
 	def action_quit_cb()

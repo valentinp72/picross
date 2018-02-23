@@ -65,7 +65,7 @@ class User
 	end
 
 	def save()
-		print(Dir.pwd)
+		#print(Dir.pwd)
 		path = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/User_#{@name}")
 		File.open(path, 'w'){|f| f.write(Marshal.dump(self))}
 		return self

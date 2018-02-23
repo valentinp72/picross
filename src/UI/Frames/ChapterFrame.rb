@@ -50,5 +50,6 @@ class ChapterFrame < Frame
 
 		# Add vbox to frame
 		add(@vbox)
+		
 	end
 end

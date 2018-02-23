@@ -8,7 +8,6 @@ class PreferencesWindow < Window
 		if application.connectedUser != nil then
 			self.setFrame OptionFrame.new(application.connectedUser)
 		else
-			self.close
 		end
 	end
 
