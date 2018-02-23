@@ -173,14 +173,17 @@ end
 
 class GameFrame < Frame
 
+	BUTTON_LEFT_CLICK  = 1
 
-	def initialize(map)
+	def initialize(user, chapter, map)
 		super()
 		self.border_width = 10
-		@grid = map.solution#hypotheses.getWorkingHypothesis.grid
+		@grid = map.hypotheses.getWorkingHypothesis.grid
 		@map  = map
-
+		@chapter = chapter
+		@user = user
 		self.createMainLayout
+
 
 		@main.show_all
 	end
@@ -202,7 +205,8 @@ class GameFrame < Frame
 	def createHeaderLayout()
 
 		testIcon = File.expand_path(File.dirname(__FILE__) + "/../../assets/btnReturn.png")
-		btnBack  = Gtk::Image.new(:file => testIcon)
+		btnBack   = Gtk::EventBox.new
+		imgBack   = Gtk::Image.new(:file => testIcon)
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -211,6 +215,22 @@ class GameFrame < Frame
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
 
+		btnBack.add(imgBack)
+		btnBack.events |= (Gdk::EventMask::BUTTON_PRESS_MASK)
+		btnBack.signal_connect("button_press_event") do |widget, event|
+
+			# force to not grab focus on current button
+			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
+
+			if event.button == BUTTON_LEFT_CLICK then
+				indexChapter = @user.chapters.index(@chapter)
+				indexMap = @user.chapters[indexChapter].levels.index(@map)
+				hypotheses = @user.chapters[indexChapter].levels[indexMap].hypotheses
+				hypotheses = @map.hypotheses
+				@user.save()
+				self.parent.setFrame(MapFrame.new(@user,@chapter))
+			end
+		end
 
 		return @header
 	end
