@@ -1,4 +1,4 @@
-require_relative 'Grid'
+require_relative '../../../Grid'
 
 class Drag
 

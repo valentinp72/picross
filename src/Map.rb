@@ -24,13 +24,25 @@ class Map
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
 	attr_accessor :hypotheses
 
-	#The solution (a Grid) of the map
-	attr_reader :solution, :name, :difficulty, :clmSolution, :lneSolution, :statistics
+	# The solution (a Grid) of the map
+	attr_reader :solution 
+	
+	# The name of the Map
+	attr_reader :name 
+	
+	# The estimated difficulty of the map
+	attr_reader :difficulty
+	
+	# The numbers representing the columns solution (An array of arrays)
+	attr_reader :clmSolution
+	
+	# The numbers representing the lines solution (An array of arrays)
+	attr_reader :lneSolution
 
-	# +timeToDo+    - The estimated time to resolve the game
-	# +difficulty+  - The estimated difficulty of the map
-	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
-	# +lneSolution+ - The numbers representing the lines solution (An array of arrays)
+	# The User Statistic about this Map
+	attr_reader :statistics
+
+	# +timeToDo+ - The estimated time to resolve the game
 
 	##
 	# Create a new map object

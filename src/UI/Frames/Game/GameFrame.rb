@@ -9,8 +9,6 @@ require_relative 'PicrossFrame'
 
 class GameFrame < Frame
 
-  BUTTON_LEFT_CLICK = 1
-
 	def initialize(user, chapter, map)
 		super()
 		self.border_width = 10

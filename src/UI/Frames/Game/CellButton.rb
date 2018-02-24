@@ -1,62 +1,57 @@
+##
+# File          :: CellButton.rb
+# Author        :: PELLOIN Valentin
+# Licence       :: MIT License
+# Creation date :: 02/23/2018
+# Last update   :: 02/24/2018
+# Version       :: 0.1
+#
+# This class represents a clickable cell in a Picross.
+# A clickable cell is a GTK EventBox, and it's composed of a Cell.
+
 class CellButton < Gtk::EventBox
 
+	# Left-click value when a button-click event is throwed
 	BUTTON_LEFT_CLICK  = 1
+	
+	# Right-click value when a button-click event is throwed
 	BUTTON_RIGHT_CLICK = 3
 
+	# The real Cell that this button is composed
 	attr_reader :cell
 	attr_writer :cell
 
-	def initialize(cell, drag, cells)
+	##
+	# Creation of a new CellButton
+	# * *Arguments* :
+	#   - +cell+ -> the real picross Cell
+	#   - +drag+ -> a Drag object, allowing this cell to drag multiple cells
+	def initialize(cell, drag)
 		super()
 		@cell  = cell
 		@drag  = drag
-		@cells = cells
 
+		# The content of this cell is just a blank image
 		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
 		@widget  = Gtk::Image.new(:surface => @surface)
 
+		# Add the CSS to the button
 		css_provider = Gtk::CssProvider.new
-		css_provider.load(data: "
-			image {
-				background-color: red;
-				border: 1px solid white;
-			}
-			.activated {
-				background-color: black;
-			}
-			.crossed {
-				background-color: gray;
-			}
-			.white {
-				background-color: white;
-			}
+		css_provider.load(data: self.css)
+		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 
-			.hyp0 {
-				border-color: black;
-			}
-			.hyp1 {
-				border-color: red;
-			}
-			.hyp2 {
-				border-color: green;
-			}
-			.hyp3 {
-				border-color: yellow;
-			}
-			.hyp4 {
-				border-color: blue;
-			}
-			.hypUnknown {
-				border-color: red;
-				background-color :red;
-			}
-		")
+		self.setEvents
+		self.setCSSClass
+		self.add(@widget)
+	end
 
-		@widget.style_context.add_provider(
-				css_provider,
-				Gtk::StyleProvider::PRIORITY_USER
-		)
-
+	##
+	# Create the events of the CellButton.
+	# This add the events to allow changing cell state, 
+	# and to drag between several cells
+	# * *Returns* :
+	#   - the CellButton itself
+	def setEvents()
 		self.events |= (
 			Gdk::EventMask::BUTTON_PRESS_MASK |
 			Gdk::EventMask::BUTTON_RELEASE_MASK |
@@ -75,7 +70,6 @@ class CellButton < Gtk::EventBox
 			end
 
 			self.setCSSClass
-
 		end
 
 		self.signal_connect('button_release_event') do |widget, event|
@@ -86,36 +80,22 @@ class CellButton < Gtk::EventBox
 			@drag.update(@cell)
 			self.setCSSClass
 		end
-
-		self.signal_connect('leave_notify_event') do |widget, event|
-		end
-
-		self.setCSSClass()
-		self.add(@widget)
-
+		return self
 	end
 
+	##
+	# Updates the css attributes of the cell to be exaclty what 
+	# the cells is (state and hypothesis)
+	# * *Returns* :
+	#   - the CellButton itself
 	def setCSSClass()
 		wantedClasses = []
 
 		# chooses the class about the state of the cell
-		state = "white"
-		case @cell.state
-			when Cell::CELL_BLACK
-				state = "activated"
-			when Cell::CELL_CROSSED
-				state = "crossed"
-		end
-		wantedClasses.push state
+		wantedClasses.push(chooseStateClass)
 
 		# chooses the class about the hypothesis of the cell
-		hypothesis = ""
-		if @cell.hypothesis.id >= 0 && @cell.hypothesis.id <= 4 then
-			hypothesis = "hyp#{@cell.hypothesis.id}"
-		else
-			hypothesis = "hypUnknown"
-		end
-		wantedClasses.push hypothesis
+		wantedClasses.push(chooseHypothesisClass)
 
 		@widget.style_context.classes.each do |className|
 			@widget.style_context.remove_class(className)
@@ -123,6 +103,78 @@ class CellButton < Gtk::EventBox
 		wantedClasses.each do |className|
 			@widget.style_context.add_class(className)
 		end
+		return self
+	end
+
+	##
+	# Returns a CSS class name according to the current state of the cell
+	# * *Returns* :
+	#   - +black+, +crossed+ or +white+ according to the state
+	def chooseStateClass()
+		case @cell.state
+			when Cell::CELL_BLACK
+				return "black"
+			when Cell::CELL_CROSSED
+				return "crossed"
+		end
+		return "white"
+	end
+
+	##
+	# Returns a CSS class name according to the current cell hypothesis
+	# * *Returns* :
+	#   - +hypX+ where X is the hypothesis id, or +hypUnknown+ if the hypothesis is unknown
+	def chooseHypothesisClass()
+		if @cell.hypothesis.id >= 0 && @cell.hypothesis.id <= 4 then
+			return "hyp#{@cell.hypothesis.id}"
+		end
+			return "hypUnknown"
+	end
+
+	##
+	# Returns the needed CSS for the image of a button cell, it's state and hypothesis
+	# * *Returns* :
+	#   - a String containing the CSS
+	def css()
+		"
+			/* Main definition */
+			image {
+				background-color: red;
+				border: 1px solid white;
+			}
+
+			/* States */
+			.black {
+				background-color: black;
+			}
+			.crossed {
+				background-color: gray;
+			}
+			.white {
+				background-color: white;
+			}
+
+			/* Hypotheses */
+			.hyp0 {
+				border-color: black;
+			}
+			.hyp1 {
+				border-color: red;
+			}
+			.hyp2 {
+				border-color: green;
+			}
+			.hyp3 {
+				border-color: yellow;
+			}
+			.hyp4 {
+				border-color: blue;
+			}
+			.hypUnknown {
+				border-color    : red;
+				background-color: red;
+			}
+		"
 	end
 
 end

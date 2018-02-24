@@ -3,7 +3,7 @@
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 01/27/2018
-# Last update   :: 01/27/2018
+# Last update   :: 02/24/2018
 # Version       :: 0.1
 #
 # This class represents a cell in a Picross.
@@ -37,8 +37,11 @@ class Cell
 	##
 	# Create a new cell, with a default state of CELL_WHITE .
 	# * *Arguments* :
-	#   - +hypothesis+ -> the hypothesis that this cell is belonging
-	#   - +state+      -> the state the cell starts whith (default CELL_WHITE)
+	#   - +hypothesis+     -> the hypothesis that this cell is belonging
+	#   - +posY+           -> the Y position of this cell in the grid
+	#   - +posX+           -> the X position of this cell in the grid
+	#   - +nextHypothesis+ -> if this cell changes, it's hypothesis will be +nextHypothesis+
+	#   - +state+          -> the state the cell starts whith (default CELL_WHITE)
 	def initialize(hypothesis, posY, posX, nextHypothesis = hypothesis, state=CELL_WHITE)
 		@state          = state
 		@hypothesis     = hypothesis
@@ -80,7 +83,8 @@ class Cell
 	end
 
 	##
-	# Change the state to the next one (EMPTY -> FULL -> EMPTY ...).
+	# Changes the state to the next one (WHITE -> BLACK -> WHITE ...).
+	# If the cell state is currently CROSSED, the state will be converted to WHITE
 	# * *Returns* :
 	#   - the cell itself
 	def stateRotate()
@@ -92,6 +96,11 @@ class Cell
 		return self
 	end
 
+	##
+	# Changes the state of the cell with the cross (WHITE -> CROSSED -> WHITE ...).
+	# If the cell state is currently BLACK, the state will be converted to CROSSED
+	# * *Returns* :
+	#    - the cell itself
 	def stateInvertCross()
 		if self.state == CELL_CROSSED then
 			self.state = CELL_WHITE
