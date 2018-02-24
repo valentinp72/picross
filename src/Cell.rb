@@ -1,4 +1,4 @@
-## 
+##
 # File          :: Cell.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
@@ -6,16 +6,16 @@
 # Last update   :: 01/27/2018
 # Version       :: 0.1
 #
-# This class represents a cell in a Picross.  
+# This class represents a cell in a Picross.
 # Each cell have a state (white, black or crossed when the player is sure the cell should be white).
 # The cells also have a link to its hypothesis.
 
 class Cell
 
 	# Default state, the cell is white
-	CELL_WHITE   = 0 
-	# The cell state is colored 
-	CELL_BLACK   = 1 
+	CELL_WHITE   = 0
+	# The cell state is colored
+	CELL_BLACK   = 1
 	# The cell state is white, and should remain (crossed)
 	CELL_CROSSED = 2
 
@@ -24,7 +24,7 @@ class Cell
 
 	# The state of the cell
 	attr_reader :state
-	
+
 	# The hypothesis to this cell
 	attr_reader :hypothesis
 	attr_writer :hypothesis
@@ -35,7 +35,7 @@ class Cell
 	attr_reader :posY
 
 	# +nextCells+  - The array of the nexts cells after rotation
-	
+
 	private_constant :LIST_CELLS
 
 	##
@@ -57,7 +57,7 @@ class Cell
 	end
 
 	##
-	# Clone the current cell in a new cell.  
+	# Clone the current cell in a new cell.
 	# The hypothesis is kept the same
 	# * *Returns* :
 	#   - the new cloned cell
@@ -122,6 +122,23 @@ class Cell
 	end
 
 	##
+	# Compare the cell to the one given as parameter.
+	# * *Returns* :
+	#   - true if the cells are the same
+	def compare(cell)
+		if @state == CELL_WHITE || @state == CELL_CROSSED then
+			if cell.state == CELL_WHITE || cell.state == CELL_CROSSED then
+				return true
+			end
+		elsif @state == CELL_BLACK then
+			if cell.state == CELL_BLACK then
+				return true
+			end
+		end
+		return false
+	end
+
+	##
 	# Convert the cell to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the cell converted to an array
@@ -130,7 +147,7 @@ class Cell
 	end
 
 	##
-	# Update all the instances variables from the array given, 
+	# Update all the instances variables from the array given,
 	# allowing Marshal to load a cell.
 	# * *Arguments* :
 	#   - +array+ -> the array to transform to instances variables
