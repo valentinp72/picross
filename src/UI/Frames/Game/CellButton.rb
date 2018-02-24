@@ -1,10 +1,10 @@
-
 class CellButton < Gtk::EventBox
 
 	BUTTON_LEFT_CLICK  = 1
 	BUTTON_RIGHT_CLICK = 3
 
 	attr_reader :cell
+	attr_writer :cell
 
 	def initialize(cell, drag, cells)
 		super()
@@ -94,6 +94,7 @@ class CellButton < Gtk::EventBox
 	def setCSSClass()
 		wantedClasses = []
 
+		# chooses the class about the state of the cell
 		state = "white"
 		case @cell.state
 			when Cell::CELL_BLACK
@@ -103,12 +104,12 @@ class CellButton < Gtk::EventBox
 		end
 		wantedClasses.push state
 
-		hypothesis = "hyp0"
-		case @cell.hypothesis.id
-			when 0
-				hypothesis = "hyp0"
-			when 1
-				hypothesis = "hyp1"
+		# chooses the class about the hypothesis of the cell
+		hypothesis = "hyp"
+		if @cell.hypothesis.id >= 0 && @cell.hypothesis.id <= 4 then
+			hypothesis += @cell.hypothesis.id.to_s
+		else
+			hypothesis += "0"
 		end
 		wantedClasses.push hypothesis
 

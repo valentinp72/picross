@@ -1,4 +1,5 @@
 require_relative 'Hypotheses'
+require_relative 'Statistics'
 
 ##
 # File          :: Map.rb
@@ -48,7 +49,7 @@ class Map
 		@solution    = solutionGrid
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
-		@statistics = Statistics.new
+		@statistics  = Statistics.new
 	end
 
 	##

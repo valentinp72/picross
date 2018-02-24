@@ -15,20 +15,30 @@ class PicrossFrame < Frame
 		createArea()
 	end
 
+	def grid=(newGrid)
+		
+		@grid = newGrid
+		@drag.grid = @grid
+
+		@grid.each_cell_with_index do |cell, line, column|
+			@cells.get_child_at(@columnOffset + column, @lineOffset + line).cell = cell
+		end
+	end
+
 	def createArea()
 		@cells = Gtk::Grid.new
 		@drag  = Drag.new(@grid, @cells)
 
-		lineOffset = @lineSolution.map(&:length).max
-		columnOffset = @columnSolution.map(&:length).max
+		@lineOffset   = @lineSolution.map(&:length).max
+		@columnOffset = @columnSolution.map(&:length).max
 
-		@drag.setOffsets(lineOffset, columnOffset)
+		@drag.setOffsets(@lineOffset, @columnOffset)
 
-		createNumbers(@cells, @columnSolution, lineOffset, columnOffset, false)
-		createNumbers(@cells, @lineSolution, lineOffset, columnOffset, true)
+		createNumbers(@cells, @columnSolution, @lineOffset, @columnOffset, false)
+		createNumbers(@cells, @lineSolution,   @lineOffset, @columnOffset, true)
 
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag, @cells), column + columnOffset, line + lineOffset, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag, @cells), column + @columnOffset, line + @lineOffset, 1, 1)
 		end
 
 		add(@cells)

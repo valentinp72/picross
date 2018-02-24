@@ -4,6 +4,8 @@ class Drag
 
 	attr_reader :changedCells
 	attr_reader :wantedCell
+
+	attr_writer :grid
 	
 	def initialize(grid, cells)
 		self.reset

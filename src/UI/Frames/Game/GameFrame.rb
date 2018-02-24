@@ -1,7 +1,8 @@
 require_relative '../../../Map'
 
-require_relative '../MapFrame'
+require_relative '../../AssetsLoader'
 
+require_relative '../MapFrame'
 require_relative '../OptionFrame'
 
 require_relative 'PicrossFrame'
@@ -95,8 +96,17 @@ class GameFrame < Frame
 		@reset  = Gtk::Image.new(:file => image)
 		image = File.expand_path(File.dirname(__FILE__) + "/../../../assets/pause2.png")
 		@pause  = Gtk::Image.new(:file => image)
-		image = File.expand_path(File.dirname(__FILE__) + "/../../../assets/pause2.png")
-		@hypot  = Gtk::Image.new(:file => image)
+
+		@btnHypotheses = Gtk::Button.new()
+		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40) 
+		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
+
+		@btnHypotheses.signal_connect('clicked') do
+			@map.hypotheses.addNewHypothesis
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+		end
+
 		@help  = Gtk::Button.new(:label => "help")
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "
@@ -112,7 +122,7 @@ class GameFrame < Frame
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
 		@sideBar.pack_start(@reset, :expand => true, :fill => true)
 		@sideBar.pack_start(@pause, :expand => true, :fill => true)
-		@sideBar.pack_start(@hypot, :expand => true, :fill => true)
+		@sideBar.pack_start(@btnHypotheses, :expand => true, :fill => true)
 		@sideBar.pack_start(@help,  :expand => true, :fill => true)
 
 		return @sideBar

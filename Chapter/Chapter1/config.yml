@@ -1,12 +1,8 @@
 ---
 chapter :
-  title : "Chapter 1"
+  title : "Test chapter"
   stars : 0
   unlocked : true
   levels :
-    - bunny
-    - mouse
-    - owl
-    - planet
-    - tiny_heart
+    - batman
 ...

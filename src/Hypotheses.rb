@@ -55,6 +55,9 @@ class Hypotheses
 	def addNewHypothesis()
 		newGrid = getWorkingHypothesis.grid.clone
 		newHypothesis = Hypothesis.new(newGrid, getWorkingHypothesis.id + 1)
+		newGrid.each_cell do |cell|
+			cell.nextHypothesis = newHypothesis
+		end
 		@stack.push(newHypothesis)
 		return @stack.length - 1
 	end

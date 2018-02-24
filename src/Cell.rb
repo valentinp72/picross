@@ -29,6 +29,9 @@ class Cell
 	attr_reader :hypothesis
 	attr_writer :hypothesis
 
+	# The next hypothesis when this cell changes state
+	attr_writer :nextHypothesis
+
 	# The cell X position
 	attr_reader :posX
 	# The cell Y position
@@ -43,12 +46,13 @@ class Cell
 	# * *Arguments* :
 	#   - +hypothesis+ -> the hypothesis that this cell is belonging
 	#   - +state+      -> the state the cell starts whith (default CELL_WHITE)
-	def initialize(hypothesis, posY, posX, state=CELL_WHITE)
-		@nextCells  = Array.new(LIST_CELLS)
-		@state      = state
-		@hypothesis = hypothesis
-		@posY       = posY
-		@posX       = posX
+	def initialize(hypothesis, posY, posX, nextHypothesis = hypothesis, state=CELL_WHITE)
+		@nextCells      = Array.new(LIST_CELLS)
+		@state          = state
+		@hypothesis     = hypothesis
+		@nextHypothesis = nextHypothesis
+		@posY           = posY
+		@posX           = posX
 
 		# update the next cells so that the next one is just following the current state
 		while @nextCells.last != @state do
@@ -62,11 +66,12 @@ class Cell
 	# * *Returns* :
 	#   - the new cloned cell
 	def clone()
-		cState      = @state
-		cHypothesis = @hypothesis
-		cPosX       = @posX
-		cPosY       = @posY
-		return Cell.new(cHypothesis, cPosY, cPosX, cState)
+		cState          = @state
+		cHypothesis     = @hypothesis
+		cNextHypothesis = @nextHypothesis
+		cPosX           = @posX
+		cPosY           = @posY
+		return Cell.new(cHypothesis, cPosY, cPosX, cNextHypothesis, cState)
 	end
 
 	##
@@ -82,6 +87,7 @@ class Cell
 			raise ArgumentError, 'Argument state should be a valid state!'
 		else
 			@state = state
+			@hypothesis = @nextHypothesis
 		end
 		return self
 	end
@@ -143,7 +149,7 @@ class Cell
 	# * *Returns* :
 	#   - the cell converted to an array
 	def marshal_dump()
-		return [@state, @hypothesis, @posY, @posX]
+		return [@state, @hypothesis, @posY, @posX, @nextHypothesis]
 	end
 
 	##
@@ -154,8 +160,8 @@ class Cell
 	# * *Returns* :
 	#   - the cell itself
 	def marshal_load(array)
-		@state, @hypothesis, @posY, @posX = array
-		initialize(@hypothesis, @posY, @posX, @state)
+		@state, @hypothesis, @posY, @posX, @nextHypothesis = array
+		initialize(@hypothesis, @posY, @posX, @nextHypothesis, @state)
 		return self
 	end
 
