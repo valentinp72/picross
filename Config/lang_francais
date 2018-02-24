@@ -11,4 +11,7 @@ button :
   cancel : "Annuler"
   return : "Retour"
   exit : "Quitter"
+stats :
+  player : "Statistiques du joueur"
+  global : "Statistiques globales"
 ...
