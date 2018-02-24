@@ -1,6 +1,8 @@
 require 'yaml'
 require_relative 'ChapterFrame'
 require_relative 'OptionFrame'
+require_relative 'StatsFrame'
+
 require_relative '../Frame'
 
 ##
@@ -48,6 +50,11 @@ class HomeFrame < Frame
 		# Redirecting user towards option menu
 		@optiBtn.signal_connect("clicked") do
 			self.parent.setFrame(OptionFrame.new(user))
+		end
+
+		# Redirecting user towards statistics menu
+		@rankBtn.signal_connect("clicked") do
+			self.parent.setFrame(StatsFrame.new(user))
 		end
 
 		# Exit programms
