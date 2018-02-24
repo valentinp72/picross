@@ -24,7 +24,7 @@ class Map
 	attr_accessor :hypotheses
 
 	#The solution (a Grid) of the map
-	attr_reader :solution, :name, :difficulty, :clmSolution, :lneSolution
+	attr_reader :solution, :name, :difficulty, :clmSolution, :lneSolution, :statistics
 
 	# +timeToDo+    - The estimated time to resolve the game
 	# +difficulty+  - The estimated difficulty of the map
@@ -48,6 +48,7 @@ class Map
 		@solution    = solutionGrid
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
+		@statistics = Statistics.new
 	end
 
 	##
@@ -104,6 +105,7 @@ class Map
 		cell = hypothesis.grid.getCellPosition(line, column)
 		cell.stateRotate()
 		cell.hypothesis = hypothesis
+		@statistics.click()
 		return self
 	end
 
@@ -180,6 +182,7 @@ class Map
 		res += " - Solution        : \n#{@solution}\n\t"
 		res += " - Columns solution: #{@clmSolution}\n\t"
 		res += " - Lines solution  : #{@lneSolution}\n"
+		res += " - Statistics      : #{@statistics}\n"
 		return res
 	end
 
@@ -188,7 +191,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics]
 	end
 
 	##
@@ -199,7 +202,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics = array
 		return self
 	end
 
