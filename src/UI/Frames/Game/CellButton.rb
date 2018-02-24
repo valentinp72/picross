@@ -46,6 +46,10 @@ class CellButton < Gtk::EventBox
 			.hyp4 {
 				border-color: blue;
 			}
+			.hypUnknown {
+				border-color: red;
+				background-color :red;
+			}
 		")
 
 		@widget.style_context.add_provider(
@@ -105,11 +109,11 @@ class CellButton < Gtk::EventBox
 		wantedClasses.push state
 
 		# chooses the class about the hypothesis of the cell
-		hypothesis = "hyp"
+		hypothesis = ""
 		if @cell.hypothesis.id >= 0 && @cell.hypothesis.id <= 4 then
-			hypothesis += @cell.hypothesis.id.to_s
+			hypothesis = "hyp#{@cell.hypothesis.id}"
 		else
-			hypothesis += "0"
+			hypothesis = "hypUnknown"
 		end
 		wantedClasses.push hypothesis
 

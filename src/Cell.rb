@@ -19,9 +19,6 @@ class Cell
 	# The cell state is white, and should remain (crossed)
 	CELL_CROSSED = 2
 
-	# List of all possible states in a ordered array
-	LIST_CELLS   = [CELL_BLACK,   CELL_WHITE]
-
 	# The state of the cell
 	attr_reader :state
 
@@ -37,27 +34,17 @@ class Cell
 	# The cell Y position
 	attr_reader :posY
 
-	# +nextCells+  - The array of the nexts cells after rotation
-
-	private_constant :LIST_CELLS
-
 	##
 	# Create a new cell, with a default state of CELL_WHITE .
 	# * *Arguments* :
 	#   - +hypothesis+ -> the hypothesis that this cell is belonging
 	#   - +state+      -> the state the cell starts whith (default CELL_WHITE)
 	def initialize(hypothesis, posY, posX, nextHypothesis = hypothesis, state=CELL_WHITE)
-		@nextCells      = Array.new(LIST_CELLS)
 		@state          = state
 		@hypothesis     = hypothesis
 		@nextHypothesis = nextHypothesis
 		@posY           = posY
 		@posX           = posX
-
-		# update the next cells so that the next one is just following the current state
-		while @nextCells.last != @state do
-			@nextCells.rotate!
-		end
 	end
 
 	##
@@ -93,12 +80,15 @@ class Cell
 	end
 
 	##
-	# Change the state to the next one (EMPTY -> FULL -> CROSSED -> EMPTY ...).
+	# Change the state to the next one (EMPTY -> FULL -> EMPTY ...).
 	# * *Returns* :
 	#   - the cell itself
 	def stateRotate()
-		self.state = @nextCells.first
-		@nextCells.rotate!
+		if self.state == CELL_WHITE then
+			self.state = CELL_BLACK
+		else
+			self.state = CELL_WHITE
+		end
 		return self
 	end
 
