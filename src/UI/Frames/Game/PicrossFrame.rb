@@ -48,7 +48,7 @@ class PicrossFrame < Frame
 		@drag.grid = @grid
 
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.get_child_at(@columnOffset + column, @lineOffset + line).cell = cell
+			@cells.get_child_at(@lineOffset + column, @columnOffset + line).cell = cell
 		end
 		return self
 	end

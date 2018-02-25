@@ -1,3 +1,5 @@
+require_relative '../../AssetsLoader.rb'
+
 ##
 # File          :: CellButton.rb
 # Author        :: PELLOIN Valentin
@@ -91,11 +93,11 @@ class CellButton < Gtk::EventBox
 	def setCSSClass()
 		wantedClasses = []
 
-		# chooses the class about the state of the cell
-		wantedClasses.push(chooseStateClass)
-
 		# chooses the class about the hypothesis of the cell
 		wantedClasses.push(chooseHypothesisClass)
+		
+		# chooses the class about the state of the cell
+		wantedClasses.push(chooseStateClass)
 
 		@widget.style_context.classes.each do |className|
 			@widget.style_context.remove_class(className)
@@ -136,39 +138,73 @@ class CellButton < Gtk::EventBox
 	# * *Returns* :
 	#   - a String containing the CSS
 	def css()
+		black_img = AssetsLoader.loadFile('black_cell.png')
+		white_img = AssetsLoader.loadFile('white_cell.png')
+		cross_img = AssetsLoader.loadFile('cross_cell.png')
 		"
 			/* Main definition */
 			image {
-				background-color: red;
-				border: 1px solid white;
+				border-left: 1px solid gray;
+				border-top : 1px solid gray;
+				#{
+					if @cell.posX % 5 == 0 then
+						'border-left-width: 4px;'
+					end
+				}
+				#{
+					if @cell.hypothesis.grid.columns - 1 == @cell.posX then
+						'border-right: 4px solid gray;'
+					end
+				}
+				#{
+					if @cell.hypothesis.grid.lines - 1 == @cell.posY then
+						'border-bottom: 4px solid gray;'
+					end
+				}
+				#{
+					if @cell.posY % 5 == 0 then
+						'border-top-width : 4px;'
+					end
+				}
 			}
 
 			/* States */
 			.black {
-				background-color: black;
+				background-image: url('#{black_img}');
+				background-size: 100% 100%;
 			}
 			.crossed {
-				background-color: gray;
+				background-image: url('#{cross_img}');
+				background-size: 100% 100%;
 			}
 			.white {
-				background-color: white;
+				background-image: url('#{white_img}');
+				background-size: 100% 100%;
 			}
 
 			/* Hypotheses */
 			.hyp0 {
-				border-color: black;
+				/*border-color: black;*/
+				background-color: black;
 			}
 			.hyp1 {
-				border-color: red;
+				/*border-color: red;*/
+				background-color: red;
 			}
 			.hyp2 {
-				border-color: green;
+				/*
+				border-color: green;*/
+				background-color: green;
 			}
 			.hyp3 {
-				border-color: yellow;
+				/* border-color: yellow;*/
+				background-color: yellow;
 			}
 			.hyp4 {
+				/*
 				border-color: blue;
+				*/
+				background-color: blue;
 			}
 			.hypUnknown {
 				border-color    : red;
