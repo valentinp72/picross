@@ -33,7 +33,7 @@ class Hypotheses
 		@columns = columns
 
 		# We create and push the default hypothesis
-		defaultHypothesis      = Hypothesis.new(nil)
+		defaultHypothesis      = Hypothesis.new(nil, 0)
 		defaultGrid            = Grid.new(lines, columns, defaultHypothesis)
 		defaultHypothesis.grid = defaultGrid
 		@stack.push(defaultHypothesis)
@@ -54,7 +54,10 @@ class Hypotheses
 	#   - the id of the created hypothesis in the stack
 	def addNewHypothesis()
 		newGrid = getWorkingHypothesis.grid.clone
-		newHypothesis = Hypothesis.new(newGrid)
+		newHypothesis = Hypothesis.new(newGrid, getWorkingHypothesis.id + 1)
+		newGrid.each_cell do |cell|
+			cell.nextHypothesis = newHypothesis
+		end
 		@stack.push(newHypothesis)
 		return @stack.length - 1
 	end

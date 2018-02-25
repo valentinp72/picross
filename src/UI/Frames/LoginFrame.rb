@@ -24,6 +24,7 @@ class LoginFrame < Frame
 		# Create a new comboBox which will hold all the username
 		@comboBox = Gtk::ComboBoxText.new
 		retrieveUser.each{|u| @comboBox.append_text(u)}
+		@comboBox.set_active(0)
 
 		# Add a login button
 		@loginBtn = Gtk::Button.new(:label => "Login")
@@ -42,6 +43,10 @@ class LoginFrame < Frame
 			#The button login works only if a user is selected.
 			if(@comboBox.active_text != nil) then
 			user = getSelectedUser
+<<<<<<< HEAD
+=======
+			self.parent.application.connectedUser = user
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 			self.parent.setFrame(HomeFrame.new(user))
 			end
 		end

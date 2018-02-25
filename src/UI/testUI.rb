@@ -5,13 +5,18 @@ Gtk.init
 
 win = Gtk::Window.new('window')
 
+<<<<<<< HEAD
 win.set_default_size(4000, 4000)
+=======
+win.set_default_size(400, 400)
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 
 frame = Gtk::Frame.new('frame')
 frame.border_width = 10
 
 draw = Gtk::DrawingArea.new()
 
+<<<<<<< HEAD
 draw.signal_connect "draw" do |widget, cr|
 	w = widget.allocated_width
 	h = widget.allocated_height
@@ -42,6 +47,24 @@ win.set_app_paintable(false)
 
 
 win.signal_connect('check-resize') do
+=======
+draw.signal_connect "draw" do
+cr = draw.window.create_cairo_context
+
+cr.set_source_rgb 1.0, 0.0, 0.0
+cr.rectangle(10, 10, 100, 100)
+cr.fill
+	true
+end
+draw.show
+
+frame.add(draw)
+win.add(frame)
+win.show_all
+
+win.signal_connect('size-allocate') do
+
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 end
 
 Gtk.main

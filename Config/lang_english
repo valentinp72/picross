@@ -11,4 +11,10 @@ button :
   cancel : "Cancel"
   return : "Go back"
   exit : "Exit"
+<<<<<<< HEAD
+=======
+stats :
+  player : "Player's statistics"
+  global : "Global statistics"
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 ...

@@ -1,4 +1,5 @@
 require_relative 'Hypotheses'
+require_relative 'Statistics'
 
 ##
 # File          :: Map.rb
@@ -21,6 +22,7 @@ class Map
 	class CorruptedMapException < StandardError; end
 
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
+<<<<<<< HEAD
 	attr_reader :hypotheses
 
 	#The solution (a Grid) of the map
@@ -30,6 +32,29 @@ class Map
 	# +difficulty+  - The estimated difficulty of the map
 	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
 	# +lneSolution+ - The numbers representing the lines solution (An array of arrays)
+=======
+	attr_accessor :hypotheses
+
+	# The solution (a Grid) of the map
+	attr_reader :solution
+
+	# The name of the Map
+	attr_reader :name
+
+	# The estimated difficulty of the map
+	attr_reader :difficulty
+
+	# The numbers representing the columns solution (An array of arrays)
+	attr_reader :clmSolution
+
+	# The numbers representing the lines solution (An array of arrays)
+	attr_reader :lneSolution
+
+	# The User Statistic about this Map
+	attr_reader :statistics
+
+	# +timeToDo+ - The estimated time to resolve the game
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 
 	##
 	# Create a new map object
@@ -48,6 +73,7 @@ class Map
 		@solution    = solutionGrid
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
+		@statistics  = Statistics.new
 	end
 
 	##
@@ -84,6 +110,7 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def reset()
+		@statistics.reset
 		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
 		return self
 	end
@@ -104,6 +131,7 @@ class Map
 		cell = hypothesis.grid.getCellPosition(line, column)
 		cell.stateRotate()
 		cell.hypothesis = hypothesis
+		@statistics.click()
 		return self
 	end
 
@@ -167,6 +195,18 @@ class Map
 
 	end
 
+	def check()
+		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
+		if nb == @solution.numberCell(Cell::CELL_BLACK) then
+			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+				@statistics.isFinished = true
+				return true
+				#FINISHED
+			end
+		end
+		return false
+	end
+
 	##
 	# Retuns the map to a string, for debug only
 	# * *Returns* :
@@ -180,6 +220,7 @@ class Map
 		res += " - Solution        : \n#{@solution}\n\t"
 		res += " - Columns solution: #{@clmSolution}\n\t"
 		res += " - Lines solution  : #{@lneSolution}\n"
+		res += " - Statistics      : #{@statistics}\n"
 		return res
 	end
 
@@ -188,7 +229,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics]
 	end
 
 	##
@@ -199,7 +240,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics = array
 		return self
 	end
 

@@ -10,15 +10,25 @@ require_relative 'Windows/MainWindow'
 require_relative 'Windows/PreferencesWindow'
 
 require_relative 'Frame'
-require_relative 'Frames/GameFrame'
+require_relative 'Frames/Game/GameFrame'
 require_relative 'Frames/LoginFrame'
 
 class Application < Gtk::Application
 
+	# The connected user, if any
+	attr_reader :connectedUser
+	attr_writer :connectedUser
+
+	attr_reader :window
+
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
 
+		@connectedUser = nil
+		@window        = nil
+
 		signal_connect "activate" do |application|
+<<<<<<< HEAD
 			window = MainWindow.new(application)
 #map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
 #			window.setFrame(GameFrame.new(map))
@@ -28,6 +38,15 @@ class Application < Gtk::Application
 
 			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
 			window.set_keep_above(true)
+=======
+			@window = MainWindow.new(application)
+			@window.setFrame(LoginFrame.new)
+			@window.present
+			@window.show_all
+
+			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
+			@window.set_keep_above(true)
+>>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 
 		end
 
@@ -59,8 +78,10 @@ class Application < Gtk::Application
 	end
 
 	def action_preferences_cb()
-		preferences = PreferencesWindow.new(self)
-		preferences.present
+		if @connectedUser != nil then
+			preferences = PreferencesWindow.new(self)
+			preferences.present
+		end
 	end
 
 	def action_quit_cb()
