@@ -212,6 +212,20 @@ class Grid
 	end
 
 	##
+	# Returns the number of cell that have the same state as the one given as parameter.
+	# * *Returns* :
+	#   - Numbers of cell having the same state
+	def numberCell(state)
+		i = 0
+		@grid.each_cell_with_index do |cell, line, column|
+			if(cell.state == state) then
+				i += 1
+			end
+		end
+		return i
+	end
+
+	##
 	# Convert the grid to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the grid converted to an array
