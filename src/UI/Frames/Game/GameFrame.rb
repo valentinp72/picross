@@ -38,9 +38,8 @@ class GameFrame < Frame
 
 	def createHeaderLayout()
 
-		testIcon  = File.expand_path(File.dirname(__FILE__) + " /../../../assets/btnReturn.png")
-		btnBack   = Gtk::EventBox.new
-		imgBack   = Gtk::Image.new(:file => testIcon)
+		btnBack   = Gtk::Button.new
+		btnBack.image = AssetsLoader.loadImage("btnReturn.png",40)
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new(:label => "Options")
 
@@ -49,20 +48,13 @@ class GameFrame < Frame
 		@header.pack_start(title,     :expand => true, :fill => true)
 		@header.pack_start(btnOption, :expand => true, :fill => true)
 
-		btnBack.add(imgBack)
-		btnBack.events |= (Gdk::EventMask::BUTTON_PRESS_MASK)
-		btnBack.signal_connect("button_press_event") do |widget, event|
-			# force to not grab focus on current button
-			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
-
-			if event.button == BUTTON_LEFT_CLICK then
-				indexChapter = @user.chapters.index(@chapter)
-				indexMap = @user.chapters[indexChapter].levels.index(@map)
-				hypotheses = @user.chapters[indexChapter].levels[indexMap].hypotheses
-				hypotheses = @map.hypotheses
-				@user.save()
-				self.parent.setFrame(MapFrame.new(@user,@chapter))
-			end
+		btnBack.signal_connect("clicked") do
+			indexChapter = @user.chapters.index(@chapter)
+			indexMap = @user.chapters[indexChapter].levels.index(@map)
+			hypotheses = @user.chapters[indexChapter].levels[indexMap].hypotheses
+			hypotheses = @map.hypotheses
+			@user.save()
+			self.parent.setFrame(MapFrame.new(@user,@chapter))
 		end
 
 		# Redirecting user towards option menu
@@ -90,13 +82,13 @@ class GameFrame < Frame
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new("Timer")
-		image = File.expand_path(File.dirname(__FILE__) + "/../../../assets/pause2.png")
-		@reset  = Gtk::Image.new(:file => image)
-		image = File.expand_path(File.dirname(__FILE__) + "/../../../assets/pause2.png")
-		@pause  = Gtk::Image.new(:file => image)
+		@reset  = Gtk::Button.new
+		@reset.image = AssetsLoader.loadImage("pause2.png",40)
+		@pause  = Gtk::Button	.new
+		@pause.image = AssetsLoader.loadImage("pause2.png",40)
 
 		@btnHypotheses = Gtk::Button.new()
-		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40) 
+		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 
 		@btnHypotheses.signal_connect('clicked') do
