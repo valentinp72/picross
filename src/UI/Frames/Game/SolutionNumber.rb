@@ -23,6 +23,7 @@ class SolutionNumber < Gtk::Label
 		
 		self.style_context.add_class("number")
 		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		self.set_size_request(20, 20)
 	end
 
  	##
@@ -32,10 +33,8 @@ class SolutionNumber < Gtk::Label
 	def css()
 		"
 			.number {
-				min-width : 20px;
-				min-height: 20px;
-				border    : 1px solid lightgray;
-				color     : black;
+				border: 1px solid lightgray;
+				color : black;
 			}
 		"
 	end
