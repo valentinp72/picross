@@ -12,7 +12,7 @@ require_relative 'SolutionNumber'
 # Last update   :: 02/24/2018
 # Version       :: 0.1
 #
-# This class represents a Frame for the Picross view.  
+# This class represents a Frame for the Picross view.
 # Inside this frame, there are multiple CellButton that can be clicked (or dragged using the Drag class) to resolve the game.
 
 class PicrossFrame < Frame
@@ -36,14 +36,14 @@ class PicrossFrame < Frame
 	end
 
 	##
-	# Changes the grid to display on the PicrossFrame view.  
+	# Changes the grid to display on the PicrossFrame view.
 	# This takes care of everything, it update the Drag, and the cells inside the frame.
 	# * *Arguments* :
 	#   - +newGrid+ -> the new Grid to display
 	# * *Returns* :
 	#   - the PicrossFrame itself
 	def grid=(newGrid)
-		
+
 		@grid = newGrid
 		@drag.grid = @grid
 
@@ -72,7 +72,7 @@ class PicrossFrame < Frame
 
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag), column + @columnOffset, line + @lineOffset, 1, 1)
+			@cells.attach(CellButton.new(cell, @drag), column + @lineOffset, line + @columnOffset, 1, 1)
 		end
 
 		add(@cells)
@@ -80,8 +80,8 @@ class PicrossFrame < Frame
 	end
 
 	##
-	# Adds all the solution numbers to the grid cells.  
-	# If +isHorizontal+ equals true, then it adds all the left numbers, 
+	# Adds all the solution numbers to the grid cells.
+	# If +isHorizontal+ equals true, then it adds all the left numbers,
 	# otherwise, the top numbers.
 	# * *Arguments* :
 	#   - +cells+        -> the Gtk::Grid to add the numbers to
@@ -103,7 +103,7 @@ class PicrossFrame < Frame
 			end
 			i+= 1
 		end
-		
+
 		return self
 	end
 
@@ -121,9 +121,9 @@ class PicrossFrame < Frame
 	def addNumber(value, isHorizontal, lineOffset, columnOffset, i, j, cells)
 		number = SolutionNumber.new(value)
 		if isHorizontal then
-			cells.attach(number,j,i+lineOffset,1,1)
+			cells.attach(number,j,i+columnOffset,1,1)
 		else
-			cells.attach(number,i+columnOffset,j,1,1)
+			cells.attach(number,i+lineOffset,j,1,1)
 		end
 		return self
 	end
