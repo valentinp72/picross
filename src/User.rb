@@ -71,6 +71,14 @@ class User
 		return self
 	end
 
+	def sauvegarde(chapter, map)
+		indexChapter = @user.chapters.index(chapter)
+		indexMap = @chapters[indexChapter].levels.index(map)
+		hypotheses = @chapters[indexChapter].levels[indexMap].hypotheses
+		hypotheses = map.hypotheses
+		save()
+	end
+
 	def User.load(filename)
 		return Marshal.load(File.read(filename))
 	end
