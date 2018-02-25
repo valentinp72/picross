@@ -38,4 +38,25 @@ class Statistics
 	def click()
 		@nbClick += 1
 	end
+
+	def Statistics.bestTime(array)
+		array.min_by(&:time)
+	end
+
+	def Statistics.minHelp(array)
+		array.min_by(&:usedHelp)
+	end
+
+	def Statistics.numberOfStars(array)
+		array.max_by(&:numberOfStars)
+	end
+
+	def Statistics.minClick(array)
+		array.min_by(&:nbClick)
+	end
+
+	def Statistics.nbFinished(array)
+		array.select{|x| x.isFinished==true}.count
+	end
+
 end
