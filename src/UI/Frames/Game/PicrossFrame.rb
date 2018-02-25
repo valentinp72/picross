@@ -64,7 +64,7 @@ class PicrossFrame < Frame
 		# compute the offsets caused by the line and column solution numbers
 		@lineOffset   = @lineSolution.map(&:length).max
 		@columnOffset = @columnSolution.map(&:length).max
-		@drag.setOffsets(@lineOffset, @columnOffset)
+		@drag.setOffsets(@columnOffset, @lineOffset)
 
 		# adds the numbers to the cells
 		createNumbers(@cells, @columnSolution, @lineOffset, @columnOffset, false)
