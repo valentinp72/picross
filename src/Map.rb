@@ -98,6 +98,7 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def reset()
+		@statistics.reset
 		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
 		return self
 	end
@@ -186,6 +187,7 @@ class Map
 		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+				@statistics.isFinished = true
 				return true
 				#FINISHED
 			end
