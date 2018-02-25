@@ -1,4 +1,5 @@
 require_relative '../../../Grid'
+require_relative 'CellButton'
 
 ##
 # File          :: Drag.rb
@@ -141,9 +142,11 @@ class Drag
 		(yStart..yEnd).each do |y|
 			(xStart..xEnd).each do |x|
 				btn  = @cells.get_child_at(x + @xOffset, y + @yOffset)
-				cell = @grid.getCellPosition(y, x)
-				cell.state = @wantedState
-				btn.setCSSClass
+				if btn.kind_of?(CellButton) then
+					cell = @grid.getCellPosition(y, x)
+					cell.state = @wantedState
+					btn.setCSSClass
+				end
 			end
 		end
 		return self

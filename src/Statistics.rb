@@ -11,7 +11,7 @@ class Statistics
 
 	# +stats+	- player's statistics on a map
 
-	attr_reader :time, :usedHelp, :numberOfStars,
+	attr_reader :time, :usedHelp, :numberOfStars
 
 	attr_accessor :isFinished
 
