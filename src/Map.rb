@@ -25,17 +25,17 @@ class Map
 	attr_accessor :hypotheses
 
 	# The solution (a Grid) of the map
-	attr_reader :solution 
-	
+	attr_reader :solution
+
 	# The name of the Map
-	attr_reader :name 
-	
+	attr_reader :name
+
 	# The estimated difficulty of the map
 	attr_reader :difficulty
-	
+
 	# The numbers representing the columns solution (An array of arrays)
 	attr_reader :clmSolution
-	
+
 	# The numbers representing the lines solution (An array of arrays)
 	attr_reader :lneSolution
 
@@ -180,6 +180,17 @@ class Map
 
 	def help(helpType)
 
+	end
+
+	def check()
+		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
+		if nb == @solution.numberCell(Cell::CELL_BLACK) then
+			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+				return true
+				#FINISHED
+			end
+		end
+		return false
 	end
 
 	##
