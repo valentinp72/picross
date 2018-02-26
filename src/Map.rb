@@ -22,17 +22,6 @@ class Map
 	class CorruptedMapException < StandardError; end
 
 	# The hypotheses stack used to allow the player to do hypotheses about the solution
-<<<<<<< HEAD
-	attr_reader :hypotheses
-
-	#The solution (a Grid) of the map
-	attr_reader :solution, :name, :difficulty
-
-	# +timeToDo+    - The estimated time to resolve the game
-	# +difficulty+  - The estimated difficulty of the map
-	# +clmSolution+ - The numbers representing the columns solution (An array of arrays)
-	# +lneSolution+ - The numbers representing the lines solution (An array of arrays)
-=======
 	attr_accessor :hypotheses
 
 	# The solution (a Grid) of the map
@@ -54,7 +43,6 @@ class Map
 	attr_reader :statistics
 
 	# +timeToDo+ - The estimated time to resolve the game
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 
 	##
 	# Create a new map object

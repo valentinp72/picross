@@ -28,17 +28,6 @@ class Application < Gtk::Application
 		@window        = nil
 
 		signal_connect "activate" do |application|
-<<<<<<< HEAD
-			window = MainWindow.new(application)
-#map = Map.load(File.expand_path(File.dirname(__FILE__) + "/../god_of_hyperdeath_undertale_.map"))
-#			window.setFrame(GameFrame.new(map))
-			window.setFrame(LoginFrame.new)
-			window.present
-			window.show_all
-
-			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
-			window.set_keep_above(true)
-=======
 			@window = MainWindow.new(application)
 			@window.setFrame(LoginFrame.new)
 			@window.present
@@ -46,7 +35,6 @@ class Application < Gtk::Application
 
 			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
 			@window.set_keep_above(true)
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 
 		end
 

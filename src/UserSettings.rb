@@ -12,12 +12,6 @@ class UserSettings
 	# +validLang+ - List of supported languages
 	@@validLang = ["francais","english"]
 
-<<<<<<< HEAD
-	@@validLang = ["francais","english"]
-
-	## Instance variable :
-=======
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 	# +language+	- the game's displayed language
 	attr_reader :language
 
