@@ -23,7 +23,7 @@ RSpec::Core::RakeTask.new(:spec)
 RDoc::Task.new do |rdoc|
 	rdoc.main = "README.md"
 	rdoc.rdoc_files.include("README.md")
-	rdoc.rdoc_files.include("src/*.rb")
+	rdoc.rdoc_files.include("src/**/*.rb")
 	rdoc.rdoc_dir = "doc"
 	rdoc.title = "Picross Documentation"
 	rdoc.generator = "bootstrap"
