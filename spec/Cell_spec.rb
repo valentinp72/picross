@@ -5,7 +5,7 @@ require_relative '../src/Hypothesis'
 describe Cell do
 
 	grid = Grid.new(10,10)
-	hypo = Hypothesis.new(grid, 0)	
+	hypo = Hypothesis.new(grid)	
 
 	cell = Cell.new(hypo, 0, 0)
 

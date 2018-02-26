@@ -1,11 +1,6 @@
 require 'yaml'
 
 require_relative 'HomeFrame'
-<<<<<<< HEAD
-=======
-require_relative 'Game/GameFrame'
-
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 require_relative '../Frame'
 
 ##
@@ -17,10 +12,6 @@ require_relative '../Frame'
 # Version       :: 0.1
 #
 # This class represents the OptionFrame, page where we can change current user's settings
-<<<<<<< HEAD
-=======
-# This can only be called from HomeFrame
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 class OptionFrame < Frame
 
 	def initialize(user)
@@ -62,25 +53,15 @@ class OptionFrame < Frame
 
 		# Cancel -> We return to home
 		@cancelBtn.signal_connect("clicked") do
-<<<<<<< HEAD
 			self.parent.setFrame(HomeFrame.new(user))
-=======
-			closeOrComeBackToHome(user)
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 		end
 
 		# Valid -> We return to home, but we change settings
 		@validBtn.signal_connect("clicked") do
 			if(@comboBox.active_text != nil) then
 					# Change language
-<<<<<<< HEAD
 					user.settings.language= @comboBox.active_text
 					self.parent.setFrame(HomeFrame.new(user))
-=======
-					user.settings.language = @comboBox.active_text
-					user.save()
-					closeOrComeBackToHome(user)
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 			end
 		end
 
@@ -94,35 +75,4 @@ class OptionFrame < Frame
 		return Dir.entries(@path).select { |f| f.match(/lang\_(.*)/)}.select{|x| x.slice!(0,5)}
 	end
 
-<<<<<<< HEAD
-=======
-	def closeOrComeBackToHome(user)
-		if self.parent.mainWindow? then
-			self.parent.setFrame(HomeFrame.new(user))
-		else
-			self.parent.close
-		end
-	end
-
-end
-
-# This class represents the OptionFrame, page where we can change current user's settings
-# This can only be called from GameFrame
-class GameOptionFrame < OptionFrame
-
-	def initialize(user,chapter,map)
-		super(user)
-		@chapter = chapter
-		@map     = map
-	end
-
-	def closeOrComeBackToHome(user)
-		if self.parent.mainWindow? then
-			self.parent.setFrame(GameFrame.new(user,@chapter,@map))
-		else
-			self.parent.close
-		end
-	end
-
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 end

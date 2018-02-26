@@ -1,6 +1,5 @@
 ---
 chapter :
-<<<<<<< HEAD
   title : "Chapter 1"
   stars : 0
   unlocked : true
@@ -10,11 +9,4 @@ chapter :
     - owl
     - planet
     - tiny_heart
-=======
-  title : "Test chapter"
-  stars : 0
-  unlocked : true
-  levels :
-    - batman
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 ...

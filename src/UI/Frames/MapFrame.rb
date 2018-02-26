@@ -1,9 +1,5 @@
 require 'yaml'
-<<<<<<< HEAD
 require_relative 'GameFrame'
-=======
-require_relative 'Game/GameFrame'
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 require_relative 'ChapterFrame'
 require_relative '../Frame'
 
@@ -43,11 +39,7 @@ class MapFrame < Frame
 			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
 
 			@buttonsList[x].signal_connect("clicked") do
-<<<<<<< HEAD
 				self.parent.setFrame(GameFrame.new(chapter.levels[x]))
-=======
-				self.parent.setFrame(GameFrame.new(user,chapter,chapter.levels[x]))
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 			end
 		end
 

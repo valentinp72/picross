@@ -181,7 +181,6 @@ class PicrossRecognizerImage
 	# * *Raises* :
 	#   - +ArgumentError+ -> if the file does not exists, or if it isn't a valid image
 	def initialize(file)
-		puts "'#{file}'"
 		if not File.file?(file) then
 			raise ArgumentError, "file does not exist"
 		end

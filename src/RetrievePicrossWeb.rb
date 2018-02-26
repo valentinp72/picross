@@ -80,8 +80,7 @@ class RetrievePicrossWeb
 	#   - Respectively one map for one link
 	def RetrievePicrossWeb.fromFILE(file)
 		File.readlines(file).each do |line|
-			puts line.strip
-			RetrievePicrossWeb.fromURL(line.strip)
+			RetrievePicrossWeb.fromURL(line)
 		end
 	end
 
@@ -146,7 +145,7 @@ class RetrievePicrossWeb
 		end
 
 		# We call recognition programm to convert picture to Map Class
-		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","-n","#{title}","#{title}.png"])
+		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","#{title}.png"])
 		File.delete("#{title}.png")
 
 		# Returns the map

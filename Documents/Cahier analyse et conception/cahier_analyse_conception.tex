@@ -40,7 +40,6 @@
 %\titleformat{\chapter}[display]
 %	{\normalfont\huge\bfseries}{}{0pt}{\Huge}
 
-\titlespacing*{\chapter}{0pt}{0pt}{15pt}
 \titlespacing*{\subsection}{0pt}{2.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
 \titlespacing*{\subsubsection}{0pt}{1.0ex plus 1ex minus .2ex}{0.5ex plus .2ex}
 
@@ -137,9 +136,9 @@
 
 	\section{Introduction}
 
-		Dans le cadre de l'unité d'enseignement « Génie logiciel 2 » de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application.
+		Dans le cadre de l'unité d'enseignement "Génie logiciel 2" de la Licence d'informatique de Le Mans Université, les étudiants de troisième année sont amenés à travailler sur un projet de développement d'une application.
 		
-		Ce document permet de présenter les solutions au cahier des charges, ainsi que l'architecture du programme demandé. Celui-ci est divisé en plusieurs parties : l'architecture du jeu, la gestion d'une partie, l'aide à la résolution du picross, %la gestion des statistiques du joueur (scores, niveaux débloqués, …)% ainsi que l'interface graphique. Ce document décrit aussi l'utilisation du temps qui nous est imparti. 
+		Ce document permet de présenter les solutions au cahier des charges, ainsi que l'architecture du programme demandé. Celui-ci est divisé en plusieurs parties : l’architecture du jeu, la gestion d'une partie, l'aide à la résolution du picross, %la gestion des statistiques du joueur (scores, niveaux débloqués, …)% ainsi que l’interface graphique. Ce document décrit aussi l'utilisation du temps qui nous est imparti. 
 
 	
  	\section{Objectif de l'application}		
@@ -155,11 +154,11 @@
 
 	Pour concevoir les différents diagrammes UML, nous avons recours au logiciel \textit{Astah} et au site internet \textit{Tom's Planner}\footnote{Site web de \textit{Tom's Planner} : \url{http://tomsplanner.fr/}}.
 
-	Afin de créer les maquettes du logiciel (disponibles en Annexe) permettant d'avoir un rendu de la future interface graphique, nous avons utilisé le logiciel \textit{Balsamiq}\footnote{Nos maquettes sont disponibles ici : \url{https://balsamiq.cloud/sxl7v/pw3tb/r599E}}.
+	Afin de créer les maquettes du logiciel (disponibles en Annexe) permettant d’avoir un rendu de la future interface graphique, nous avons utilisé le logiciel \textit{Balsamiq}\footnote{Nos maquettes sont disponibles ici : \url{https://balsamiq.cloud/sxl7v/pw3tb/r599E}}.
 
 	Pour simplifier la vérification de la qualité du code produit, nous utilisons Code Climate (maintenabilité) ainsi que Travis CI (compilation et tests).
 
-	Le langage de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}\footnote{\label{rdoc}Notre documentation en temps réel est disponible à l'adresse \url{https://picross.vlntn.pw/doc/}}. Les bibliothèques de \textit{GTK} seront utilisées pour la réalisation de l'interface graphique.
+	Le langage de programmation Ruby est utilisé pour programmer le logiciel, incluant une documentation générée par \textit{RDoc}\footnote{\label{rdoc}Notre documentation en temps réel est disponible à l'adresse \url{https://picross.vlntn.pw/doc/}}. L’utilisation des bibliothèques de \textit{GTK} sera utilisé pour la réalisation des interfaces graphiques.
 	
 	\subsection{Gems utilisés}
 	Nous utilisons les \textit{gems} Ruby suivants:
@@ -170,7 +169,6 @@
 	\item[hanna-bootstrap :] thème responsive pour \textit{RDoc}
 	\item[rake :] gestions des taches automatiques de notre projet (compilation de la documentation, tests unitaires)
 	\item[rmagick :] conversion automatique d'images de picross trouvés sur internet
-	\item[nokogiri :] \textit{parser} de pages HTML pour convertir les picross trouvés sur internet
 	\item[gtk3] : liens Ruby vers les bibliothèques d'interface graphique GTK3
 	\item[Bundler :] installation automatique de tous les \textit{gems}
 	\end{description}
@@ -187,7 +185,7 @@
 	\includegraphics[width=17cm]{ganttDetaille.png}
     \end{figure}
    
-     À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, \textit{gameplay}, utilisateur, IHM, test et améliorations.
+     À travers ce diagramme de Gantt, nous observons l'organisation du projet sur les trois mois à venir. Le projet se découpe en plusieurs modules : carte, gameplay, utilisateur, IHM, test et améliorations.
     
     Chaque module a une durée de vie, nous lui accordons un temps de travail et un certain nombre de personnes, les modules sont également divisés en différentes étapes ce qui correspond aux fonctionnalités de l'application. 
     
@@ -236,24 +234,24 @@
 
     \subsection{Chronomètre}
 			\subsubsection{Accéder au score à la fin d'une partie}
-				À la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
+				A la fin de la partie, un nombre d'étoiles est attribué au joueur en fonction du temps écoulé.
 			\subsubsection{Mettre la partie en pause}
-				À n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée.
+				A n'importe quel moment de la partie, le joueur peut la mettre en pause. Elle est alors masquée.
 	        \subsubsection{Reprendre une partie mise en pause}
-    			Suite à une mise en pause, le joueur peut dès qu'il est prêt, relancer la partie.
+    			Suite à une mise en pause, le joueur peut dés qu'il est prêt, relancer la partie.
 	\subsection{Hypothèses}
 		\subsubsection{Créer une hypothèse}
 			Durant la partie, le joueur peut créer une nouvelle hypothèse en cliquant sur le bouton associé. Les cases colorées seront alors d'une couleur différente.
 		\subsubsection{Valider une hypothèse}
 			Lorsque l'hypothèse s'avère juste, l'utilisateur peut choisir de la valider. Les cases colorées deviennent alors noires et l'hypothèse disparaît de celles en cours.
 		\subsubsection{Annuler une hypothèse}
-			Lorsque l'hypothèse est fausse, l'utilisateur peut l'annuler. Les cases colorées suite à la création de l'hypothèse sont alors blanchies.
+			Lorsque l'hypothèse est fausse, l'utilisateur pour l'annuler. Les cases colorées suite à la création de l'hypothèse sont alors blanchies.
 		
 	\subsection{Sauvegarde}
 		\subsubsection{Effectuer les sauvegardes automatiquement}
 			A chaque modification de la grille, une nouvelle sauvegarde est effectuée automatiquement, sauvegardant aussi la valeur du chronomètre.
 		\subsubsection{Charger automatiquement une partie à son lancement}
-			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprend là où il était arrêté, et la grille est affichée là où l'avait laissée le joueur.
+			Lorsque le joueur relance une partie qu'il n'avait pas terminée, le chronomètre reprends là ou il était arrêté, et la grille est affichée là ou l'avait laissée le joueur.
 		\subsubsection{Stocker localement les sauvegardes}
 			Les sauvegardes sont conservées sur la machine de l'utilisateur. Elles ne sont donc pas en ligne.
 			
@@ -265,12 +263,12 @@
 		\subsubsection{Mettre en valeur des indices associés aux cases remplies}
 			Quand le joueur colorie des cases, le programme identifie de quel bloc de cases il s'agit et met en valeur l'indice associé, de façon à faciliter la lisibilité de la grille.
 		\subsubsection{Afficher la quantité de cases sélectionnées}
-			Quand l'utilisateur sélectionne plusieurs cases en une fois, un petit chiffre à côté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement sélectionnées.
+			Quand l'utilisateur sélectionne plusieurs cases en une fois, un petit chiffre à coté de la souris (ou de la case sur laquelle se trouve le curseur s'il joue au clavier) indique le nombre de cases actuellement sélectionnées.
 		
    \section{Diagramme de cas d'utilisations}
       
     \begin{figure}[H]
-	\caption{Diagramme de \textit{Cas d'utilisation}}
+	\caption{Diagramme de \textit{Cas d’utilisation}}
 	\includegraphics[width=17cm]{../UML/UseCase_diagram/UseCase1.png}
     \end{figure}
     
@@ -295,49 +293,46 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 		Au niveau de l'interface, l'utilisateur peut, à l'aide de boutons, réinitialiser la grille s'il souhaite repartir de zéro ou la valider s'il pense l'avoir finie. S'il la réussit, il sera renvoyé dans le chapitre en cours. Il peut également utiliser différentes aides (en cliquant sur un bouton) qui diffèrent par la clarté de l'indice, leur coût et leur pénalité. Enfin, l'utilisateur peut quitter la partie quand il le souhaite, la grille est sauvegardée automatiquement.
 	
 	\section{Mode évolutif}
+	
 	Lors d'une partie en mode évolutif, le joueur choisit une des grilles du mode. Chaque grille choisie a une taille fixe de 5x5 (cases). Pour résoudre cette grille, il a accès aux mêmes fonctionnalités qu'une partie classique soit interagir avec la grille et avec l'interface.
 	
     Une fois la grille réussie, celle-ci évolue en une grille plus grande (10x10) tout en gardant le coin supérieur gauche identique à la grille 5x5 réalisée par l'utilisateur (voir exemple en Annexe). Après cela, le joueur doit remplir la grille 10x10 en ayant les mêmes fonctionnalités que précédemment puis la grille évolue une nouvelle fois en 15x15 et ainsi de suite jusqu'à atteindre la taille maximale de 25x25. Une fois la grille 25x25 réussie, le joueur gagne la partie et est renvoyé sur le choix de la grille.
-    
-    En annexe (\ref{exemple_partie_evolutive}) se trouvent des exemples de parties en mode évolutif.
 	
 	% schéma exemple partie évolutive
 	
 	\section{Didacticiel}
 	
-	Une partie en mode didacticiel est une partie guidée afin que l'utilisateur comprenne la logique de résolution d'une partie de \textit{picross}. Les mouvements de celui-ci sont donc restreints aux coups (cocher ou colorier) que lui dit de jouer l'application.
+	Une partie en mode didacticiel est une partie guidée afin que l'utilisateur comprenne la logique de résolution d'une partie de \textit{picross}. Les mouvements de celui-ci sont donc restreint aux coups (cocher ou colorier) que lui dit de jouer l'application.
 	
 
 	\section{Erreurs}
-	\begin{description}
-		\item[E1 :] Sélection d'un chapitre non déverrouillé.\\
-			Peut arriver lors de la sélection d'un chapitre.\\
-			\textbf{Traitement} : accès bloqué au chapitre et message rappelant le nombre d'étoiles manquantes pour y accéder.
-
-		\item[E2 :] Arrêt de la partie en cours.\\
-			Peut arriver en cours de partie.\\
-			\textbf{Traitement} : lors du redémarrage de la partie, reprise au dernier point de sauvegarde.
+	
+		E1: Sélection d'un chapitre non-déverrouillé
+			Peut arriver lors de la sélection d'un chapitre
+			Traitement: accès bloqué au chapitre et message rappelant le nombre d'étoiles manquante pour y accéder.
+			
+		E2: Arrêt de la partie en cours
+			Peut arriver en cours de partie
+			Traitement: lors du redémarrage de la partie, reprise au dernier point de sauvegarde.
 		
-        \item[E3 :] Lancement d'une deuxième instance.\\
-			Dans ce cas, un message d'erreur affiche que le lancement a été bloqué.
+        E3 : Lancement d'une deuxième instance
+                        Dans ce cas, un message d'erreur affiche que le lancement à été bloqué.
 
-        \item[E4 :] Quitter le menu Options sans validation de celles-ci.\\
-			Affichage d'un message prévenant que les modifications n'ont pas été enregistrées avant de fermer le menu.\\ 
-			Le message propose d'enregistrer les modifications ou de les perdre, avant de quitter le menu.
-		\end{description}
-
+        E4 : Quitter le menu Options sans validation de celles-ci
+                         Affichage d'un message prévenant que les modifications n'ont pas été enregistrées avant de   fermer le menu. Le message propose d'enregistrer les modifications ou de les perdre, avant de quitter le menu.
+	
 			
   \section{Aides}
 
-  L'utilisateur possède un nombre d'aides gratuites quand il commence à jouer et peut en récupérer en terminant un certain nombre de grilles. Quand il est en jeu, il peut les utiliser afin de se débloquer sans pénalité de temps. S'il ne possède plus d'aides gratuites, alors il peut continuer d'utiliser l'aide, mais celle-ci aura un coût (en temps) proportionnel à la difficulté du picross qui sera appliqué à chaque utilisation. La difficulté influence aussi le type d'aide appliqué:
-    \begin{description}
-    \item[En mode facile :] coloriage de toute une ligne ou colonne
-    \item[En mode normal :] coloriage d'une case correcte 
-    \item[En mode difficile :] indication d'une ligne ou colonne où se trouve une case correcte non coloriée
-    \end{description}
-  L'aide donnée en mode normal et difficile indique une case que le joueur aurait pu trouver par lui-même, sans connaître la solution. 
+  L'utilisateur possède un nombre d'aides gratuites quand il commence à jouer et peut en récupérer en terminant un certain nombre de grille. Quand il est en jeu, il peut les utiliser afin de se débloquer sans pénalité de temps. S'il ne possède plus d'aides gratuites, alors il peut continuer d'utiliser l'aide, mais celle-ci aura un coût (en temps) proportionnel à la difficulté du picross qui sera appliqué à chaque utilisation. La difficulté influence aussi le type d'aide appliqué:
+    \begin{itemize}
+    \item En mode facile : coloriage de toute une ligne ou colonne
+    \item En mode normal : coloriage d'une case correcte 
+    \item En mode difficile : indication d'une ligne ou colonne où se trouve une case correcte non coloriée
+    \end{itemize}
+  
 			
-\chapter{Conception détaillée}
+\chapter{Conception détaillé}
 \thispagestyle{empty}
 \thispagestyle{plain}
 
@@ -345,48 +340,35 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
     
     \begin{figure}[H]
 	\caption{Diagramme de \textit{Classes}}
-	\includegraphics[width=17cm]{../UML/Class_diagram/DiagrammeClasse2c.png}
+	\includegraphics[width=17cm]{../UML/Class_diagram/DiagrammeClasse2b.png}
     \end{figure}
     
     	
-	Le diagramme de classe ci-dessus présente les différentes classes pour notre application. Les classes nécessaires à l'interface graphique ne sont pas présentes afin de ne pas compliquer le diagramme.
-
-\bigskip
-
-	Nous avons tout d'abord la classe \textit{Picross} qui est la racine représentant l'ensemble du jeu et permettant de le lancer. Cette classe est liée à la classe \textit{User} possédant un nom et un nombre d'aides gratuites restantes. Elle possède aussi des statistiques sur le temps total joué et le nombre d'étoiles totales acquises afin de permettre l'utilisation du jeu par plusieurs personnes différentes et ainsi  avoir des sauvegardes différentes. Ces sauvegardes sont automatiques (méthode \texttt{save()}) et sont rechargées à la reconnexion du joueur (méthode \texttt{load()}). Chaque utilisateur possède des paramètres tels que celui de la langue grâce à la classe \textit{UserSettings} qu'il peut modifier par l'intermédiaire de la méthode \texttt{changeLanguage()}.
-	
-\medskip
-
-	Un utilisateur possède plusieurs chapitres grâce à la classe \textit{Chapter} possédant un nom, un numéro de chapitre, ainsi que le nombre d'étoiles nécessaires au déverrouillage. Lorsque le joueur possède un nombre d'étoiles supérieur ou égal à celui nécessaire au déverrouillage, le chapitre est considéré comme déverrouillé. La méthode \texttt{locked?()} l'indique en renvoyant \texttt{false}.
-	
-\medskip
-
-	Un chapitre possède plusieurs cartes de classe \textit{Map} possédant une difficulté et le temps moyen pour réaliser la grille, nécessaire au calcul du score une fois la map finie. Une map peut également être réinitialisée par l'utilisateur avec la méthode \texttt{reset()} afin de recommencer sa partie.
-	
-\medskip
-
-	Une map est composée d'une grille de picross avec sa solution (classe \textit{Grid}) elle-même composée de plusieurs lignes et colonnes de cellules (classe \textit{Cell}) noires ou blanches. Chaque map possède ses propres statistiques (classe \textit{Statistiques}) composées (si la grille a été finie au moins une fois) du nombre d'étoiles gagnées, du temps joué, des aides utilisées et du temps de pénalité.
-	
-\medskip
-
-	Une map est également composée d'un objet hypothèse (classe \textit{Hypotheses}) comportant plusieurs grilles d'hypothèse (classe \textit{Hypothesis}) possédant chacune un numéro et une couleur unique. Le joueur joue sur la première grille d'hypothèse et peut, s'il le souhaite, en ouvrir d'autres. Le mode hypothèse contient plusieurs méthodes : \texttt{reject()} permettant de rejeter l'hypothèse et donc de l'effacer, \texttt{validate()} permettant de valider l'hypothèse, de sortir de cette hypothèse tout en modifiant la grille de base avec les changements effectués dans l'hypothèse. Enfin, il y a la méthode \texttt{getWorkingHypothesis()} pour démarrer une nouvelle hypothèse.
-	
-\medskip
-
-	Chaque map sera gérée par une classe \textit{Game} qui gère le lancement de la partie (méthode \texttt{start()}) et  permet à l'utilisateur de demander une aide (méthode \texttt{help()}) et  mettre en pause le jeu (méthode \texttt{pause()}). Chaque partie possède un \textit{Timer} permettant de connaître le temps écoulé en partie ainsi que calculer le score final une fois la grille réussie. Il existe trois catégories de \textit{Game} : une pour le mode de jeu tutoriel, une pour le mode classique et une pour le mode évolutif.
+	Le diagramme de classe ci-dessus présente les différentes classes pour notre application. Les classes nécessaires à l’interface graphique ne sont pas présentes afin de ne pas compliquer le diagramme.
+	\vspace{12pt}	
+	Nous avons tout d’abord la classe \textit{Picross} qui est la racine représentant l’ensemble du jeu et permettant de le lancer. Cette classe est liée à la classe \textit{User} possédant un nom, un nombre d’aides gratuites restantes ainsi que des statistiques sur le temps total joué et le nombre d’étoiles totales acquises afin de permettre l’utilisation du jeu par plusieurs personnes différentes et ainsi  avoir des sauvegardes différentes. Ces sauvegardes sont automatiques (méthode save()) et sont rechargées à la reconnexion du joueur (méthode load()). Chaque utilisateur possède des paramètres tel que celui de la langue grâce à la classe \textit{UserSettings} qu’il peut modifier par l’intermédiaire de la méthode  changeLanguage().\\
+	\vspace{12pt}
+	Un utilisateur possède plusieurs chapitres grâce à la classe \textit{Chapter} possédant un nom et un numéro de chapitre, une variable qui indique s’il est débloqué ou non ainsi que le nombre d’étoiles nécessaires au déverrouillage. Quand ce nombre est atteint, la méthode unlock() permet de rendre disponible ce chapitre.
+	\vspace{12pt}
+	Un chapitre possède plusieurs cartes de classe \textit{Map} possédant une difficulté et le temps moyen pour réaliser la grille, nécessaire au calcul du score une fois la map finie. Une map peut également être réinitialisée par l’utilisateur avec la méthode reset() afin de recommencer sa partie.\\
+	\vspace{12pt}
+	Une map est composée d’une grille de picross avec sa solution (classe \textit{Grid}) elle-même composée de plusieurs lignes et colonnes de cellules (classe \textit{Cell}) noires ou blanches. Chaque map possède ses propres statistiques (classe \textit{Statistiques})  composées (si la grille à été finie au moins une fois) du nombre d’étoiles gagnées, du temps joué, des aides utilisées et du temps de pénalité.\\
+	\vspace{12pt}
+	Une map est également composée du mode hypothèse (classe \textit{Hypotheses}) comportant plusieurs grilles d’hypothèse (classe \textit{Hypothesis}) possédant chacune un numéro et une couleur unique. Le joueur joue sur la première grille d’hypothèse et peut, s’il le souhaite, en ouvrir d’autres. Le mode hypothèse contient plusieurs méthodes : reject() permettant de rejeter l’hypothèse et donc de l’effacer, validate() permettant de valider l’hypothèse, soit de sortir de cette hypothèse tout en modifiant la grille de base avec les changements effectués dans l’hypothèse, et getWorkingHypothesis() qui permet de lancer une nouvelle hypothèse.\\
+	\vspace{12pt}
+	Chaque map sera gérée par une classe \textit{Game} qui gère le lancement de la partie (méthode start()) et  permet à l’utilisateur de demander une aide (méthode help()) et  mettre en pause le jeu (méthode pause()). Chaque partie possède un \textit{Timer} permettant de connaître le temps écoulé en partie ainsi que calculer le score final une fois la grille réussie. Il existe trois catégories de Game : une pour le mode de jeu tutoriel, une pour le mode classique et une pour le mode évolutif.
 
 \chapter{Annexes}
 \thispagestyle{empty}
 \thispagestyle{plain}
 
 		\section{Exemple partie évolutive}
-		\label{exemple_partie_evolutive}
 	
-		Ci-joint sont présents des exemples de grilles évolutives, c'est-à-dire de grilles qui s'agrandissent au fil de la partie.
-		Deux exemples de grilles sont disponibles sous forme de GIF animé aux liens suivants :
+		Ci-joint sont présent des exemples de grilles évolutives, c'est-à-dire de grilles qui s'agrandissent au fil de la partie.
+		Deux exemples de grilles sont disponibles sous forme de gif animé aux liens suivants :
 		 \begin{itemize}
-			\item \url{https://picross.vlntn.pw/Documents/Images/cat.gif}
-			\item \url{https://picross.vlntn.pw/Documents/Images/mouse.gif}
+    		 \item \url{https://picross.vlntn.pw/Documents/Images/cat.gif}
+   	   	 \item \url{https://picross.vlntn.pw/Documents/Images/mouse.gif}
 		 \end{itemize}
 		
 		Le premier gif est également disponible sous format d'un ensemble d'images :
@@ -414,11 +396,11 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
       		
       		L'utilisateur arrive ensuite sur la page d'accueil du logiciel (2) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. 
       		
-      		Le bouton \textit{Options} renvoie sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. 
+      		Le bouton \textit{Options} renvoit sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. 
       		
       		Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (4). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. 
       		
-      		Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tous les chapitres du jeu, didacticiel et mode évolutif inclus. 
+      		Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tout les chapitres du jeu, didacticiel et mode évolutif inclus. 
       		
       		Après avoir choisi un chapitre, il arrive sur la sélection de la grille (6) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (7).
 		
@@ -470,15 +452,6 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 		\includegraphics[width=8cm]{Maquettes/Partie.png}
 		\caption{Partie}
     	\end{figure}
-
-	\section{Proposition de nom d'application et de logo}
-		\definecolor{rubycolor}{RGB}{170, 20, 01}
-	Nous avons pensé à un nom d'application \textit{Ruþycross} (Ruþycross). Celui-ci est la combinaison de \textit{Ruby} et de \textit{Picross}, en utilisant le caractère ASCII «\textit{þ}». En utilisant la couleur principale du logo de \textit{Ruby} (\texttt{\textcolor{rubycolor}{\#AA1401}}), et un picross représentant le «\textit{þ}» de \textit{Ruþycross}, nous avons réalisé un logo pour notre application. Celui-ci se trouve ci-dessous.
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=3cm]{application_logo.png}
-		\caption{Logo de l'application}
-	\end{figure}
 
 
 \end{document}

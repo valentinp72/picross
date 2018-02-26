@@ -1,7 +1,7 @@
 require_relative 'Cell'
 require_relative 'Hypothesis'
 
-##
+## 
 # File          :: Grid.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
@@ -15,23 +15,23 @@ class Grid
 
 	# The number of columns of the grid
 	attr_reader :columns
-
+	
 	# The number of lines of the grid
 	attr_reader :lines
-
+	
 	# The array of arrays that contains all the cells
 	attr_reader :grid
 	attr_writer :grid
 
 	# Exception when the wanted cell is invalid.
 	class InvalidCellPositionException < StandardError; end
-
+	
 	##
-	# Create a grid of size line x columns
+	# Create a grid of size line x columns  
 	# * *Arguments* :
 	#   - +lines+      -> an integer greater than 0
 	#   - +columns+    -> an integer greater than 0
-	#   - +hypothesis+ -> optional, the future hypothesis of all created cells,
+	#   - +hypothesis+ -> optional, the future hypothesis of all created cells, 
 	#     if no hypothesis, the grid is not created.
 	def initialize(lines, columns, hypothesis=nil)
 		@lines   = lines
@@ -39,11 +39,7 @@ class Grid
 
 		if hypothesis != nil then
 			@grid = Array.new(lines) do |j|
-<<<<<<< HEAD
 				Array.new(columns) do |i| 
-=======
-				Array.new(columns) do |i|
->>>>>>> 20a1e34b6a787a5dfb8e72b161abc7258d0228ab
 					Cell.new(hypothesis, j, i)
 				end
 			end
@@ -60,7 +56,7 @@ class Grid
 		cGrid    = @grid.map { |line| line.map { |cell| cell.clone } } # we clone each cell
 
 		# we cannot create a grid with already a grid, so we set it to nil,
-		# and after that we update the actual grid
+		# and after that we update the actual grid 
 		newGrid  = Grid.new(cLines, cColumns, nil)
 		newGrid.grid = cGrid
 		return newGrid
@@ -190,7 +186,7 @@ class Grid
 		# print each line
 		@grid.each_index do |j|
 			# add the line number
-			r += j.to_s
+			r += j.to_s 
 
 			# print each cell
 			@grid[j].each do |cell|
@@ -203,33 +199,6 @@ class Grid
 	end
 
 	##
-	# Compare the grid to the one given as parameter.
-	# * *Returns* :
-	#   - true if the grids are the same
-	def compare(grid)
-		@grid.each_cell_with_index do |cell, line, column|
-			if !cell.compare(grid[line][column]) then
-				return false
-			end
-		end
-		return true
-	end
-
-	##
-	# Returns the number of cell that have the same state as the one given as parameter.
-	# * *Returns* :
-	#   - Numbers of cell having the same state
-	def numberCell(state)
-		i = 0
-		@grid.each_cell_with_index do |cell, line, column|
-			if(cell.state == state) then
-				i += 1
-			end
-		end
-		return i
-	end
-
-	##
 	# Convert the grid to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the grid converted to an array
@@ -238,7 +207,7 @@ class Grid
 	end
 
 	##
-	# Update all the instances variables from the array given,
+	# Update all the instances variables from the array given, 
 	# allowing Marshal to load a grid.
 	# * *Arguments* :
 	#   - +array+ -> the array to transform to instances variables
