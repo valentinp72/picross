@@ -23,7 +23,7 @@ class LoginFrame < Frame
 
 		# Create a new comboBox which will hold all the username
 		@comboBox = Gtk::ComboBoxText.new
-		retrieveUser.each{|u| @comboBox.append_text(u)}
+		@picross.retrieveUser.each{|u| @comboBox.append_text(u)}
 		@comboBox.set_active(0)
 
 		# Add a login button
@@ -42,7 +42,7 @@ class LoginFrame < Frame
 		@loginBtn.signal_connect("clicked") do
 			#The button login works only if a user is selected.
 			if(@comboBox.active_text != nil) then
-			user = getSelectedUser
+			user = @picross.getSelectedUser(@comboBox.active_text)
 			self.parent.application.connectedUser = user
 			self.parent.setFrame(HomeFrame.new(user))
 			end
@@ -55,17 +55,5 @@ class LoginFrame < Frame
 
 		# Add vbox to frame
 		add(@vbox)
-	end
-
-	##
-	# This function return the loaded user (Class User) from the selected user in comboBox
-	def getSelectedUser()
-		return User.load(@path + "/User_" + @comboBox.active_text)
-	end
-
-	##
-	# This function retrieve all user available
-	def retrieveUser()
-		return Dir.entries(@path).select { |f| f.match(/User\_(.*)/)}.select{|x| x.slice!(0,5)}
 	end
 end
