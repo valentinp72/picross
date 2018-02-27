@@ -51,17 +51,9 @@ class NewUserFrame < Frame
 
 		# Valid -> We create the new user and login directly with it
 		@validBtn.signal_connect("clicked") do
-			# Check if entry is not nil
-			if(@entry.text != nil) then
-				# Check if the user already exist?
-				if(!retrieveUser.include? @entry.text )
-					# Check if entry only contains letters, numbers and "_"
-					if(@entry.text.match(/[a-zA-Z0-9_]*/) ) then
-						user = User.new(@entry.text)
-						user.save()
-						self.parent.setFrame(HomeFrame.new(user))
-					end
-				end
+			isOk, user = @picross.ajouteUser(@entry.text)
+			if isOk then
+				self.parent.setFrame(HomeFrame.new(user))
 			end
 		end
 
