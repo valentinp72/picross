@@ -18,8 +18,12 @@ class Picross
 	#   - +users+ -> list of chapter(s) that are composing the game
 	#   - +chapters+ -> list of user(s) that composing the game
 	def initialize(users=nil, chapters=nil)
-		@users = users
-		@chapters = chapters
+
+		# Set path variable to Users folder
+		@path = File.expand_path(File.dirname(__FILE__) + '/' + '../Users')
+
+		@users = retrieveUser
+		@chapters = retrieveChapter
 	end
 
 	##
@@ -28,6 +32,56 @@ class Picross
 	#   - the picross into a String object
 	def to_s()
 		return "Users : #{@users}, chapters : #{@chapters}"
+	end
+
+	##
+	# This function retrieve all user available
+	def retrieveUser()
+		return Dir.entries(@path).select { |f| f.match(/User\_(.*)/)}.select{|x| x.slice!(0,5)}
+	end
+
+	##
+	# This function return the loaded user (Class User) from the selected user in comboBox
+	def getSelectedUser(user)
+		return User.load(@path + "/User_" + user)
+	end
+
+	def retrieveChapter()
+		chapters = Array.new()
+
+		# Retrieve all default chapters
+		chapterFolder = File.expand_path(@path + '/' + "Default/chapters/")
+		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
+
+		chapterFile.each do |f|
+			chapters.push(Chapter.load(chapterFolder + "/"+ f))
+		end
+		return chapters
+	end
+
+	def sauvegarde(user,chapter, map)
+		indexUser = @users.index(user)
+		indexChapter = user.chapters.index(chapter)
+		indexMap = chapter[indexChapter].levels.index(map)
+		hypotheses = chapter[indexChapter].levels[indexMap].hypotheses
+		hypotheses = map.hypotheses
+		user.save()
+		@users[indexUser] = user
+	end
+
+	def ajouteUser(name)
+		if(name != nil) then
+			# Check if the user already exist?
+			if(!retrieveUser.include? name )
+				# Check if entry only contains letters, numbers and "_"
+				if(name.match(/[a-zA-Z0-9_]*/) ) then
+					user = User.new(@entry.text)
+					user.save()
+					return true, user
+				end
+			end
+		end
+		return false, nil
 	end
 
 	##
