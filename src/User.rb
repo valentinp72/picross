@@ -23,20 +23,11 @@ class User
 	# Creates a new User object
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
-	def initialize(name)
+	def initialize(name, chapters)
 		@name = name
 		@settings = UserSettings.new()
 		@availableHelps = 0
-		@chapters = Array.new()
-
-		# Retrieve all default chapters
-		chapterFolder = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/Default/chapters/")
-		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
-
-		chapterFile.each do |f|
-			puts chapterFolder + f
-			@chapters.push(Chapter.load(chapterFolder + "/"+ f))
-		end
+		@chapters = chapters
 
 	end
 
@@ -69,14 +60,6 @@ class User
 		path = File.expand_path(File.dirname(__FILE__) + '/' + "../Users/User_#{@name}")
 		File.open(path, 'w'){|f| f.write(Marshal.dump(self))}
 		return self
-	end
-
-	def sauvegarde(chapter, map)
-		indexChapter = @user.chapters.index(chapter)
-		indexMap = @chapters[indexChapter].levels.index(map)
-		hypotheses = @chapters[indexChapter].levels[indexMap].hypotheses
-		hypotheses = map.hypotheses
-		save()
 	end
 
 	def User.load(filename)
