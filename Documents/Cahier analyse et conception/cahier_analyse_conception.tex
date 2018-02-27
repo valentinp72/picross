@@ -143,7 +143,7 @@
 
 	
  	\section{Objectif de l'application}		
-		Nous devons réaliser un jeu de type picross (aussi appelé \textit{nonogramme}, \textit{logigramme} ou \textit{hanjie}) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation.
+		Nous devons réaliser un jeu de type picross (aussi appelé \textit{nonogramme}, \textit{logigramme} ou \textit{hanjie}) permettant à un utilisateur de résoudre des grilles et de l'aider dans sa réalisation. Une proposition de nom d'application et de logo se trouve en annexe (\ref{proposition_nom_logo}).
 		
 	\section{Outils}
 		
@@ -165,10 +165,10 @@
 	Nous utilisons les \textit{gems} Ruby suivants:
 	\begin{description}
 	\item[RSpec :] écriture et compilation des tests unitaires
-	\item[simplecov :] calcul et affichage du taux de couverte des tests unitaires
+	\item[simplecov :] calcul et affichage du taux de couverture des tests unitaires
 	\item[RDoc :] génération de la documentation en ligne \footnoteref{rdoc}
 	\item[hanna-bootstrap :] thème responsive pour \textit{RDoc}
-	\item[rake :] gestions des taches automatiques de notre projet (compilation de la documentation, tests unitaires)
+	\item[rake :] gestions des taches automatiques de notre projet (compilation de la documentation, tests unitaires, création de l'exécutable, ...)
 	\item[rmagick :] conversion automatique d'images de picross trouvés sur internet
 	\item[nokogiri :] \textit{parser} de pages HTML pour convertir les picross trouvés sur internet
 	\item[gtk3] : liens Ruby vers les bibliothèques d'interface graphique GTK3
@@ -231,8 +231,8 @@
  	            L'utilisateur a la possibilité de gagner des aides gratuites en complétant des grilles et en terminant les niveaux.
  		\subsubsection{Acheter une aide}
  			    Durant une partie, si il en a besoin, le joueur peut utiliser une aide en échange d'une pénalité de temps, sauf s'il en dispose d'une gratuite.
-		\subsubsection{Utiliser une aide gratuite}
-				L'utilisateur pour utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite, en quel cas, l'aide n'entraînera aucune pénalité de temps.
+		\subsubsection{Utiliser une aide}
+				L'utilisateur peut utiliser l'aide à tout moment en échange d'une perte de temps, sauf si celui-ci dispose d'une aide gratuite, en quel cas, l'aide n'entraînera aucune pénalité de temps.
 
     \subsection{Chronomètre}
 			\subsubsection{Accéder au score à la fin d'une partie}
@@ -259,7 +259,7 @@
 			
 	\subsection{Interface Homme Machine}
 		\subsubsection{Afficher la grille en noir et blanc}
-			Les cases sont blanches, et sont colorées en noir lors de leur validation par le joueur.
+			Les cases sont blanches, et sont colorées en noir lors de leur validation par le joueur. Les cases appartenant à une hypothèse doivent néanmoins être identifiées comme telles.
 		\subsubsection{Être compatible avec plusieurs périphériques}
 			Le joueur peut jouer avec les périphériques qu'il désire, que ce soit seulement au clavier, seulement à la souris, ou les deux en même temps.
 		\subsubsection{Mettre en valeur des indices associés aux cases remplies}
@@ -290,9 +290,9 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 
       
 	\section{Mode classique}
-		Dans le mode classique, le joueur a accès à plusieurs fonctionnalités. Il doit tout d'abord choisir un chapitre débloqué puis une grille. Ensuite, quand il se trouve en partie, il peut tout d'abord interagir avec la grille en cochant une case afin de se repérer dans les cases qui ne doivent pas être coloriées ou en coloriant une case. Il peut également enlever une coche ou une couleur d'une case s'il s'aperçoit qu'il s'est trompé. Il peut aussi sélectionner un groupe de cases à colorier, cocher ou vider. 
+		Dans le mode classique, le joueur a accès à plusieurs fonctionnalités. Il doit tout d'abord choisir un chapitre débloqué puis une grille. Ensuite, lorsqu'il se trouve en partie, il peut tout d'abord interagir avec la grille en cochant une case afin de se repérer dans les cases qui ne doivent pas être coloriées ou en coloriant une case. Il peut également enlever une coche ou une couleur d'une case s'il s'aperçoit qu'il s'est trompé. Il peut aussi sélectionner un groupe de cases à colorier, cocher ou vider. 
 		
-		Au niveau de l'interface, l'utilisateur peut, à l'aide de boutons, réinitialiser la grille s'il souhaite repartir de zéro ou la valider s'il pense l'avoir finie. S'il la réussit, il sera renvoyé dans le chapitre en cours. Il peut également utiliser différentes aides (en cliquant sur un bouton) qui diffèrent par la clarté de l'indice, leur coût et leur pénalité. Enfin, l'utilisateur peut quitter la partie quand il le souhaite, la grille est sauvegardée automatiquement.
+		Au niveau de l'interface, l'utilisateur peut, à l'aide de boutons, réinitialiser la grille s'il souhaite repartir de zéro. S'il termine la grille, il sera renvoyé dans le chapitre en cours. Il peut également utiliser différentes aides (en cliquant sur un bouton) qui diffèrent par la clarté de l'indice, leur coût et leur pénalité. Il est aussi possible pour l'utilisateur de créer ou d'enlever des hypothèses afin de partir dans une direction dont il n'est pas sûr. Enfin, l'utilisateur peut quitter la partie quand il le souhaite, la grille est sauvegardée automatiquement.
 	
 	\section{Mode évolutif}
 	Lors d'une partie en mode évolutif, le joueur choisit une des grilles du mode. Chaque grille choisie a une taille fixe de 5x5 (cases). Pour résoudre cette grille, il a accès aux mêmes fonctionnalités qu'une partie classique soit interagir avec la grille et avec l'interface.
@@ -312,7 +312,7 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 	\begin{description}
 		\item[E1 :] Sélection d'un chapitre non déverrouillé.\\
 			Peut arriver lors de la sélection d'un chapitre.\\
-			\textbf{Traitement} : accès bloqué au chapitre et message rappelant le nombre d'étoiles manquantes pour y accéder.
+			\textbf{Traitement} : accès bloqué au chapitre et message rappelant le nombre d'étoiles nécessaires pour y accéder.
 
 		\item[E2 :] Arrêt de la partie en cours.\\
 			Peut arriver en cours de partie.\\
@@ -329,7 +329,7 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 			
   \section{Aides}
 
-  L'utilisateur possède un nombre d'aides gratuites quand il commence à jouer et peut en récupérer en terminant un certain nombre de grilles. Quand il est en jeu, il peut les utiliser afin de se débloquer sans pénalité de temps. S'il ne possède plus d'aides gratuites, alors il peut continuer d'utiliser l'aide, mais celle-ci aura un coût (en temps) proportionnel à la difficulté du picross qui sera appliqué à chaque utilisation. La difficulté influence aussi le type d'aide appliqué:
+  L'utilisateur possède un nombre d'aides gratuites quand il commence à jouer et peut en récupérer en terminant un certain nombre de grilles. Quand il est en jeu, il peut les utiliser afin de se débloquer sans pénalité de temps. S'il ne possède plus d'aides gratuites, il peut toujours en utiliser une, mais celle-ci aura un coût (en temps) proportionnel à la difficulté du picross qui sera appliqué à chaque utilisation. La difficulté influence aussi le type d'aide appliqué:
     \begin{description}
     \item[En mode facile :] coloriage de toute une ligne ou colonne
     \item[En mode normal :] coloriage d'une case correcte 
@@ -365,15 +365,12 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 	
 \medskip
 
-	Une map est composée d'une grille de picross avec sa solution (classe \textit{Grid}) elle-même composée de plusieurs lignes et colonnes de cellules (classe \textit{Cell}) noires ou blanches. Chaque map possède ses propres statistiques (classe \textit{Statistiques}) composées (si la grille a été finie au moins une fois) du nombre d'étoiles gagnées, du temps joué, des aides utilisées et du temps de pénalité.
+	Une map est composée d'une grille de picross avec sa solution (classe \textit{Grid}) elle-même composée de plusieurs lignes et colonnes de cellules (classe \textit{Cell}) noires, blanches ou cochées (marquées comme étant réellement blanches). Chaque map possède ses propres statistiques (classe \textit{Statistiques}) composées (si la grille a été finie au moins une fois) du nombre d'étoiles gagnées, du temps joué, des aides utilisées et du temps de pénalité. Chaque carte possède également deux \textit{Timer}s permettant de connaître le temps écoulé en partie ainsi que de calculer le score final une fois la grille réussie. Avoir deux \textit{timers} permet de séparer le temps réel du temps de pénalité associé aux aides utilisées.
 	
 \medskip
 
 	Une map est également composée d'un objet hypothèse (classe \textit{Hypotheses}) comportant plusieurs grilles d'hypothèse (classe \textit{Hypothesis}) possédant chacune un numéro et une couleur unique. Le joueur joue sur la première grille d'hypothèse et peut, s'il le souhaite, en ouvrir d'autres. Le mode hypothèse contient plusieurs méthodes : \texttt{reject()} permettant de rejeter l'hypothèse et donc de l'effacer, \texttt{validate()} permettant de valider l'hypothèse, de sortir de cette hypothèse tout en modifiant la grille de base avec les changements effectués dans l'hypothèse. Enfin, il y a la méthode \texttt{getWorkingHypothesis()} pour démarrer une nouvelle hypothèse.
-	
-\medskip
 
-	Chaque map sera gérée par une classe \textit{Game} qui gère le lancement de la partie (méthode \texttt{start()}) et  permet à l'utilisateur de demander une aide (méthode \texttt{help()}) et  mettre en pause le jeu (méthode \texttt{pause()}). Chaque partie possède un \textit{Timer} permettant de connaître le temps écoulé en partie ainsi que calculer le score final une fois la grille réussie. Il existe trois catégories de \textit{Game} : une pour le mode de jeu tutoriel, une pour le mode classique et une pour le mode évolutif.
 
 \chapter{Annexes}
 \thispagestyle{empty}
@@ -410,30 +407,32 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
       
       		Ci-dessous les maquettes réalisées pour l'interface de notre application en français. 
       		
-      		Lorsque le joueur lance l'application, il tombe sur l'écran (1) lui demandant de rentrer son pseudo pour permettre à chaque joueur d'avoir son propre profil. S'il rentre un pseudo déjà existant, il charge son profil avec ses statistiques et ses chapitres débloqués sinon un nouveau profil est créer. 
+      		Lorsque le joueur lance l'application, il arrive sur l'écran (\ref{ecran_connexion}) lui demandant de rentrer son pseudo pour permettre à chaque joueur d'avoir son propre profil. S'il rentre un pseudo déjà existant, il charge son profil avec ses statistiques et ses chapitres débloqués sinon un nouveau profil est créé. 
       		
-      		L'utilisateur arrive ensuite sur la page d'accueil du logiciel (2) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. 
+      		L'utilisateur arrive ensuite sur la page d'accueil du logiciel (\ref{ecran_accueil}) lui permettant de choisir parmi les différentes fonctionnalités. Le bouton \textit{Quitter} ferme l'application. 
       		
-      		Le bouton \textit{Options} renvoie sur la page d'options (3) qui permet à l'utilisateur de modifier ses préférences de jeu. 
+      		Le bouton \textit{Options} renvoie sur la page d'options (\ref{ecran_options}) qui permet à l'utilisateur de modifier ses préférences de jeu. 
       		
-      		Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (4). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. 
+      		Le bouton \textit{Règles}  permet d'afficher les règles générales du \textit{picross} (\ref{ecran_regles}). L'utilisateur peut voir ses statistiques et celles des autres utilisateurs en cliquant sur le bouton \textit{Classement}. 
       		
-      		Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection du  chapitre (5) comportant tous les chapitres du jeu, didacticiel et mode évolutif inclus. 
+      		Enfin, en cliquant sur le bouton \textit{Jouer}, l'utilisateur est envoyé sur la sélection des chapitres (\ref{ecran_chapitres}) comportant tous les chapitres du jeu, didacticiel et mode évolutif inclus. 
       		
-      		Après avoir choisi un chapitre, il arrive sur la sélection de la grille (6) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (7).
+      		Après avoir choisi un chapitre, il arrive sur la sélection de la grille (\ref{ecran_grilles}) ainsi que le nombre d'étoiles obtenues sur les grilles déjà réussies. Lorsqu'il a choisi sa grille, la partie commence (\ref{ecran_partie}).
 		
 		
 	\begin{figure}[H]
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Premier_ecran.png}
-        			\caption{(1) Écran de connexion}
+        			\caption{Écran de connexion}
+ 					\label{ecran_connexion}
     		\end{minipage}
     		\hfill
    		\begin{minipage}[c]{.46\linewidth}
         			\centering
        			 \includegraphics[width=8cm]{Maquettes/Page_Accueil.png}
-        			\caption{(2) Page d'accueil}
+        			\caption{Page d'accueil}
+        			\label{ecran_accueil}
     		\end{minipage}
 	\end{figure}
 	
@@ -441,13 +440,15 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Options.png}
-        			\caption{(3) Options}
+        			\caption{Options}
+        			\label{ecran_options}
     		\end{minipage}
     		\hfill
    		\begin{minipage}[c]{.46\linewidth}
         			\centering
        			 \includegraphics[width=8cm]{Maquettes/Regles.png}
-        			\caption{(4) Règles}
+        			\caption{Règles}
+        			\label{ecran_regles}
     		\end{minipage}
 	\end{figure}
 	
@@ -455,13 +456,15 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
     		\begin{minipage}[c]{.46\linewidth}
        			\centering
        			\includegraphics[width=8cm]{Maquettes/Jouer.png}
-        			\caption{(5) Sélection du chapitre}
+        			\caption{Sélection du chapitre}
+        			\label{ecran_chapitres}
     		\end{minipage}
     		\hfill
    		\begin{minipage}[c]{.46\linewidth}
         			\centering
        			 \includegraphics[width=8cm]{Maquettes/Chapitre_1.png}
         			\caption{Sélection de la grille}
+        			\label{ecran_grilles}
     		\end{minipage}
 	\end{figure}
 	
@@ -469,9 +472,11 @@ Pour cela, il doit avoir un profil. Il peut donc en créer un nouveau s'il en a 
 	 	\centering
 		\includegraphics[width=8cm]{Maquettes/Partie.png}
 		\caption{Partie}
+		\label{ecran_partie}
     	\end{figure}
 
 	\section{Proposition de nom d'application et de logo}
+		\label{proposition_nom_logo}
 		\definecolor{rubycolor}{RGB}{170, 20, 01}
 	Nous avons pensé à un nom d'application \textit{Ruþycross} (Ruþycross). Celui-ci est la combinaison de \textit{Ruby} et de \textit{Picross}, en utilisant le caractère ASCII «\textit{þ}». En utilisant la couleur principale du logo de \textit{Ruby} (\texttt{\textcolor{rubycolor}{\#AA1401}}), et un picross représentant le «\textit{þ}» de \textit{Ruþycross}, nous avons réalisé un logo pour notre application. Celui-ci se trouve ci-dessous.
 	\begin{figure}[H]
