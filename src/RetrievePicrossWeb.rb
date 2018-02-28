@@ -79,9 +79,9 @@ class RetrievePicrossWeb
 	# * *Returns* :
 	#   - Respectively one map for one link
 	def RetrievePicrossWeb.fromFILE(file)
+		outputFolder = File.dirname(file) + '/'
 		File.readlines(file).each do |line|
-			puts line.strip
-			RetrievePicrossWeb.fromURL(line.strip)
+			RetrievePicrossWeb.fromURL(line.strip, outputFolder)
 		end
 	end
 
@@ -91,7 +91,7 @@ class RetrievePicrossWeb
 	#   - +link+ -> nonogram's link
 	# * *Returns* :
 	#   - One map
-	def RetrievePicrossWeb.fromURL(url)
+	def RetrievePicrossWeb.fromURL(url, folder=nil)
 		html = open(url)
 		doc = Nokogiri::HTML(html)
 
@@ -141,13 +141,17 @@ class RetrievePicrossWeb
 
 		# We save the picross's picture,
 		# with its name set to the title of the picross
-		File.open("#{title}.png", 'wb') do |fo|
+		outputFile = title + ".png"
+		if folder != nil then
+			outputFile.prepend(folder)
+		end
+		File.open(outputFile, 'wb') do |fo|
 		  fo.write open(imgLink).read
 		end
 
 		# We call recognition programm to convert picture to Map Class
-		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","-n","#{title}","#{title}.png"])
-		File.delete("#{title}.png")
+		map = PicrossRecognizer.mainProgram(["-d","#{difficulty}","-n","#{title}", outputFile])
+		File.delete(outputFile)
 
 		# Returns the map
 		return map

@@ -1,0 +1,26 @@
+'Food':
+  - stars: 0
+  - links:
+    - "http://www.nonograms.org/nonograms/i/16851" # Strawberry
+    - "http://www.nonograms.org/nonograms/i/3473"  # Fruits
+    - "http://www.nonograms.org/nonograms/i/16960" # Cupcake
+    - "http://www.nonograms.org/nonograms/i/3143"  # A piece of cake
+    - "http://www.nonograms.org/nonograms/i/12427" # Hamburger
+    - "http://www.nonograms.org/nonograms/i/3543"  # Apple
+    - "http://www.nonograms.org/nonograms/i/14556" # A monkey with a banana
+
+'Movies and TV Shows':
+  - stars: 10
+  - links:
+    - "http://www.nonograms.org/nonograms/i/15774" # TARDIS
+    - "http://www.nonograms.org/nonograms/i/639"   # Batman
+    - "http://www.nonograms.org/nonograms/i/2368"  # Scream
+    - "http://www.nonograms.org/nonograms/i/15130" # Charlie Chaplin
+    - "http://www.nonograms.org/nonograms/i/3775"  # Mary Poppins
+    - "http://www.nonograms.org/nonograms/i/1921"  # Maggie Simpson
+    - "http://www.nonograms.org/nonograms/i/1281"  # King Kong
+
+'Animals':
+  - stars: 20
+  - links:
+    - "http://www.nonograms.org/nonograms/i/9100"  # Nemo Fish

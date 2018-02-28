@@ -33,8 +33,12 @@ class PicrossRecognizer
 	# * *Returns* :
 	#   - the converted Map
 	def PicrossRecognizer.mainProgram(arg=nil)
-
+		
 		if(arg != nil) then
+			while not ARGV.empty? do
+				# remove residual arguments when called from program
+				ARGV.pop
+			end
 			arg.each do |x|
 				ARGV << x
 			end
@@ -351,6 +355,6 @@ end
 
 # Only execute it when it's called from command line
 # Not when required
-if __FILE__==$0 then
+if __FILE__ == $0 then
 	PicrossRecognizer.mainProgram
 end
