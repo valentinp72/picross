@@ -29,9 +29,9 @@ class ChapterCreator
 
 	##
 	# Main program, this class method will be executed when the
-	# file RetrievePicrossWeb.rb is executed.
+	# file ChapterCreator.rb is executed.
 	# * *Returns* :
-	#   - the converted Map/Chapter
+	#   - the converted Chapter
 	def ChapterCreator.mainProgram()
 
 		arguments = ChapterCreator.getArgs()
@@ -77,7 +77,7 @@ class ChapterCreator
 		arguments[:verbose] = false
 
 		parser = OptionParser.new do |opt|
-			opt.banner += ' '
+			opt.banner += ' <folder>'
 			opt.on('-v', '--verbose', 'Verbose mode'){ |o| arguments[:verbose] = o }
 		end
 		parser.parse!
@@ -95,6 +95,6 @@ end
 
 # Only execute it when it's called from command line
 # Not when required
-if __FILE__==$0 then
+if __FILE__ == $0 then
 	ChapterCreator.mainProgram
 end

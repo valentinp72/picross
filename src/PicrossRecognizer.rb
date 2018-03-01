@@ -57,7 +57,7 @@ class PicrossRecognizer
 
 		print map if arguments[:verbose]
 
-		map.save(arguments[:output])
+		map.save(arguments[:output]) if not arguments[:doNotSaveMap]
 		return map
 	end
 
@@ -66,27 +66,30 @@ class PicrossRecognizer
 	# is not correct.
 	# * *Returns* :
 	#   - An Hash, containing arguments and options:
-	#     - +:imageFile+  > image path
-	#     - +:difficulty+ > difficulty given by the user (default 0)
-	#     - +:name+       > wanted name of the map (default the name of the image file)
-	#     - +:time+       > estimated time to resolve the map (default 0)
-	#     - +:output+     > output file for the map (default the name of the image.map)
-	#     - +:saveImage+  > boolean, indicate if we should save the converted image (default false)
-	#     - +:verbose+    > boolean, indicate if the should be in verbose mode (default false)
+	#     - +:imageFile+    > image path
+	#     - +:difficulty+   > difficulty given by the user (default 0)
+	#     - +:name+         > wanted name of the map (default the name of the image file)
+	#     - +:time+         > estimated time to resolve the map (default 0)
+	#     - +:output+       > output file for the map (default the name of the image.map)
+	#     - +:saveImage+    > boolean, indicate if we should save the converted image (default false)
+	#     - +:doNotSaveMap+ > boolean, indicate that we should not save the converted map (default false)
+	#     - +:verbose+      > boolean, indicate if the should be in verbose mode (default false)
 	def PicrossRecognizer.getArgs()
 		arguments = {}
 
 		# default options values
-		arguments[:difficulty] = 0
-		arguments[:name]       = "Unknown"
-		arguments[:time]       = 0
-		arguments[:saveImage]  = false
-		arguments[:verbose]    = false
+		arguments[:difficulty]   = 0
+		arguments[:name]         = "Unknown"
+		arguments[:time]         = 0
+		arguments[:saveImage]    = false
+		arguments[:doNotSaveMap] = false
+		arguments[:verbose]      = false
 
 		parser = OptionParser.new do |opt|
 			opt.banner += ' <image file>'
 			opt.on('-o', '--output OUTPUT_FILE', 'Output map file')    { |o| arguments[:output]     = o }
 			opt.on('-s', '--saveImage', 'Save the converted image?')   { |o| arguments[:saveImage]  = o }
+			opt.on('-m', '--doNotSaveMap', 'Do not save the converted'){ |o| arguments[:doNotSaveMap]  = o }
 			opt.on('-n', '--name MAP_NAME', 'The name of the map')     { |o| arguments[:name]       = o }
 			opt.on('-t', '--time TIME_TO_DO', 'Time to resolve')       { |o| arguments[:time]       = o }
 			opt.on('-d', '--difficulty DIFFICULTY', 'Game difficulty') { |o| arguments[:difficulty] = o }
