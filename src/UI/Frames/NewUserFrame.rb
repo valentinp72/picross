@@ -51,7 +51,7 @@ class NewUserFrame < Frame
 
 		# Valid -> We create the new user and login directly with it
 		@validBtn.signal_connect("clicked") do
-			isOk, user = @picross.ajouteUser(@entry.text)
+			isOk, user = self.parent.picross.ajouteUser(@entry.text)
 			if isOk then
 				self.parent.setFrame(HomeFrame.new(user))
 			end

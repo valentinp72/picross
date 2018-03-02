@@ -2,6 +2,7 @@ require_relative '../Frame'
 require_relative 'HomeFrame'
 require_relative 'NewUserFrame'
 require_relative '../../User'
+require_relative '../../Picross'
 
 ##
 # File          :: LoginFrame.rb
@@ -23,8 +24,13 @@ class LoginFrame < Frame
 
 		# Create a new comboBox which will hold all the username
 		@comboBox = Gtk::ComboBoxText.new
-		@picross.retrieveUser.each{|u| @comboBox.append_text(u)}
-		@comboBox.set_active(0)
+
+		picross = Picross.new
+
+		signal_connect "realize" do
+			self.parent.picross.retrieveUser.each{|u| @comboBox.append_text(u)}
+			@comboBox.set_active(0)
+		end
 
 		# Add a login button
 		@loginBtn = Gtk::Button.new(:label => "Login")
@@ -42,7 +48,7 @@ class LoginFrame < Frame
 		@loginBtn.signal_connect("clicked") do
 			#The button login works only if a user is selected.
 			if(@comboBox.active_text != nil) then
-			user = @picross.getSelectedUser(@comboBox.active_text)
+			user = self.parent.picross.getSelectedUser(@comboBox.active_text)
 			self.parent.application.connectedUser = user
 			self.parent.setFrame(HomeFrame.new(user))
 			end
