@@ -82,7 +82,7 @@ class GameFrame < Frame
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new("Timer")
-		@reset  = Gtk::Button.new
+		@reset = Gtk::Button.new
 		@reset.image = AssetsLoader.loadImage("pause2.png",40)
 		@pause  = Gtk::Button	.new
 		@pause.image = AssetsLoader.loadImage("pause2.png",40)

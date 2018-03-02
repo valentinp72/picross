@@ -23,6 +23,10 @@ class CellButton < Gtk::EventBox
 	attr_reader :cell
 	attr_writer :cell
 
+	BLACK_PIXBUF = AssetsLoader.loadPixbuf('black_cell.png')
+	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
+	CROSS_PIXBUF = AssetsLoader.loadPixbuf('cross_cell.png')
+
 	##
 	# Creation of a new CellButton
 	# * *Arguments* :
@@ -34,8 +38,7 @@ class CellButton < Gtk::EventBox
 		@drag  = drag
 
 		# The content of this cell is just a blank image
-		@surface = Cairo::ImageSurface.new(:argb32, 20, 20)
-		@widget  = Gtk::Image.new(:surface => @surface)
+		@widget = Gtk::Image.new()#AssetsLoader.imageFromPixbuf(WHITE_PIXBUF)
 
 		# Add the CSS to the button
 		css_provider = Gtk::CssProvider.new
@@ -97,7 +100,10 @@ class CellButton < Gtk::EventBox
 		wantedClasses.push(chooseHypothesisClass)
 		
 		# chooses the class about the state of the cell
-		wantedClasses.push(chooseStateClass)
+#	wantedClasses.push(chooseStateClass)
+#		self.remove(@widget)
+@widget.pixbuf = choosePixbufState
+#		self.add(@widget)
 
 		@widget.style_context.classes.each do |className|
 			@widget.style_context.remove_class(className)
@@ -112,14 +118,14 @@ class CellButton < Gtk::EventBox
 	# Returns a CSS class name according to the current state of the cell
 	# * *Returns* :
 	#   - +black+, +crossed+ or +white+ according to the state
-	def chooseStateClass()
+	def choosePixbufState()
 		case @cell.state
 			when Cell::CELL_BLACK
-				return "black"
+				return BLACK_PIXBUF
 			when Cell::CELL_CROSSED
-				return "crossed"
+				return CROSS_PIXBUF
 		end
-		return "white"
+		return WHITE_PIXBUF
 	end
 
 	##
@@ -138,9 +144,6 @@ class CellButton < Gtk::EventBox
 	# * *Returns* :
 	#   - a String containing the CSS
 	def css()
-		black_img = AssetsLoader.loadFile('black_cell.png')
-		white_img = AssetsLoader.loadFile('white_cell.png')
-		cross_img = AssetsLoader.loadFile('cross_cell.png')
 		"
 			/* Main definition */
 			image {
@@ -166,20 +169,6 @@ class CellButton < Gtk::EventBox
 						'border-top-width : 4px;'
 					end
 				}
-			}
-
-			/* States */
-			.black {
-				background-image: url('#{black_img}');
-				background-size: 100% 100%;
-			}
-			.crossed {
-				background-image: url('#{cross_img}');
-				background-size: 100% 100%;
-			}
-			.white {
-				background-image: url('#{white_img}');
-				background-size: 100% 100%;
 			}
 
 			/* Hypotheses */

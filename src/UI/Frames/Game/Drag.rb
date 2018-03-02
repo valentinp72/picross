@@ -104,18 +104,34 @@ class Drag
 				calcDirections(cell)
 			end
 			if validDirections?(cell) then
+				@lastCell = cell
 				updateFromTo(@startCell, cell)
+				puts self.dragLength
 			end
 		end
 		return self
 	end
-	
+
+	##
+	# Returns the length of the current drag, 0 if there is current drag.
+	# * *Returns* :
+	#   - the length of the drag
+	def dragLength()
+		if @startCell != nil && @lastCell != nil then
+			xDiff = (@startCell.posX - @lastCell.posX).abs
+			yDiff = (@startCell.posY - @lastCell.posY).abs
+			return xDiff + yDiff + 1
+		end
+		return 0
+	end
+
 	##
 	# Reset the cell, no drag is currently active.
 	# * *Returns*
 	#   - the object itself
 	def reset()
 		@startCell   = nil
+		@lastCell    = nil
 		@wantedState = nil
 		return self
 	end

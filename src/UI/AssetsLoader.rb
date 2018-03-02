@@ -1,11 +1,8 @@
 class AssetsLoader
 
 	def AssetsLoader.loadImage(asset_name, width = nil, height = nil)
-		file = AssetsLoader.loadFile(asset_name)
-	
-
 		begin
-			pixbuf = GdkPixbuf::Pixbuf.new(:file => file)
+			pixbuf = AssetsLoader.loadPixbuf(asset_name) 
 			
 			newHeight = height == nil ? pixbuf.height : height
 			newWidth  = width  == nil ? pixbuf.width  : width
@@ -20,11 +17,30 @@ class AssetsLoader
 			end
 
 			pixbuf = pixbuf.scale(newWidth, newHeight)
-			image  = Gtk::Image.new(:pixbuf => pixbuf)
+			image  = AssetsLoader.imageFromPixbuf(pixbuf)
 			return image
 		rescue	
-			return Gtk::Image.new()
+			return Gtk::Image.new
 		end
+	end
+
+	def AssetsLoader.loadPixbuf(asset_name)
+		file = AssetsLoader.loadFile(asset_name)
+		return GdkPixbuf::Pixbuf.new(:file => file)
+	end
+
+	def AssetsLoader.imageFromPixbuf(pixbuf)
+		if not pixbuf.kind_of?(GdkPixbuf::Pixbuf) then
+			return Gtk::Image.new
+		end
+		return Gtk::Image.new(:pixbuf => pixbuf)
+	end
+
+	def AssetsLoader.cloneImage(image)
+		if not image.kind_of?(Gtk::Image) then
+			return Gtk::Image.new
+		end
+		return Gtk::Image.new(:pixbuf => image.pixbuf)
 	end
 
 	def AssetsLoader.loadFile(asset_name)
