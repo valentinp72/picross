@@ -61,7 +61,8 @@ class Map
 		@solution    = solutionGrid
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
-		@statistics  = Statistics.new
+		@currentStat = Statistic.new
+		@allStat     = StatisticsArray.new
 	end
 
 	##
@@ -188,7 +189,7 @@ class Map
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
 				return true
-				#Map is FINISHED
+
 			end
 		end
 		return false
@@ -216,7 +217,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat]
 	end
 
 	##
@@ -227,7 +228,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @statistics = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat = array
 		return self
 	end
 
