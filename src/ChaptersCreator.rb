@@ -49,8 +49,9 @@ class ChaptersCreator
 			chapterI = 1
 			datas.each do |chapterName, values|
 				realName = chapterI.to_s + '_' + chapterName
-				chap = ChaptersCreator.createChapter(realName, values, outputF)
-				chap.save(outputF)	
+				chap = ChaptersCreator.createChapter(chapterName, values, outputF)
+				chap.save(outputF, realName)
+				chapterI += 1
 			end
 		else
 			raise ConfigFileNotFoundException

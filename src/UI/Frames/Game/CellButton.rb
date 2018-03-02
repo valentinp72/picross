@@ -38,7 +38,7 @@ class CellButton < Gtk::EventBox
 		@drag  = drag
 
 		# The content of this cell is just a blank image
-		@widget = Gtk::Image.new()#AssetsLoader.imageFromPixbuf(WHITE_PIXBUF)
+		@widget = Gtk::Image.new()
 
 		# Add the CSS to the button
 		css_provider = Gtk::CssProvider.new
@@ -46,7 +46,7 @@ class CellButton < Gtk::EventBox
 		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 
 		self.setEvents
-		self.setCSSClass
+		self.setAttributes
 		self.add(@widget)
 	end
 
@@ -74,7 +74,7 @@ class CellButton < Gtk::EventBox
 				@drag.startRightDrag(@cell)
 			end
 
-			self.setCSSClass
+			self.setAttributes
 		end
 
 		self.signal_connect('button_release_event') do |widget, event|
@@ -83,27 +83,24 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
-			self.setCSSClass
+			self.setAttributes
 		end
 		return self
 	end
 
 	##
 	# Updates the css attributes of the cell to be exaclty what
-	# the cells is (state and hypothesis)
+	# the cells is, and the button itself (state and hypothesis)
 	# * *Returns* :
 	#   - the CellButton itself
-	def setCSSClass()
+	def setAttributes()
 		wantedClasses = []
 
 		# chooses the class about the hypothesis of the cell
 		wantedClasses.push(chooseHypothesisClass)
 
-		# chooses the class about the state of the cell
-#	wantedClasses.push(chooseStateClass)
-#		self.remove(@widget)
-@widget.pixbuf = choosePixbufState
-#		self.add(@widget)
+		# chooses the pixbuf about the state of the cell
+		@widget.pixbuf = choosePixbufState
 
 		@widget.style_context.classes.each do |className|
 			@widget.style_context.remove_class(className)

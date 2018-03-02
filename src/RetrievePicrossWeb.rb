@@ -119,6 +119,8 @@ class RetrievePicrossWeb
 		title=/«([^»]*)»/.match(title.to_s)
 		fn = title[1].split(/(?<=.)\.(?=[^.])(?!.*\.[^.])/m)
 		fn.map! { |s| s.gsub(/[^a-z0-9\-]+/i, '_') }
+		# The real title name to display on the game
+		realTitle = title.to_s.chop.reverse.chop.reverse
 		title = fn.join '.'
 		title.downcase!
 
@@ -153,7 +155,7 @@ class RetrievePicrossWeb
 		# We call recognition programm to convert picture to Map Class
 		args = []
 		args.push("-d","#{difficulty}")
-		args.push("-n","#{title}")
+		args.push("-n","#{realTitle}")
 		args.push("-m") if not saveMapOutput
 		args.push(outputFile)
 		map = PicrossRecognizer.mainProgram(args)

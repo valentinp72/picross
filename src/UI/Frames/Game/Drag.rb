@@ -165,7 +165,7 @@ class Drag
 				if btn.kind_of?(CellButton) then
 					cell = @grid.getCellPosition(y, x)
 					cell.state = @wantedState
-					btn.setCSSClass
+					btn.setAttributes
 				end
 			end
 		end

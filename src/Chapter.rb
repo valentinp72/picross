@@ -68,8 +68,8 @@ class Chapter
 	#   - +dir+ -> the output directory
 	# * *Returns* :
 	#   - the object itself
-	def save(dir)
-		fileName = dir + @title + ".chp"
+	def save(dir, name=@title)
+		fileName = dir + name + ".chp"
 		File.open(fileName, 'w') { |f| f.write(Marshal.dump(self)) }
 		return self
 	end
