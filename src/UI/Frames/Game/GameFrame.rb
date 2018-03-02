@@ -39,9 +39,12 @@ class GameFrame < Frame
 	def createHeaderLayout()
 
 		btnBack   = Gtk::Button.new
-		btnBack.image = AssetsLoader.loadImage("btnReturn.png",40)
+		btnBack.image = AssetsLoader.loadImage("btnReturn.png",50)
+		btnBack.relief = Gtk::ReliefStyle::NONE
 		title     = Gtk::Label.new(@map.name)
-		btnOption = Gtk::Button.new(:label => "Options")
+		btnOption = Gtk::Button.new()
+		btnOption.image = AssetsLoader.loadImage("btnOption.png",50)
+		btnOption.relief = Gtk::ReliefStyle::NONE
 
 		@header = Gtk::Box.new(:horizontal)
 		@header.pack_start(btnBack,   :expand => true, :fill => true)
@@ -70,7 +73,7 @@ class GameFrame < Frame
 
 		@content = Gtk::Box.new(:horizontal)
 
-		@picross = PicrossFrame.new(@grid, @map.clmSolution, @map.lneSolution)
+		@picross = PicrossFrame.new(@map,@grid)
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
@@ -82,22 +85,30 @@ class GameFrame < Frame
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new("Timer")
-		@reset = Gtk::Button.new
-		@reset.image = AssetsLoader.loadImage("pause2.png",40)
+
+		@reset  = Gtk::Button.new
+		@reset.image = AssetsLoader.loadImage('reset.png',40)
+		@reset.relief = Gtk::ReliefStyle::NONE
+
 		@pause  = Gtk::Button	.new
-		@pause.image = AssetsLoader.loadImage("pause2.png",40)
+		@pause.image = AssetsLoader.loadImage('pause2.png',40)
+		@pause.relief = Gtk::ReliefStyle::NONE
+		@pause.signal_connect('clicked') do
+
+		end
 
 		@btnHypotheses = Gtk::Button.new()
 		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
-
 		@btnHypotheses.signal_connect('clicked') do
 			@map.hypotheses.addNewHypothesis
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid
 		end
 
-		@help  = Gtk::Button.new(:label => "help")
+		@help  = Gtk::Button.new()
+		@reset.image = AssetsLoader.loadImage("help..jpg",40,40)
+		@help.relief = Gtk::ReliefStyle::NONE
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "
 		##	image{

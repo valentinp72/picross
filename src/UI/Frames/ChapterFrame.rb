@@ -29,7 +29,9 @@ class ChapterFrame < Frame
 		@vbox = Gtk::Box.new(:vertical, user.chapters.length)
 
 		# Create a return button
-		@returnBtn = Gtk::Button.new(:label => config["button"]["return"])
+		@returnBtn = Gtk::Button.new()
+		@returnBtn.image = AssetsLoader.loadImage("btnReturn.png",40)
+		@returnBtn.relief = Gtk::ReliefStyle::NONE
 		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
 
 		# List of bouttons
@@ -50,6 +52,6 @@ class ChapterFrame < Frame
 
 		# Add vbox to frame
 		add(@vbox)
-		
+
 	end
 end

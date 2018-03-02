@@ -9,25 +9,27 @@ require_relative 'CellButton'
 # Last update   :: 02/24/2018
 # Version       :: 0.1
 #
-# This class allows the player to change multiple Cell states, like a drag method.  
+# This class allows the player to change multiple Cell states, like a drag method.
 # A drag generaly have an starting cell, and each time a new cell is a cell is updated
 # by the drag, the drag changes all the cells between the starting cell and this one.
-# Note that a drag can only be in one direction, to go on an other direction, you need 
+# Note that a drag can only be in one direction, to go on an other direction, you need
 # to +reset+ the drag.
 
 class Drag
 
 	# The grid that the Drag is about (allowing to change the grid, for example to add a new hypothesis)
 	attr_writer :grid
-	
+
 	##
 	# Creation of a new Drag helper.
 	# * *Arguments* :
 	#   - +grid+  -> the grid that the drag will work on
 	#   - +cells+ -> a Gtk::Grid grid, containing other cells, that the drag will change states when doing drags.
-	def initialize(grid, cells)
+	def initialize(map, cells)
+		@map = map
 		self.reset
-		@grid  = grid
+
+		@grid = map.hypotheses.getWorkingHypothesis.grid
 		@cells = cells
 
 		@xOffset = 0
@@ -35,8 +37,8 @@ class Drag
 	end
 
 	##
-	# Set a new offset for the cells in the grid. This allows putting other 
-	# kind of object in the grid, and the Drag will not take care of them. 
+	# Set a new offset for the cells in the grid. This allows putting other
+	# kind of object in the grid, and the Drag will not take care of them.
 	# * *Arguments* :
 	#   - +yOffset+ -> the new offset starting from the top
 	#   - +xOffset+ -> the new offset starting from the left
@@ -66,8 +68,8 @@ class Drag
 	end
 
 	##
-	# Tells the Drag to start a new drag using the left button 
-	# of the mouse (a normal rotation using Cell::CELL_BLACK -> 
+	# Tells the Drag to start a new drag using the left button
+	# of the mouse (a normal rotation using Cell::CELL_BLACK ->
 	# Cell:CELL_WHITE -> Cell::CELL_BLACK -> ...)
 	# * *Arguments* :
 	#   - +startCell+ -> the cell to start the drag
@@ -79,8 +81,8 @@ class Drag
 	end
 
 	##
-	# Tells the Drag to start a new drag using the right button 
-	# of the mouse (a non-normal rotation using Cell::CELL_CROSSED -> 
+	# Tells the Drag to start a new drag using the right button
+	# of the mouse (a non-normal rotation using Cell::CELL_CROSSED ->
 	# Cell:CELL_WHITE -> Cell::CELL_CROSSED -> ...)
 	# * *Arguments* :
 	#   - +startCell+ -> the cell to start the drag
@@ -133,12 +135,14 @@ class Drag
 		@startCell   = nil
 		@lastCell    = nil
 		@wantedState = nil
+
+		puts @map.check();
 		return self
 	end
 
 	##
 	# Update all the cells between fromCell and toCell. Each cell will have the state
-	# of +wantedState+.  
+	# of +wantedState+.
 	# Note that +fromCell+ and +toCell+ doesn't have to be in any specific order.
 	# * *Arguments* :
 	#   - +fromCell+ -> the first cell to start
@@ -203,7 +207,7 @@ class Drag
 	def calcDirection(startPos, currentPos)
 		# clamp() is available in Ruby 2.4 only
 		# https://bugs.ruby-lang.org/issues/10594
-		# so this is a quick equivalent of 
+		# so this is a quick equivalent of
 		# return (currentPos - startPos).clamp(-1, 1)
 		res = currentPos - startPos
 		min = -1
@@ -219,7 +223,7 @@ class Drag
 	#   - true if the directions are correct, false otherwise
 	def validDirections?(cell)
 		if @yDirection != nil && @xDirection != nil then
-			return validPos?(@yDirection, @startCell.posY, cell.posY) && validPos?(@xDirection, @startCell.posX, cell.posX)	
+			return validPos?(@yDirection, @startCell.posY, cell.posY) && validPos?(@xDirection, @startCell.posX, cell.posX)
 		end
 		return false
 	end

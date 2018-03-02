@@ -203,8 +203,8 @@ class Grid
 	# * *Returns* :
 	#   - true if the grids are the same
 	def compare(grid)
-		@grid.each_cell_with_index do |cell, line, column|
-			if !cell.compare(grid[line][column]) then
+		each_cell_with_index do |cell, line, column|
+			if !cell.compare(grid.grid[line][column]) then
 				return false
 			end
 		end
@@ -217,7 +217,7 @@ class Grid
 	#   - Numbers of cell having the same state
 	def numberCell(state)
 		i = 0
-		@grid.each_cell_with_index do |cell, line, column|
+		each_cell_with_index do |cell, line, column|
 			if(cell.state == state) then
 				i += 1
 			end

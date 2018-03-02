@@ -1,10 +1,15 @@
 require_relative 'AssetsLoader'
 
+require_relative '../Picross'
+
 class Window < Gtk::ApplicationWindow
+
+	attr_reader :picross
 
 	def initialize(application)
 		super(application)
-		testIcon = AssetsLoader.loadFile('logo.png') 
+		@picross = Picross.new()
+		testIcon = AssetsLoader.loadFile('logo.png')
 		self.set_icon_from_file(testIcon)
 	end
 
@@ -15,11 +20,9 @@ class Window < Gtk::ApplicationWindow
 		self.child = frame
 		frame.show_all
 		@frame = frame
-
 	end
 
 	def mainWindow?()
 		return false
 	end
-
 end
