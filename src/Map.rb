@@ -1,5 +1,6 @@
 require_relative 'Hypotheses'
 require_relative 'Statistics'
+require_relative 'StatisticsArray'
 
 ##
 # File          :: Map.rb
