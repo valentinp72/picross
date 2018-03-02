@@ -7,7 +7,7 @@
 #
 # This class represents the player's statistics linked to a map
 #
-class Statistics
+class Statistic
 
 	# +stats+	- player's statistics on a map
 
@@ -45,24 +45,24 @@ class Statistics
 		@nbClick = 0
 	end
 
-	def Statistics.bestTime(array)
-		array.min_by(&:time)
+	##
+	# Convert the statistic to an array, allowing Marshal to dump the object.
+	# * *Returns* :
+	#   - the statistic converted to an array
+	def marshal_dump()
+		return [@time, @used, @numberOfStars, @isFinished, @nbClick]
 	end
 
-	def Statistics.minHelp(array)
-		array.min_by(&:usedHelp)
-	end
-
-	def Statistics.numberOfStars(array)
-		array.max_by(&:numberOfStars)
-	end
-
-	def Statistics.minClick(array)
-		array.min_by(&:nbClick)
-	end
-
-	def Statistics.nbFinished(array)
-		array.select{|x| x.isFinished==true}.count
+	##
+	# Update all the instances variables from the array given,
+	# allowing Marshal to load a statistic object.
+	# * *Arguments* :
+	#   - +array+ -> the array to transform to instances variables
+	# * *Returns* :
+	#   - the statistic object itself
+	def marshal_load(array)
+		@time, @used, @numberOfStars, @isFinished, @nbClick = array
+		return self
 	end
 
 end

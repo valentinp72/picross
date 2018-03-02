@@ -24,13 +24,14 @@ class PicrossFrame < Frame
 #   - +columnSolution+ -> the numbers to display as the solution at the top (see Map.
 #   clmSolution)
 #   - +lineSolution+   -> the numbers to display as the solution at the left (see Map.lneSolution)
-	def initialize(grid, columnSolution, lineSolution)
+	def initialize(map, grid)
 		super()
 
+		@map = map
 		self.border_width = 20
 		@grid = grid
-		@lineSolution   = lineSolution
-		@columnSolution = columnSolution
+		@lineSolution   = map.lneSolution
+		@columnSolution = map.clmSolution
 
 		createArea()
 	end
@@ -59,7 +60,7 @@ class PicrossFrame < Frame
 	#   - the PicrossFrame itself
 	def createArea()
 		@cells = Gtk::Grid.new
-		@drag  = Drag.new(@grid, @cells)
+		@drag  = Drag.new(@map, @cells)
 
 		# compute the offsets caused by the line and column solution numbers
 		@lineOffset   = @lineSolution.map(&:length).max
