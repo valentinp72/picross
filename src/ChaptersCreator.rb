@@ -46,8 +46,10 @@ class ChaptersCreator
 		if File.exists?(filename) then
 			datas    = YAML.load_file(filename)
 			outputF  = File.dirname(filename) + '/'
+			chapterI = 1
 			datas.each do |chapterName, values|
-				chap = ChaptersCreator.createChapter(chapterName, values, outputF)
+				realName = chapterI.to_s + '_' + chapterName
+				chap = ChaptersCreator.createChapter(realName, values, outputF)
 				chap.save(outputF)	
 			end
 		else
