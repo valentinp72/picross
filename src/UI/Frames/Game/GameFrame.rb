@@ -70,7 +70,7 @@ class GameFrame < Frame
 
 		@content = Gtk::Box.new(:horizontal)
 
-		@picross = PicrossFrame.new(@grid, @map.clmSolution, @map.lneSolution)
+		@picross = PicrossFrame.new(@map,@grid)
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)

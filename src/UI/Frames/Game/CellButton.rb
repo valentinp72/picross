@@ -15,7 +15,7 @@ class CellButton < Gtk::EventBox
 
 	# Left-click value when a button-click event is throwed
 	BUTTON_LEFT_CLICK  = 1
-	
+
 	# Right-click value when a button-click event is throwed
 	BUTTON_RIGHT_CLICK = 3
 
@@ -49,7 +49,7 @@ class CellButton < Gtk::EventBox
 
 	##
 	# Create the events of the CellButton.
-	# This add the events to allow changing cell state, 
+	# This add the events to allow changing cell state,
 	# and to drag between several cells
 	# * *Returns* :
 	#   - the CellButton itself
@@ -86,7 +86,7 @@ class CellButton < Gtk::EventBox
 	end
 
 	##
-	# Updates the css attributes of the cell to be exaclty what 
+	# Updates the css attributes of the cell to be exaclty what
 	# the cells is (state and hypothesis)
 	# * *Returns* :
 	#   - the CellButton itself
@@ -95,7 +95,7 @@ class CellButton < Gtk::EventBox
 
 		# chooses the class about the hypothesis of the cell
 		wantedClasses.push(chooseHypothesisClass)
-		
+
 		# chooses the class about the state of the cell
 		wantedClasses.push(chooseStateClass)
 
