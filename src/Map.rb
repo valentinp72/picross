@@ -108,7 +108,7 @@ class Map
 	# at given coordinates.
 	# (CELL_WHITE -> CELL_BLACK -> CELL_CROSSED -> CELL_WHITE ... )
 	# * *Arguments* :
-	#   - +line+   -> the line of the cell to rotate
+	#   - +line+   -> the line of the cell to rotateGTK_DEBUG=interactive
 	#   - +column+ -> the column of the cell to rotate
 	# * *Returns* :
 	#   - the updated cell
@@ -187,9 +187,8 @@ class Map
 		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
-				@statistics.isFinished = true
 				return true
-				#FINISHED
+				#Map is FINISHED
 			end
 		end
 		return false
