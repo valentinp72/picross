@@ -75,7 +75,7 @@ class Picross
 			if(!retrieveUser.include? name )
 				# Check if entry only contains letters, numbers and "_"
 				if(name.match(/[a-zA-Z0-9_]*/) ) then
-					user = User.new(@entry.text)
+					user = User.new(name, @chapters)
 					user.save()
 					return true, user
 				end
