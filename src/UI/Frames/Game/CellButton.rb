@@ -45,6 +45,7 @@ class CellButton < Gtk::EventBox
 		css_provider.load(data: self.css)
 		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 
+
 		self.setEvents
 		self.setAttributes
 		self.add(@widget)
@@ -170,26 +171,18 @@ class CellButton < Gtk::EventBox
 
 			/* Hypotheses */
 			.hyp0 {
-				/*border-color: black;*/
 				background-color: black;
 			}
 			.hyp1 {
-				/*border-color: red;*/
 				background-color: red;
 			}
 			.hyp2 {
-				/*
-				border-color: green;*/
 				background-color: green;
 			}
 			.hyp3 {
-				/* border-color: yellow;*/
 				background-color: yellow;
 			}
 			.hyp4 {
-				/*
-				border-color: blue;
-				*/
 				background-color: blue;
 			}
 			.hypUnknown {

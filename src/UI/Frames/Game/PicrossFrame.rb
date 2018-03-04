@@ -33,7 +33,32 @@ class PicrossFrame < Frame
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
 
+		self.signal_connect('size-allocate') do
+			self.setMaxSize(self.allocation.width, self.allocation.height)
+		end
+
 		createArea()
+	end
+
+	def setMaxSize(width, height)
+		if @oWidth != width || @oHeight != height then
+		
+			puts width, height
+
+			cellX = width  / (@grid.columns + @lineOffset)
+			cellY = height / (@grid.lines + @columnOffset)
+
+			cellSize = [cellX, cellY].min
+			puts "#{cellX}, #{cellY}"
+
+			@cells.each do |cell|
+				cell.set_size_request(cellSize, cellSize)
+#				cell.size_allocate(Gdk::Rectangle.new(-1, -1, cellSize, cellSize))
+			end
+
+			@oHeight = height
+			@oWidth  = width
+		end
 	end
 
 	##

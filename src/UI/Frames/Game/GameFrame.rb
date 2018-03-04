@@ -18,8 +18,9 @@ class GameFrame < Frame
 		@chapter = chapter
 
 		self.createMainLayout
-
+		
 		@main.show_all
+		
 	end
 
 
@@ -90,7 +91,7 @@ class GameFrame < Frame
 		@reset.image = AssetsLoader.loadImage('reset.png',40)
 		@reset.relief = Gtk::ReliefStyle::NONE
 
-		@pause  = Gtk::Button	.new
+		@pause  = Gtk::Button.new
 		@pause.image = AssetsLoader.loadImage('pause2.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
