@@ -26,6 +26,10 @@ class CellButton < Gtk::EventBox
 	BLACK_PIXBUF = AssetsLoader.loadPixbuf('black_cell.png')
 	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
 	CROSS_PIXBUF = AssetsLoader.loadPixbuf('cross_cell.png')
+		
+	@@BLACK_PIXBUF = BLACK_PIXBUF
+	@@WHITE_PIXBUF = WHITE_PIXBUF
+	@@CROSS_PIXBUF = CROSS_PIXBUF
 
 	##
 	# Creation of a new CellButton
@@ -49,6 +53,16 @@ class CellButton < Gtk::EventBox
 		self.setEvents
 		self.setAttributes
 		self.add(@widget)
+	end
+
+	def CellButton.resize(width, height)
+		@@BLACK_PIXBUF = BLACK_PIXBUF.scale(width, height)
+		@@WHITE_PIXBUF = WHITE_PIXBUF.scale(width, height)
+		@@CROSS_PIXBUF = CROSS_PIXBUF.scale(width, height)
+	end
+
+	def resize()
+		@widget.pixbuf = choosePixbufState
 	end
 
 	##
@@ -119,11 +133,11 @@ class CellButton < Gtk::EventBox
 	def choosePixbufState()
 		case @cell.state
 			when Cell::CELL_BLACK
-				return BLACK_PIXBUF
+				return @@BLACK_PIXBUF
 			when Cell::CELL_CROSSED
-				return CROSS_PIXBUF
+				return @@CROSS_PIXBUF
 		end
-		return WHITE_PIXBUF
+		return @@WHITE_PIXBUF
 	end
 
 	##

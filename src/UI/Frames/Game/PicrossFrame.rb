@@ -42,8 +42,6 @@ class PicrossFrame < Frame
 
 	def setMaxSize(width, height)
 		if @oWidth != width || @oHeight != height then
-		
-			puts width, height
 
 			cellX = width  / (@grid.columns + @lineOffset)
 			cellY = height / (@grid.lines + @columnOffset)
@@ -51,9 +49,13 @@ class PicrossFrame < Frame
 			cellSize = [cellX, cellY].min
 			puts "#{cellX}, #{cellY}"
 
+			CellButton.resize(cellSize, cellSize)
+			self.queue_draw
+			
 			@cells.each do |cell|
-				cell.set_size_request(cellSize, cellSize)
-#				cell.size_allocate(Gdk::Rectangle.new(-1, -1, cellSize, cellSize))
+				if cell.kind_of?(CellButton) then
+					cell.resize
+				end
 			end
 
 			@oHeight = height
@@ -85,6 +87,8 @@ class PicrossFrame < Frame
 	#   - the PicrossFrame itself
 	def createArea()
 		@cells = Gtk::Grid.new
+#		@cells.row_homogeneous    = true
+#		@cells.column_homogeneous = true
 		@drag  = Drag.new(@map, @cells)
 
 		# compute the offsets caused by the line and column solution numbers
