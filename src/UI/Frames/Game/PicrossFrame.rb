@@ -36,24 +36,25 @@ class PicrossFrame < Frame
 		self.signal_connect('size-allocate') do
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
-#self.signal_connect('realize') do
-#			puts "Hey"
-#			puts self.allocation.inspect
-#			self.setMaxSize(400, 400)
-#		end
 		self.queue_allocate
 		createArea()
 	end
 
+	##
+	# Updates the maximum size allowed to the frame by changing the size 
+	# of each cells inside the frame.
+	# * *Arguments* :
+	#   - +width+  -> the allowed width for the frame
+	#   - +height+ -> the allowed height for the frame
+	# *Returns* :
+	#   - the object itself
 	def setMaxSize(width, height)
 		if @oWidth != width || @oHeight != height then
-			cellX = width  / (@grid.columns + @lineOffset)
-			cellY = height / (@grid.lines + @columnOffset)
-
+			cellX = (width  - 10) / (@grid.columns + @lineOffset)
+			cellY = (height - 10) / (@grid.lines + @columnOffset)
 			cellSize = [cellX, cellY].min - 1
 
 			CellButton.resize(cellSize, cellSize)
-			self.queue_draw
 			
 			@cells.each do |cell|
 				if cell.kind_of?(CellButton) then
@@ -64,6 +65,7 @@ class PicrossFrame < Frame
 			@oHeight = height
 			@oWidth  = width
 		end
+		return self
 	end
 
 	##
@@ -90,8 +92,6 @@ class PicrossFrame < Frame
 	#   - the PicrossFrame itself
 	def createArea()
 		@cells = Gtk::Grid.new
-#		@cells.row_homogeneous    = true
-#		@cells.column_homogeneous = true
 		@drag  = Drag.new(@map, @cells)
 
 		# compute the offsets caused by the line and column solution numbers

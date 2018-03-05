@@ -56,14 +56,28 @@ class CellButton < Gtk::EventBox
 		self.add(@widget)
 	end
 
+	##
+	# Asks the class to resize the images to be used by the instances
+	# * *Arguments* :
+	#   - +width+  -> the future width of the images
+	#   - +height+ -> the future height of the images
+	# * *Returns* : 
+	#   - the object itself
 	def CellButton.resize(width, height)
 		@@BLACK_PIXBUF = BLACK_PIXBUF.scale(width, height)
 		@@WHITE_PIXBUF = WHITE_PIXBUF.scale(width, height)
 		@@CROSS_PIXBUF = CROSS_PIXBUF.scale(width, height)
+		return self
 	end
 
+	##
+	# Resises the cell to the size that is currently set on 
+	# the images, using +CellButton.resize(width, height)+.
+	# * *Returns* : 
+	#   - the object itself
 	def resize()
 		@widget.pixbuf = choosePixbufState
+		return self
 	end
 
 	##
