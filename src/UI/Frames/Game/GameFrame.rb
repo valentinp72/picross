@@ -11,7 +11,6 @@ class GameFrame < Frame
 
 	def initialize(user, chapter, map)
 		super()
-		self.border_width = 10
 		@grid = map.hypotheses.getWorkingHypothesis.grid
 		@map  = map
 		@user = user

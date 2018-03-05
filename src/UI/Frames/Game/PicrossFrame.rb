@@ -26,9 +26,9 @@ class PicrossFrame < Frame
 #   - +lineSolution+   -> the numbers to display as the solution at the left (see Map.lneSolution)
 	def initialize(map, grid)
 		super()
+		self.border_width = 10
 
 		@map = map
-		self.border_width = 20
 		@grid = grid
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
@@ -36,18 +36,21 @@ class PicrossFrame < Frame
 		self.signal_connect('size-allocate') do
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
-
+#self.signal_connect('realize') do
+#			puts "Hey"
+#			puts self.allocation.inspect
+#			self.setMaxSize(400, 400)
+#		end
+		self.queue_allocate
 		createArea()
 	end
 
 	def setMaxSize(width, height)
 		if @oWidth != width || @oHeight != height then
-
 			cellX = width  / (@grid.columns + @lineOffset)
 			cellY = height / (@grid.lines + @columnOffset)
 
-			cellSize = [cellX, cellY].min
-			puts "#{cellX}, #{cellY}"
+			cellSize = [cellX, cellY].min - 1
 
 			CellButton.resize(cellSize, cellSize)
 			self.queue_draw

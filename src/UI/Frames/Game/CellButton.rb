@@ -27,9 +27,10 @@ class CellButton < Gtk::EventBox
 	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
 	CROSS_PIXBUF = AssetsLoader.loadPixbuf('cross_cell.png')
 		
-	@@BLACK_PIXBUF = BLACK_PIXBUF
-	@@WHITE_PIXBUF = WHITE_PIXBUF
-	@@CROSS_PIXBUF = CROSS_PIXBUF
+	DEFAULT_SIZE = 20
+	@@BLACK_PIXBUF = BLACK_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
+	@@WHITE_PIXBUF = WHITE_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
+	@@CROSS_PIXBUF = CROSS_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
 
 	##
 	# Creation of a new CellButton
