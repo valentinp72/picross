@@ -1,5 +1,6 @@
 require_relative '../../../Grid'
 require_relative 'CellButton'
+require_relative 'CursorHelper'
 
 ##
 # File          :: Drag.rb
@@ -17,6 +18,7 @@ require_relative 'CellButton'
 
 class Drag
 
+
 	# The grid that the Drag is about (allowing to change the grid, for example to add a new hypothesis)
 	attr_writer :grid
 
@@ -26,15 +28,19 @@ class Drag
 	#   - +grid+  -> the grid that the drag will work on
 	#   - +cells+ -> a Gtk::Grid grid, containing other cells, that the drag will change states when doing drags.
 	def initialize(map, cells)
-		@map = map
-		self.reset
-
-		@grid = map.hypotheses.getWorkingHypothesis.grid
+		@map   = map
+		@grid  = map.hypotheses.getWorkingHypothesis.grid
 		@cells = cells
 
 		@xOffset = 0
 		@yOffset = 0
+
+		@cells.signal_connect('realize') do
+			@cursor = CursorHelper.new(@cells.toplevel.window)	
+		end
+		self.reset
 	end
+
 
 	##
 	# Set a new offset for the cells in the grid. This allows putting other
@@ -108,7 +114,7 @@ class Drag
 			if validDirections?(cell) then
 				@lastCell = cell
 				updateFromTo(@startCell, cell)
-				puts self.dragLength
+				@cursor.setValues(self.dragLength, self.totalLength)
 			end
 		end
 		return self
@@ -128,6 +134,22 @@ class Drag
 	end
 
 	##
+	# Returns the total length of the cells concerned by the drag.
+	# * *Returns* :
+	#   - the length of the horizontal of vertical drag and the total size 
+	#     of all the cells with the same state. 
+	#   - 0 if there is no drag.
+	def totalLength()
+		if verticalDrag? then
+			return @grid.totalLengthVertical(@startCell)
+		end
+		if horizontalDrag? then
+			return @grid.totalLengthHorizontal(@startCell)
+		end
+		return 0
+	end
+
+	##
 	# Reset the cell, no drag is currently active.
 	# * *Returns*
 	#   - the object itself
@@ -135,8 +157,11 @@ class Drag
 		@startCell   = nil
 		@lastCell    = nil
 		@wantedState = nil
-
 		puts @map.check();
+
+		if @cursor != nil then
+			@cursor.reset
+		end
 		return self
 	end
 
@@ -226,6 +251,24 @@ class Drag
 			return validPos?(@yDirection, @startCell.posY, cell.posY) && validPos?(@xDirection, @startCell.posX, cell.posX)
 		end
 		return false
+	end
+
+	##
+	# Returns true if the drag is horizontal, false otherwise. If there is
+	# no current drag, returns false.
+	# * *Returns* :
+	#   - true if the drag is horizontal
+	def horizontalDrag?()
+		return @xDirection != nil && @xDirection != 0
+	end
+
+	##
+	# Returns true if the drag is vertical, false otherwise. If there is
+	# no current drag, returns false.
+	# * *Returns* :
+	#   - true if the drag is vertical
+	def verticalDrag?()
+		return @yDirection != nil && @yDirection != 0
 	end
 
 	##

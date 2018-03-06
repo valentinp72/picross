@@ -24,7 +24,6 @@ class SolutionNumber < Gtk::Label
 		self.style_context.add_class("number")
 		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		self.set_size_request(15, 15)
-#		self.set_width_chars(2)
 	end
 
  	##

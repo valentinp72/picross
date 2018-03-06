@@ -26,6 +26,9 @@ class Grid
 	# Exception when the wanted cell is invalid.
 	class InvalidCellPositionException < StandardError; end
 
+	# Exception when searching a cell that is not present in the grid.
+	class CellNotInGridException < StandardError; end
+
 	##
 	# Create a grid of size line x columns
 	# * *Arguments* :
@@ -117,6 +120,13 @@ class Grid
 		return self
 	end
 
+	##
+	# Calls the given block for every line in the Grid, with the indexes.
+	# * *Yields* :
+	#   - an Array of Cell of every lines in the Grid
+	#   - the index of the array in the Grid
+	# * *Returns* :
+	#   - the Grid itself
 	def each_line_with_index()
 		@grid.each_index do |i|
 			yield @grid[i], i
@@ -137,6 +147,13 @@ class Grid
 		return self
 	end
 
+	##
+	# Calls the given block for every column in the Grid, with the indexes.
+	# * *Yields* :
+	#   - an Array of Cell of every columns in the Grid
+	#   - the index of the array in the Grid
+	# * *Returns* :
+	#   - the Grid itself
 	def each_column_with_index()
 		tmpGrid = @grid.transpose
 		tmpGrid.each_index do |i|
@@ -161,6 +178,16 @@ class Grid
 		return self
 	end
 
+	##
+	# Calls the given block for every cell in the Grid, from
+	# top left to bottom right, including the indexes of each
+	# Cell.
+	# * *Yields* :
+	#   - a Cell for every cell in the Grid
+	#   - the line of the cell in the grid
+	#   - the column of the cell in the grid
+	# * *Returns* :
+	#   - the Grid itsel
 	def each_cell_with_index()
 		self.each_line_with_index do |line, j|
 			line.each_index do |i|
@@ -168,6 +195,99 @@ class Grid
 			end
 		end
 		return self
+	end
+
+	##
+	# Returns an array of Cells, representing the line that 
+	# contains the cell line.
+	# * *Arguments* :
+	#   - +cell+ -> the cell to search it's line
+	# * *Returns* :
+	#   - an Array of Cell representing the line of the cell
+	def lineContaining(cell)
+		self.each_line do |line|
+			return line if line.include?(cell)
+		end
+		raise CellNotInGridException.new("Cell #{cell} was not found the the grid")
+	end
+
+	##
+	# Returns an array of Cells, representing the column that 
+	# contains the cell line.
+	# * *Arguments* :
+	#   - +cell+ -> the cell to search it's column
+	# * *Returns* :
+	#   - an Array of Cell representing the column of the cell
+	def columnContaining(cell)
+		self.each_column do |column|
+			return column if column.include?(cell)
+		end
+		raise CellNotInGridException.new("Cell #{cell} was not found the the grid")
+	end
+
+	##
+	# Returns the total length of the column of the same cells colors as
+	# the given cell.
+	# * *Arguments* :
+	#   - +cell+     -> the cell to look the state for
+	# * *Returns* :
+	#   - the total length
+	def totalLengthVertical(cell)
+		return totalLengthIntern(self.columnContaining(cell), cell)
+	end
+
+	##
+	# Returns the total length of the line of the same cells colors as
+	# the given cell.
+	# * *Arguments* :
+	#   - +cell+     -> the cell to look the state for
+	# * *Returns* :
+	#   - the total length
+	def totalLengthHorizontal(cell)
+		return totalLengthIntern(self.lineContaining(cell), cell)
+	end
+	##
+	# Returns the total length of same state of the given cell in the given array.
+	# Separated from totalLength() because we don't want a WET solution, but a DRY one.
+	# * *Arguments* :
+	#   - +array+ -> the array to search in
+	#   - +cell+  -> the cell to search in the array
+	# * *Returns* :
+	#   - the length of the same cell states near the cell in the array
+	def totalLengthIntern(array, cell)
+		length    = 1 # the cell, not counted after that
+		position  = array.index(cell)
+		raise CellNotInGridException if position == nil
+	
+		# count the length after the cell in the array
+		afterCell = array.drop(position + 1)
+		length   += numberOfSameStates(afterCell, cell.state)	
+
+		# count the length before the cell in the array
+		beforeCell = array[0..position]
+		beforeCell.pop(1)
+		length    += numberOfSameStates(beforeCell, cell.state)	
+
+		return length
+	end
+
+	##
+	# Count the number of the cells in the array that have the specific given state
+	# * *Arguments* : 
+	#   - +array+ -> the array to search in
+	#   - +state+ -> the state the Cells must have inside the array to be counted
+	# * *Returns* :
+	#   - the number of cells that have the state +state+
+	def numberOfSameStates(array, state)
+		length = 0
+		array.each do |cell|
+			if cell.state == state then
+				length += 1 # same state, we update the length
+			else
+				break       # different state, we stop here (efficacity)
+			end
+		end
+		return length
 	end
 
 	##
