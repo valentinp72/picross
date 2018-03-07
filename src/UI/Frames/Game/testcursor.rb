@@ -13,7 +13,8 @@ button.use_underline = false
 #oldImage = cursor.image
 #puts oldImage.inspect
 
-cursor = Gdk::Cursor.new(AssetsLoader.loadPixbuf('mouse.png'), 5, 5)
+#cursor = Gdk::Cursor.new(AssetsLoader.loadPixbuf('mouse.png'), 5, 5)
+cursor = Gdk::Cursor.new("default")
 window.window.set_cursor(cursor)
 
 window.add(button)

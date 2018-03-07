@@ -1,4 +1,4 @@
-class AssetsLoader
+module AssetsLoader
 
 	def AssetsLoader.loadImage(asset_name, width = nil, height = nil)
 		begin
@@ -27,6 +27,10 @@ class AssetsLoader
 	def AssetsLoader.loadPixbuf(asset_name)
 		file = AssetsLoader.loadFile(asset_name)
 		return GdkPixbuf::Pixbuf.new(:file => file)
+	end
+
+	def AssetsLoader.pixbufFromSurface(surface)
+		return GdkPixbuf::Pixbuf.new(:data => surface.data, :width => surface.width, :height => surface.height, :row_stride => surface.stride, :colorspace => :rgb, :has_alpha => true)
 	end
 
 	def AssetsLoader.imageFromPixbuf(pixbuf)
