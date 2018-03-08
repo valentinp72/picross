@@ -36,7 +36,7 @@ class Drag
 		@yOffset = 0
 
 		@cells.signal_connect('realize') do
-			@cursor = CursorHelper.new(@cells.toplevel.window)	
+			@cursor = CursorHelper.new(@cells.toplevel.window)
 		end
 		self.reset
 	end
@@ -65,11 +65,13 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def startDrag(startCell, wantedState)
-		@startCell  = startCell
-		@wantedState = wantedState
+		if !@map.statistic.isFinished then
+			@startCell  = startCell
+			@wantedState = wantedState
 
-		@xDirection = nil
-		@yDirection = nil
+			@xDirection = nil
+			@yDirection = nil
+		end
 		return self
 	end
 
@@ -142,8 +144,8 @@ class Drag
 	##
 	# Returns the total length of the cells concerned by the drag.
 	# * *Returns* :
-	#   - the length of the horizontal of vertical drag and the total size 
-	#     of all the cells with the same state. 
+	#   - the length of the horizontal of vertical drag and the total size
+	#     of all the cells with the same state.
 	#   - 0 if there is no drag.
 	def totalLength()
 		if verticalDrag? then
@@ -163,7 +165,12 @@ class Drag
 		@startCell   = nil
 		@lastCell    = nil
 		@wantedState = nil
-		puts @map.check();
+
+		@map.check()
+
+		if !@map.statistic.isRunning then
+			@map.statistic.start
+		end
 
 		if @cursor != nil then
 			@cursor.reset
