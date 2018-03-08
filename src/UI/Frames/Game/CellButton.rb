@@ -113,11 +113,12 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
+			self.parent.parent.setHover(@cell.posX, @cell.posY)
 			self.setAttributes
 		end
 
 		self.signal_connect('leave_notify_event') do |widget, event|
-			@drag.unUpdate(@cell)
+			self.parent.parent.unsetHover(@cell.posX, @cell.posY)
 			self.setAttributes
 		end
 

@@ -162,4 +162,82 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	##
+	# Get an array of SolutionNumber corresponding to the given column number
+	# * *Arguments* :
+	#   - +column+ -> the column number to search the solutions numbers
+	# * *Returns* :
+	#   - the array of SolutionNumber matching the column number
+	def getColumnNumbers(column)
+		column = @columnOffset + 1 + column
+		return getAllChildsNumbers(column, 0, 0, 1)
+	end
+
+	##
+	# Get an array of SolutionNumber corresponding to the given line number
+	# * *Arguments* :
+	#   - +line+ -> the line number to search the solutions numbers
+	# * *Returns* :
+	#   - the array of SolutionNumber matching the line number
+	def getLineNumbers(line)
+		line = @lineOffset - 1 + line
+		return getAllChildsNumbers(0, line, 1, 0)
+	end
+
+	##
+	# Get an array of SolutionNumber corresponding to the given position
+	# * *Arguments* :
+	#   - +x+  -> the starting X position
+	#   - +x+  -> the starting Y position
+	#   - +xI+ -> the X increment at each step
+	#   - +xY+ -> the Y increment at each step
+	# * *Returns* :
+	#   - the array of SolutionNumber matching the numbers
+	def getAllChildsNumbers(x, y, xI, yI)
+		result = []
+		loop do
+			cell = @cells.get_child_at(x, y)
+			break if not cell.kind_of?(SolutionNumber)
+
+			result.push(cell)
+			x += xI
+			y += yI
+		end
+		return result
+	end
+
+	##
+	# Sets an hover for the given coordinates.
+	# * *Arguments* :
+	#   - +posX+ -> the cell X position
+	#   - +posY+ -> the cell Y position
+	# * *Returns* :
+	#   - the object itself
+	def setHover(posX, posY)
+		cells = getColumnNumbers(posX) + getLineNumbers(posY)
+		cells.each do |number|
+			if number.value != nil then
+				number.setHover
+			end
+		end
+		return self
+	end
+
+	##
+	# Unsets the hover for the given coordinates.
+	# * *Arguments* :
+	#   - +posX+ -> the cell X position
+	#   - +posY+ -> the cell Y position
+	# * *Returns* :
+	#   - the object itself
+	def unsetHover(posX, posY)
+		cells = getColumnNumbers(posX) + getLineNumbers(posY)
+		cells.each do |number|
+			if number.value != nil then
+				number.unsetHover
+			end
+		end
+		return self
+	end
+
 end

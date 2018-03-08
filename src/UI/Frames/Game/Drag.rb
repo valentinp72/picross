@@ -120,12 +120,6 @@ class Drag
 		return self
 	end
 
-	def unUpdate(cell)
-		if @lastCell == cell then
-			cell.state = cell.lastState
-		end
-	end
-
 	##
 	# Returns the length of the current drag, 0 if there is current drag.
 	# * *Returns* :
