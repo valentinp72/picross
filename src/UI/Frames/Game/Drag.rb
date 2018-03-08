@@ -65,7 +65,7 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def startDrag(startCell, wantedState)
-		if !@map.statistic.isFinished then
+		if !@map.currentStat.isFinished then
 			@startCell  = startCell
 			@wantedState = wantedState
 
@@ -168,8 +168,8 @@ class Drag
 
 		@map.check()
 
-		if !@map.statistic.isRunning then
-			@map.statistic.start
+		if !@map.currentStat.isRunning then
+			@map.currentStat.start
 		end
 
 		if @cursor != nil then
