@@ -75,14 +75,3 @@ class Timer
 	end
 
 end
-
-timer = Timer.new()
-timer.start
-sleep 1
-timer.pause
-timer.unpause
-sleep 60
-timer.pause
-sleep 5
-#timer.pause
-puts timer.elapsedTime

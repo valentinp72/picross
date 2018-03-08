@@ -23,7 +23,7 @@ class Statistic
 		reset()
 	end
 
-	def finish(time,timeToDo)
+	def finish(time, timeToDo)
 		@time = time
 		@isFinished = true
 		@numberOfStars = (@time / timeToDo) / (usedHelp)

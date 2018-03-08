@@ -22,6 +22,9 @@ class Cell
 	# The state of the cell
 	attr_reader :state
 
+	# The last state of the cell
+	attr_reader :lastState
+
 	# The hypothesis to this cell
 	attr_reader :hypothesis
 	attr_writer :hypothesis
@@ -76,8 +79,11 @@ class Cell
 		if state != CELL_WHITE and state != CELL_BLACK and state != CELL_CROSSED then
 			raise ArgumentError, 'Argument state should be a valid state!'
 		else
-			@state = state
-			@hypothesis = @nextHypothesis
+			if state != @state then
+				@lastState  = @state
+				@state      = state
+				@hypothesis = @nextHypothesis
+			end
 		end
 		return self
 	end

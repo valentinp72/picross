@@ -115,6 +115,12 @@ class CellButton < Gtk::EventBox
 			@drag.update(@cell)
 			self.setAttributes
 		end
+
+		self.signal_connect('leave_notify_event') do |widget, event|
+			@drag.unUpdate(@cell)
+			self.setAttributes
+		end
+
 		return self
 	end
 

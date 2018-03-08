@@ -267,7 +267,6 @@ class Grid
 		beforeCell = array[0..position]
 		beforeCell.pop(1)
 		length    += numberOfSameStates(beforeCell.reverse, cell.state)	
-		puts "#{numberOfSameStates(afterCell, cell.state)}, #{numberOfSameStates(beforeCell, cell.state)}"
 
 		return length
 	end
