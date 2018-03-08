@@ -11,12 +11,15 @@
 
 class SolutionNumber < Gtk::Label
 
+	attr_reader :value
+
 	##
 	# Creation of a new SolutionNumber
 	# * *Arguments* :
 	#   - +numberValue+ -> the value to display inside the SolutionNumber
 	def initialize(numberValue)
 		super(numberValue.to_s)
+		@value = numberValue
 		
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
@@ -26,6 +29,24 @@ class SolutionNumber < Gtk::Label
 		self.set_size_request(15, 15)
 	end
 
+	##
+	# Add an hover to the solution number.
+	# * *Returns* :
+	#   - the object itself
+	def setHover()
+		self.style_context.add_class("hover")
+		return self
+	end
+
+	##
+	# Remove the hover of the solution number.
+	# * *Returns* :
+	#   - the object itself
+	def unsetHover()
+		self.style_context.remove_class("hover")
+		return self
+	end
+
  	##
 	# Returns the needed CSS for the label of a solution number
 	# * *Returns* :
@@ -33,12 +54,13 @@ class SolutionNumber < Gtk::Label
 	def css()
 		"
 			.number {
-				/*border: 1px solid lightgray;*/
-				/* background-color: #fe6a57; */
-				color : black;
-				margin:  0px;
-				margin-top:  1px;
-				margin-left: 1px;
+				color:  black;
+				margin: 0px;
+				padding-top:  1px;
+				padding-left: 1px;
+			}
+			.hover {
+				background-color: rgba(170, 20, 1, 0.2);
 			}
 		"
 	end
