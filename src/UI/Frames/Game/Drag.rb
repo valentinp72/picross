@@ -114,7 +114,7 @@ class Drag
 			if validDirections?(cell) then
 				@lastCell = cell
 				updateFromTo(@startCell, cell)
-				@cursor.setValues(self.dragLength, self.totalLength)
+				@cursor.setText("#{self.dragLength} (#{self.totalLength})")
 			end
 		end
 		return self

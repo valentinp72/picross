@@ -13,8 +13,7 @@ class CursorHelper
 		@window.set_cursor(DEFAULT_CURSOR)
 	end
 
-	def setValues(firstV, secondV)
-		text    = "#{firstV} | #{secondV}"
+	def setText(text)
 		surface = Cairo::ImageSurface.new(:argb32, 100, 100)
 		cr      = Cairo::Context.new(surface)
 
