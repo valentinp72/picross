@@ -40,8 +40,11 @@ class Map
 	# The numbers representing the lines solution (An array of arrays)
 	attr_reader :lneSolution
 
-	# The User Statistic about this Map
-	attr_reader :statistics
+	# The User current statistic about this Map
+	attr_reader :currentStat
+
+	# The user current statistic about this Map
+	attr_reader :allStat
 
 	# +timeToDo+ - The estimated time to resolve the game
 
@@ -189,8 +192,9 @@ class Map
 		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+				@statistic.finish(@timeToDo)
+				@StatisticsArray.addStatistic(@statistic)
 				return true
-
 			end
 		end
 		return false

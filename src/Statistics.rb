@@ -23,10 +23,23 @@ class Statistic
 		reset()
 	end
 
-	def finish(time,timeToDo)
-		@time = time
-		@isFinished = true
-		@numberOfStars = (@time / timeToDo) / (usedHelp)
+	def finish(timeToDo)
+		#time = @timer.getTime()
+
+		#  1    -   - 3
+		#  1.25 -   - 2.5
+		#  1.5  -   - 2
+		#  1.75 -   - 1.5
+		#  2    -   - 1
+		#  2.25 -   - 0.5
+		#  2.5  -  - 0
+		#
+		 @isFinished = true
+		 ratio = time / timeToDo
+		 #return the number of stars depending on the ratio above
+		 @numberOfStars = -2*ratio + 5
+
+
 	end
 
 	def useHelp()
