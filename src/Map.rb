@@ -103,7 +103,7 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def reset()
-		@statistics.reset
+		@currentStat.reset
 		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
 		return self
 	end
@@ -124,7 +124,7 @@ class Map
 		cell = hypothesis.grid.getCellPosition(line, column)
 		cell.stateRotate()
 		cell.hypothesis = hypothesis
-		@statistics.click()
+		@currentStat.click()
 		return self
 	end
 
@@ -192,8 +192,8 @@ class Map
 		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
-				@statistic.finish(@timeToDo)
-				@StatisticsArray.addStatistic(@statistic)
+				@currentStat.finish(@timeToDo)
+				@StatisticsArray.addStatistic(@currentStat)
 				return true
 			end
 		end
@@ -213,7 +213,8 @@ class Map
 		res += " - Solution        : \n#{@solution}\n\t"
 		res += " - Columns solution: #{@clmSolution}\n\t"
 		res += " - Lines solution  : #{@lneSolution}\n"
-		res += " - Statistics      : #{@statistics}\n"
+		res += " - Current Stat    : #{@currentStat}\n"
+		res += " - All Stats       : #{@allStat}\n"
 		return res
 	end
 
