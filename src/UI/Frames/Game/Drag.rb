@@ -114,10 +114,16 @@ class Drag
 			if validDirections?(cell) then
 				@lastCell = cell
 				updateFromTo(@startCell, cell)
-				@cursor.setValues(self.dragLength, self.totalLength)
+				@cursor.setText("#{self.dragLength} (#{self.totalLength})")
 			end
 		end
 		return self
+	end
+
+	def unUpdate(cell)
+		if @lastCell == cell then
+			cell.state = cell.lastState
+		end
 	end
 
 	##

@@ -258,15 +258,15 @@ class Grid
 		length    = 1 # the cell, not counted after that
 		position  = array.index(cell)
 		raise CellNotInGridException if position == nil
-	
+		
 		# count the length after the cell in the array
 		afterCell = array.drop(position + 1)
-		length   += numberOfSameStates(afterCell, cell.state)	
+		length   += numberOfSameStates(afterCell, cell.state)
 
 		# count the length before the cell in the array
 		beforeCell = array[0..position]
 		beforeCell.pop(1)
-		length    += numberOfSameStates(beforeCell, cell.state)	
+		length    += numberOfSameStates(beforeCell.reverse, cell.state)	
 
 		return length
 	end

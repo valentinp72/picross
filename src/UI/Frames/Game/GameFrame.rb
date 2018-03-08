@@ -107,7 +107,7 @@ class GameFrame < Frame
 		end
 
 		@help  = Gtk::Button.new()
-		@reset.image = AssetsLoader.loadImage("help..jpg",40,40)
+		@reset.image = AssetsLoader.loadImage("help.jpg",40,40)
 		@help.relief = Gtk::ReliefStyle::NONE
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "

@@ -32,10 +32,11 @@ class PicrossFrame < Frame
 		@grid = grid
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
-
+		
 		self.signal_connect('size-allocate') do
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
+		
 		self.queue_allocate
 		createArea()
 	end
