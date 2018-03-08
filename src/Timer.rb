@@ -25,7 +25,7 @@ class Timer
 
 	##
 	# Tells the timer to start counting. This method
-	# does not overwrite the current elapsed time, it 
+	# does not overwrite the current elapsed time, it
 	# add new times to it.
 	# * *Returns* :
 	#   - the timer itself
@@ -38,7 +38,7 @@ class Timer
 	end
 
 	##
-	# Tells the timer to pause. To start again the timer, you 
+	# Tells the timer to pause. To start again the timer, you
 	# can use +start+ or +unpause+.
 	# * *Returns* :
 	#   - the timer itself
@@ -51,6 +51,18 @@ class Timer
 	end
 
 	alias unpause start
+
+	##
+	# Reset the timer
+	# * *Returns* :
+	#   - itself
+	def reset()
+		@startTimes.clear
+		@endTimes.clear
+		@isRunning = false
+
+		return self
+	end
 
 	##
 	# Returns the total number of elapsed seconds since the timer began.
