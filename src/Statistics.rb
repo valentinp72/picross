@@ -1,3 +1,5 @@
+require_relative 'Timer'
+
 ##
 # File		:: Statistics.rb
 # Author	:: COHEN Mehdi
@@ -20,12 +22,15 @@ class Statistic
 	# * *Arguments* :
 	#   - +stats+		-> player's statistics
 	def initialize()
+		@time = Timer.new()
 		reset()
 	end
 
+	##
+	# Set statistic's status to finished
+	# and calculate numbers of stars awarded
 	def finish(timeToDo)
-		#time = @timer.getTime()
-
+		# Time ratio / Stars
 		#  1    -   - 3
 		#  1.25 -   - 2.5
 		#  1.5  -   - 2
@@ -33,25 +38,33 @@ class Statistic
 		#  2    -   - 1
 		#  2.25 -   - 0.5
 		#  2.5  -  - 0
-		#
-		 @isFinished = true
-		 ratio = time / timeToDo
-		 #return the number of stars depending on the ratio above
+		@time.pause
+		@isFinished = true
+		ratio = @time.elapsedSeconds / timeToDo
+		#return the number of sta##
+	# Returns the total number of elapsed seconds since the timer began.
+	# It count the time of each run of the timer (pauses).
+	# * *Returns* :
+	#   - the elapsed seconds (Integer)rs depending on the ratio above
 		 @numberOfStars = -2*ratio + 5
-
-
 	end
 
+	##
+	# Increments the number of help used
 	def useHelp()
 		@usedHelp += 1
 	end
 
+	##
+	# Increments the number of click
 	def click()
 		@nbClick += 1
 	end
 
+	##
+	# Reset Statistic
 	def reset()
-		@time = 0
+		@time.reset
 		@usedHelp = 0
 		@numberOfStars = 0
 		@isFinished = false
@@ -63,7 +76,7 @@ class Statistic
 	# * *Returns* :
 	#   - the statistic converted to an array
 	def marshal_dump()
-		return [@time, @used, @numberOfStars, @isFinished, @nbClick]
+		return [@time, @usedHelp, @numberOfStars, @isFinished, @nbClick]
 	end
 
 	##
@@ -74,7 +87,7 @@ class Statistic
 	# * *Returns* :
 	#   - the statistic object itself
 	def marshal_load(array)
-		@time, @used, @numberOfStars, @isFinished, @nbClick = array
+		@time, @usedHelp, @numberOfStars, @isFinished, @nbClick = array
 		return self
 	end
 
