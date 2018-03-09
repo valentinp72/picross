@@ -84,7 +84,27 @@ class GameFrame < Frame
 
 	def createSideBarLayout()
 
-		@timer = Gtk::Label.new("Timer")
+		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
+
+		# Update the timer view every second
+		GLib::Timeout.add(1000){
+			if @timer == nil then
+				# we return false (that stop the timeout) if we have quit the game
+				false
+			else
+				# view update
+				@timer.text = @map.currentStat.time.elapsedTime
+				true
+			end
+		}
+
+		@timer.signal_connect('unrealize') do
+			# when the timer object is destroy, that means we are quitting the
+			# game, so we tell the next timeout to be stopped
+			@timer = nil
+			# we also pause the timer
+			@map.currentStat.time.pause
+		end
 
 		@reset  = Gtk::Button.new
 		@reset.image = AssetsLoader.loadImage('reset.png',40)
