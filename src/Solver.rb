@@ -8,7 +8,7 @@
 # This class représente a picross solver.
 # This solver will be used for the realization of the help system.
 
-class Resolver
+class Solver
 
 	@linesTab	#int[]
 	@columnsTab #int[]
@@ -87,36 +87,21 @@ class Resolver
 		end
 
 
-    for i in 0...lines_Size
-      if (self.counterColorLine(i))
-        self.tickLineBoxes(i)
-      end
-    end
+    		for i in 0...lines_Size
+      			if (self.counterColorLine(i))
+        			self.tickLineBoxes(i)
+      			end
+    		end
 
-    for i in 0...columns_Size
-      if (self.counterColorCol(i))
-        self.tickColumnBoxes(i)
-      end
-    end
+    		for i in 0...columns_Size
+      			if (self.counterColorCol(i))
+        			self.tickColumnBoxes(i)
+      			end
+    		end
 
 
-		#self.colorieligne(4)
+		self.colorieligne(4)
 
-		#Remplissage lignes et colonnes en partie coloriées
-		# while (self.numbColoredBoxes()!=totalNumbBox)
-    #
-		# 	puts(self.numbColoredBoxes())
-		# 	puts(totalNumbBox)
-    #
-		# 	#On coche les cases impossibles (on les met à -1)
-    #
-    #
-    #
-		# 	#On remplit les cases
-    #
-    #
-    #
-		# end
 	end
 
 
@@ -130,16 +115,15 @@ class Resolver
 		i=0
 		while(i<@linesTab.size())
 			j=0
-			while(j<@columnsTab.size())
-				#print (@gridTempo[i][j]==1 ? "O": "-")
-        if(@gridTempo[i][j] == 1)
-          print "0"
-        elsif @gridTempo[i][j] == -1
-          print "X"
-        else
-          print "-"
-        end
-				print " "
+			while(j<@columnsTab.size())			
+        			if(@gridTempo[i][j] == 1)
+          				print "0"
+       				elsif @gridTempo[i][j] == -1
+          				print "X"
+        			else
+          				print "-"
+       				end
+					print " "
 				j = j+1
 			end
 			i = i+1
@@ -155,25 +139,25 @@ class Resolver
 	#   - +columnNumber+    -> an integer representing the column's number
 	# * *Returns* :
 	#   - a boolean
-  def counterColorCol(columnNumber)
-    counter = 0
-    counter2 = 0
-    for i in 0...@linesTab.size()
-        if @gridTempo[i][columnNumber] == 1
-          counter += 1
-        end
-    end
+  	def counterColorCol(columnNumber)
+   		counter = 0
+    		counter2 = 0
+    		for i in 0...@linesTab.size()
+        		if @gridTempo[i][columnNumber] == 1
+          			counter += 1
+        		end
+    		end
 
-    for i in 0...@columnsTab[columnNumber].size()
-      counter2 += @columnsTab[columnNumber][i]
-    end
+    		for i in 0...@columnsTab[columnNumber].size()
+      			counter2 += @columnsTab[columnNumber][i]
+    		end
 
-    if counter == counter2
-      return true
-    else
-      return false
-    end
-  end
+    		if counter == counter2
+      			return true
+    		else
+      			return false
+    		end
+  	end
 
 	##
 	# Method to determine if a box should be colored.
@@ -182,35 +166,35 @@ class Resolver
 	#   - +lineNumber+    -> an integer representing the line's number
 	# * *Returns* :
 	#   - a boolean
-  def counterColorLine(lineNumber)
-    counter = 0
-    counter2 = 0
-    for i in 0...@columnsTab.size()
-        if @gridTempo[lineNumber][i] == 1
-          counter += 1
-        end
-    end
+ 	def counterColorLine(lineNumber)
+		counter = 0
+   		counter2 = 0
+    		for i in 0...@columnsTab.size()
+     			if @gridTempo[lineNumber][i] == 1
+          			counter += 1
+        		end
+    		end
 
-    for i in 0...@linesTab[lineNumber].size()
-      counter2 += @linesTab[lineNumber][i]
-    end
-    if counter == counter2
-      return true
-    else
-      return false
-    end
-  end
+    		for i in 0...@linesTab[lineNumber].size()
+      			counter2 += @linesTab[lineNumber][i]
+    		end
+    		if counter == counter2
+      			return true
+    		else
+      			return false
+    		end
+  	end
 
 	##
 	# Declare a box on a line as "false" (X)
 	# * *Arguments* :
 	#   - +lineNumber+    -> an integer representing the line's number
 	def tickLineBoxes(lineNumber)
-  	for i in 0...@columnsTab.size()
-    	if @gridTempo[lineNumber][i]==0 then
-      	@gridTempo[lineNumber][i]=-1
-    	end
-  	end
+  		for i in 0...@columnsTab.size()
+    			if @gridTempo[lineNumber][i]==0 then
+      				@gridTempo[lineNumber][i]=-1
+    			end
+  		end
 	end
 
 	##
@@ -218,11 +202,11 @@ class Resolver
 	# * *Arguments* :
 	#   - +columnNumber+    -> an integer representing the column's number
 	def tickColumnBoxes(columnNumber)
-  	for i in 0...@linesTab.size()
-    	if @gridTempo[i][columnNumber]==0 then
-      	@gridTempo[i][columnNumber]=-1
-    	end
-  	end
+  		for i in 0...@linesTab.size()
+    			if @gridTempo[i][columnNumber]==0 then
+      				@gridTempo[i][columnNumber]=-1
+    			end
+  		end
 	end
 
 	##
@@ -247,22 +231,19 @@ class Resolver
 	#
 	# * *Arguments* :
 	#   - +lineNumber+    -> an integer representing the line's number
-  def colorieligne(lineNumber)
+  	def colorieligne(lineNumber)
 
 		tab1 = Array.new
 		tab2 = Array.new
 		temp = 0
-		#tab1=@gridTempo[lineNumber]
-		#tab2=@gridTempo[lineNumber].reverse
 
-		indices = @linesTab[lineNumber]
+		tabHint = @linesTab[lineNumber]
+		tabHintReverse = @linesTab[lineNumber].reverse
 
-		#@linesTab[lineNumber]
-		groupe=1
-		print indices
+		print tabHint
 		puts
-		for i in 0...indices.size
-			while temp != indices[i]
+		for i in 0...tabHint.size
+			while temp != tabHint[i]
 				tab1.push("0")
 				temp+=1
 			end
@@ -272,8 +253,8 @@ class Resolver
 		print tab1
 		puts
 
-		for i in 0...indices.size
-			while temp != indices[i]
+		for i in 0...tabHintReverse.size
+			while temp != tabHintReverse[i]
 				tab2.unshift("0")
 				temp+=1
 			end
@@ -283,17 +264,6 @@ class Resolver
 		print tab2
 		puts
 
-	# 	for i in 0...@columnsTab.size()
-	# 		 if (tab1[i]==0) then
-	#
-	# 		 elsif (tab1[i]==1)
-	#
-	# 		 else
-	#
-	# 		 end
-	#
-	# 	end
-	#
 	end
 
 end
