@@ -1,120 +1,112 @@
-# Licence	:: MIT Licence
-# Creation date	:: 01/27/2018
-# Last update	:: 01/30/2018
+##
+# File          :: Resolver.rb
+# Author        ::
+# Licence       :: MIT Licence
+# Creation date :: 01/27/2018
+# Last update   :: 09/08/2018
 #
-
+# This class représente a picross solver.
+# This solver will be used for the realization of the help system.
 
 class Resolver
 
-	@lines	#int[]
-	@clns #int[]
-	@grid #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
+	@linesTab	#int[]
+	@columnsTab #int[]
+	@gridTempo #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
 
-
-
-	#Constructeur
+	##
+	# Initialization of the instance variables
+	#
+	# TODO : Recover the player's current grid
 	def initialize()
+		@linesTab = [[3],[1],[3],[2,1],[1,2]]
+		@columnsTab = [[1],[3],[1,2],[2,1],[1,2]]
 
-		#@lines = [[5],[3],[1],[3],[5]]
-		#@clns = [[1,1],[2,2],[5],[2,2],[1,1]]
-
-		@lines = [[3],[1],[3],[2,1],[1,2]]
-		@clns = [[1],[3],[1,2],[2,1],[1,2]]
-
-		@grid = Array.new(@lines.size()) do |j|
-			Array.new(@clns.size()) do |i|
+		@gridTempo = Array.new(@linesTab.size()) do |j|
+			Array.new(@columnsTab.size()) do |i|
 				0
 			end
 		end
 	end
 
-	#Résolution de la grille
-	def traitement()
-
-		tcln = @clns.size()
-		tline = @lines.size()
-		somme=0
-		nbcasetot=0		#total de case à colorier sur la grille
+	##
+	# General processing of the resolution
+	#
+	# TODO : Make the method more modular
+	def processing()
+		columns_Size = @columnsTab.size()
+		lines_Size = @linesTab.size()
+		sum=0
+		totalNumbBox=0		#total number of boxes to color on the grid
 		tabResLin = []
 		tabResCol = []
 
-		for i in @lines	#pour chaque ligne
-			for j in i	#pour chaque indice
-
-				somme=somme+j		#somme des indices
-				nbcasetot += j		# calcul total de case à colorier sur la grille
+		for i in @linesTab
+			for j in i
+				sum=sum+j
+				totalNumbBox += j
 			end
-
-			tabResLin.push(tline-(somme+(i.size()-1)))
-			somme=0
+			tabResLin.push(lines_Size-(sum+(i.size()-1)))
+			sum=0
 		end
 
-		for i in @clns	#pour chaque colonne
-			for j in i	#pour chaque indice
-
-				somme=somme+j		#somme des indices
+		for i in @columnsTab
+			for j in i
+				sum=sum+j
 			end
-
-			tabResCol.push(tcln-(somme+(i.size()-1)))
-			somme=0
+			tabResCol.push(columns_Size-(sum+(i.size()-1)))
+			sum=0
 		end
 
-		#Remplissage des lignes pleines
-		for i in 0...tline
+		# Color boxes where hints fully filled a line
+		for i in 0...lines_Size
 			j=0
-
-			@lines[i].each do |block|
-
+			@linesTab[i].each do |block|
 				for c in 1..block
-
 					if(c>tabResLin[i])
-						@grid[i][j]=1
+						@gridTempo[i][j]=1
 					end
 					j+=1
 				end
 				j+=1
-
 			end
-
 		end
 
-		#Remplissage des colonnes pleines
-		for i in 0...tcln
+		# Color boxes where hints fully filled a column
+		for i in 0...columns_Size
 			j=0
-			@clns[i].each do |block|
+			@columnsTab[i].each do |block|
 				for c in 1..block
 					if(c>tabResCol[i])
-						@grid[j][i]=1
+						@gridTempo[j][i]=1
 					end
 					j+=1
 				end
 				j+=1
-
 			end
-
 		end
 
-    # self.cptColorCol(1)
-    # self.cptColorLine(1)
-    # self.cptColorLine(4)
 
-    for i in 0...tline
-      if (self.cptColorLine(i))
-        self.cocheligne(i)
+    for i in 0...lines_Size
+      if (self.counterColorLine(i))
+        self.tickLineBoxes(i)
       end
     end
 
-    for i in 0...tcln
-      if (self.cptColorCol(i))
-        self.cochecol(i)
+    for i in 0...columns_Size
+      if (self.counterColorCol(i))
+        self.tickColumnBoxes(i)
       end
     end
+
+
+		#self.colorieligne(4)
 
 		#Remplissage lignes et colonnes en partie coloriées
-		# while (self.nbcasecoloriee()!=nbcasetot)
+		# while (self.numbColoredBoxes()!=totalNumbBox)
     #
-		# 	puts(self.nbcasecoloriee())
-		# 	puts(nbcasetot)
+		# 	puts(self.numbColoredBoxes())
+		# 	puts(totalNumbBox)
     #
 		# 	#On coche les cases impossibles (on les met à -1)
     #
@@ -129,21 +121,20 @@ class Resolver
 
 
 
-	#Affiche la grille résolue
-	def afficher()
-
+	##
+	# Display of the temporary grid
+	# X -> boxes sure not to color
+	# 0 -> boxes sure to color
+	# - -> unprocessing boxes
+	def display()
 		i=0
-
-		while(i<@lines.size())
-
+		while(i<@linesTab.size())
 			j=0
-			while(j<@clns.size())
-
-
-				#print (@grid[i][j]==1 ? "O": "-")
-        if(@grid[i][j] == 1)
+			while(j<@columnsTab.size())
+				#print (@gridTempo[i][j]==1 ? "O": "-")
+        if(@gridTempo[i][j] == 1)
           print "0"
-        elsif @grid[i][j] == -1
+        elsif @gridTempo[i][j] == -1
           print "X"
         else
           print "-"
@@ -156,121 +147,158 @@ class Resolver
 		end
 	end
 
-  def cptColorCol(numc)
-    cpt = 0
-    cpt2 = 0
-    for i in 0...@lines.size()
-        if @grid[i][numc] == 1
-          cpt += 1
-        end
-    end
-    for i in 0...@clns[numc].size()
-      cpt2 += @clns[numc][i]
-    end
-    if cpt == cpt2
-      return true
-    else
-      return false
-    end
 
-  end
-
-  def cptColorLine(numl)
-    cpt = 0
-    cpt2 = 0
-    for i in 0...@clns.size()
-        if @grid[numl][i] == 1
-          cpt += 1
+	##
+	# Method to determine if a box should be colored.
+	# Based on the number of colored boxes on a column
+	# * *Arguments* :
+	#   - +columnNumber+    -> an integer representing the column's number
+	# * *Returns* :
+	#   - a boolean
+  def counterColorCol(columnNumber)
+    counter = 0
+    counter2 = 0
+    for i in 0...@linesTab.size()
+        if @gridTempo[i][columnNumber] == 1
+          counter += 1
         end
     end
 
-    for i in 0...@lines[numl].size()
-      cpt2 += @lines[numl][i]
+    for i in 0...@columnsTab[columnNumber].size()
+      counter2 += @columnsTab[columnNumber][i]
     end
-    if cpt == cpt2
+
+    if counter == counter2
       return true
     else
       return false
     end
   end
 
-  def cocheligne(numl)
+	##
+	# Method to determine if a box should be colored.
+	# Based on the number of colored boxes on a line
+	# * *Arguments* :
+	#   - +lineNumber+    -> an integer representing the line's number
+	# * *Returns* :
+	#   - a boolean
+  def counterColorLine(lineNumber)
+    counter = 0
+    counter2 = 0
+    for i in 0...@columnsTab.size()
+        if @gridTempo[lineNumber][i] == 1
+          counter += 1
+        end
+    end
 
-  for i in 0...@clns.size()
-
-    if @grid[numl][i]==0 then
-      @grid[numl][i]=-1
+    for i in 0...@linesTab[lineNumber].size()
+      counter2 += @linesTab[lineNumber][i]
+    end
+    if counter == counter2
+      return true
+    else
+      return false
     end
   end
-end
 
-def cochecol(numc)
+	##
+	# Declare a box on a line as "false" (X)
+	# * *Arguments* :
+	#   - +lineNumber+    -> an integer representing the line's number
+	def tickLineBoxes(lineNumber)
+  	for i in 0...@columnsTab.size()
+    	if @gridTempo[lineNumber][i]==0 then
+      	@gridTempo[lineNumber][i]=-1
+    	end
+  	end
+	end
 
-  for i in 0...@lines.size()
+	##
+	# Declare a box on a column as "false" (X)
+	# * *Arguments* :
+	#   - +columnNumber+    -> an integer representing the column's number
+	def tickColumnBoxes(columnNumber)
+  	for i in 0...@linesTab.size()
+    	if @gridTempo[i][columnNumber]==0 then
+      	@gridTempo[i][columnNumber]=-1
+    	end
+  	end
+	end
 
-    if @grid[i][numc]==0 then
-      @grid[i][numc]=-1
-    end
-  end
-end
-
-	#Calcul le nombre de case coloriées sur la grille
-	def nbcasecoloriee()
-
+	##
+	# Calculate the number of boxes already colored on the grid
+	# * *Returns* :
+	#   - the number of colored boxes
+	def numbColoredBoxes()
 		nb=0
-		i=0
-
-		while(i<@lines.size())
-
-			j=0
-			while(j<@clns.size())
-
-				if(@grid[i][j]==1) then
+		for i in 0...@linesTab.size()
+			for j in 0...columnsTab.size()
+				if(@gridTempo[i][j] == 1) then
 					nb += 1
 				end
-				j += 1
 			end
-			i = i+1
 		end
 		return nb
 	end
 
-  def colorieligne(numl)
 
-		tab1 = Array.new(@lines.size())
-		tab2 = Array.new(@lines.size())
+	##
+	#
+	#
+	# * *Arguments* :
+	#   - +lineNumber+    -> an integer representing the line's number
+  def colorieligne(lineNumber)
 
-		tab1 = grid[numl]
-		tab2 = grid[numl]
+		tab1 = Array.new
+		tab2 = Array.new
+		temp = 0
+		#tab1=@gridTempo[lineNumber]
+		#tab2=@gridTempo[lineNumber].reverse
 
+		indices = @linesTab[lineNumber]
 
-		#@lines[numl]
+		#@linesTab[lineNumber]
 		groupe=1
-
-		for i in 0...@clns.size()
-
-			 if (tab1[i]==0) then
-
-
-
-			 elsif (tab1[i]==1)
-
-
-			 else
-
-
-
-			 end
-
+		print indices
+		puts
+		for i in 0...indices.size
+			while temp != indices[i]
+				tab1.push("0")
+				temp+=1
+			end
+			tab1.push("X")
+			temp = 0
 		end
+		print tab1
+		puts
 
+		for i in 0...indices.size
+			while temp != indices[i]
+				tab2.unshift("0")
+				temp+=1
+			end
+			tab2.unshift("X")
+			temp = 0
+		end
+		print tab2
+		puts
 
-
+	# 	for i in 0...@columnsTab.size()
+	# 		 if (tab1[i]==0) then
+	#
+	# 		 elsif (tab1[i]==1)
+	#
+	# 		 else
+	#
+	# 		 end
+	#
+	# 	end
+	#
 	end
 
 end
 
 
 test = Resolver.new()
-test.traitement()
-test.afficher()
+test.processing()
+test.display()
