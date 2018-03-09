@@ -193,7 +193,7 @@ class Map
 		if nb == @solution.numberCell(Cell::CELL_BLACK) then
 			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
 				@currentStat.finish(@timeToDo)
-				@StatisticsArray.addStatistic(@currentStat)
+				@allStat.addStatistic(@currentStat)
 				return true
 			end
 		end
