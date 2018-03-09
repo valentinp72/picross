@@ -49,6 +49,10 @@ class Statistic
 		 @numberOfStars = -2*ratio + 5
 	end
 
+	def start()
+		@time.start
+	end
+
 	##
 	# Increments the number of help used
 	def useHelp()
