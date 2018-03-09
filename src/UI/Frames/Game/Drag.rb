@@ -84,7 +84,9 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def startLeftDrag(startCell)
-		startDrag(startCell, startCell.stateRotate.state)
+		if !@map.currentStat.isFinished then
+			startDrag(startCell, startCell.stateRotate.state)
+		end
 		return self
 	end
 
@@ -97,10 +99,11 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def startRightDrag(startCell)
-		startDrag(startCell, startCell.stateInvertCross.state)
+		if !@map.currentStat.isFinished then
+			startDrag(startCell, startCell.stateInvertCross.state)
+		end
 		return self
 	end
-
 	##
 	# Update the state of all cells between the starting cell of the drag, and this cell.
 	# All the cells will have the state of the starting cell.
@@ -160,7 +163,7 @@ class Drag
 		@lastCell    = nil
 		@wantedState = nil
 
-		@map.check()
+		print @map.check()
 
 		if !@map.currentStat.time.isRunning then
 			@map.currentStat.start
