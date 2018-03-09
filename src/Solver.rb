@@ -1,5 +1,5 @@
 ##
-# File          :: Resolver.rb
+# File          :: Solver.rb
 # Author        ::
 # Licence       :: MIT Licence
 # Creation date :: 01/27/2018
