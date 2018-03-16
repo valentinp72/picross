@@ -165,7 +165,7 @@ class Drag
 
 		@map.check()
 
-		if !@map.currentStat.time.isRunning then
+		if !@map.currentStat.time.isRunning && !@map.currentStat.isFinished then
 			@map.currentStat.start
 		end
 
