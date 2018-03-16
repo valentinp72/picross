@@ -223,6 +223,74 @@ class Resolver
 		end
 	end
 	
+	#Délimite les block trouvé par des croix
+	def cocheBlockInLine(numl)
+		linesCpy = Array.new
+		@lines[numl].each do |e|
+			linesCpy.push(e)
+		end
+		blockSizeFound = true
+		while !linesCpy.empty? && blockSizeFound
+			blockSizeToFind = linesCpy.max
+			blockSizeFound = false
+			cpt = 0
+			for i in 0...@clns.size
+				#matching block size
+				if @grid[numl][i]==1
+					cpt += 1
+					if cpt==blockSizeToFind && @grid[numl][i+1]!=1
+						blockSizeFound = true
+						unless i-cpt<0
+							@grid[numl][i-cpt] = -1
+						end
+						unless i+1>@clns.size
+							@grid[numl][i+1] = -1
+						end
+					end
+				else
+					cpt = 0
+				end
+			end
+			#Removing the biggest index
+			if blockSizeFound
+				linesCpy.delete(blockSizeToFind)
+			end
+		end
+	end
+	#Délimite les block trouvé par des croix
+	def cocheBlockInColumn(numc)
+		clnsCpy = Array.new
+		@clns[numc].each do |e|
+			clnsCpy.push(e)
+		end
+		blockSizeFound = true
+		while !clnsCpy.empty? && blockSizeFound
+			blockSizeToFind = clnsCpy.max
+			blockSizeFound = false
+			cpt = 0
+			for i in 0...@lines.size
+				#matching block size
+				if @grid[i][numc]==1
+					cpt += 1
+					if cpt==blockSizeToFind && i+1<@lines.size
+						if @grid[i+1][numc]!=1
+							blockSizeFound = true
+							unless i-cpt<0
+								@grid[i-cpt][numc] = -1
+							end
+							@grid[i+1][numc] = -1
+						end
+					end
+				else
+					cpt = 0
+				end
+			end
+			#Removing the biggest indexes
+			if blockSizeFound
+				clnsCpy.delete(blockSizeToFind)
+			end
+		end
+	end
 	
 	#Cocher les cases impossible d'une colonne
 	def cocheSurcol(numc)
@@ -265,6 +333,7 @@ class Resolver
 			
 			#Cocher les cases impossible
 			self.cocheSurline(i)
+			self.cocheBlockInLine(i);
 		end
 
 		for i in 0...@clns.size()
@@ -274,6 +343,7 @@ class Resolver
 			
 			#Cocher les cases impossible
 			self.cocheSurcol(i)
+			self.cocheBlockInColumn(i)
 		end
 		
 	end
