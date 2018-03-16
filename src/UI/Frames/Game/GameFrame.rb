@@ -115,12 +115,31 @@ class GameFrame < Frame
 			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
 		end
 
+		@labelPause =  Gtk::Label.new("Partie en pause")
+		@labelPause.visible = true
+		@isPaused = false
+
 		@pause  = Gtk::Button.new
 		@pause.image = AssetsLoader.loadImage('pause2.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
 			if !@map.currentStat.isFinished then
-				@map.currentStat.time.pause
+				if(@isPaused) then
+					@map.currentStat.time.pause
+
+					@pause.image = AssetsLoader.loadImage('pause2.png',40)
+
+					@content.remove(@picross)
+					@content.pack_start(@labelPause, :expand => true, :fill => true)
+					@content.reorder_child(@labelPause,0)
+				else
+					@map.currentStat.time.unpause
+
+					@pause.image = AssetsLoader.loadImage('play.png',40)
+
+					@content.remove(@labelPause)
+					@content.pack_start(@picross, :expand => true, :fill => true)
+					@content.reorder_child(@picross,0)
 			end
 		end
 
