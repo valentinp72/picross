@@ -26,7 +26,7 @@ class CellButton < Gtk::EventBox
 	BLACK_PIXBUF = AssetsLoader.loadPixbuf('black_cell.png')
 	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
 	CROSS_PIXBUF = AssetsLoader.loadPixbuf('cross_cell.png')
-		
+
 	DEFAULT_SIZE = 20
 	@@BLACK_PIXBUF = BLACK_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
 	@@WHITE_PIXBUF = WHITE_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
@@ -49,7 +49,7 @@ class CellButton < Gtk::EventBox
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
 		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
-
+		@widget.visible = true
 
 		self.setEvents
 		self.setAttributes
@@ -61,7 +61,7 @@ class CellButton < Gtk::EventBox
 	# * *Arguments* :
 	#   - +width+  -> the future width of the images
 	#   - +height+ -> the future height of the images
-	# * *Returns* : 
+	# * *Returns* :
 	#   - the object itself
 	def CellButton.resize(width, height)
 		@@BLACK_PIXBUF = BLACK_PIXBUF.scale(width, height)
@@ -71,9 +71,9 @@ class CellButton < Gtk::EventBox
 	end
 
 	##
-	# Resises the cell to the size that is currently set on 
+	# Resises the cell to the size that is currently set on
 	# the images, using +CellButton.resize(width, height)+.
-	# * *Returns* : 
+	# * *Returns* :
 	#   - the object itself
 	def resize()
 		@widget.pixbuf = choosePixbufState

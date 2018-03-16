@@ -17,7 +17,8 @@ require_relative 'SolutionNumber'
 
 class PicrossFrame < Frame
 
-	##
+	attr_reader :grid
+##
 # Creation of a new PicrossFrame.
 # * *Arguments* :
 #   - +grid+           -> the Grid of the PicrossFrame view
@@ -32,17 +33,17 @@ class PicrossFrame < Frame
 		@grid = grid
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
-		
+
 		self.signal_connect('size-allocate') do
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
-		
+
 		self.queue_allocate
 		createArea()
 	end
 
 	##
-	# Updates the maximum size allowed to the frame by changing the size 
+	# Updates the maximum size allowed to the frame by changing the size
 	# of each cells inside the frame.
 	# * *Arguments* :
 	#   - +width+  -> the allowed width for the frame
@@ -56,7 +57,7 @@ class PicrossFrame < Frame
 			cellSize = [cellX, cellY].min - 1
 
 			CellButton.resize(cellSize, cellSize)
-			
+
 			@cells.each do |cell|
 				if cell.kind_of?(CellButton) then
 					cell.resize
@@ -87,6 +88,10 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	def rmArea()
+		remove(@cells)
+	end
+
 	##
 	# Create the PicrossFrame area, with all the CellButton inside
 	# * *Returns* :
@@ -94,6 +99,7 @@ class PicrossFrame < Frame
 	def createArea()
 		@cells = Gtk::Grid.new
 		@drag  = Drag.new(@map, @cells)
+		@cells.visible = true
 
 		# compute the offsets caused by the line and column solution numbers
 		@lineOffset   = @lineSolution.map(&:length).max
