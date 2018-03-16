@@ -125,21 +125,24 @@ class GameFrame < Frame
 		@pause.signal_connect('clicked') do
 			if !@map.currentStat.isFinished then
 				if(@isPaused) then
-					@map.currentStat.time.pause
-
-					@pause.image = AssetsLoader.loadImage('pause2.png',40)
-
-					@content.remove(@picross)
-					@content.pack_start(@labelPause, :expand => true, :fill => true)
-					@content.reorder_child(@labelPause,0)
-				else
+					@isPaused = false
 					@map.currentStat.time.unpause
 
-					@pause.image = AssetsLoader.loadImage('play.png',40)
+					@pause.image = AssetsLoader.loadImage('pause2.png',40)
 
 					@content.remove(@labelPause)
 					@content.pack_start(@picross, :expand => true, :fill => true)
 					@content.reorder_child(@picross,0)
+				else
+					@isPaused = true
+					@map.currentStat.time.pause
+
+					@pause.image = AssetsLoader.loadImage('btnPlay.png',40)
+
+					@content.remove(@picross)
+					@content.pack_start(@labelPause, :expand => true, :fill => true)
+					@content.reorder_child(@labelPause,0)
+				end
 			end
 		end
 
