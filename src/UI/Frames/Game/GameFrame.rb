@@ -52,20 +52,26 @@ class GameFrame < Frame
 		@header.pack_start(btnOption, :expand => true, :fill => true)
 
 		btnBack.signal_connect("clicked") do
-			indexChapter = @user.chapters.index(@chapter)
-			indexMap = @user.chapters[indexChapter].levels.index(@map)
-			hypotheses = @user.chapters[indexChapter].levels[indexMap].hypotheses
-			@map.hypotheses = hypotheses
-			@user.save()
+			self.save
 			self.parent.setFrame(MapFrame.new(@user,@chapter))
 		end
 
 		# Redirecting user towards option menu
 		btnOption.signal_connect("clicked") do
+			self.save
 			self.parent.setFrame(GameOptionFrame.new(@user,@chapter,@map))
 		end
 
 		return @header
+	end
+
+	def save()
+		indexChapter = @user.chapters.index(@chapter)
+		indexMap     = @user.chapters[indexChapter].levels.index(@map)
+		hypotheses   = @user.chapters[indexChapter].levels[indexMap].hypotheses
+		@map.hypotheses = hypotheses
+		@user.save()
+		return self
 	end
 
 	def createContentLayout()
@@ -104,6 +110,7 @@ class GameFrame < Frame
 			@timer = nil
 			# we also pause the timer
 			@map.currentStat.time.pause
+			self.save
 		end
 
 		@reset  = Gtk::Button.new
