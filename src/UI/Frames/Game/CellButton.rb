@@ -113,13 +113,21 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
-			self.parent.parent.setHover(@cell.posX, @cell.posY)
-			self.setAttributes
+			begin
+				self.parent.parent.setHover(@cell.posX, @cell.posY)
+				self.setAttributes
+			rescue Exception
+				puts "GTK-gobject error(4): see https://github.com/valentinp72/picross/issues/31"
+			end
 		end
 
 		self.signal_connect('leave_notify_event') do |widget, event|
-			self.parent.parent.unsetHover(@cell.posX, @cell.posY)
-			self.setAttributes
+			begin
+				self.parent.parent.unsetHover(@cell.posX, @cell.posY)
+				self.setAttributes
+			rescue Exception 
+				puts "GTK-gobject error(5): see https://github.com/valentinp72/picross/issues/31"
+			end
 		end
 
 		return self
@@ -131,19 +139,32 @@ class CellButton < Gtk::EventBox
 	# * *Returns* :
 	#   - the CellButton itself
 	def setAttributes()
-		wantedClasses = []
+		begin
+			wantedClasses = []
 
-		# chooses the class about the hypothesis of the cell
-		wantedClasses.push(chooseHypothesisClass)
+			# chooses the class about the hypothesis of the cell
+			wantedClasses.push(chooseHypothesisClass)
 
-		# chooses the pixbuf about the state of the cell
-		@widget.pixbuf = choosePixbufState
+			# chooses the pixbuf about the state of the cell
+			@widget.pixbuf = choosePixbufState
 
-		@widget.style_context.classes.each do |className|
-			@widget.style_context.remove_class(className)
-		end
-		wantedClasses.each do |className|
-			@widget.style_context.add_class(className)
+			@widget.style_context.classes.each do |className|
+				begin
+					@widget.style_context.remove_class(className)
+				rescue Exception
+					puts "b"
+				end
+			end
+			wantedClasses.each do |className|
+				begin
+					@widget.style_context.add_class(className)
+				rescue Exception
+					puts "a"
+				end
+			end
+
+		rescue Exception 
+			puts "GTK-gobject error(3): see https://github.com/valentinp72/picross/issues/31"
 		end
 		return self
 	end

@@ -21,9 +21,9 @@ class SolutionNumber < Gtk::Label
 		super(numberValue.to_s)
 		@value = numberValue
 		
+		
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
-		
 		self.style_context.add_class("number")
 		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		self.set_size_request(15, 15)
@@ -34,7 +34,12 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def setHover()
-		self.style_context.add_class("hover")
+		begin
+			self.style_context.add_class("hover")
+		rescue Exception
+			puts "GTK-gobject error(1): see https://github.com/valentinp72/picross/issues/31"
+		end
+
 		return self
 	end
 
@@ -43,7 +48,11 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def unsetHover()
-		self.style_context.remove_class("hover")
+		begin
+			self.style_context.remove_class("hover")
+		rescue Exception
+			puts "GTK-gobject error(2): see https://github.com/valentinp72/picross/issues/31"
+		end
 		return self
 	end
 

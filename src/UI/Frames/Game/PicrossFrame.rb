@@ -216,7 +216,7 @@ class PicrossFrame < Frame
 	def setHover(posX, posY)
 		cells = getColumnNumbers(posX) + getLineNumbers(posY)
 		cells.each do |number|
-			if number.value != nil then
+			if number.kind_of?(SolutionNumber) && number.value != nil then
 				number.setHover
 			end
 		end
@@ -233,7 +233,7 @@ class PicrossFrame < Frame
 	def unsetHover(posX, posY)
 		cells = getColumnNumbers(posX) + getLineNumbers(posY)
 		cells.each do |number|
-			if number.value != nil then
+			if number.kind_of?(SolutionNumber) && number.value != nil then
 				number.unsetHover
 			end
 		end
