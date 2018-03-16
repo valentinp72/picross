@@ -7,8 +7,6 @@ require_relative '../OptionFrame'
 
 require_relative 'PicrossFrame'
 
-require_relative 'HypotheseFrame'
-
 class GameFrame < Frame
 
 	def initialize(user, chapter, map)
