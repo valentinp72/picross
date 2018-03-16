@@ -163,9 +163,9 @@ class Drag
 		@lastCell    = nil
 		@wantedState = nil
 
-		print @map.check()
+		@map.check()
 
-		if !@map.currentStat.time.isRunning then
+		if !@map.currentStat.time.isRunning && !@map.currentStat.isFinished then
 			@map.currentStat.start
 		end
 

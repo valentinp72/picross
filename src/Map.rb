@@ -189,12 +189,14 @@ class Map
 	end
 
 	def check()
-		nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
-		if nb == @solution.numberCell(Cell::CELL_BLACK) then
-			if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
-				@currentStat.finish(@timeToDo)
-				@allStat.addStatistic(@currentStat)
-				return true
+		if !@currentStat.isFinished then
+			nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
+			if nb == @solution.numberCell(Cell::CELL_BLACK) then
+				if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+					@currentStat.finish(@timeToDo)
+					@allStat.addStatistic(@currentStat)
+					return true
+				end
 			end
 		end
 		return false

@@ -28,7 +28,7 @@ class Resolver
 		#@lines = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
 		#@clns = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
 		
-		#Speaker (fonctionne pas)
+		#Speaker
 		#@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
 		#@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
 
@@ -45,11 +45,19 @@ class Resolver
 		#@clns = [[4],[4],[8],[6,2],[10],[6,2],[6,1],[8,1],[7],[3],[2]]
 		
 		#Chat
-		@lines = [[1,1],[2,2],[1,6,1],[1,1],[1,1,1,1],[1,1,1],[1,1,1],[1,3,1],[1,1],[10]]
-		@clns = [[10],[1,1],[1,1],[1,1,1,1],[1,3,1],[1,1,1,1],[1,1],[1,1],[1,1],[10]]
+		#@lines = [[1,1],[2,2],[1,6,1],[1,1],[1,1,1,1],[1,1,1],[1,1,1],[1,3,1],[1,1],[10]]
+		#@clns = [[10],[1,1],[1,1],[1,1,1,1],[1,3,1],[1,1,1,1],[1,1],[1,1],[1,1],[10]]
+
+		#Me
+		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
+		
+		#Piou (fonctionne pas)
+		@lines = [[1],[3,2],[2,2,1,1],[2,2,4],[1,2,1,2],[2,2,2],[1,3],[2],[2,2],[1,1]]
+		@clns = [[1,2,1],[3,2,2],[1,2,1],[3,2,2],[2,2,1],[2,1,1],[2],[4],[1,2],[3],[1]]
 
 		
-		
+		#Initialisation de la grille
 		@grid = Array.new(@lines.size()) do |j|
 			Array.new(@clns.size()) do |i|
 				0
@@ -111,7 +119,7 @@ class Resolver
         if(@grid[i][j] == 1)
           print "0"
         elsif @grid[i][j] == -1
-          print " "
+          print "X"
         else
           print "-"
         end
@@ -386,7 +394,7 @@ class Resolver
 			j-=1
 		end
 		
-		#Coloriage des cases sûres
+		#Coloriage des cases sûres (intersection des 2 possibilités)
 		for i in 0...@clns.size()
 			
 			if (tab1[i]==tab2[i] && tab1[i]>0) then
@@ -394,22 +402,40 @@ class Resolver
 			end
 		end
 		
-		#Extrémités du plateau
-		if (@grid[numl][0]==1)
-			for i in 1...@lines[numl][0]
+		#Extrémités du plateau + case coloriée a cote d'une croix
+		j=0
+		while((@grid[numl][j]==-1) && (j<@clns.size()))
+		
+			j+=1
+		end
+		
+		if (@grid[numl][j]==1)
+			fin = @lines[numl][0]+j
+			if (fin>@clns.size()-1) 
+				fin = @clns.size()-1
+			end  
+			for i in (j+1)...fin
 				@grid[numl][i]=1
 			end
 		end
 		
-		if (@grid[numl][@clns.size()-1]==1)
-			fin = @clns.size()-1
+		#Sens inverse
+		j=@clns.size()-1;
+		while((@grid[numl][j]==-1) && (j>0))
+		
+			j-=1
+		end
+		
+		if (@grid[numl][j]==1)
+			fin = j
 			debut = (fin-@lines[numl][@lines[numl].size()-1])+1
-			
+			if(debut<0)
+				debut = 0
+			end
 			for i in debut...fin
 				@grid[numl][i]=1
 			end
 		end
-
 	end
 
 	#Traite une colonne entiere
@@ -508,7 +534,7 @@ class Resolver
 			j-=1
 		end
 		
-		#Coloriage des cases sûres
+		#Coloriage des cases sûres (intersection des 2 possibilités)
 		for i in 0...@lines.size()
 			
 			if (tab1[i]==tab2[i] && tab1[i]>0) then
@@ -517,20 +543,44 @@ class Resolver
 			
 		end
 		
-		#Extrémités du plateau
-		if (@grid[0][numc]==1)
-			for i in 1...@clns[numc][0]
+		#Extrémités du plateau + case coloriée a cote d'une croix
+		j=0
+		while((@grid[j][numc]==-1) && (j<(@lines.size()-1)))
+
+			j+=1
+		end
+		
+		if (@grid[j][numc]==1)
+			
+			fin = @clns[numc][0]+j
+			if (fin>@lines.size()-1) 
+				fin = @lines.size()-1
+			end
+				
+			for i in (j+1)...fin
 				@grid[i][numc]=1
 			end
 		end
 		
-		if (@grid[@lines.size()-1][numc]==1)
-			fin = @lines.size()-1
+		#Sens inverse 
+		j=@lines.size()-1;
+		while((@grid[j][numc]==-1) && (j>0))
+		
+			j-=1
+		end
+		
+		if (@grid[j][numc]==1)
+			fin = j
 			debut = (fin-@clns[numc][@clns[numc].size()-1])+1
+			if(debut<0)
+				debut = 0
+			end
+				
 			for i in debut...fin
 				@grid[i][numc]=1
 			end
 		end
+		
 	end
 end
 

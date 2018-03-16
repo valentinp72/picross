@@ -17,9 +17,9 @@ class GameFrame < Frame
 		@chapter = chapter
 
 		self.createMainLayout
-		
+
 		@main.show_all
-		
+
 	end
 
 
@@ -55,8 +55,9 @@ class GameFrame < Frame
 			indexChapter = @user.chapters.index(@chapter)
 			indexMap = @user.chapters[indexChapter].levels.index(@map)
 			hypotheses = @user.chapters[indexChapter].levels[indexMap].hypotheses
-			hypotheses = @map.hypotheses
+			@map.hypotheses = hypotheses
 			@user.save()
+			print ("indexChapter : #{indexChapter}, indexMap : #{indexMap}")
 			self.parent.setFrame(MapFrame.new(@user,@chapter))
 		end
 
@@ -109,12 +110,18 @@ class GameFrame < Frame
 		@reset  = Gtk::Button.new
 		@reset.image = AssetsLoader.loadImage('reset.png',40)
 		@reset.relief = Gtk::ReliefStyle::NONE
+		@reset.signal_connect('clicked') do
+			@map.reset
+			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
+		end
 
 		@pause  = Gtk::Button.new
 		@pause.image = AssetsLoader.loadImage('pause2.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
-
+			if !@map.currentStat.isFinished then
+				@map.currentStat.time.pause
+			end
 		end
 
 		@btnHypotheses = Gtk::Button.new()
@@ -126,8 +133,10 @@ class GameFrame < Frame
 			@picross.grid = @grid
 		end
 
+
+
 		@help  = Gtk::Button.new()
-		@reset.image = AssetsLoader.loadImage("help.jpg",40,40)
+		@help.image = AssetsLoader.loadImage("help.jpg",40,40)
 		@help.relief = Gtk::ReliefStyle::NONE
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "

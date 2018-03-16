@@ -34,25 +34,35 @@ class StatsFrame < Frame
 		@hbox.pack_start(@playerBtn, :expand => true, :fill => true, :padding =>2)
 		@hbox.pack_start(@globalBtn, :expand => true, :fill => true, :padding =>2)
 
+		@grid = Gtk::Grid.new()
+
 		@vbox = Gtk::Box.new(:vertical)
 		@vbox.pack_start(@hbox, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@table, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@grid, :expand => true, :fill => true, :padding =>2)
 		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
 
-		@grid = Gtk::Grid.new
+
 
 		@playerBtn.signal_connect("clicked") do
 			resetGrid(@grid)
+			@vbox.remove(@grid)
 			i = 0
+			@grid.attach(Gtk::Label.new("test"),0,0,1,1)
+			@grid.attach(Gtk::Label.new("Temps : "),1,0,1,1)
 			user.chapters.each do |chap|
 				chap.levels.each do |lvl|
-					if lvl.statistics.isFinished then
-						@grid.attach(Gtk::Label.new(lvl.name),0,1,i,i+1)
-						@grid.attach(Gtk::Label.new(lvl.statistics.time),1,2,i,i+1)
+					lvl.allStat.each do |stat|
+						puts "Stats"
+						@grid.attach(Gtk::Label.new(lvl.name),0,i,1,1)
+						@grid.attach(Gtk::Label.new("Temps : " + stat.time.elapsedTime),1,i,1,1)
 						i += 1
 					end
 				end
 			end
+			@vbox.pack_start(@grid, :expand => true, :fill => true, :padding =>2)
+			remove(@vbox)
+			add(@vbox)
+
 		end
 
 		# Redirecting user towards option menu

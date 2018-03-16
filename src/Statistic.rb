@@ -76,6 +76,21 @@ class Statistic
 	end
 
 	##
+	# Retuns the statistic to a string, for debug only
+	# * *Returns* :
+	#   - the statistic into a String object
+	def to_s()
+		res  = "Printing Statistic -#{self.object_id}-\n\t"
+		res += " - Time       : #{@time}\n\t"
+		res += " - isFinished : #{@isFinished}\n\t"
+		res += " - Used help  : #{@usedHelp}\n\t"
+		res += " - Nb Stars   : \n#{@numberOfStars}\n\t"
+		res += " - NbClick    : \n#{@nbClick}\n\t"
+		return res
+	end
+
+
+	##
 	# Convert the statistic to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the statistic converted to an array
