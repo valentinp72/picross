@@ -80,6 +80,7 @@ class GameFrame < Frame
 		@content = Gtk::Box.new(:horizontal)
 
 		@picross = PicrossFrame.new(@map,@grid)
+		# @picross.halign = Gtk::Align::CENTER
 		@sideBar = createSideBarLayout()
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
