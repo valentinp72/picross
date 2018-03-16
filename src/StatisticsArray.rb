@@ -40,6 +40,13 @@ class StatisticsArray
 		return @stack.length - 1
 	end
 
+	def each()
+		@stack.each do |one|
+			yield one
+		end
+		return self
+	end
+
 	##
 	# Converts the StatisticsArray to a String, for printing
 	# * *Returns* :
@@ -90,7 +97,7 @@ class StatisticsArray
 	# * *Returns* :
 	#   - the StatisticsArray object itself
 	def marshal_load(array)
-		@stack = array
+		@stack = array[0]
 		return self
 	end
 

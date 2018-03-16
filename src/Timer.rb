@@ -86,4 +86,15 @@ class Timer
 		return Time.at(self.elapsedSeconds).utc.strftime("%H:%M:%S")
 	end
 
+	##
+	# Retuns the map to a string, for debug only
+	# * *Returns* :
+	#   - the map into a String object
+	def to_s()
+		res  = "Printing Timer -#{self.object_id}-\n\t"
+		res += " - elapsedTime : #{elapsedTime}\n\t"
+		return res
+	end
+
+
 end
