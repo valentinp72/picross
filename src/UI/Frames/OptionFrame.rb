@@ -23,7 +23,7 @@ class OptionFrame < Frame
 	#   - +user+ -> the user that is editing his options
 	def initialize(user, redirectFrame)
 		super()
-		self.border_width = 100
+		self.border_width = 10
 
 		@user = user
 		@redirectFrame = redirectFrame
@@ -31,15 +31,41 @@ class OptionFrame < Frame
 		# create the settings
 		@settings = createSettings
 		@buttons  = createButtons
+		@panel    = createPanel
 
-		@panel = Gtk::Box.new(:vertical)
-	
+		self.add(@panel)
+	end
+
+	def createPanel
+		panel = Gtk::Grid.new()
+		panel.row_spacing = 20
+		panel.column_spacing = 10
+
+		panel.attach(self.title, 0, 0, 2, 1)
+		panel.attach(self.separator, 0, 1, 2, 1)
+		line = 2
 		@settings.each do |setting|
-			@panel.pack_start(setting, :expand => true, :fill => true, :padding => 5)
+			panel.attach(setting.label,  0, line, 1, 1)
+			panel.attach(setting.widget, 1, line, 1, 1)
+			panel.attach(self.separator, 0, line + 1, 2, 1)
+			line += 2
 		end
-		@panel.pack_start(@buttons)
+		panel.attach(@buttons, 0, line, 2, 1)
 
-		add(@panel)
+		panel.halign = Gtk::Align::CENTER
+		panel.valign = Gtk::Align::CENTER
+		
+		return panel
+	end
+
+	def separator
+		return Gtk::Frame.new()
+	end
+
+	def title
+		label = Gtk::Label.new()
+		label.set_markup("<b><big>#{@user.lang["option"]["title"]}</big></b>")
+		return label
 	end
 
 	##
@@ -104,37 +130,20 @@ class OptionFrame < Frame
 
 end
 
-##
-# This class represents the OptionFrame, page where we can change current user's settings
-# This is called during a game, it then redirect the user to it's game
+class Setting 
 
-class GameOptionFrame < OptionFrame
+	attr_reader :label
 
-
-	def initialize(user, chapter, map)
-		super(user)
-		@chapter = chapter
-		@map     = map
-	end
-
-	def closeOrComeBackToHome(user)
-		if self.parent.mainWindow? then
-			self.parent.setFrame(GameFrame.new(user,@chapter,@map))
-		else
-			self.parent.close
-		end
-	end
-
-end
-class Setting < Gtk::Box
+	attr_reader :widget
 
 	def initialize(text, widget)
-		super(:horizontal, 2)
 
-		label = Gtk::Label.new(text)
+		@label  = Gtk::Label.new(text)
+		@widget = widget
 		
-		self.pack_start(label, :expand => true, :fill => true)
-		self.pack_start(widget)
+		@label.halign  = Gtk::Align::START
+		@widget.halign = Gtk::Align::END
+		
 	end
 
 	def save
@@ -151,7 +160,7 @@ class SettingLanguage < Setting
 		@selection = Gtk::ComboBoxText.new
 		langs = self.retrieveLanguages
 		langs.each do |l|
-			@selection.append_text(l)
+			@selection.append_text(l.gsub(/\w+/, &:capitalize))
 		end
 		# Set default value to the current use language
 		@selection.set_active(langs.index(user.settings.language))
@@ -161,7 +170,7 @@ class SettingLanguage < Setting
 
 	def save
 		if @selection.active_text != nil
-			@user.settings.language = @selection.active_text
+			@user.settings.language = @selection.active_text.downcase
 		end
 		return self
 	end
@@ -180,7 +189,8 @@ class SettingHypothesesColor < Setting
 	def initialize(user)
 		@user = user
 
-		@colors = Gtk::Box.new(:vertical)
+		@colors = Gtk::Grid.new()
+		@colors.column_spacing = 5
 
 		@colorsChoosers = [
 			SettingHypothesisColor.new(user, 0),
@@ -189,8 +199,12 @@ class SettingHypothesesColor < Setting
 			SettingHypothesisColor.new(user, 3),
 			SettingHypothesisColor.new(user, 4)
 		]
+
+		line = 0
 		@colorsChoosers.each do |colorChooser|
-			@colors.pack_start(colorChooser, :padding => 5)
+			@colors.attach(colorChooser.label,  0, line, 1, 1)
+			@colors.attach(colorChooser.widget, 1, line, 1, 1)
+			line += 1
 		end
 
 		super(@user.lang["option"]["chooseHypColors"], @colors)

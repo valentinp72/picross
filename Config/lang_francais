@@ -5,10 +5,11 @@ home :
   rule : "Regles"
   option : "Options"
 option :
+  title: "Options"
   chooseLanguage : "Langue :"
   chooseHypColors: "Couleur des hypothèses :"
   chooseHypColor :
-    0: "Par défaut : "
+    0: "Par défaut :"
     1: "Hypothèse 1 :"
     2: "Hypothèse 2 :"
     3: "Hypothèse 3 :"
