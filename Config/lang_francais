@@ -5,7 +5,14 @@ home :
   rule : "Regles"
   option : "Options"
 option :
-  chooseLanguage : "Choisir la langue"
+  chooseLanguage : "Langue :"
+  chooseHypColors: "Couleur des hypothèses :"
+  chooseHypColor :
+    0: "Par défaut : "
+    1: "Hypothèse 1 :"
+    2: "Hypothèse 2 :"
+    3: "Hypothèse 3 :"
+    4: "Hypothèse 4 :"
 button :
   valid : "Valider"
   cancel : "Annuler"
