@@ -1,3 +1,5 @@
+require 'yaml'
+
 require_relative 'UserSettings'
 require_relative 'Chapter'
 

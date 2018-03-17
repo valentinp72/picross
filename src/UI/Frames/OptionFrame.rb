@@ -1,5 +1,3 @@
-require 'yaml'
-
 require_relative 'HomeFrame'
 require_relative 'Game/GameFrame'
 
@@ -10,7 +8,7 @@ require_relative '../Frame'
 # Author        :: BROCHERIEUX Thibault, PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/16/2018
-# Last update   :: 02/16/2018
+# Last update   :: 03/17/2018
 # Version       :: 0.1
 #
 # This class represents the OptionFrame, page where we can change current user's settings
@@ -36,6 +34,10 @@ class OptionFrame < Frame
 		self.add(@panel)
 	end
 
+	##
+	# Create the main panel for the frame
+	# * *Returns* :
+	#   - the panel to be displayed
 	def createPanel
 		panel = Gtk::Grid.new()
 		panel.row_spacing = 20
@@ -58,10 +60,18 @@ class OptionFrame < Frame
 		return panel
 	end
 
+	##
+	# Returns a separator to be put between elements
+	# * *Returns* :
+	#   - a Gtk::Widget acting as a separator
 	def separator
 		return Gtk::Frame.new()
 	end
 
+	##
+	# Returns a title for the frame
+	# * *Returns* :
+	#   - a Gtk::Label
 	def title
 		label = Gtk::Label.new()
 		label.set_markup("<b><big>#{@user.lang["option"]["title"]}</big></b>")
@@ -228,7 +238,6 @@ class SettingHypothesisColor < Setting
 		@color.color = Gdk::Color.parse(@user.settings.hypothesesColors[id])
 		
 		super(@user.lang["option"]["chooseHypColor"][id], @color)
-#self.set_size_request(100, 10)
 	end
 
 	def save
