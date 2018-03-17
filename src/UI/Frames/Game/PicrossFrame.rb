@@ -41,7 +41,6 @@ class PicrossFrame < Frame
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
 
-		self.queue_allocate
 		createArea()
 	end
 
