@@ -37,11 +37,24 @@ class PicrossFrame < Frame
 
 		@colorsHyp = user.settings.hypothesesColors
 
+		createArea()
+		
 		self.signal_connect('size-allocate') do |widget, event|
 			self.setMaxSize(event.width, event.height)
 		end
 
-		createArea()
+		# we force to allocate the size as soon as possible
+		# otherwise, it's only updated when the user passes it's
+		# cursror on the widget, so it's very disturbing... GTK <3
+		GLib::Timeout.add(10){
+			if self.allocation.width > 10 && self.allocation.height > 10 then
+				self.queue_allocate
+				false
+			else
+				true
+			end
+		}
+
 		
 	end
 
