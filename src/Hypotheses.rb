@@ -104,6 +104,12 @@ class Hypotheses
 	end
 
 	##
+	# Define each method for this class, allowing to go through all the hypothesis
+	def each(&block)
+		@stack.each(&block)
+	end
+
+	##
 	# Converts the hypotheses to a String, for printing
 	# * *Returns* :
 	#   - the hypotheses into a String
