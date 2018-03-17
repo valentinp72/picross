@@ -17,18 +17,36 @@ class User
 	# +availableHelps+	- amount of help that the player can spend
 
 	attr_accessor :name
-	attr_reader :settings, :availableHelps, :chapters
+
+	attr_reader :settings
+	
+	attr_reader :availableHelps
+	
+	attr_reader :chapters
+
+	attr_writer :lang
+	attr_reader :lang
 
 	##
 	# Creates a new User object
 	# * *Arguments* :
 	#   - +name+		-> a String representing the user's name
 	def initialize(name, chapters)
-		@name = name
-		@settings = UserSettings.new()
+		@name     = name
+		@settings = UserSettings.new(self)
 		@availableHelps = 0
 		@chapters = chapters
+		@lang     = self.languageConfig
+	end
 
+	def languageConfig
+		# Retrieve user's language
+		lang = self.settings.language
+		# set path to config file folder
+		path = File.dirname(__FILE__) + "/../Config/"
+		# Retrieve associated language config file
+		configFile = File.expand_path(path + "lang_#{lang}")
+		return YAML.load(File.open(configFile))
 	end
 
 	##
@@ -68,13 +86,14 @@ class User
 	##
 	#
 	def marshal_dump()
-		[@name,@settings,@availableHelps,@chapters]
+		[@name, @settings, @availableHelps, @chapters]
 	end
 
 	##
 	#
 	def marshal_load(array)
-		@name,@settings,@availableHelps,@chapters = array
+		@name, @settings, @availableHelps, @chapters = array
+		@lang = languageConfig
 		return self
 	end
 end

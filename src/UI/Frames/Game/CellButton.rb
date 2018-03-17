@@ -35,12 +35,14 @@ class CellButton < Gtk::EventBox
 	##
 	# Creation of a new CellButton
 	# * *Arguments* :
-	#   - +cell+ -> the real picross Cell
-	#   - +drag+ -> a Drag object, allowing this cell to drag multiple cells
-	def initialize(cell, drag)
+	#   - +cell+      -> the real picross Cell
+	#   - +drag+      -> a Drag object, allowing this cell to drag multiple cells
+	#   - +colorsHyp+ -> the colors to display according to the hypotheses
+	def initialize(cell, drag, colorsHyp)
 		super()
 		@cell  = cell
 		@drag  = drag
+		@colorsHyp = colorsHyp
 
 		# The content of this cell is just a blank image
 		@widget = Gtk::Image.new()
@@ -228,19 +230,19 @@ class CellButton < Gtk::EventBox
 
 			/* Hypotheses */
 			.hyp0 {
-				background-color: black;
+				background-color: #{@colorsHyp[0]};
 			}
 			.hyp1 {
-				background-color: red;
+				background-color: #{@colorsHyp[1]};
 			}
 			.hyp2 {
-				background-color: green;
+				background-color: #{@colorsHyp[2]};
 			}
 			.hyp3 {
-				background-color: yellow;
+				background-color: #{@colorsHyp[3]};
 			}
 			.hyp4 {
-				background-color: blue;
+				background-color: #{@colorsHyp[4]};
 			}
 			.hypUnknown {
 				border-color    : red;

@@ -23,7 +23,8 @@ class UserSettings
 
 	##
 	# Initialises the settings to default values
-	def initialize()
+	def initialize(user)
+		@user = user
 		@language         = @@validLang[0]
 		@hypothesesColors = ["#000000", "#eb2f06", "#f6b93b", "#1e3799", "#079992"]
 	end
@@ -37,11 +38,13 @@ class UserSettings
 	def language=(lang)
 		if( @@validLang.include?(lang) )
 			@language = lang
+			@user.lang = @user.languageConfig
 		else
 			 raise InvalidLanguageException
 		end
 		return self
 	end
+
 
 	##
 	# Changes the color of the hypotheses
@@ -84,11 +87,11 @@ class UserSettings
 	end
 
 	def marshal_dump()
-		[@language, @hypothesesColors]
+		[@user, @language, @hypothesesColors]
 	end
 
 	def marshal_load(array)
-		@language, @hypothesesColors = array
+		@user, @language, @hypothesesColors = array
 		return self
 	end
 

@@ -18,27 +18,29 @@ require_relative 'SolutionNumber'
 class PicrossFrame < Frame
 
 	attr_reader :grid
-##
-# Creation of a new PicrossFrame.
-# * *Arguments* :
-#   - +grid+           -> the Grid of the PicrossFrame view
-#   - +columnSolution+ -> the numbers to display as the solution at the top (see Map.
-#   clmSolution)
-#   - +lineSolution+   -> the numbers to display as the solution at the left (see Map.lneSolution)
-	def initialize(map, grid)
+	##
+	# Creation of a new PicrossFrame.
+	# * *Arguments* :
+	#   - +map+  -> the map to be displayed
+	#   - +grid+ -> the Grid of the PicrossFrame view
+	#   - +user+ -> the user playing on this frame
+	def initialize(map, grid, user)
 		super()
 		self.border_width = 10
 
-		@map = map
+		@map  = map
 		@grid = grid
+		@user = user
+
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
+
+		@colorsHyp = user.settings.hypothesesColors
 
 		self.signal_connect('size-allocate') do
 			self.setMaxSize(self.allocation.width, self.allocation.height)
 		end
 
-		self.queue_allocate
 		createArea()
 	end
 
@@ -112,7 +114,13 @@ class PicrossFrame < Frame
 
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
-			@cells.attach(CellButton.new(cell, @drag), column + @lineOffset, line + @columnOffset, 1, 1)
+			@cells.attach(
+				CellButton.new(cell, @drag, @colorsHyp), 
+				column + @lineOffset, 
+				line + @columnOffset, 
+				1, 
+				1
+			)
 		end
 
 		add(@cells)

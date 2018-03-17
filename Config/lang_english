@@ -5,9 +5,17 @@ home :
   rule : "Rules"
   option : "Options"
 option :
-  chooseLanguage : "Choose language"
+  chooseLanguage : "Language:"
+  chooseHypColors: "Hypotheses colors:"
+  chooseHypColor :
+    0: "Default color:     "
+    1: "Hypothesis color 1:"
+    2: "Hypothesis color 2:"
+    3: "Hypothesis color 4:"
+    4: "Hypothesis color 4:"
+    5: "Hypothesis color 5:"
 button :
-  valid : "Validate"
+  valid : "Apply"
   cancel : "Cancel"
   return : "Go back"
   exit : "Exit"
