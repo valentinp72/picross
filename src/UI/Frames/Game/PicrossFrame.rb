@@ -37,11 +37,12 @@ class PicrossFrame < Frame
 
 		@colorsHyp = user.settings.hypothesesColors
 
-		self.signal_connect('size-allocate') do
-			self.setMaxSize(self.allocation.width, self.allocation.height)
+		self.signal_connect('size-allocate') do |widget, event|
+			self.setMaxSize(event.width, event.height)
 		end
 
 		createArea()
+		
 	end
 
 	##
@@ -56,7 +57,7 @@ class PicrossFrame < Frame
 		if @oWidth != width || @oHeight != height then
 			cellX = (width  - 10) / (@grid.columns + @lineOffset)
 			cellY = (height - 10) / (@grid.lines + @columnOffset)
-			cellSize = [cellX, cellY].min - 1
+			cellSize = [cellX, cellY].min + 1
 
 			CellButton.resize(cellSize, cellSize)
 
@@ -68,6 +69,7 @@ class PicrossFrame < Frame
 
 			@oHeight = height
 			@oWidth  = width
+		else
 		end
 		return self
 	end
@@ -123,7 +125,20 @@ class PicrossFrame < Frame
 			)
 		end
 
-		add(@cells)
+		@mainArea = Gtk::EventBox.new()
+		@mainArea.events |= (
+			Gdk::EventMask::POINTER_MOTION_MASK|
+			Gdk::EventMask::ENTER_NOTIFY_MASK |
+			Gdk::EventMask::LEAVE_NOTIFY_MASK)
+		
+		@mainArea.signal_connect('motion_notify_event') do |widget, event|
+#puts 'leave'
+#puts @cells.allocation.width
+#			@drag.reset
+		end
+		@mainArea.add(@cells)
+
+		self.add(@mainArea)
 		return self
 	end
 

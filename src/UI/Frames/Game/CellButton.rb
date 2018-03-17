@@ -116,7 +116,7 @@ class CellButton < Gtk::EventBox
 		self.signal_connect('enter_notify_event') do |widget, event|
 			@drag.update(@cell)
 			begin
-				self.parent.parent.setHover(@cell.posX, @cell.posY)
+				self.parent.parent.parent.setHover(@cell.posX, @cell.posY)
 				self.setAttributes
 			rescue Exception
 				puts "GTK-gobject error(4): see https://github.com/valentinp72/picross/issues/31"
@@ -125,7 +125,7 @@ class CellButton < Gtk::EventBox
 
 		self.signal_connect('leave_notify_event') do |widget, event|
 			begin
-				self.parent.parent.unsetHover(@cell.posX, @cell.posY)
+				self.parent.parent.parent.unsetHover(@cell.posX, @cell.posY)
 				self.setAttributes
 			rescue Exception 
 				puts "GTK-gobject error(5): see https://github.com/valentinp72/picross/issues/31"
