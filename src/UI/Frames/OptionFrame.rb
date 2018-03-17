@@ -7,7 +7,7 @@ require_relative '../Frame'
 
 ##
 # File          :: OptionFrame.rb
-# Author        :: BROCHERIEUX Thibault
+# Author        :: BROCHERIEUX Thibault, PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/16/2018
 # Last update   :: 02/16/2018
@@ -17,11 +17,16 @@ require_relative '../Frame'
 
 class OptionFrame < Frame
 
-	def initialize(user)
+	##
+	# Creation of the option frame
+	# * *Arguments* :
+	#   - +user+ -> the user that is editing his options
+	def initialize(user, redirectFrame)
 		super()
 		self.border_width = 100
 
 		@user = user
+		@redirectFrame = redirectFrame
 
 		# create the settings
 		@settings = createSettings
@@ -37,6 +42,10 @@ class OptionFrame < Frame
 		add(@panel)
 	end
 
+	##
+	# Create the settings area of the frame
+	# * *Returns* :
+	#   - an Array of Setting for every setting we want to be in the frame
 	def createSettings
 		settings = []
 
@@ -46,6 +55,10 @@ class OptionFrame < Frame
 		return settings
 	end
 
+	##
+	# Create the buttons of the frame
+	# * *Returns* :
+	#   - a Gtk::Box containing all the buttons to be displayed on the frame
 	def createButtons
 		# Add cancel and valid buttons
 		@cancelBtn = Gtk::Button.new(:label => @user.lang["button"]["cancel"])
@@ -73,16 +86,46 @@ class OptionFrame < Frame
 		return buttons
 	end
 
+	##
+	# Ask for the frame to close the window, or to change 
+	# to the home frame.
+	# * *Returns* :
+	#   - the frame itself
 	def closeOrComeBackToHome(user)
 		if self.parent.mainWindow? then
-			self.parent.setFrame(HomeFrame.new(user))
+#self.parent.setFrame(HomeFrame.new(user))
+			@redirectFrame.draw
+			self.parent.setFrame(@redirectFrame)
+		else
+			self.parent.close
+		end
+		return self
+	end
+
+end
+
+##
+# This class represents the OptionFrame, page where we can change current user's settings
+# This is called during a game, it then redirect the user to it's game
+
+class GameOptionFrame < OptionFrame
+
+
+	def initialize(user, chapter, map)
+		super(user)
+		@chapter = chapter
+		@map     = map
+	end
+
+	def closeOrComeBackToHome(user)
+		if self.parent.mainWindow? then
+			self.parent.setFrame(GameFrame.new(user,@chapter,@map))
 		else
 			self.parent.close
 		end
 	end
 
 end
-
 class Setting < Gtk::Box
 
 	def initialize(text, widget)
@@ -190,22 +233,3 @@ class SettingHypothesisColor < Setting
 
 end
 
-# This class represents the OptionFrame, page where we can change current user's settings
-# This can only be called from GameFrame
-class GameOptionFrame < OptionFrame
-
-	def initialize(user,chapter,map)
-		super(user)
-		@chapter = chapter
-		@map     = map
-	end
-
-	def closeOrComeBackToHome(user)
-		if self.parent.mainWindow? then
-			self.parent.setFrame(GameFrame.new(user,@chapter,@map))
-		else
-			self.parent.close
-		end
-	end
-
-end

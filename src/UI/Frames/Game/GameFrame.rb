@@ -32,6 +32,9 @@ class GameFrame < Frame
 		@main.pack_start(@header)
 		@main.pack_start(@content, :expand => true, :fill => true)
 
+		self.children.each do |child|
+			self.remove(child)
+		end
 		self.add(@main)
 
 	end
@@ -59,10 +62,14 @@ class GameFrame < Frame
 		# Redirecting user towards option menu
 		btnOption.signal_connect("clicked") do
 			self.save
-			self.parent.setFrame(GameOptionFrame.new(@user,@chapter,@map))
+			self.parent.setFrame(OptionFrame.new(@user, self))
 		end
 
 		return @header
+	end
+
+	def draw
+		self.createMainLayout
 	end
 
 	def save()

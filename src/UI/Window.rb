@@ -14,10 +14,10 @@ class Window < Gtk::ApplicationWindow
 	end
 
 	def setFrame(frame)
-		self.each do |child|
+		self.children.each do |child|
 			self.remove(child)
 		end
-		self.child = frame
+		self.add(frame)
 		frame.show_all
 		@frame = frame
 	end

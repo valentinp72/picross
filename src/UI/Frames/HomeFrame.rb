@@ -20,20 +20,20 @@ class HomeFrame < Frame
 		super()
 		self.border_width = 100
 
-		# Retrieve user's language
-		lang = user.settings.language
-		# Retrieve associated language config file
-		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_#{lang}")
-		config = YAML.load(File.open(configFile))
+		@user = user
 
+		self.draw
+	end
 
-
+	def draw
+		lang = @user.lang
+		
 		# Create 5 button
-		@playBtn = Gtk::Button.new(:label => config["home"]["play"])
-		@rankBtn = Gtk::Button.new(:label => config["home"]["rank"])
-		@ruleBtn = Gtk::Button.new(:label => config["home"]["rule"])
-		@optiBtn = Gtk::Button.new(:label => config["home"]["option"])
-		@exitBtn = Gtk::Button.new(:label => config["button"]["exit"])
+		@playBtn = Gtk::Button.new(:label => lang["home"]["play"])
+		@rankBtn = Gtk::Button.new(:label => lang["home"]["rank"])
+		@ruleBtn = Gtk::Button.new(:label => lang["home"]["rule"])
+		@optiBtn = Gtk::Button.new(:label => lang["home"]["option"])
+		@exitBtn = Gtk::Button.new(:label => lang["button"]["exit"])
 
 		# Create vertical box containing 5 boxes
 		@vbox = Gtk::Box.new(:vertical, 5)
@@ -44,17 +44,17 @@ class HomeFrame < Frame
 		@vbox.pack_start(@exitBtn, :expand => true, :fill => true, :padding =>2)
 
 		@playBtn.signal_connect("clicked") do
-			self.parent.setFrame(ChapterFrame.new(user))
+			self.parent.setFrame(ChapterFrame.new(@user))
 		end
 
 		# Redirecting user towards option menu
 		@optiBtn.signal_connect("clicked") do
-			self.parent.setFrame(OptionFrame.new(user))
+			self.parent.setFrame(OptionFrame.new(@user, self))
 		end
 
 		# Redirecting user towards statistics menu
 		@rankBtn.signal_connect("clicked") do
-			self.parent.setFrame(StatsFrame.new(user))
+			self.parent.setFrame(StatsFrame.new(@user))
 		end
 
 		# Exit programms
@@ -63,6 +63,11 @@ class HomeFrame < Frame
 		end
 
 		# Add vbox to frame
+		self.children.each do |child|
+			self.remove(child)
+		end
 		add(@vbox)
+
 	end
+
 end
