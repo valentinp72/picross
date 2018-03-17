@@ -165,29 +165,37 @@ class GameFrame < Frame
 		end
 
 
-
-		@popover = Gtk::Popover.new()
-		@label1 =  Gtk::Label.new("Test")
-		@label2 =  Gtk::Label.new("Test2")
-		@label3 =  Gtk::Label.new("Test3")
-
-		@labelbox = Gtk::Box.new(:horizontal)
-
-		@labelbox.pack_start(@label1, :expand => true, :fill => true)
-		@labelbox.pack_start(@label2, :expand => true, :fill => true)
-		@labelbox.pack_start(@label3, :expand => true, :fill => true)
-
-		@popover.position = :top
-		@popover.add(@labelbox)
-		@labelbox.show_all
-
-
-
 		@btnHypotheses = Gtk::Button.new()
+
+		@popover = Gtk::Popover.new(@btnHypotheses)
+		@popover.position = :top
+
+		popoverBox = Gtk::Box.new(:vertical)
+
+		@map.hypotheses.each do |hypo|
+			button = Gtk::ModelButton.new()
+			button.role = Gtk::ButtonRole::RADIO
+			button.label = hypo.id.to_s
+			popoverBox.pack_start(button)
+
+			button.signal_connect('clicked') do
+				button.active = !button.active?
+			end
+		end
+
+		popoverButtonValidate = Gtk::ModelButton.new()
+		popoverButtonValidate.role = Gtk::ButtonRole::NORMAL
+		popoverBox.pack_start(popoverButtonValidate)
+
+		popoverBox.show_all
+
+		@popover.add(popoverBox)
+
+
+
 		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
-
 			puts "show sow"
 			@popover.visible = true
 
@@ -196,6 +204,9 @@ class GameFrame < Frame
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid
 		end
+
+		#puts @btnHypotheses.methods
+		#@btnHypotheses.popover = @popover
 
 		@help  = Gtk::Button.new()
 		@help.image = AssetsLoader.loadImage("help.jpg",40,40)
@@ -219,5 +230,4 @@ class GameFrame < Frame
 
 		return @sideBar
 	end
-
 end
