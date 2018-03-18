@@ -19,18 +19,12 @@ class ChapterFrame < Frame
 		super()
 		self.border_width = 100
 
-		# Retrieve user's language
-		lang = user.settings.language
-		# Retrieve associated language config file
-		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_#{lang}")
-		config = YAML.load(File.open(configFile))
-
 		# Create vertical box containing all chapters buttons
 		@vbox = Gtk::Box.new(:vertical, user.chapters.length)
 
 		# Create a return button
 		@returnBtn = Gtk::Button.new()
-		@returnBtn.image = AssetsLoader.loadImage("btnReturn.png",40)
+		@returnBtn.image = AssetsLoader.loadImage("arrow-left.png", 40)
 		@returnBtn.relief = Gtk::ReliefStyle::NONE
 		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
 
