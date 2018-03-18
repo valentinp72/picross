@@ -106,7 +106,7 @@ class Hypotheses
 	##
 	# Define each method for this class, allowing to go through all the hypothesis
 	def each(&block)
-		@stack.each(&block)
+		@stack.drop(1).each(&block)
 	end
 
 	##
