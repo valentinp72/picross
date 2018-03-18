@@ -170,39 +170,13 @@ class GameFrame < Frame
 		@popover = Gtk::Popover.new(@btnHypotheses)
 		@popover.position = :top
 
-		popoverBox = Gtk::Box.new(:vertical)
-
-		@map.hypotheses.each do |hypo|
-			button = Gtk::ModelButton.new()
-			button.role = Gtk::ButtonRole::RADIO
-			button.label = hypo.id.to_s
-			popoverBox.pack_start(button)
-
-			button.signal_connect('clicked') do
-				button.active = !button.active?
-			end
-		end
-
-		popoverButtonValidate = Gtk::ModelButton.new()
-		popoverButtonValidate.role = Gtk::ButtonRole::NORMAL
-		popoverBox.pack_start(popoverButtonValidate)
-
-		popoverBox.show_all
-
-		@popover.add(popoverBox)
-
-
+		popoverBox = Gtk::Box.new(:horizontal)
 
 		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
-			puts "show sow"
-			@popover.visible = true
+			updatePopover(popoverBox)
 
-
-			@map.hypotheses.addNewHypothesis
-			@grid = @map.hypotheses.getWorkingHypothesis.grid
-			@picross.grid = @grid
 		end
 
 		#puts @btnHypotheses.methods
@@ -230,4 +204,53 @@ class GameFrame < Frame
 
 		return @sideBar
 	end
+
+	def updatePopover(popoverBox)
+
+		@popover.remove(popoverBox)
+
+		popoverBox.children.each do |child|
+			popoverBox.remove(child)
+		end
+
+		@map.hypotheses.each do |hypo|
+
+			boxHypo = Gtk::Box.new(:vertical)
+
+			labelHypo = Gtk::Label.new("hypo : #{hypo.id.to_s}")
+
+			buttonAccept = Gtk::Button.new(:label => "Accepter")
+			buttonAccept.signal_connect('clicked') do
+				@map.hypotheses.validate(hypo.id)
+				updatePopover(popoverBox)
+			end
+
+			buttonReject = Gtk::Button.new(:label => "Refuser")
+			buttonReject.signal_connect('clicked') do
+				@map.hypotheses.reject(hypo.id)
+				updatePopover(popoverBox)
+			end
+
+			boxHypo.pack_start(labelHypo)
+			boxHypo.pack_start(buttonAccept)
+			boxHypo.pack_start(buttonReject)
+
+			popoverBox.pack_start(boxHypo)
+		end
+
+		buttonNewHypo = Gtk::Button.new(:label => "new hypo")
+		buttonNewHypo.signal_connect('clicked') do
+			@map.hypotheses.addNewHypothesis
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+			updatePopover(popoverBox)
+		end
+
+		popoverBox.pack_start(buttonNewHypo)
+
+		popoverBox.show_all
+		@popover.add(popoverBox)
+		@popover.visible = true
+	end
+
 end
