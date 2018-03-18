@@ -42,11 +42,11 @@ class GameFrame < Frame
 	def createHeaderLayout()
 
 		btnBack   = Gtk::Button.new
-		btnBack.image = AssetsLoader.loadImage("btnReturn.png",50)
+		btnBack.image = AssetsLoader.loadImage("arrow-left.png",50)
 		btnBack.relief = Gtk::ReliefStyle::NONE
 		title     = Gtk::Label.new(@map.name)
 		btnOption = Gtk::Button.new()
-		btnOption.image = AssetsLoader.loadImage("btnOption.png",50)
+		btnOption.image = AssetsLoader.loadImage("cog.png",50)
 		btnOption.relief = Gtk::ReliefStyle::NONE
 
 		@header = Gtk::Box.new(:horizontal)
@@ -138,7 +138,7 @@ class GameFrame < Frame
 		@isPaused = false
 
 		@pause  = Gtk::Button.new
-		@pause.image = AssetsLoader.loadImage('pause2.png',40)
+		@pause.image = AssetsLoader.loadImage('pause.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
 			if !@map.currentStat.isFinished then
@@ -146,7 +146,7 @@ class GameFrame < Frame
 					@isPaused = false
 					@map.currentStat.time.unpause
 
-					@pause.image = AssetsLoader.loadImage('pause2.png',40)
+					@pause.image = AssetsLoader.loadImage('pause.png',40)
 
 					@content.remove(@labelPause)
 					@content.pack_start(@picross, :expand => true, :fill => true)
@@ -155,7 +155,7 @@ class GameFrame < Frame
 					@isPaused = true
 					@map.currentStat.time.pause
 
-					@pause.image = AssetsLoader.loadImage('btnPlay.png',40)
+					@pause.image = AssetsLoader.loadImage('play.png',40)
 
 					@content.remove(@picross)
 					@content.pack_start(@labelPause, :expand => true, :fill => true)
@@ -172,7 +172,7 @@ class GameFrame < Frame
 
 		popoverBox = Gtk::Box.new(:horizontal)
 
-		@btnHypotheses.image  = AssetsLoader.loadImage('light-bulb.png', 40)
+		@btnHypotheses.image  = AssetsLoader.loadImage('lightbulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
 			updatePopover(popoverBox)
@@ -183,7 +183,7 @@ class GameFrame < Frame
 		#@btnHypotheses.popover = @popover
 
 		@help  = Gtk::Button.new()
-		@help.image = AssetsLoader.loadImage("help.jpg",40,40)
+		@help.image = AssetsLoader.loadImage("help.png",40)
 		@help.relief = Gtk::ReliefStyle::NONE
 		##css_provider = Gtk::CssProvider.new
 		##css_provider.load(data: "
@@ -219,15 +219,19 @@ class GameFrame < Frame
 
 			labelHypo = Gtk::Label.new("hypo : #{hypo.id.to_s}")
 
-			buttonAccept = Gtk::Button.new(:label => "Accepter")
+			buttonAccept = Gtk::Button.new()
+			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
 			buttonAccept.signal_connect('clicked') do
 				@map.hypotheses.validate(hypo.id)
 				updatePopover(popoverBox)
 			end
 
-			buttonReject = Gtk::Button.new(:label => "Refuser")
+			buttonReject = Gtk::Button.new()
+			buttonReject.image = AssetsLoader.loadImage('close.png',40)
 			buttonReject.signal_connect('clicked') do
 				@map.hypotheses.reject(hypo.id)
+				@grid = @map.hypotheses.getWorkingHypothesis.grid
+				@picross.grid = @grid
 				updatePopover(popoverBox)
 			end
 
@@ -238,7 +242,8 @@ class GameFrame < Frame
 			popoverBox.pack_start(boxHypo)
 		end
 
-		buttonNewHypo = Gtk::Button.new(:label => "new hypo")
+		buttonNewHypo = Gtk::Button.new()
+		buttonNewHypo.image = AssetsLoader.loadImage('plus.png',40)
 		buttonNewHypo.signal_connect('clicked') do
 			@map.hypotheses.addNewHypothesis
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
