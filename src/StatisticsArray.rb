@@ -59,6 +59,10 @@ class StatisticsArray
 		return rslt
 	end
 
+	def length
+		@stack.length
+	end
+
 	def bestTime()
 		@stack.min_by(&:time)
 	end
@@ -67,7 +71,7 @@ class StatisticsArray
 		@stack.min_by(&:usedHelp)
 	end
 
-	def numberOfStars()
+	def maxStars()
 		@stack.max_by(&:numberOfStars)
 	end
 
