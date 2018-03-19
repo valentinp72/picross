@@ -18,6 +18,8 @@ class GameFrame < Frame
 
 		self.createMainLayout
 
+		@colorsHyp = user.settings.hypothesesColors
+
 		@main.show_all
 
 	end
@@ -121,7 +123,7 @@ class GameFrame < Frame
 			self.save
 		end
 
-		@reset  = Gtk::Button.new
+		@reset  = Gtk::Button.new()
 		@reset.image = AssetsLoader.loadImage('reset.png',40)
 		@reset.relief = Gtk::ReliefStyle::NONE
 		@reset.signal_connect('clicked') do
@@ -185,16 +187,7 @@ class GameFrame < Frame
 		@help  = Gtk::Button.new()
 		@help.image = AssetsLoader.loadImage("help.png",40)
 		@help.relief = Gtk::ReliefStyle::NONE
-		##css_provider = Gtk::CssProvider.new
-		##css_provider.load(data: "
-		##	image{
-		##		background-image: url(image);
-		##	}
-		#{#}")
-		##@help.style_context.add_provider(
-		##		css_provider,
-		##		Gtk::StyleProvider::PRIORITY_USER
-		##)
+
 		@sideBar = Gtk::Box.new(:vertical)
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
 		@sideBar.pack_start(@reset, :expand => true, :fill => true)
@@ -207,6 +200,7 @@ class GameFrame < Frame
 
 	def updatePopover(popoverBox)
 
+		@colorsHyp = @user.settings.hypothesesColors
 		@popover.remove(popoverBox)
 
 		popoverBox.children.each do |child|
@@ -217,16 +211,19 @@ class GameFrame < Frame
 
 			boxHypo = Gtk::Box.new(:vertical)
 
-			labelHypo = Gtk::Label.new("hypo : #{hypo.id.to_s}")
-
 			buttonAccept = Gtk::Button.new()
+
+			buttonAccept.override_background_color(:normal, Gdk::RGBA.parse(@colorsHyp[hypo.id]))
 			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
 			buttonAccept.signal_connect('clicked') do
 				@map.hypotheses.validate(hypo.id)
+				@grid = @map.hypotheses.getWorkingHypothesis.grid
+				@picross.grid = @grid
 				updatePopover(popoverBox)
 			end
 
 			buttonReject = Gtk::Button.new()
+			buttonReject.override_background_color(:normal, Gdk::RGBA.parse(@colorsHyp[hypo.id]))
 			buttonReject.image = AssetsLoader.loadImage('close.png',40)
 			buttonReject.signal_connect('clicked') do
 				@map.hypotheses.reject(hypo.id)
@@ -235,7 +232,6 @@ class GameFrame < Frame
 				updatePopover(popoverBox)
 			end
 
-			boxHypo.pack_start(labelHypo)
 			boxHypo.pack_start(buttonAccept)
 			boxHypo.pack_start(buttonReject)
 
@@ -257,5 +253,4 @@ class GameFrame < Frame
 		@popover.add(popoverBox)
 		@popover.visible = true
 	end
-
 end
