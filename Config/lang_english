@@ -23,4 +23,11 @@ button :
 stats :
   player : "Player's statistics"
   global : "Global statistics"
+  level : "Level name"
+  stars : "Max stars"
+  time :  "Best time"
+  help : "Min help used"
+  click : "Min click"
+  finished : "Number of time level has been done"
+  empty: "No stats recorded"
 ...

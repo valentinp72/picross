@@ -20,6 +20,20 @@ button :
   return : "Retour"
   exit : "Quitter"
 stats :
+  empty: "Aucune statistiques enregistre"
   player : "Statistiques du joueur"
-  global : "Statistiques globales"
+  globals : "Statistiques globales"
+  local :
+    level : "Niveau"
+    stars : "Max etoiles"
+    time :  "Meilleur temps"
+    help : "Aide minimum"
+    click : "Click minimal"
+    finished : "Nombre de fois fini"
+  global :
+     stars : "Total etoiles"
+     time :  "Temps de jeu total"
+     help : "Aides utilise au total"
+     click : "Click total"
+     finished : "Nombres de parties finies"
 ...
