@@ -13,7 +13,7 @@ class Statistic
 
 	# +stats+	- player's statistics on a map
 
-	attr_reader :time, :usedHelp, :numberOfStars
+	attr_reader :time, :usedHelp, :numberOfStars, :nbClick
 
 	attr_accessor :isFinished
 
@@ -23,7 +23,7 @@ class Statistic
 	#   - +stats+		-> player's statistics
 	def initialize()
 		@time = Timer.new()
-		reset()
+		self.reset()
 	end
 
 	##
@@ -40,13 +40,20 @@ class Statistic
 		#  2.5  -  - 0
 		@time.pause
 		@isFinished = true
-		ratio = @time.elapsedSeconds / timeToDo
+		timeToDo = 600 if timeToDo == nil or timeToDo == 0
+		ratio = @time.elapsedSeconds * 1.0 / timeToDo
+		ratio = (ratio * 4).round / 4
 		#return the number of sta##
 	# Returns the total number of elapsed seconds since the timer began.
 	# It count the time of each run of the timer (pauses).
 	# * *Returns* :
 	#   - the elapsed seconds (Integer)rs depending on the ratio above
-		 @numberOfStars = -2*ratio + 5
+		@numberOfStars = -2*ratio + 5
+		if(@numberOfStars > 3) then
+			@numberOfStars = 3
+		elsif @numberOfStars < 0
+			@numberOfStars = 0
+		end
 	end
 
 	def start()
@@ -84,8 +91,8 @@ class Statistic
 		res += " - Time       : #{@time}\n\t"
 		res += " - isFinished : #{@isFinished}\n\t"
 		res += " - Used help  : #{@usedHelp}\n\t"
-		res += " - Nb Stars   : \n#{@numberOfStars}\n\t"
-		res += " - NbClick    : \n#{@nbClick}\n\t"
+		res += " - Nb Stars   : #{@numberOfStars}\n\t"
+		res += " - NbClick    : #{@nbClick}\n\t"
 		return res
 	end
 
