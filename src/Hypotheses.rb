@@ -102,9 +102,14 @@ class Hypotheses
 		if hypothesisID == 0 then
 			raise ArgumentError, "hypothesis 0 cannot be validated"
 		end
-#j'ai fait l'inverse, c'est pas id à 0, mais on virer tout jusqu'a hypothesisID
+		newHypID    = hypothesisID - 1
 		newBaseGrid = @stack.last
 		newBaseGrid.id = @stack[hypothesisID - 1].id
+		newBaseGrid.grid.each_cell do |cell|
+			if cell.hypothesis.id >= hypothesisID then
+				cell.hypothesis = newBaseGrid
+			end
+		end
 		@stack.slice!(hypothesisID - 1..-1)
 		@stack.push(newBaseGrid)
 		puts "len" +  @stack.length.to_s
