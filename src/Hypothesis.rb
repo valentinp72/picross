@@ -20,6 +20,7 @@ class Hypothesis
 
 	# The id (0 to 4) of the hypothesis
 	attr_reader :id
+	attr_writer :id
 
 	##
 	# Creation of an hypothesis.  

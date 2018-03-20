@@ -80,6 +80,13 @@ class Grid
 		return self
 	end
 
+	def hypothesis=(newHypothesis)
+		self.each_cell do |cell|
+			cell.hypothesis = newHypothesis
+		end
+		return self
+	end
+
 	##
 	# Returns true if the given position is a valid coordinate, false otherwise
 	# * *Arguments* :

@@ -38,4 +38,31 @@ describe Grid do
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).hypothesis.id).to eq defaultHypothesis.id
 	end
 
+	it "check the id become correct when validating an hypothesis" do
+		expect(hypotheses.addNewHypothesis).to eq 1
+		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_BLACK
+		puts defaultHypothesis.id
+		hypotheses.validate(1)
+		puts defaultHypothesis.id
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_BLACK
+		puts defaultHypothesis.id
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).hypothesis.id).to eq defaultHypothesis.id
+		puts defaultHypothesis.id
+		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_WHITE
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_WHITE
+	end	
+
+	it "check multiple new hypotheses and validating all" do
+		puts hypotheses
+		expect(hypotheses.addNewHypothesis).to eq 1
+		expect(hypotheses.addNewHypothesis).to eq 2
+		expect(hypotheses.addNewHypothesis).to eq 3
+		expect(hypotheses.addNewHypothesis).to eq 4
+
+		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_BLACK
+		hypotheses.validate(1)
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_BLACK
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).hypothesis.id).to eq defaultHypothesis.id
+	end
+
 end

@@ -75,10 +75,12 @@ class Hypotheses
 	# * *Raises* :
 	#   - +ArgumentError+ -> if +hypothesisID+ is not a valid ID in the stack
 	def reject(hypothesisID)
-		if hypothesisID <= 0 or hypothesisID >= @stack.length then
+		if hypothesisID < 0 or hypothesisID >= @stack.length then
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
-
+		if hypothesisID == 0 then
+			raise ArgumentError "hypothesis 0 cannot be rejected"
+		end
 		@stack.pop(@stack.length - hypothesisID)
 		return self
 	end
@@ -97,9 +99,16 @@ class Hypotheses
 		if hypothesisID < 0 or hypothesisID >= @stack.length then
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
-		newBaseGrid = @stack[hypothesisID]
-		@stack = @stack.slice(hypothesisID + 1..-1)
-		@stack.unshift(newBaseGrid)
+		if hypothesisID == 0 then
+			raise ArgumentError, "hypothesis 0 cannot be validated"
+		end
+#j'ai fait l'inverse, c'est pas id à 0, mais on virer tout jusqu'a hypothesisID
+		newBaseGrid = @stack.last
+		newBaseGrid.id = @stack[hypothesisID - 1].id
+		@stack.slice!(hypothesisID - 1..-1)
+		@stack.push(newBaseGrid)
+		puts "len" +  @stack.length.to_s
+		puts "hyps:" + self.to_s
 		return self
 	end
 
