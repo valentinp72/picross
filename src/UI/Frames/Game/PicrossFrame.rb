@@ -95,7 +95,6 @@ class PicrossFrame < Frame
 	# * *Returns* :
 	#   - the PicrossFrame itself
 	def grid=(newGrid)
-
 		@grid = newGrid
 		@drag.grid = @grid
 

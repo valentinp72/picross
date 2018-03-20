@@ -21,7 +21,6 @@ class CellButton < Gtk::EventBox
 
 	# The real Cell that this button is composed
 	attr_reader :cell
-	attr_writer :cell
 
 	BLACK_PIXBUF = AssetsLoader.loadPixbuf('black_cell.png')
 	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
@@ -79,6 +78,18 @@ class CellButton < Gtk::EventBox
 	#   - the object itself
 	def resize()
 		@widget.pixbuf = choosePixbufState
+		return self
+	end
+
+	##
+	# Sets the new Cell of the button
+	# * *Arguments* :
+	#   - +newCell+ -> the new Cell to be set
+	# * *Returns* :
+	#   - the CellButton itself
+	def cell=(newCell)
+		@cell = newCell
+		self.setAttributes
 		return self
 	end
 
