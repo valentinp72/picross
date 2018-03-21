@@ -31,13 +31,22 @@ class ChapterFrame < Frame
 		# List of bouttons
 		@buttonsList = Array.new(user.chapters.length + 1)
 
-		0.upto(user.chapters.length - 1)  do |x|
-			@buttonsList[x] = Gtk::Button.new(:label => user.chapters[x].title)
-			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
+		user.chapters.each_index do |x|
+			chapter = user.chapters[x]
 
-			@buttonsList[x].signal_connect("clicked") do
-				self.parent.setFrame(MapFrame.new(user,user.chapters[x]))
+			@buttonsList[x] = Gtk::Button.new
+
+			if chapter.unlocked?(user) then
+				@buttonsList[x].label = chapter.title
+				@buttonsList[x].signal_connect("clicked") do
+					self.parent.setFrame(MapFrame.new(user, chapter))
+				end
+			else
+				@buttonsList[x].image = AssetsLoader.loadImage("lock.png", 20)
+				puts chapter.starsRequired
 			end
+			
+			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding => 2)
 		end
 
 		@returnBtn.signal_connect("clicked") do

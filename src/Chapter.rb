@@ -23,17 +23,21 @@ class Chapter
 	# * *Arguments* :
 	#   - +title+ -> the title of the chapter
 	#   - +levels+ -> List of map that are part of this chapter
-	#   - +isUnlocked+ -> Wether or not the chapter is unlocked
 	#   - +starsRequired+ -> the number of stars required to unlock the chapter
-	def initialize(title, levels, starsRequired, isUnlocked=false)
+	def initialize(title, levels, starsRequired)
 		@title = title
 		@levels = levels
 		@starsRequired = starsRequired
-		@isUnlocked = isUnlocked
 	end
 
-	def playLevel(index)
-		return @mapList[index]
+	##
+	# Returns true if the chapter is unlocked for the given user, false otherwise
+	# * *Arguments* :
+	#   - +user+ -> the user to check if the chapter is unlocked
+	# * *Returns* :
+	#   - true if the chapter is unlocked
+	def unlocked?(user)
+		return user.totalStars >= @starsRequired
 	end
 
 	##

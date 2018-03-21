@@ -68,22 +68,25 @@ class StatisticsArray
 	end
 
 	def minHelp()
-		@stack.min_by(&:usedHelp)
+		return valueOrElseIf(@stack.min_by(&:usedHelp), nil, 0)
 	end
 
 	def maxStars()
-		@stack.max_by(&:numberOfStars)
+		return valueOrElseIf(@stack.max_by(&:numberOfStars), nil, 0)
 	end
 
 	def minClick()
 		@stack.min_by(&:nbClick)
 	end
 
+	def valueOrElseIf(value, ifValue, elseValue)
+		return elseValue if value == ifValue
+		return value
+	end
+
 	def nbFinished()
 		@stack.select{|x| x.isFinished==true}.count
 	end
-
-
 
 	##
 	# Convert the StatisticsArray to an array, allowing Marshal to dump the object.
