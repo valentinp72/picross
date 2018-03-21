@@ -68,11 +68,11 @@ class StatisticsArray
 	end
 
 	def minHelp()
-		return valueOrElseIf(@stack.min_by(&:usedHelp), nil, 0)
+		@stack.min_by(&:usedHelp)
 	end
 
 	def maxStars()
-		return valueOrElseIf(@stack.max_by(&:numberOfStars), nil, 0)
+		@stack.max_by(&:numberOfStars)
 	end
 
 	def minClick()

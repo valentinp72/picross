@@ -55,7 +55,10 @@ class User
 		stars = 0
 		@chapters.each do |chapter|
 			chapter.levels.each do |level|
-				stars += level.allStat.maxStars
+				bestStat = level.allStat.maxStars
+				if bestStat != nil then
+					stars += bestStat.numberOfStars 
+				end
 	 		end
 		end
 		return stars

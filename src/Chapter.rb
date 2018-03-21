@@ -45,7 +45,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter into a String object
 	def to_s()
-		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}"
+		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}" 
 	end
 
 	##
@@ -83,7 +83,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter converted to an array
 	def marshal_dump()
-		return [@title, @levels, @starsRequired, @isUnlocked]
+		return [@title, @levels, @starsRequired]
 	end
 
 	##
@@ -94,7 +94,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter object itself
 	def marshal_load(array)
-		@title, @levels, @starsRequired, @isUnlocked = array
+		@title, @levels, @starsRequired = array
 		return self
 	end
 end
