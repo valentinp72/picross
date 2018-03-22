@@ -21,13 +21,20 @@ button :
   return : "Go back"
   exit : "Exit"
 stats :
-  player : "Player's statistics"
-  global : "Global statistics"
-  level : "Level name"
-  stars : "Max stars"
-  time :  "Best time"
-  help : "Min help used"
-  click : "Min click"
-  finished : "Number of time level has been done"
   empty: "No stats recorded"
+  player : "Player's statistics"
+  globals : "Global statistics"
+  local :
+    level : "Level name"
+    stars : "Max stars"
+    time :  "Best time"
+    help : "Min help used"
+    click : "Min click"
+    finished : "Number of time level has been done"
+  global :
+     stars : "Totla stars"
+     time :  "Total time"
+     help : "Total used help"
+     click : "Total click"
+     finished : "Finished game"
 ...
