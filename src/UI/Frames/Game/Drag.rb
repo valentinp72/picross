@@ -27,6 +27,7 @@ class Drag
 	# * *Arguments* :
 	#   - +grid+  -> the grid that the drag will work on
 	#   - +cells+ -> a Gtk::Grid grid, containing other cells, that the drag will change states when doing drags.
+	#   - +frame+ -> the frame the drag is working on 
 	def initialize(map, cells, frame)
 		@map   = map
 		@grid  = map.hypotheses.getWorkingHypothesis.grid
@@ -300,4 +301,5 @@ class Drag
 			return currentPos < startPos
 		end
 	end
+
 end
