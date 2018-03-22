@@ -100,9 +100,12 @@ class Hypotheses
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
 		if hypothesisID == 0 then
-			raise ArgumentError, "hypothesis 0 cannot be validated"
+			if @stack.length > 1 then
+				validate(1)
+			end
+			#raise ArgumentError, "hypothesis 0 cannot be validated"
 		end
-	
+
 		relatedHypothesis = @stack[hypothesisID]
 
 		@stack.shift(hypothesisID + 1)

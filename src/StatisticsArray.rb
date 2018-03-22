@@ -64,7 +64,7 @@ class StatisticsArray
 	end
 
 	def bestTime()
-		@stack.min_by(&:time)
+		@stack.min_by{|x| x.time.elapsedSeconds}
 	end
 
 	def minHelp()
