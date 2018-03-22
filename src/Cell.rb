@@ -99,6 +99,7 @@ class Cell
 		else
 			self.state = CELL_WHITE
 		end
+		#@currentStat.click()
 		return self
 	end
 
