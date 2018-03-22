@@ -61,14 +61,14 @@ class MapFrame < Frame
 		starBox = Gtk::Box.new(:horizontal)
 		emptyStarNumber = 10 - score
 		(score / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("star.png", 10), :expand => true, :fill => true, :padding => 2)
+			starBox.pack_start(AssetsLoader.loadImage("star.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 		if !score.even? then
-			starBox.pack_start(AssetsLoader.loadImage("star-half.png", 10), :expand => true, :fill => true, :padding => 2)
+			starBox.pack_start(AssetsLoader.loadImage("star-half.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 
 		(emptyStarNumber / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("star-empty.png", 10), :expand => true, :fill => true, :padding => 2)
+			starBox.pack_start(AssetsLoader.loadImage("star-empty.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 		return starBox
 	end
