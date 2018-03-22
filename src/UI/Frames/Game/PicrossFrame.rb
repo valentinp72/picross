@@ -50,7 +50,8 @@ class PicrossFrame < Frame
 		# cursror on the widget, so it's very disturbing... GTK <3
 		GLib::Timeout.add(10){
 			if self.allocation.width > 10 && self.allocation.height > 10 then
-				self.queue_allocate
+#self.queue_allocate
+					self.queue_resize
 				false
 			else
 				true
