@@ -104,6 +104,7 @@ class GameFrame < Frame
 
 		# Update the timer view every second
 		GLib::Timeout.add(1000){
+			checkMap
 			if @timer == nil then
 				# we return false (that stop the timeout) if we have quit the game
 				false
@@ -133,7 +134,9 @@ class GameFrame < Frame
 			@content.remove(@picross)
 			@content.pack_start(@picross, :expand => true, :fill => true)
 			@content.reorder_child(@picross,0)
+			checkMap
 
+			puts @map
 		end
 
 		@labelPause =  Gtk::Label.new("Partie en pause")
@@ -144,7 +147,7 @@ class GameFrame < Frame
 		@pause.image = AssetsLoader.loadImage('pause.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
-			if !@map.currentStat.isFinished then
+			if checkMap then
 				if(@isPaused) then
 					@isPaused = false
 					@map.currentStat.time.unpause
@@ -178,8 +181,9 @@ class GameFrame < Frame
 		@btnHypotheses.image  = AssetsLoader.loadImage('lightbulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
-			updatePopover(popoverBox)
-
+			if checkMap then
+				updatePopover(popoverBox)
+			end
 		end
 
 		#puts @btnHypotheses.methods
@@ -188,6 +192,9 @@ class GameFrame < Frame
 		@help  = Gtk::Button.new()
 		@help.image = AssetsLoader.loadImage("help.png",40)
 		@help.relief = Gtk::ReliefStyle::NONE
+		@help.signal_connect('clicked') do
+			checkMap
+		end
 
 		@sideBar = Gtk::Box.new(:vertical)
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
@@ -266,5 +273,19 @@ class GameFrame < Frame
 		popoverBox.show_all
 		@popover.add(popoverBox)
 		@popover.visible = true
+	end
+
+	def checkMap
+		if @map.currentStat.isFinished then
+			@btnHypotheses.sensitive = false
+			@pause.sensitive = false
+			@help.sensitive = false
+			return false
+		else
+			@btnHypotheses.sensitive = true
+			@pause.sensitive = true
+			@help.sensitive = true
+			return true
+		end
 	end
 end
