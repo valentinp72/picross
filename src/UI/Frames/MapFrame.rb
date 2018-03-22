@@ -32,6 +32,9 @@ class MapFrame < Frame
 
 		0.upto(chapter.levels.length - 1)  do |x|
 			buttonBox = Gtk::Box.new(:horizontal)
+			if(chapter.levels[x].allStat.nbFinished > 0) then
+				buttonBox.pack_start(AssetsLoader.loadImage("check.png", 10), :expand => false, :fill => false, :padding =>2)
+			end
 			buttonBox.pack_start(Gtk::Label.new(chapter.levels[x].name), :expand => true, :fill => false, :padding =>2)
 			buttonBox.pack_start(calculateStar(chapter.levels[x].difficulty), :expand => false, :fill => true, :padding =>2)
 
