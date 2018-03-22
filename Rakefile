@@ -135,6 +135,34 @@ export PANGO_LIBDIR="$bundle_lib"
 export PANGO_SYSCONFDIR="$bundle_etc"
 ]
 
+EXECUTABLE_LINUX_ADDITIONAL =
+%Q[
+tmp="$SELFDIR"
+bundle=`dirname "$tmp"`
+bundle_contents="$bundle"
+bundle_res="$bundle_contents"
+bundle_lib="$bundle_res"/lib
+bundle_bin="$bundle_res"/bin
+bundle_data="$bundle_res"/share
+bundle_etc="$bundle_res"/etc
+
+export LD_LIBRARY_PATH="$bundle_lib"
+export XDG_CONFIG_DIRS="$bundle_etc"/xdg
+export XDG_DATA_DIRS="$bundle_data"
+export GTK_DATA_PREFIX="$bundle_res"
+export GTK_EXE_PREFIX="$bundle_res"
+export GTK_PATH="$bundle_res"
+export GTK2_RC_FILES="$bundle_etc/gtk-2.0/gtkrc"
+export GTK_IM_MODULE_FILE="$bundle_etc/gtk-2.0/gtk.immodules"
+#N.B. When gdk-pixbuf was separated from Gtk+ the location of the
+#loaders cache changed as well. Depending on the version of Gtk+ that
+#you built with you may still need to use the old location:
+#export GDK_PIXBUF_MODULE_FILE="$bundle_etc/gtk-2.0/gdk-pixbuf.loaders"
+export GDK_PIXBUF_MODULE_FILE="$bundle_lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+export PANGO_LIBDIR="$bundle_lib"
+export PANGO_SYSCONFDIR="$bundle_etc"
+]
+
 EXECUTABLE_COMMAND =
 %Q[
 $SELFDIR/ruby/bin/ruby -rbundler/setup $SELFDIR/#{EXECUTABLE_RB} > $SELFDIR/#{LOG_FOLDER_NAME}$OUTPUT_FILE 2>&1
