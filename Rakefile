@@ -69,6 +69,8 @@ GEMFILES_PATHS     = ['Gemfile', 'Gemfile.lock']
 # ruby file to be excecuted by the application
 EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
 
+LINUX_X86_LIBS     = BUILD_ROOT + 'config/linux_x86_64/linux_x86_64_required_dylib.txt'
+
 # macos application configuration
 MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/macOS/Info.plist'
 MAC_OS_RSCR_PATH   = BUILD_ROOT + 'config/macOS/Resources/'
@@ -234,7 +236,6 @@ task :build_vendor do
 	bundlePath = BUILD_VENDOR + '.bundle/'
 	FileUtils.mkdir_p(bundlePath)
 	File.write(bundlePath + 'config', BUNDLE_CONFIG_CONTENT)
-
 end
 
 
@@ -261,7 +262,7 @@ task :build_macOS do
 	FileUtils.mkdir_p(sourceFolder)
 
 	rubyFolder = sourceFolder + 'ruby/'
-	FileUtils.cp_r(RUBY_BIN_MAC_OS, rubyFolder)# ruby binaries
+	FileUtils.cp_r(RUBY_BIN_MAC_OS, rubyFolder)             # ruby binaries
 	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
 	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
 	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
@@ -340,5 +341,56 @@ task :build_macOS do
 	# then we need to add the resource folder in the ruby folder
 	# => symbolic link
 	FileUtils.ln_s("../../Resources", rubyFolder)
+
+end
+
+
+# linux_x86 application build
+task :build_linux_x86 do
+
+	outputFolder = BUILD_OUTPUT + BUILD_LINUX_x86 + APPLICATION_NAME + "/"
+	FileUtils.mkdir_p(outputFolder)
+
+	# all sources folder
+	sourceFolder = outputFolder + 'sources/'
+	FileUtils.mkdir_p(sourceFolder)
+
+	rubyFolder = sourceFolder + 'ruby/'
+	FileUtils.cp_r(RUBY_BIN_LINUX_x86, rubyFolder)          # ruby binaries
+	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
+	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
+	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
+	FileUtils.mkdir_p(sourceFolder + LOG_FOLDER_NAME)       # log folder
+
+	# create the executable script
+	open(sourceFolder + EXECUTABLE_NAME, 'w') do |exec|
+		
+		exec.puts EXECUTABLE_CONTENT
+		
+		# as we are on macOS, we include the commands for the bundled app
+		#exec.puts EXECUTABLE_MAC_OS_ADDITIONAL
+
+		exec.puts EXECUTABLE_COMMAND
+	end
+	FileUtils.chmod_R('u+x', sourceFolder + EXECUTABLE_NAME)
+
+	libFolder = sourceFolder + 'lib/'
+	FileUtils.mkdir_p(libFolder)
+	
+	# get all needed lib and add them to lib
+	File.readlines(LINUX_X86_LIBS).each do |line|
+		# ignore # comments
+		if not line[0] == '#' then
+			file = line.strip
+			FileUtils.cp_r(file, libFolder + File.basename(file))
+		end
+	end
+
+end
+
+
+# linux_x86_64 application build
+task :build_linux_x86_64 do
+
 
 end
