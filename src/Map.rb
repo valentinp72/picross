@@ -103,7 +103,7 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def reset()
-		@currentStat.reset
+		@currentStat = Statistic.new
 		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
 		return self
 	end
