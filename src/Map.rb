@@ -195,6 +195,7 @@ class Map
 				if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
 					@currentStat.finish(@timeToDo)
 					@allStat.addStatistic(@currentStat)
+					@hypotheses.validate(0)
 					return true
 				end
 			end
