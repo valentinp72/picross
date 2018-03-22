@@ -15,7 +15,9 @@ class Window < Gtk::ApplicationWindow
 
 	def setFrame(frame)
 		self.children.each do |child|
-			self.remove(child)
+			if defined? child.removeFrame then
+				child.removeFrame
+			end
 		end
 		self.add(frame)
 		frame.show_all

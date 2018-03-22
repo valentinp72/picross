@@ -124,7 +124,6 @@ class Map
 		cell = hypothesis.grid.getCellPosition(line, column)
 		cell.stateRotate()
 		cell.hypothesis = hypothesis
-		@currentStat.click()
 		return self
 	end
 

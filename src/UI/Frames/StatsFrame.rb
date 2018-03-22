@@ -23,40 +23,39 @@ class StatsFrame < Frame
 		# Create 3 button
 		@playerBtn = Gtk::Button.new(:label => @lang["stats"]["player"])
 		@globalBtn = Gtk::Button.new(:label => @lang["stats"]["globals"])
-		@returnBtn = Gtk::Button.new(:label => @lang["button"]["return"])
+
+		@returnBtn = Gtk::Button.new()
+		@returnBtn.image = AssetsLoader.loadImage("arrow-left.png", 40)
+		@returnBtn.relief = Gtk::ReliefStyle::NONE
 
 		@hbox = Gtk::Box.new(:horizontal)
 		@hbox.pack_start(@playerBtn, :expand => true, :fill => true, :padding =>2)
 		@hbox.pack_start(@globalBtn, :expand => true, :fill => true, :padding =>2)
 
-		@grid = Gtk::Grid.new()
-		@grid.set_column_homogeneous(true)
+		@scrolled = Gtk::ScrolledWindow.new
+		@scrolled.set_policy(:never, :automatic)
 
 		@vbox = Gtk::Box.new(:vertical)
-		@vbox.pack_start(@hbox, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@grid, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
+		@vbox.pack_start(@returnBtn, :expand => false, :fill => true, :padding =>2)
+		@vbox.pack_start(@hbox, :expand => false, :fill => true, :padding =>2)
+		@vbox.pack_start(@scrolled, :expand => true, :fill => true, :padding =>2)
+
+		@listbox = Gtk::ListBox.new
+		@scrolled.add(@listbox)
+
+		@playerHeader = Gtk::Box.new(:horizontal)
+		@playerHeader.set_homogeneous(true)
 
 		@playerBtn.signal_connect("clicked") do
-			resetGrid(@grid)
 			i = 1
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["level"]),0,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["stars"]),1,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["time"]),2,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["help"]),3,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["click"]),4,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["finished"]),5,0,1,1)
+			reset(@listbox)
+			createPlayerScrollHeader()
 
 			# Loop over each Map of the user
 			user.chapters.each do |chap|
 				chap.levels.each do |lvl|
 					if(lvl.allStat.length != 0)
-						@grid.attach(Gtk::Label.new(lvl.name),0,i,1,1)
-						@grid.attach(Gtk::Label.new(lvl.allStat.maxStars.numberOfStars.to_s),1,i,1,1)
-						@grid.attach(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime),2,i,1,1)
-						@grid.attach(Gtk::Label.new(lvl.allStat.minHelp.useHelp.to_s),3,i,1,1)
-						@grid.attach(Gtk::Label.new(lvl.allStat.minClick.nbClick.to_s),4,i,1,1)
-						@grid.attach(Gtk::Label.new(lvl.allStat.nbFinished.to_s),5,i,1,1)
+						createPlayerScrollData(lvl)
 						i += 1
 					end
 				end
@@ -64,14 +63,17 @@ class StatsFrame < Frame
 
 			# If i = 1 it means that there is no stat recorded for that user
 			if(i == 1) then
-				@grid.attach(Gtk::Label.new(@lang["stats"]["empty"]),0,1,2,1)
+				box = Gtk::Box.new(:horizontal)
+				box.set_homogeneous(true)
+				box.pack_startattach(Gtk::Label.new(@lang["stats"]["empty"]),:expand => true, :fill => true, :padding =>2)
 			end
-			@grid.show_all
+			@listbox.show_all
 		end
 
 		# Redirecting user towards option menu
 		@globalBtn.signal_connect("clicked") do
-			resetGrid(@grid)
+			reset(@listbox)
+			removePlayerScrollHeader()
 
 			totalClick = 0
 			totalTime = 0
@@ -92,20 +94,12 @@ class StatsFrame < Frame
 				end
 			end
 
-			@grid.attach(Gtk::Label.new(@lang["stats"]["global"]["stars"]),0,0,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["global"]["time"]),0,1,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["global"]["help"]),0,2,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["global"]["click"]),0,3,1,1)
-			@grid.attach(Gtk::Label.new(@lang["stats"]["global"]["finished"]),0,4,1,1)
-
-			@grid.attach(Gtk::Label.new(totalStar.to_s),1,0,1,1)
-			@grid.attach(Gtk::Label.new(totalTime.to_s),1,1,1,1)
-			@grid.attach(Gtk::Label.new(totalHelp.to_s),1,2,1,1)
-			@grid.attach(Gtk::Label.new(totalClick.to_s),1,3,1,1)
-			@grid.attach(Gtk::Label.new(totalFinished.to_s),1,4,1,1)
-
-			@grid.show_all
-
+			createGlobalScroll(@lang["stats"]["global"]["stars"], totalStar.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["time"], totalTime.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["help"], totalHelp.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["click"], totalClick.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["finished"],totalFinished.to_s)
+			@listbox.show_all
 		end
 
 		# Redirecting user towards home
@@ -118,11 +112,52 @@ class StatsFrame < Frame
 	end
 
 	##
-	# This methods reset a grid
-	def resetGrid(grid)
-		grid.children.each do |child|
-			grid.remove(child)
+	# This methods reset a widget
+	def reset(widget)
+		widget.children.each do |child|
+			widget.remove(child)
 		end
+	end
+
+	def createGlobalScroll(labelString, value)
+		box = Gtk::Box.new(:horizontal)
+		box.set_homogeneous(true)
+		box.pack_start(Gtk::Label.new(labelString),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(value),:expand => true, :fill => true, :padding =>2)
+		@listbox.add(box)
+	end
+
+
+	def createPlayerScrollHeader()
+		removePlayerScrollHeader()
+		reset(@playerHeader)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["level"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["stars"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["time"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["help"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["click"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.pack_start(Gtk::Label.new(@lang["stats"]["local"]["finished"]),:expand => true, :fill => true, :padding =>2)
+		@playerHeader.show_all
+		@vbox.pack_start(@playerHeader, :expand => false, :fill => true, :padding =>2)
+		@vbox.reorder_child(@playerHeader,2)
+	end
+
+	def removePlayerScrollHeader()
+		if(@playerHeader.parent == @vbox) then
+			@vbox.remove(@playerHeader)
+		end
+	end
+
+	def createPlayerScrollData(lvl)
+		box = Gtk::Box.new(:horizontal)
+		box.set_homogeneous(true)
+		box.pack_start(Gtk::Label.new(lvl.name),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.maxStars.numberOfStars.to_s),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.minHelp.usedHelp.to_s),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.minClick.nbClick.to_s),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.nbFinished.to_s),:expand => true, :fill => true, :padding =>2)
+		@listbox.add(box)
 	end
 
 end

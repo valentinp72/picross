@@ -13,19 +13,23 @@ require_relative '../../AssetsLoader.rb'
 
 class CellButton < Gtk::EventBox
 
+	# The real Cell that this button is composed
+	attr_reader :cell
+	
 	# Left-click value when a button-click event is throwed
 	BUTTON_LEFT_CLICK  = 1
 
 	# Right-click value when a button-click event is throwed
 	BUTTON_RIGHT_CLICK = 3
 
-	# The real Cell that this button is composed
-	attr_reader :cell
-
+	# The image of the black cell
 	BLACK_PIXBUF = AssetsLoader.loadPixbuf('black_cell.png')
+	# The image of the while cell
 	WHITE_PIXBUF = AssetsLoader.loadPixbuf('white_cell.png')
+	# The image of the cell when crossed
 	CROSS_PIXBUF = AssetsLoader.loadPixbuf('cross_cell.png')
 
+	# The default size of the cells
 	DEFAULT_SIZE = 20
 	@@BLACK_PIXBUF = BLACK_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)
 	@@WHITE_PIXBUF = WHITE_PIXBUF.scale(DEFAULT_SIZE, DEFAULT_SIZE)

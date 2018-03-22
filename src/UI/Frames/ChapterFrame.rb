@@ -47,7 +47,6 @@ class ChapterFrame < Frame
 				buttonBox.pack_start(Gtk::Label.new("#{user.totalStars}/#{chapter.starsRequired}"), :expand => false, :fill => false, :padding =>2)
 				buttonBox.pack_start(AssetsLoader.loadImage("star.png", 20), :expand => false, :fill => false, :padding =>2)
 				@buttonsList[x].add(buttonBox)
-				puts chapter.starsRequired
 			end
 
 			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding => 2)
