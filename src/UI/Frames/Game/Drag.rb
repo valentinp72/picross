@@ -27,10 +27,11 @@ class Drag
 	# * *Arguments* :
 	#   - +grid+  -> the grid that the drag will work on
 	#   - +cells+ -> a Gtk::Grid grid, containing other cells, that the drag will change states when doing drags.
-	def initialize(map, cells)
+	def initialize(map, cells, frame)
 		@map   = map
 		@grid  = map.hypotheses.getWorkingHypothesis.grid
 		@cells = cells
+		@frame = frame
 
 		@xOffset = 0
 		@yOffset = 0
@@ -164,6 +165,7 @@ class Drag
 		@wantedState = nil
 
 		@map.check()
+		@frame.checkMap
 
 		if !@map.currentStat.time.isRunning && !@map.currentStat.isFinished then
 			@map.currentStat.start
