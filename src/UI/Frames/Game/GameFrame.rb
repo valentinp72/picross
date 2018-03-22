@@ -211,10 +211,20 @@ class GameFrame < Frame
 
 			boxHypo = Gtk::Box.new(:vertical)
 
-			buttonAccept = Gtk::Button.new()
+			css_provider = Gtk::CssProvider.new
+			css_provider.load(data: <<-CSS)
+				button {
+					background-image: image(#{@colorsHyp[hypo.id]});
+				}
+			CSS
 
-			buttonAccept.override_background_color(:normal, Gdk::RGBA.parse(@colorsHyp[hypo.id]))
+			buttonAccept = Gtk::Button.new()
 			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
+			buttonAccept.style_context.add_provider(
+					css_provider, 
+					Gtk::StyleProvider::PRIORITY_USER
+			)
+		
 			buttonAccept.signal_connect('clicked') do
 				@map.hypotheses.validate(hypo.id)
 				@grid = @map.hypotheses.getWorkingHypothesis.grid
@@ -223,7 +233,10 @@ class GameFrame < Frame
 			end
 
 			buttonReject = Gtk::Button.new()
-			buttonReject.override_background_color(:normal, Gdk::RGBA.parse(@colorsHyp[hypo.id]))
+			buttonReject.style_context.add_provider(
+					css_provider, 
+					Gtk::StyleProvider::PRIORITY_USER
+			)
 			buttonReject.image = AssetsLoader.loadImage('close.png',40)
 			buttonReject.signal_connect('clicked') do
 				@map.hypotheses.reject(hypo.id)

@@ -51,11 +51,24 @@ class User
 		return YAML.load(File.open(configFile))
 	end
 
+	def totalStars
+		stars = 0
+		@chapters.each do |chapter|
+			chapter.levels.each do |level|
+				bestStat = level.allStat.maxStars
+				if bestStat != nil then
+					stars += bestStat.numberOfStars 
+				end
+	 		end
+		end
+		return stars
+	end
+
 	##
 	# Adds an amount of helps to the available help count
 	# * *Arguments* :
 	#   - +amount+		-> a Fixnum representing an amount of help
-	def addHelp (amount)
+	def addHelp(amount)
 		unless (amount < 0)
 			@availableHelps += amount
 		else

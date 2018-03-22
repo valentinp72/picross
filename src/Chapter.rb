@@ -23,17 +23,21 @@ class Chapter
 	# * *Arguments* :
 	#   - +title+ -> the title of the chapter
 	#   - +levels+ -> List of map that are part of this chapter
-	#   - +isUnlocked+ -> Wether or not the chapter is unlocked
 	#   - +starsRequired+ -> the number of stars required to unlock the chapter
-	def initialize(title, levels, starsRequired, isUnlocked=false)
+	def initialize(title, levels, starsRequired)
 		@title = title
 		@levels = levels
 		@starsRequired = starsRequired
-		@isUnlocked = isUnlocked
 	end
 
-	def playLevel(index)
-		return @mapList[index]
+	##
+	# Returns true if the chapter is unlocked for the given user, false otherwise
+	# * *Arguments* :
+	#   - +user+ -> the user to check if the chapter is unlocked
+	# * *Returns* :
+	#   - true if the chapter is unlocked
+	def unlocked?(user)
+		return user.totalStars >= @starsRequired
 	end
 
 	##
@@ -41,7 +45,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter into a String object
 	def to_s()
-		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}, unlocked? : #{@isUnlocked}"
+		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}" 
 	end
 
 	##
@@ -79,7 +83,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter converted to an array
 	def marshal_dump()
-		return [@title, @levels, @starsRequired, @isUnlocked]
+		return [@title, @levels, @starsRequired]
 	end
 
 	##
@@ -90,7 +94,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter object itself
 	def marshal_load(array)
-		@title, @levels, @starsRequired, @isUnlocked = array
+		@title, @levels, @starsRequired = array
 		return self
 	end
 end

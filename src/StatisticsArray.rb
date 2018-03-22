@@ -79,11 +79,14 @@ class StatisticsArray
 		@stack.min_by(&:nbClick)
 	end
 
+	def valueOrElseIf(value, ifValue, elseValue)
+		return elseValue if value == ifValue
+		return value
+	end
+
 	def nbFinished()
 		@stack.select{|x| x.isFinished==true}.count
 	end
-
-
 
 	##
 	# Convert the StatisticsArray to an array, allowing Marshal to dump the object.

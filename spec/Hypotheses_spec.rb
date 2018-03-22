@@ -41,13 +41,9 @@ describe Grid do
 	it "check the id become correct when validating an hypothesis" do
 		expect(hypotheses.addNewHypothesis).to eq 1
 		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_BLACK
-		puts defaultHypothesis.id
 		hypotheses.validate(1)
-		puts defaultHypothesis.id
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_BLACK
-		puts defaultHypothesis.id
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).hypothesis.id).to eq defaultHypothesis.id
-		puts defaultHypothesis.id
 		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_WHITE
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_WHITE
 	end	
@@ -67,14 +63,10 @@ describe Grid do
 		expect(hypotheses.addNewHypothesis).to eq 4
 
 		hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state = Cell::CELL_BLACK
-	puts hypotheses
-	hypotheses.getWorkingHypothesis.grid.each_cell do |cell|
-#puts cell.hypothesis
-	end
-		hypotheses.validate(1)
+		hypotheses.validate(4)
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).state).to eq Cell::CELL_BLACK
+		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(1, 1).state).to eq Cell::CELL_BLACK
 		expect(hypotheses.getWorkingHypothesis.grid.getCellPosition(0, 0).hypothesis.id).to eq defaultHypothesis.id
-		puts hypotheses
 	end
 
 end
