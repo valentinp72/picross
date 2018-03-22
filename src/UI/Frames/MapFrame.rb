@@ -31,7 +31,13 @@ class MapFrame < Frame
 		@buttonsList = Array.new(chapter.levels.length + 1)
 
 		0.upto(chapter.levels.length - 1)  do |x|
-			@buttonsList[x] = Gtk::Button.new(:label => chapter.levels[x].name)
+			buttonBox = Gtk::Box.new(:horizontal)
+			buttonBox.pack_start(Gtk::Label.new(chapter.levels[x].name), :expand => true, :fill => false, :padding =>2)
+			buttonBox.pack_start(calculateStar(chapter.levels[x].difficulty), :expand => false, :fill => true, :padding =>2)
+
+			@buttonsList[x] = Gtk::Button.new()
+			@buttonsList[x].add(buttonBox)
+
 			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
 
 			@buttonsList[x].signal_connect("clicked") do
@@ -45,5 +51,25 @@ class MapFrame < Frame
 
 		# Add vbox to frame
 		add(@vbox)
+	end
+
+	##
+	# This method return a Box containing stars.
+	# The numbers of stars visible is proporional to the difficulty of the level
+	def calculateStar(score)
+		score = score.to_i
+		starBox = Gtk::Box.new(:horizontal)
+		emptyStarNumber = 10 - score
+		(score / 2).times do
+			starBox.pack_start(AssetsLoader.loadImage("star.png", 10), :expand => true, :fill => true, :padding => 2)
+		end
+		if !score.even? then
+			starBox.pack_start(AssetsLoader.loadImage("star-half.png", 10), :expand => true, :fill => true, :padding => 2)
+		end
+
+		(emptyStarNumber / 2).times do
+			starBox.pack_start(AssetsLoader.loadImage("star-empty.png", 10), :expand => true, :fill => true, :padding => 2)
+		end
+		return starBox
 	end
 end

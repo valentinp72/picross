@@ -128,6 +128,7 @@ class GameFrame < Frame
 		@reset.relief = Gtk::ReliefStyle::NONE
 		@reset.signal_connect('clicked') do
 			@map.reset
+			@map.currentStat.time.unpause
 			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
 			@content.remove(@picross)
 			@content.pack_start(@picross, :expand => true, :fill => true)
@@ -221,10 +222,10 @@ class GameFrame < Frame
 			buttonAccept = Gtk::Button.new()
 			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
 			buttonAccept.style_context.add_provider(
-					css_provider, 
+					css_provider,
 					Gtk::StyleProvider::PRIORITY_USER
 			)
-		
+
 			buttonAccept.signal_connect('clicked') do
 				@map.hypotheses.validate(hypo.id)
 				@grid = @map.hypotheses.getWorkingHypothesis.grid
@@ -234,7 +235,7 @@ class GameFrame < Frame
 
 			buttonReject = Gtk::Button.new()
 			buttonReject.style_context.add_provider(
-					css_provider, 
+					css_provider,
 					Gtk::StyleProvider::PRIORITY_USER
 			)
 			buttonReject.image = AssetsLoader.loadImage('close.png',40)
