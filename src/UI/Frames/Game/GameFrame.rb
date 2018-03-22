@@ -60,7 +60,7 @@ class GameFrame < Frame
 	end
 
 	##
-	# Creates and return the layout of the header of this frame.
+	# Creates and returns the layout of the header of this frame.
 	# This contains the back button, the title of the map, and the
 	# option button.
 	# * *Returns* :
@@ -95,36 +95,15 @@ class GameFrame < Frame
 		return @header
 	end
 
-	def draw
-		self.createMainLayout
-
-		if(@isPaused) then
-			drawOnPause
-		else
-			drawOnUnpause
-		end
-	end
-
-	def save()
-		indexChapter = @user.chapters.index(@chapter)
-		indexMap     = @user.chapters[indexChapter].levels.index(@map)
-		hypotheses   = @user.chapters[indexChapter].levels[indexMap].hypotheses
-		@map.hypotheses = hypotheses
-		@user.save()
-		return self
-	end
-
+	##
+	# Creates and returns the layout of the content of this frame.
+	# This contains the PicrossFrame and the sidebar.
 	# * *Returns* :
-	#   - the Gtk::Box containing the header
+	#   - the Gtk::Box containing the content
 	def createContentLayout()
-
-
 		@content = Gtk::Box.new(:horizontal)
 		@sideBar = createSideBarLayout()
-
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
-		# @picross.halign = Gtk::Align::CENTER
-
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
 		@content.pack_start(@sideBar)
@@ -132,8 +111,11 @@ class GameFrame < Frame
 		return @content
 	end
 
+	##
+	# Creates and returns the layout of the sidebar of this frame.
+	# This contains the timer and the buttons.
 	# * *Returns* :
-	#   - the Gtk::Box containing the header
+	#   - the Gtk::Box containing the sidebar
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
@@ -303,6 +285,34 @@ class GameFrame < Frame
 			@help.sensitive = true
 			return true
 		end
+	end
+
+	##
+	# Ask to draw the the game frame.
+	# * *Returns* :
+	#   - the frame itself
+	def draw
+		self.createMainLayout
+
+		if(@isPaused) then
+			drawOnPause
+		else
+			drawOnUnpause
+		end
+		return self
+	end
+
+	##
+	# Ask the frame to save everything
+	# * *Returns* :
+	#   - the frame itself
+	def save()
+		indexChapter = @user.chapters.index(@chapter)
+		indexMap     = @user.chapters[indexChapter].levels.index(@map)
+		hypotheses   = @user.chapters[indexChapter].levels[indexMap].hypotheses
+		@map.hypotheses = hypotheses
+		@user.save()
+		return self
 	end
 
 	def pauseButtonAction()
