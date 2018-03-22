@@ -24,7 +24,7 @@ class PicrossFrame < Frame
 	#   - +map+  -> the map to be displayed
 	#   - +grid+ -> the Grid of the PicrossFrame view
 	#   - +user+ -> the user playing on this frame
-	def initialize(map, grid, user)
+	def initialize(map, grid, user, frame)
 		super()
 		self.border_width = 10
 
@@ -37,8 +37,10 @@ class PicrossFrame < Frame
 
 		@colorsHyp = user.settings.hypothesesColors
 
+		@frame = frame
+
 		createArea()
-		
+
 		self.signal_connect('size-allocate') do |widget, event|
 			self.setMaxSize(event.width, event.height)
 		end
@@ -55,7 +57,7 @@ class PicrossFrame < Frame
 			end
 		}
 
-		
+
 	end
 
 	##
@@ -114,7 +116,7 @@ class PicrossFrame < Frame
 	#   - the PicrossFrame itself
 	def createArea()
 		@cells = Gtk::Grid.new
-		@drag  = Drag.new(@map, @cells)
+		@drag  = Drag.new(@map, @cells, @frame)
 		@cells.visible = true
 
 		# compute the offsets caused by the line and column solution numbers
@@ -129,10 +131,10 @@ class PicrossFrame < Frame
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
-				CellButton.new(cell, @drag, @colorsHyp), 
-				column + @lineOffset, 
-				line + @columnOffset, 
-				1, 
+				CellButton.new(cell, @drag, @colorsHyp),
+				column + @lineOffset,
+				line + @columnOffset,
+				1,
 				1
 			)
 		end
@@ -142,7 +144,7 @@ class PicrossFrame < Frame
 			Gdk::EventMask::POINTER_MOTION_MASK|
 			Gdk::EventMask::ENTER_NOTIFY_MASK |
 			Gdk::EventMask::LEAVE_NOTIFY_MASK)
-		
+
 		@mainArea.signal_connect('motion_notify_event') do |widget, event|
 #puts 'leave'
 #puts @cells.allocation.width
