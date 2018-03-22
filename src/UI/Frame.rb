@@ -8,4 +8,11 @@ class Frame < Gtk::Frame
 		self.shadow_type = Gtk::ShadowType::NONE
 	end
 
+	def removeFrame()
+		self.children.each do |child|
+			self.remove(child)
+		end
+		self.parent.remove(self)
+	end
+
 end

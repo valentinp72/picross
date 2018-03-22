@@ -195,8 +195,10 @@ class GameFrame < Frame
 	def updatePopover(popoverBox)
 
 		@colorsHyp = @user.settings.hypothesesColors
-		@popover.remove(popoverBox)
-
+		if(popoverBox.parent == @popover) then
+			@popover.remove(popoverBox)
+		end
+		
 		popoverBox.children.each do |child|
 			popoverBox.remove(child)
 		end
