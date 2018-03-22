@@ -69,7 +69,7 @@ GEMFILES_PATHS     = ['Gemfile', 'Gemfile.lock']
 # ruby file to be excecuted by the application
 EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
 
-LINUX_X86_LIBS     = BUILD_ROOT + 'config/linux_x86_64/linux_x86_64_required_dylib.txt'
+LINUX_X86_64_LIBS  = BUILD_ROOT + 'config/linux_x86_64/linux_x86_64_required_dylib.txt'
 
 # macos application configuration
 MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/macOS/Info.plist'
@@ -373,10 +373,10 @@ task :build_macOS do
 end
 
 
-# linux_x86 application build
-task :build_linux_x86 do
+# linux_x86_64 application build
+task :build_linux_x86_64 do
 
-	outputFolder = BUILD_OUTPUT + BUILD_LINUX_x86 + APPLICATION_NAME + "/"
+	outputFolder = BUILD_OUTPUT + BUILD_LINUX_x86_64 + APPLICATION_NAME + "/"
 	FileUtils.mkdir_p(outputFolder)
 
 	# all sources folder
@@ -384,7 +384,7 @@ task :build_linux_x86 do
 	FileUtils.mkdir_p(sourceFolder)
 
 	rubyFolder = sourceFolder + 'ruby/'
-	FileUtils.cp_r(RUBY_BIN_LINUX_x86, rubyFolder)          # ruby binaries
+	FileUtils.cp_r(RUBY_BIN_LINUX_x86_64, rubyFolder)       # ruby binaries
 	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
 	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
 	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
@@ -406,7 +406,7 @@ task :build_linux_x86 do
 	FileUtils.mkdir_p(libFolder)
 	
 	# get all needed lib and add them to lib
-	File.readlines(LINUX_X86_LIBS).each do |line|
+	File.readlines(LINUX_X86_64_LIBS).each do |line|
 		# ignore # comments
 		if not line[0] == '#' then
 			file = line.strip
@@ -417,8 +417,8 @@ task :build_linux_x86 do
 end
 
 
-# linux_x86_64 application build
-task :build_linux_x86_64 do
+# linux_x86 application build
+task :build_linux_x86 do
 
 
 end
