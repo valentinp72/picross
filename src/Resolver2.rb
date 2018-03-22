@@ -49,13 +49,17 @@ class Resolver
 		#@clns = [[10],[1,1],[1,1],[1,1,1,1],[1,3,1],[1,1,1,1],[1,1],[1,1],[1,1],[10]]
 
 		#Me
-		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
-		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
+		@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+		@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
 		
 		#Piou (fonctionne pas)
-		@lines = [[1],[3,2],[2,2,1,1],[2,2,4],[1,2,1,2],[2,2,2],[1,3],[2],[2,2],[1,1]]
-		@clns = [[1,2,1],[3,2,2],[1,2,1],[3,2,2],[2,2,1],[2,1,1],[2],[4],[1,2],[3],[1]]
+		#@lines = [[1],[3,2],[2,2,1,1],[2,2,4],[1,2,1,2],[2,2,2],[1,3],[2],[2,2],[1,1]]
+		#@clns = [[1,2,1],[3,2,2],[1,2,1],[3,2,2],[2,2,1],[2,1,1],[2],[4],[1,2],[3],[1]]
 
+		#Panda (fonctionne pas)
+		#@lines = [[3,10],[1,4,3,1],[1,2,3],[3,1,1,1],[2,2,2,1],[2,1,1,1,1,2],[1,3,3,1],[1,2,2,1],[2,2],[3,2,1],[4,1,2,1,3],[2,2,4,2,1],[2,2,2,1],[3,6,1],[4,3]]
+		#@clns = [[4,6],[1,12],[6,3,2],[2,2,1],[1,3,2],[2,1,2,1,2],[1,4,1,1],[1,3,1],[1,3,1],[1,4,1,1],[2,1,2,1,2],[2,3,2],[3,2,1],[1,4,3,1],[3,4,5]]
+		
 		
 		#Initialisation de la grille
 		@grid = Array.new(@lines.size()) do |j|
@@ -84,7 +88,7 @@ class Resolver
    
 			#On remplit les cases
 			for i in 0...@clns.size()
-	
+				
 				self.traitercolonne(i)
 			end
 			
@@ -119,7 +123,7 @@ class Resolver
         if(@grid[i][j] == 1)
           print "0"
         elsif @grid[i][j] == -1
-          print "X"
+          print " "
         else
           print "-"
         end
@@ -238,12 +242,12 @@ class Resolver
 				#matching block size
 				if @grid[numl][i]==1
 					cpt += 1
-					if cpt==blockSizeToFind && @grid[numl][i+1]!=1
-						blockSizeFound = true
-						unless i-cpt<0
-							@grid[numl][i-cpt] = -1
-						end
-						unless i+1>@clns.size
+					if cpt==blockSizeToFind && i+1<@clns.size
+						if @grid[numl][i+1]!=1
+							blockSizeFound = true
+							unless i-cpt<0
+								@grid[numl][i-cpt] = -1
+							end
 							@grid[numl][i+1] = -1
 						end
 					end
@@ -333,7 +337,7 @@ class Resolver
 			
 			#Cocher les cases impossible
 			self.cocheSurline(i)
-			self.cocheBlockInLine(i);
+			#self.cocheBlockInLine(i);
 		end
 
 		for i in 0...@clns.size()
@@ -343,7 +347,7 @@ class Resolver
 			
 			#Cocher les cases impossible
 			self.cocheSurcol(i)
-			self.cocheBlockInColumn(i)
+			#self.cocheBlockInColumn(i)
 		end
 		
 	end
@@ -487,6 +491,8 @@ class Resolver
 			for i in (j+1)...fin
 				@grid[numl][i]=1
 			end
+			
+			#@grid[numl][fin]=-1
 		end
 		
 		#Sens inverse
@@ -505,6 +511,10 @@ class Resolver
 			for i in debut...fin
 				@grid[numl][i]=1
 			end
+
+			if(debut>0)
+				@grid[numl][debut-1]=-1
+			end
 		end
 	end
 
@@ -516,13 +526,15 @@ class Resolver
 
 		indice=1		#numéro de l indice sur la colonne
 		j=0				#compteur qui parcourt la colonne
-
+		
+			
 		# Première possibilité en partant du début
 		@clns[numc].each do |block|
-			
-			c=1
-			while(c<=block)
 
+			c=1
+			
+			while(c<=block)
+				
 				if(@grid[j][numc]==-1)   #cochée
 				
 					tab1.delete(indice)
@@ -549,6 +561,7 @@ class Resolver
 			
 			j+=1
 			indice+=1
+			
 
 		end
 		
@@ -630,6 +643,8 @@ class Resolver
 			for i in (j+1)...fin
 				@grid[i][numc]=1
 			end
+
+			#@grid[fin][numc]=-1
 		end
 		
 		#Sens inverse 
@@ -648,6 +663,10 @@ class Resolver
 				
 			for i in debut...fin
 				@grid[i][numc]=1
+			end
+
+			if (debut>0)
+				@grid[debut-1][numc]=-1
 			end
 		end
 		
