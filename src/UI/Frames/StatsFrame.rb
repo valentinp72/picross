@@ -20,7 +20,7 @@ class StatsFrame < Frame
 		# Retrieve user's language
 		@lang = user.lang
 
-		# Create 5 button
+		# Create 3 button
 		@playerBtn = Gtk::Button.new(:label => @lang["stats"]["player"])
 		@globalBtn = Gtk::Button.new(:label => @lang["stats"]["globals"])
 		@returnBtn = Gtk::Button.new(:label => @lang["button"]["return"])
@@ -46,6 +46,8 @@ class StatsFrame < Frame
 			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["help"]),3,0,1,1)
 			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["click"]),4,0,1,1)
 			@grid.attach(Gtk::Label.new(@lang["stats"]["local"]["finished"]),5,0,1,1)
+
+			# Loop over each Map of the user
 			user.chapters.each do |chap|
 				chap.levels.each do |lvl|
 					if(lvl.allStat.length != 0)
@@ -59,6 +61,8 @@ class StatsFrame < Frame
 					end
 				end
 			end
+
+			# If i = 1 it means that there is no stat recorded for that user
 			if(i == 1) then
 				@grid.attach(Gtk::Label.new(@lang["stats"]["empty"]),0,1,2,1)
 			end
@@ -75,6 +79,7 @@ class StatsFrame < Frame
 			totalStar = 0
 			totalFinished = 0
 
+			# Loop over each Map of the user
 			user.chapters.each do |chap|
 				chap.levels.each do |lvl|
 					lvl.allStat.each do |stat|
