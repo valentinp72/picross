@@ -396,7 +396,7 @@ task :build_linux_x86 do
 		exec.puts EXECUTABLE_CONTENT
 		
 		# as we are on macOS, we include the commands for the bundled app
-		#exec.puts EXECUTABLE_MAC_OS_ADDITIONAL
+		exec.puts EXECUTABLE_LINUX_ADDITIONAL
 
 		exec.puts EXECUTABLE_COMMAND
 	end
