@@ -19,6 +19,7 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		@colorsHyp = user.settings.hypothesesColors
+		@isPaused = false
 
 		@main.show_all
 
@@ -72,6 +73,12 @@ class GameFrame < Frame
 
 	def draw
 		self.createMainLayout
+
+		if(@isPaused) then
+			drawOnPause
+		else
+			drawOnUnpause
+		end
 	end
 
 	def save()
@@ -87,10 +94,11 @@ class GameFrame < Frame
 
 
 		@content = Gtk::Box.new(:horizontal)
-
-		@picross = PicrossFrame.new(@map, @grid, @user)
-		# @picross.halign = Gtk::Align::CENTER
 		@sideBar = createSideBarLayout()
+
+		@picross = PicrossFrame.new(@map, @grid, @user, self)
+		# @picross.halign = Gtk::Align::CENTER
+
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
 		@content.pack_start(@sideBar)
@@ -104,7 +112,6 @@ class GameFrame < Frame
 
 		# Update the timer view every second
 		GLib::Timeout.add(1000){
-			checkMap
 			if @timer == nil then
 				# we return false (that stop the timeout) if we have quit the game
 				false
@@ -141,33 +148,12 @@ class GameFrame < Frame
 
 		@labelPause =  Gtk::Label.new("Partie en pause")
 		@labelPause.visible = true
-		@isPaused = false
 
 		@pause  = Gtk::Button.new
 		@pause.image = AssetsLoader.loadImage('pause.png',40)
 		@pause.relief = Gtk::ReliefStyle::NONE
 		@pause.signal_connect('clicked') do
-			if checkMap then
-				if(@isPaused) then
-					@isPaused = false
-					@map.currentStat.time.unpause
-
-					@pause.image = AssetsLoader.loadImage('pause.png',40)
-
-					@content.remove(@labelPause)
-					@content.pack_start(@picross, :expand => true, :fill => true)
-					@content.reorder_child(@picross,0)
-				else
-					@isPaused = true
-					@map.currentStat.time.pause
-
-					@pause.image = AssetsLoader.loadImage('play.png',40)
-
-					@content.remove(@picross)
-					@content.pack_start(@labelPause, :expand => true, :fill => true)
-					@content.reorder_child(@labelPause,0)
-				end
-			end
+			pauseButtonAction()
 		end
 
 
@@ -275,7 +261,7 @@ class GameFrame < Frame
 		@popover.visible = true
 	end
 
-	def checkMap
+	def checkMap()
 		if @map.currentStat.isFinished then
 			@btnHypotheses.sensitive = false
 			@pause.sensitive = false
@@ -287,5 +273,46 @@ class GameFrame < Frame
 			@help.sensitive = true
 			return true
 		end
+	end
+
+	def pauseButtonAction()
+		if checkMap then
+			if(@isPaused) then
+				@isPaused = false
+				drawOnUnpause
+			else
+				@isPaused = true
+				drawOnPause
+			end
+		end
+	end
+
+	def drawOnUnpause()
+		@map.currentStat.time.unpause
+
+		@btnHypotheses.sensitive = true
+		@reset.sensitive = true
+		@help.sensitive = true
+
+		@pause.image = AssetsLoader.loadImage('pause.png',40)
+		@picross.show_all
+
+		@content.remove(@labelPause)
+		@content.pack_start(@picross, :expand => true, :fill => true)
+		@content.reorder_child(@picross,0)
+	end
+
+	def drawOnPause()
+		@map.currentStat.time.pause
+
+		@btnHypotheses.sensitive = false
+		@reset.sensitive = false
+		@help.sensitive = false
+
+		@pause.image = AssetsLoader.loadImage('play.png',40)
+
+		@content.remove(@picross)
+		@content.pack_start(@labelPause, :expand => true, :fill => true)
+		@content.reorder_child(@labelPause,0)
 	end
 end
