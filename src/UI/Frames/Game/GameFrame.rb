@@ -1,14 +1,30 @@
 require_relative '../../../Map'
-
 require_relative '../../AssetsLoader'
-
 require_relative '../MapFrame'
 require_relative '../OptionFrame'
-
 require_relative 'PicrossFrame'
+
+##
+# File          :: CellButton.rb
+# Author        :: PELLOIN Valentin, BROCHERIEUX Thibault
+# Licence       :: MIT License
+# Creation date :: 02/23/2018
+# Last update   :: 02/24/2018
+# Version       :: 0.1
+#
+# This class represents the frame the game is displayed on. On this frame, there is :
+#   - the picross (a PicrossFrame)
+#   - the header bar (back button, picross name, configuration button)
+#   - the side bar buttons (timer, pause, hypotheses, helps)
 
 class GameFrame < Frame
 
+	##
+	# Create a new frame that shows the game
+	# * *Arguments* :
+	#   - +user+ -> the user that is playing on this frame
+	#   - +chapter+ -> the chapter the frame is displaying
+	#   - +map+ -> the map to show on this frame
 	def initialize(user, chapter, map)
 		super()
 		@grid = map.hypotheses.getWorkingHypothesis.grid
@@ -19,15 +35,15 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		@colorsHyp = user.settings.hypothesesColors
-		@isPaused = false
-
+		@isPaused  = false
 		@main.show_all
-
 	end
 
-
+	##
+	# Create the main layout of this frame
+	# * *Returns* :
+	#   - the frame itself
 	def createMainLayout()
-
 		@header  = createHeaderLayout()
 		@content = createContentLayout()
 
@@ -38,18 +54,26 @@ class GameFrame < Frame
 		self.children.each do |child|
 			self.remove(child)
 		end
-		self.add(@main)
 
+		self.add(@main)
+		return self
 	end
 
+	##
+	# Creates and return the layout of the header of this frame.
+	# This contains the back button, the title of the map, and the
+	# option button.
+	# * *Returns* :
+	#   - the Gtk::Box containing the header
 	def createHeaderLayout()
-
-		btnBack   = Gtk::Button.new
-		btnBack.image = AssetsLoader.loadImage("arrow-left.png",50)
+		btnBack        = Gtk::Button.new
+		btnBack.image  = AssetsLoader.loadImage("arrow-left.png",50)
 		btnBack.relief = Gtk::ReliefStyle::NONE
-		title     = Gtk::Label.new(@map.name)
-		btnOption = Gtk::Button.new()
-		btnOption.image = AssetsLoader.loadImage("cog.png",50)
+		
+		title = Gtk::Label.new(@map.name)
+		
+		btnOption        = Gtk::Button.new()
+		btnOption.image  = AssetsLoader.loadImage("cog.png",50)
 		btnOption.relief = Gtk::ReliefStyle::NONE
 
 		@header = Gtk::Box.new(:horizontal)
@@ -90,6 +114,8 @@ class GameFrame < Frame
 		return self
 	end
 
+	# * *Returns* :
+	#   - the Gtk::Box containing the header
 	def createContentLayout()
 
 
@@ -106,6 +132,8 @@ class GameFrame < Frame
 		return @content
 	end
 
+	# * *Returns* :
+	#   - the Gtk::Box containing the header
 	def createSideBarLayout()
 
 		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
@@ -315,4 +343,5 @@ class GameFrame < Frame
 		@content.pack_start(@labelPause, :expand => true, :fill => true)
 		@content.reorder_child(@labelPause,0)
 	end
+
 end
