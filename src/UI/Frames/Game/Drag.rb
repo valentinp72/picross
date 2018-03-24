@@ -122,20 +122,19 @@ class Drag
 				calcDirections(cell)
 			end
 			if validDirections?(cell) then
-				newLength = self.dragLength
-				puts hasCameBack?(cell)
 				if hasCameBack?(cell) then
-					puts "retour last#{@lastLength}, new#{newLength}"
-					#@lastCell = cell
-					#unupdateFromLength(tmpLast, 1)
 					unupdateFromTo(@lastCell, cell)
+					@lastCell = cell
 				else
 					@lastCell = cell
 					updateFromTo(@startCell, cell)
 				end
-				@cursor.setText("#{newLength} (#{self.totalLength})")
-				@lastLength = newLength
+			else
+				unupdateFromTo(@lastCell, cell)
+				@lastCell = cell
 			end
+			
+			@cursor.setText("#{self.dragLength} (#{self.totalLength})")
 		end
 		return self
 	end
@@ -178,7 +177,6 @@ class Drag
 		@lastCell     = nil
 		@wantedState  = nil
 		@changedCells = Hash.new()
-		@lastLength   = 0
 
 		@map.check()
 		@frame.checkMap
@@ -216,6 +214,7 @@ class Drag
 
 	def unupdateFromTo(fromCell, toCell)
 		self.each_button_cell(fromCell, toCell) do |btn, cell|
+			next if cell == toCell
 			key = keyForCell(cell)
 			if @changedCells.has_key?(key) then
 				@grid.cellPosition(cell.posY, cell.posX).marshal_load(@changedCells[key])	
