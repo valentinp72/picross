@@ -109,22 +109,72 @@ class Map
 	end
 
 	##
+	# Retrieve the cell to make it rotate, we increment the click
+	# * *Arguments* :
+	#   - +line+   -> the line of the cell to rotate
+	#   - +column+ -> the column of the cell to rotate
+	# * *Returns* :
+	#   - the updated cell
+	# * *Raises* :
+	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	def retrieveForRotateAt(line, column)
+		hypothesis = @hypotheses.getWorkingHypothesis()
+		cell = hypothesis.grid.getCellPosition(line, column)
+		cell.hypothesis = hypothesis
+		currentStat.click()
+		return cell
+	end
+
+	##
 	# Rotate the state of the cell on the higher hypothesis
 	# at given coordinates.
-	# (CELL_WHITE -> CELL_BLACK -> CELL_CROSSED -> CELL_WHITE ... )
+	# (CELL_WHITE -> CELL_BLACK -> CELL_WHITE ... )
 	# * *Arguments* :
-	#   - +line+   -> the line of the cell to rotateGTK_DEBUG=interactive
+	#   - +line+   -> the line of the cell to rotate
 	#   - +column+ -> the column of the cell to rotate
 	# * *Returns* :
 	#   - the updated cell
 	# * *Raises* :
 	#   - +InvalidCellPosition+ -> if given coordinates are invalid
 	def rotateStateAt(line, column)
+		retrieveForRotateAt(line,column).stateRotate()
+	end
+
+	##
+	# Rotate the state of the cell on the higher hypothesis
+	# at given coordinates.
+	# (CELL_WHITE -> CELL_CROSSED -> CELL_WHITE ... )
+	# * *Arguments* :
+	#   - +line+   -> the line of the cell to rotate
+	#   - +column+ -> the column of the cell to rotate
+	# * *Returns* :
+	#   - the updated cell
+	# * *Raises* :
+	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	def rotateStateInvertAt(line, column)
+		retrieveForRotateAt(line,column).stateInvertCross()
+	end
+
+	##
+	# Rotate to the wanted state of the cell on the higher hypothesis
+	# at given coordinates.
+	# * *Arguments* :
+	#   - +line+   -> the line of the cell to rotate
+	#   - +column+ -> the column of the cell to rotate
+	#   - +state+  -> the wanted state
+	# * *Returns* :
+	#   - the updated cell
+	# * *Raises* :
+	#   - +InvalidCellPosition+ -> if given coordinates are invalid
+	def rotateToStateAt(line, column, state)
 		hypothesis = @hypotheses.getWorkingHypothesis()
 		cell = hypothesis.grid.getCellPosition(line, column)
-		cell.stateRotate()
-		cell.hypothesis = hypothesis
-		return self
+		if(cell.state != state) then
+			cell.state = state
+			cell.hypothesis = hypothesis
+			currentStat.click()
+		end
+		return cell
 	end
 
 	##
