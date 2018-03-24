@@ -43,9 +43,9 @@ class ChapterFrame < Frame
 				end
 			else
 				buttonBox = Gtk::Box.new(:horizontal)
-				buttonBox.pack_start(AssetsLoader.loadImage("lock.png", 20), :expand => true, :fill => true, :padding =>2)
-				buttonBox.pack_start(Gtk::Label.new("#{user.totalStars}/#{chapter.starsRequired}"), :expand => false, :fill => false, :padding =>2)
-				buttonBox.pack_start(AssetsLoader.loadImage("star.png", 20), :expand => false, :fill => false, :padding =>2)
+				buttonBox.pack_start(AssetsLoader.loadImage("lock.png", 20), :expand => true, :fill => true, :padding => 2)
+				buttonBox.pack_start(Gtk::Label.new("#{user.totalStars}/#{chapter.starsRequired}"), :expand => false, :fill => false, :padding => 2)
+				buttonBox.pack_start(AssetsLoader.loadImage("star.png", 20), :expand => false, :fill => false, :padding => 2)
 				@buttonsList[x].add(buttonBox)
 			end
 

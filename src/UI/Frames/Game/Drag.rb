@@ -163,9 +163,10 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def reset()
-		@startCell   = nil
-		@lastCell    = nil
-		@wantedState = nil
+		@startCell    = nil
+		@lastCell     = nil
+		@wantedState  = nil
+		@changedCells = Hash.new()
 
 		@map.check()
 		@frame.checkMap
@@ -190,6 +191,27 @@ class Drag
 	# * *Returns*
 	#   - the object itself
 	def updateFromTo(fromCell, toCell)
+		self.each_button_cell(fromCell, toCell) do |btn, cell|
+			key = keyForCell(cell) 
+			if not @changedCells.has_key?(key) then
+				@changedCells[key] = cell.clone
+				@map.rotateToStateAt(cell.posY, cell.posX, @wantedState)
+				btn.setAttributes
+			end
+		end
+		return self
+	end
+
+	def unupdateFromTo(fromCell, toCell)
+		self.each_button_cell(fromCell, toCell) do |btn, cell|
+			key = keyForCell(cell)
+			if @changedCells.has_key?(key) then
+				@map	
+			end
+		end
+	end
+
+	def each_button_cell(fromCell, toCell)
 		yPositions = [fromCell.posY, toCell.posY]
 		xPositions = [fromCell.posX, toCell.posX]
 
@@ -204,15 +226,15 @@ class Drag
 				btn  = @cells.get_child_at(x + @xOffset, y + @yOffset)
 				if btn.kind_of?(CellButton) then
 					cell = @grid.getCellPosition(y, x)
-
-					@map.rotateToStateAt(cell.posY, cell.posX,@wantedState)
-
-					#cell.state = @wantedState
-					btn.setAttributes
+					yield btn, cell
 				end
 			end
 		end
 		return self
+	end
+
+	def keyForCell(cell)
+		return "#{cell.posY},#{cell.posX}"
 	end
 
 	##
