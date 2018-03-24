@@ -131,7 +131,6 @@ class Drag
 				end
 			else
 				unupdateFromTo(@lastCell, cell)
-				@lastCell = cell
 			end
 			
 			@cursor.setText("#{self.dragLength} (#{self.totalLength})")
