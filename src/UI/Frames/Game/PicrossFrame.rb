@@ -213,7 +213,7 @@ class PicrossFrame < Frame
 	# * *Returns* :
 	#   - the array of SolutionNumber matching the column number
 	def getColumnNumbers(column)
-		column = @columnOffset + 1 + column
+		column = @lineOffset + column
 		return getAllChildsNumbers(column, 0, 0, 1)
 	end
 
@@ -224,7 +224,7 @@ class PicrossFrame < Frame
 	# * *Returns* :
 	#   - the array of SolutionNumber matching the line number
 	def getLineNumbers(line)
-		line = @lineOffset - 1 + line
+		line = @columnOffset + line
 		return getAllChildsNumbers(0, line, 1, 0)
 	end
 
