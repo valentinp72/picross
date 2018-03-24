@@ -86,7 +86,8 @@ class Drag
 	#   - the object itself
 	def startLeftDrag(startCell)
 		if !@map.currentStat.isFinished then
-			startDrag(startCell, startCell.stateRotate.state)
+			startDrag(startCell,@map.rotateStateAt(startCell.posY, startCell.posX).state)
+			#startDrag(startCell, startCell.stateRotate.state)
 		end
 		return self
 	end
@@ -101,7 +102,8 @@ class Drag
 	#   - the object itself
 	def startRightDrag(startCell)
 		if !@map.currentStat.isFinished then
-			startDrag(startCell, startCell.stateInvertCross.state)
+			startDrag(startCell,@map.rotateStateInvertAt(startCell.posY, startCell.posX).state)
+			#startDrag(startCell, startCell.stateInvertCross.state)
 		end
 		return self
 	end
@@ -201,7 +203,10 @@ class Drag
 				btn  = @cells.get_child_at(x + @xOffset, y + @yOffset)
 				if btn.kind_of?(CellButton) then
 					cell = @grid.getCellPosition(y, x)
-					cell.state = @wantedState
+
+					@map.rotateToStateAt(cell.posY, cell.posX,@wantedState)
+
+					#cell.state = @wantedState
 					btn.setAttributes
 				end
 			end
