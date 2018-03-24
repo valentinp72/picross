@@ -107,12 +107,22 @@ class Grid
 	#   - the cell at (line, column)
 	# * *Raises* :
 	#   - +InvalidCellPositionException+ -> if given coordinates are invalid
-	def getCellPosition(line, column)
+	def cellPosition(line, column)
 		if not validPosition?(line, column)
 			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"
 		end
 		return @grid[line][column]
 	end
+	alias getCellPosition cellPosition
+
+	def cellPosition=(line, column, cell)
+		if not validPosition?(line, column) then
+			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"
+		end
+		@grid[line][column] = cell
+		return self
+	end
+	alias setCellPosition cellPosition=
 
 	##
 	# Calls the given block for every line in the Grid.

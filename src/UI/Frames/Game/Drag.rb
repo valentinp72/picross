@@ -108,6 +108,7 @@ class Drag
 		end
 		return self
 	end
+
 	##
 	# Update the state of all cells between the starting cell of the drag, and this cell.
 	# All the cells will have the state of the starting cell.
@@ -121,9 +122,19 @@ class Drag
 				calcDirections(cell)
 			end
 			if validDirections?(cell) then
-				@lastCell = cell
-				updateFromTo(@startCell, cell)
-				@cursor.setText("#{self.dragLength} (#{self.totalLength})")
+				newLength = self.dragLength
+				puts hasCameBack?(cell)
+				if hasCameBack?(cell) then
+					puts "retour last#{@lastLength}, new#{newLength}"
+					#@lastCell = cell
+					#unupdateFromLength(tmpLast, 1)
+					unupdateFromTo(@lastCell, cell)
+				else
+					@lastCell = cell
+					updateFromTo(@startCell, cell)
+				end
+				@cursor.setText("#{newLength} (#{self.totalLength})")
+				@lastLength = newLength
 			end
 		end
 		return self
@@ -167,6 +178,7 @@ class Drag
 		@lastCell     = nil
 		@wantedState  = nil
 		@changedCells = Hash.new()
+		@lastLength   = 0
 
 		@map.check()
 		@frame.checkMap
@@ -194,7 +206,7 @@ class Drag
 		self.each_button_cell(fromCell, toCell) do |btn, cell|
 			key = keyForCell(cell) 
 			if not @changedCells.has_key?(key) then
-				@changedCells[key] = cell.clone
+				@changedCells[key] = cell.marshal_dump
 				@map.rotateToStateAt(cell.posY, cell.posX, @wantedState)
 				btn.setAttributes
 			end
@@ -206,8 +218,22 @@ class Drag
 		self.each_button_cell(fromCell, toCell) do |btn, cell|
 			key = keyForCell(cell)
 			if @changedCells.has_key?(key) then
-				@map	
+				@grid.cellPosition(cell.posY, cell.posX).marshal_load(@changedCells[key])	
+				@changedCells.delete(key)
+				btn.setAttributes
 			end
+		end
+	end
+
+	def each_button_cell_length(fromCell, length)
+		startX  = fromCell.posX
+		startY  = fromCell.posY
+
+		(1..length).each do |i|
+			x = startX * (@xDirection * length)
+			y = startY + (@yDirection * length)
+			r = btn_cell_at(y, x)
+			yield r[0], r[1] if r != []
 		end
 	end
 
@@ -223,11 +249,8 @@ class Drag
 		xEnd   = xPositions.max
 		(yStart..yEnd).each do |y|
 			(xStart..xEnd).each do |x|
-				btn  = @cells.get_child_at(x + @xOffset, y + @yOffset)
-				if btn.kind_of?(CellButton) then
-					cell = @grid.getCellPosition(y, x)
-					yield btn, cell
-				end
+				r = btn_cell_at(y, x)
+				yield r[0], r[1] if r != []
 			end
 		end
 		return self
@@ -235,6 +258,15 @@ class Drag
 
 	def keyForCell(cell)
 		return "#{cell.posY},#{cell.posX}"
+	end
+
+	def btn_cell_at(y, x)
+		btn = @cells.get_child_at(x + @xOffset, y + @yOffset)
+		if btn.kind_of?(CellButton) then
+			cell = @grid.cellPosition(y, x)
+			return [btn, cell]
+		end
+		return []
 	end
 
 	##
@@ -289,6 +321,16 @@ class Drag
 	def validDirections?(cell)
 		if @yDirection != nil && @xDirection != nil then
 			return validPos?(@yDirection, @startCell.posY, cell.posY) && validPos?(@xDirection, @startCell.posX, cell.posX)
+		end
+		return false
+	end
+
+	def hasCameBack?(cell)
+		return false if @lastCell == nil
+		if @xDirection != 0 then
+			return calcDirection(cell.posX, @lastCell.posX) == @xDirection
+		elsif @yDirection != 0 then
+			return calcDirection(cell.posY, @lastCell.posY) == @yDirection
 		end
 		return false
 	end
