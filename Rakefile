@@ -69,7 +69,10 @@ GEMFILES_PATHS     = ['Gemfile', 'Gemfile.lock']
 # ruby file to be excecuted by the application
 EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
 
-LINUX_X86_LIBS     = BUILD_ROOT + 'config/linux_x86_64/linux_x86_64_required_dylib.txt'
+LINUX_RESOURCES    = ['lib/']
+
+LINUX_X86_64_PATH  = BUILD_ROOT + 'config/linux_x86_64/'
+LINUX_X86_64_LIBS  = LINUX_X86_64_PATH + 'linux_x86_64_required_dylib.txt'
 
 # macos application configuration
 MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/macOS/Info.plist'
@@ -372,11 +375,16 @@ task :build_macOS do
 
 end
 
-
 # linux_x86 application build
 task :build_linux_x86 do
 
-	outputFolder = BUILD_OUTPUT + BUILD_LINUX_x86 + APPLICATION_NAME + "/"
+
+end
+
+# linux_x86_64 application build
+task :build_linux_x86_64 do
+
+	outputFolder = BUILD_OUTPUT + BUILD_LINUX_x86_64 + APPLICATION_NAME + "/"
 	FileUtils.mkdir_p(outputFolder)
 
 	# all sources folder
@@ -384,7 +392,7 @@ task :build_linux_x86 do
 	FileUtils.mkdir_p(sourceFolder)
 
 	rubyFolder = sourceFolder + 'ruby/'
-	FileUtils.cp_r(RUBY_BIN_LINUX_x86, rubyFolder)          # ruby binaries
+	FileUtils.cp_r(RUBY_BIN_LINUX_x86_64, rubyFolder)       # ruby binaries
 	FileUtils.cp_r(BUILD_VENDOR,    sourceFolder)           # gems
 	FileUtils.cp_r(SOURCE_FOLDER,   sourceFolder)           # the souce folder
 	FileUtils.cp_r(OTHER_FOLDERS,   sourceFolder)           # all other folders that are not sources
@@ -396,7 +404,7 @@ task :build_linux_x86 do
 		exec.puts EXECUTABLE_CONTENT
 		
 		# as we are on macOS, we include the commands for the bundled app
-		#exec.puts EXECUTABLE_MAC_OS_ADDITIONAL
+		exec.puts EXECUTABLE_LINUX_ADDITIONAL
 
 		exec.puts EXECUTABLE_COMMAND
 	end
@@ -406,19 +414,18 @@ task :build_linux_x86 do
 	FileUtils.mkdir_p(libFolder)
 	
 	# get all needed lib and add them to lib
-	File.readlines(LINUX_X86_LIBS).each do |line|
+	File.readlines(LINUX_X86_64_LIBS).each do |line|
 		# ignore # comments
 		if not line[0] == '#' then
 			file = line.strip
 			FileUtils.cp_r(file, libFolder + File.basename(file))
 		end
 	end
+	
+	# add other resources
+	LINUX_RESOURCES.each do |rsrc|
+		FileUtils.cp_r(LINUX_X86_64_PATH + rsrc, libFolder)
+	end
 
 end
 
-
-# linux_x86_64 application build
-task :build_linux_x86_64 do
-
-
-end
