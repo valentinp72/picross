@@ -87,8 +87,8 @@ class Drag
 	#   - the object itself
 	def startLeftDrag(startCell)
 		if !@map.currentStat.isFinished then
-			startDrag(startCell,@map.rotateStateAt(startCell.posY, startCell.posX).state)
-			#startDrag(startCell, startCell.stateRotate.state)
+			state = @map.rotateStateAt(startCell.posY, startCell.posX).state
+			startDrag(startCell, state)
 		end
 		return self
 	end
@@ -211,6 +211,15 @@ class Drag
 		return self
 	end
 
+	##
+	# Un-update all the cells between fromCell and toCell. Each cell 
+	# will have it's state set back to it's previous one.
+	# However, the cell in +toCell+ is not changed.
+	# * *Arguments* :
+	#   - +fromCell+ -> the first cell to start
+	#   - +toCell+   -> the second cell to end the drag
+	# * *Returns*
+	#   - the object itself
 	def unupdateFromTo(fromCell, toCell)
 		self.each_button_cell(fromCell, toCell) do |btn, cell|
 			next if cell == toCell
@@ -221,20 +230,21 @@ class Drag
 				btn.setAttributes
 			end
 		end
+		return self
 	end
 
-	def each_button_cell_length(fromCell, length)
-		startX  = fromCell.posX
-		startY  = fromCell.posY
-
-		(1..length).each do |i|
-			x = startX * (@xDirection * length)
-			y = startY + (@yDirection * length)
-			r = btn_cell_at(y, x)
-			yield r[0], r[1] if r != []
-		end
-	end
-
+	##
+	# Loop through all the buttons and the cells between the two
+	# given cells (including them).
+	# Note that the two arguments doesn't have to be in any particular order,
+		# and they should not be (it might not iterate from fromCell to toCell).
+	# * *Arguments* :
+	#   - +fromCell+ -> the first cell to start
+	#   - +toCell+   -> the second cell to end
+	# * *Returns* :
+	#   - the object itself
+	# * *Yields* :
+	#   - a CellButton and a Cell for each cell between the two givens.
 	def each_button_cell(fromCell, toCell)
 		yPositions = [fromCell.posY, toCell.posY]
 		xPositions = [fromCell.posX, toCell.posX]
@@ -254,10 +264,26 @@ class Drag
 		return self
 	end
 
+	##
+	# Returns an Hash-key for a given cell
+	# * *Arguments* :
+	#   - +cell+ -> the cell to get it's Hash key
+	# * *Returns* :
+	#   - a String representing the key of this cell
 	def keyForCell(cell)
 		return "#{cell.posY},#{cell.posX}"
 	end
 
+	##
+	# Returns an array, containing the button (CellButton) and the
+	# cell (Cell) at the given coordinates in the grid 
+	# (including the offsets caused by the SolutionNumber).
+	# * *Arguments* :
+	#   - +y+ -> the Y coordinate in the grid
+	#   - +x+ -> the X coordinate in the grid
+	# * *Returns* :
+	#   - an Array of two elements, the CellButton and the Cell
+	#   - an empty Array if there is no CellButton at the given coordinates
 	def btn_cell_at(y, x)
 		btn = @cells.get_child_at(x + @xOffset, y + @yOffset)
 		if btn.kind_of?(CellButton) then
@@ -323,6 +349,13 @@ class Drag
 		return false
 	end
 
+	##
+	# Returns true if the given cell is back in the drag that has been made.
+	# For example, if the user goes too far, and then come back on it's drag, this will return true.
+	# * *Arguments* :
+	#   - +cell+ -> the cell to check if it has been reverted
+	# * *Returns* :
+	#   - true if the drag has been reverted 
 	def hasCameBack?(cell)
 		return false if @lastCell == nil
 		if @xDirection != 0 then
