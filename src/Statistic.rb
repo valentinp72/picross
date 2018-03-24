@@ -68,8 +68,8 @@ class Statistic
 
 	##
 	# Increments the number of click
-	def click()
-		@nbClick += 1
+	def click(nb = 1)
+		@nbClick += nb
 	end
 
 	##
