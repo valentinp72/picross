@@ -24,8 +24,9 @@ class SolutionNumber < Gtk::Label
 		
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
-		self.style_context.add_class("number")
-		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		@style_context = self.style_context
+		@style_context.add_class("number")
+		@style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		self.set_size_request(15, 15)
 	end
 
@@ -73,8 +74,8 @@ class SolutionNumber < Gtk::Label
 	#   - the object itself
 	def addClass(className)
 		begin
-			if not self.style_context.has_class?(className) then
-				self.style_context.add_class(className)
+			if not @style_context.has_class?(className) then
+				@style_context.add_class(className)
 			end
 		rescue NotImplementedError
 			puts "addClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"
@@ -90,8 +91,8 @@ class SolutionNumber < Gtk::Label
 	#   - the object itself
 	def removeClass(className)
 		begin
-			if self.style_context.has_class?(className) then
-				self.style_context.remove_class(className)
+			if @style_context.has_class?(className) then
+				@style_context.remove_class(className)
 			end
 		rescue NotImplementedError
 			puts "removeClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"

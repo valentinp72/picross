@@ -1,3 +1,4 @@
+
 #!/usr/bin/env ruby
 require 'gtk3'
 
@@ -10,8 +11,9 @@ class SolutionNumber < Gtk::Label
 		
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
-		self.style_context.add_class("number")
-		self.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		@style_context = self.style_context
+		@style_context.add_class("number")
+		@style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		self.set_size_request(15, 15)
 
 		@toggle = false
@@ -29,7 +31,7 @@ class SolutionNumber < Gtk::Label
 
 	def setHover()
 		begin
-			self.style_context.add_class("hover")
+			@style_context.add_class("hover")
 		rescue Exception
 			puts "GTK-gobject error(1): see https://github.com/valentinp72/picross/issues/31"
 		end
@@ -38,7 +40,7 @@ class SolutionNumber < Gtk::Label
 
 	def unsetHover()
 		begin
-			self.style_context.remove_class("hover")
+			@style_context.remove_class("hover")
 		rescue Exception
 			puts "GTK-gobject error(2): see https://github.com/valentinp72/picross/issues/31"
 		end
@@ -96,6 +98,5 @@ app.signal_connect('activate') do |application|
 	window.present
 	window.show_all
 end
-
 
 app.run([$0]+ARGV)

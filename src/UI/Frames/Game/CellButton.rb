@@ -53,7 +53,8 @@ class CellButton < Gtk::EventBox
 		# Add the CSS to the button
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: self.css)
-		@widget.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+		@style_context = @widget.style_context
+		@style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		@widget.visible = true
 
 		self.setEvents
@@ -165,16 +166,16 @@ class CellButton < Gtk::EventBox
 			# chooses the pixbuf about the state of the cell
 			@widget.pixbuf = choosePixbufState
 
-			@widget.style_context.classes.each do |className|
+			@style_context.classes.each do |className|
 				begin
-					@widget.style_context.remove_class(className)
+					@style_context.remove_class(className)
 				rescue Exception
 					puts "b"
 				end
 			end
 			wantedClasses.each do |className|
 				begin
-					@widget.style_context.add_class(className)
+					@style_context.add_class(className)
 				rescue Exception
 					puts "a"
 				end
