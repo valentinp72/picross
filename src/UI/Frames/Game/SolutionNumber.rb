@@ -73,12 +73,8 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def addClass(className)
-		begin
-			if not @style_context.has_class?(className) then
-				@style_context.add_class(className)
-			end
-		rescue NotImplementedError
-			puts "addClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"
+		if not @style_context.has_class?(className) then
+			@style_context.add_class(className)
 		end
 		return self
 	end
@@ -90,12 +86,8 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def removeClass(className)
-		begin
-			if @style_context.has_class?(className) then
-				@style_context.remove_class(className)
-			end
-		rescue NotImplementedError
-			puts "removeClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"
+		if @style_context.has_class?(className) then
+			@style_context.remove_class(className)
 		end
 		return self
 	end
