@@ -41,16 +41,44 @@ class User
 		@lang     = self.languageConfig
 	end
 
-	def languageConfig
-		# Retrieve user's language
-		lang = self.settings.language
+	##
+	# Load a YAML file corresponding to a language name
+	# * *Arguments* :
+	#   - +langName+ -> the name of the language to load (english for example)
+	# * *Returns* :
+	#   - the language converted to Hashs
+	def User.loadLang(langName)
 		# set path to config file folder
 		path = File.dirname(__FILE__) + "/../Config/"
 		# Retrieve associated language config file
-		configFile = File.expand_path(path + "lang_#{lang}")
+		configFile = File.expand_path(path + "lang_#{langName}")
 		return YAML.load(File.open(configFile))
 	end
 
+	##
+	# Return a default language (english)
+	# * *Returns*
+	#   - a Hash of the english language
+	def User.defaultLang()
+		return User.loadLang('english')	
+	end
+	
+	##
+	# Return the language of the user. You should not use this method,
+	# use instead the +lang+ method, this methods load the file every time you
+	# call it.
+	# * *Returns*
+	#   - a Hash of the user language
+	def languageConfig
+		return User.loadLang(self.settings.language)
+	end
+
+	##
+	# Returns the total stars of this user
+	# Warning: if you frequently use this method, consider 
+	# memorizing the value of it, it is calculated every time you call it.
+	# * *Returns* :
+	#   - the total stars of the user
 	def totalStars
 		stars = 0
 		@chapters.each do |chapter|
