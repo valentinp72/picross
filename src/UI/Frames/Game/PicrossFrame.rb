@@ -284,4 +284,45 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	def setDoneValues
+		setDoneValuesGeneric(@map.alreadyDoneLineSolution,   :getLineNumbers)
+		setDoneValuesGeneric(@map.alreadyDoneColumnSolution, :getColumnNumbers)
+=begin
+		lineAlready.each_index do |line_i|
+			line = lineAlready[line_i]
+			nums = getLineNumbers(line_i)
+			done_i = 0
+			nums.each do |nb|
+				nb.unsetDone
+			end
+			nums.each_index do |number_i|
+				number = nums[number_i]
+				if number.value != nil && number.value == line[done_i] then
+					puts number.value
+					number.setDone
+					done_i += 1
+				end
+			end
+		end
+=end
+	end
+
+	def setDoneValuesGeneric(already, getNumsMethod)
+		already.each_index do |i|
+			line = already[i]
+			nums = self.send(getNumsMethod, i)
+			done_i = 0
+			nums.each do |nb|
+				nb.unsetDone
+			end
+			nums.each_index do |number_i|
+				number = nums[number_i]
+				if number.value != nil && number.value == line[done_i] then
+					number.setDone
+					done_i += 1
+				end
+			end
+		end
+	end
+
 end

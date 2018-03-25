@@ -44,9 +44,10 @@ class Hypotheses
 	# at the top of the stack.
 	# * *Returns* :
 	#   - the working hypothesis
-	def getWorkingHypothesis()
+	def workingHypothesis()
 		return @stack.last
 	end
+	alias getWorkingHypothesis workingHypothesis
 
 	##
 	# Create and add a new hypothesis to the stack of hypotheses.

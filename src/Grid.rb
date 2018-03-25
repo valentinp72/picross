@@ -80,6 +80,12 @@ class Grid
 		return self
 	end
 
+	##
+	# Change the hypothesis of all the cells in the Grid
+	# * *Arguments* :
+	#   - +newHypothesis+ -> the newHypothesis to be put in the grid
+	# * *Returns* :
+	#   - the grid itself
 	def hypothesis=(newHypothesis)
 		self.each_cell do |cell|
 			cell.hypothesis = newHypothesis
@@ -115,6 +121,16 @@ class Grid
 	end
 	alias getCellPosition cellPosition
 
+	##
+	# Change the cell at the given position in the grid
+	# * *Arguments* :
+	#   - +line+   -> the line of the cell to change
+	#   - +column+ -> the column of the cell to change
+	#   - +cell+   -> the cell to replace the last one
+	# * *Returns* :
+	#   - the Grid itself
+	# * *Raises* :
+	#   - +InvalidCellPositionException+ -> if given coordinates are invalid
 	def cellPosition=(line, column, cell)
 		if not validPosition?(line, column) then
 			raise InvalidCellPositionException, "(#{line}, #{column}) not correct"

@@ -19,6 +19,9 @@ require_relative 'PicrossFrame'
 
 class GameFrame < Frame
 
+	# The PicrossFrame
+	attr_reader :picross
+
 	##
 	# Create a new frame that shows the game
 	# * *Arguments* :

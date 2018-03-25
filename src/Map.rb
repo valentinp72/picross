@@ -177,6 +177,25 @@ class Map
 		return cell
 	end
 
+	def Map.removeUntilState(array, state)
+		array.each do |elem|
+			if elem.state != state then
+				array.delete(elem)
+			else
+				break
+			end
+		end
+		return array
+	end
+
+	def alreadyDoneLineSolution
+		return computeLineSolution(@hypotheses.workingHypothesis.grid)
+	end
+
+	def alreadyDoneColumnSolution
+		return computeColumnSolution(@hypotheses.workingHypothesis.grid)
+	end
+
 	##
 	# Convert the solution grid to columns numbers
 	# that help player to solve the game.

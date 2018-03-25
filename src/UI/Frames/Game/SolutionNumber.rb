@@ -34,12 +34,7 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def setHover()
-		begin
-			self.style_context.add_class("hover")
-		rescue Exception
-			puts "GTK-gobject error(1): see https://github.com/valentinp72/picross/issues/31"
-		end
-
+		addClass("hover")
 		return self
 	end
 
@@ -48,15 +43,43 @@ class SolutionNumber < Gtk::Label
 	# * *Returns* :
 	#   - the object itself
 	def unsetHover()
+		removeClass("hover")
+		return self
+	end
+
+	def setDone
+		addClass("done")
+		return self
+	end
+
+	def unsetDone
+		removeClass("done")
+		return self
+	end
+
+	def addClass(className)
 		begin
-			self.style_context.remove_class("hover")
+			if not self.style_context.has_class?(className) then
+				self.style_context.add_class(className)
+			end
 		rescue Exception
-			puts "GTK-gobject error(2): see https://github.com/valentinp72/picross/issues/31"
+			puts "addClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"
 		end
 		return self
 	end
 
- 	##
+	def removeClass(className)
+		begin
+			if self.style_context.has_class?(className) then
+				self.style_context.remove_class(className)
+			end
+		rescue Exception
+			puts "removeClass(#{className}): gobject-introspection error https://github.com/ruby-gnome2/ruby-gnome2/issues/1149"
+		end
+		return self
+	end
+
+	##
 	# Returns the needed CSS for the label of a solution number
 	# * *Returns* :
 	#   - a String containing the CSS
@@ -70,6 +93,10 @@ class SolutionNumber < Gtk::Label
 			}
 			.hover {
 				background-color: rgba(170, 20, 1, 0.2);
+			}
+			.done {
+				color: gray;
+				background-color: blue;
 			}
 		"
 	end
