@@ -314,19 +314,39 @@ class GameFrame < Frame
 	def createPauseButton()
 		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
 		@labelPause.visible = true
-		ButtonCreator.new(:assetName => 'pause.png', :assetSize => 40) 
+		ButtonCreator.new(
+				:assetName => 'pause.png', 
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_pause_clicked
+		) 
 	end
 
 	def createBackButton()
-		ButtonCreator.new(:assetName => 'arrow-left.png', :assetSize => 40) 
+		ButtonCreator.new(
+				:assetName => 'arrow-left.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_back_clicked
+		) 
 	end
 
 	def createOptionButton()
-		ButtonCreator.new(:assetName => 'cog.png', :assetSize => 40) 
+		ButtonCreator.new(
+				:assetName => 'cog.png',
+				:assetSize => 40, 
+				:parent    => self,
+				:clicked   => :btn_option_clicked
+		) 
 	end
 
 	def createHelpButton()
-		ButtonCreator.new(:assetName => 'help.png', :assetSize => 40) 
+		ButtonCreator.new(
+				:assetName => 'help.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_help_clicked
+		)
 	end
 
 	def btn_reset_clicked
