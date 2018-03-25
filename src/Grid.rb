@@ -380,8 +380,8 @@ class Grid
 
 	def finish
 		each_cell_with_index do |cell, line, column|
-			if cell.state == CELL_CROSSED then
-				cell.state = CELL_WHITE
+			if cell.state == Cell::CELL_CROSSED then
+				cell.state = Cell::CELL_WHITE
 			end
 		end
 	end
