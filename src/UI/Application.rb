@@ -84,7 +84,7 @@ class Application < Gtk::Application
 	#   - the object itself
 	def action_about_cb()
 		about = AboutWindow.new(self)
-		about.present
+		about.show_all
 	end
 
 	##

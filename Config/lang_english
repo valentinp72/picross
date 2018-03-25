@@ -1,42 +1,45 @@
----
-home :
-  play : "Play"
-  rank : "Ranking"
-  rule : "Rules"
-  option : "Options"
-option :
-  title: "Options"
-  chooseLanguage : "Language:"
-  chooseHypColors: "Hypotheses colors:"
-  chooseHypColor :
-    0: "Default color:"
-    1: "Hypothesis color 1:"
-    2: "Hypothesis color 2:"
-    3: "Hypothesis color 4:"
-    4: "Hypothesis color 4:"
-    5: "Hypothesis color 5:"
-button :
-  valid : "Apply"
-  cancel : "Cancel"
-  return : "Go back"
-  exit : "Exit"
+home:
+    play: Play
+    rank: Ranking
+    rule: Rules
+    option: Options
+about:
+    name: 'About'
+    version: 'Version'
+    authors: 'Authors'
+    content: ''
+option:
+    title: Options
+    chooseLanguage: 'Language:'
+    chooseHypColors: 'Hypotheses colors:'
+    chooseHypColor:
+        '0': 'Default color:'
+        '1': 'Hypothesis color 1:'
+        '2': 'Hypothesis color 2:'
+        '3': 'Hypothesis color 4:'
+        '4': 'Hypothesis color 4:'
+        '5': 'Hypothesis color 5:'
+button:
+    valid: Apply
+    cancel: Cancel
+    return: 'Go back'
+    exit: Exit
 game:
-  paused: "Game paused"
-stats :
-  empty: "No stats recorded"
-  player : "Player's statistics"
-  globals : "Global statistics"
-  local :
-    level : "Level name"
-    stars : "Max stars"
-    time :  "Best time"
-    help : "Min help used"
-    click : "Min click"
-    finished : "Number of time level has been done"
-  global :
-     stars : "Totla stars"
-     time :  "Total time"
-     help : "Total used help"
-     click : "Total click"
-     finished : "Finished game"
-...
+    paused: 'Game paused'
+stats:
+    empty: 'No stats recorded'
+    player: 'Player''s statistics'
+    globals: 'Global statistics'
+    local:
+        level: 'Level name'
+        stars: 'Max stars'
+        time: 'Best time'
+        help: 'Min help used'
+        click: 'Min click'
+        finished: 'Number of time level has been done'
+    global:
+        stars: 'Totla stars'
+        time: 'Total time'
+        help: 'Total used help'
+        click: 'Total click'
+        finished: 'Finished game'

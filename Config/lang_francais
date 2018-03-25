@@ -1,41 +1,44 @@
----
-home :
-  play : "Jouer"
-  rank : "Classement"
-  rule : "Regles"
-  option : "Options"
-option :
-  title: "Options"
-  chooseLanguage : "Langue :"
-  chooseHypColors: "Couleur des hypothèses :"
-  chooseHypColor :
-    0: "Par défaut :"
-    1: "Hypothèse 1 :"
-    2: "Hypothèse 2 :"
-    3: "Hypothèse 3 :"
-    4: "Hypothèse 4 :"
-button :
-  valid : "Valider"
-  cancel : "Annuler"
-  return : "Retour"
-  exit : "Quitter"
+home:
+    play: Jouer
+    rank: Classement
+    rule: Regles
+    option: Options
+about:
+    name: 'À propos'
+    version: 'Version'
+    authors: 'Auteurs'
+    content: ''
+option:
+    title: Options
+    chooseLanguage: 'Langue :'
+    chooseHypColors: 'Couleur des hypothèses :'
+    chooseHypColor:
+        '0': 'Par défaut :'
+        '1': 'Hypothèse 1 :'
+        '2': 'Hypothèse 2 :'
+        '3': 'Hypothèse 3 :'
+        '4': 'Hypothèse 4 :'
+button:
+    valid: Valider
+    cancel: Annuler
+    return: Retour
+    exit: Quitter
 game:
-  paused: "Partie en pause"
-stats :
-  empty: "Aucune statistiques enregistre"
-  player : "Statistiques du joueur"
-  globals : "Statistiques globales"
-  local :
-    level : "Niveau"
-    stars : "Max etoiles"
-    time :  "Meilleur temps"
-    help : "Aide minimum"
-    click : "Click minimal"
-    finished : "Nombre de fois fini"
-  global :
-     stars : "Total etoiles"
-     time :  "Temps de jeu total"
-     help : "Aides utilise au total"
-     click : "Click total"
-     finished : "Nombres de parties finies"
-...
+    paused: 'Partie en pause'
+stats:
+    empty: 'Aucune statistiques enregistre'
+    player: 'Statistiques du joueur'
+    globals: 'Statistiques globales'
+    local:
+        level: Niveau
+        stars: 'Max etoiles'
+        time: 'Meilleur temps'
+        help: 'Aide minimum'
+        click: 'Click minimal'
+        finished: 'Nombre de fois fini'
+    global:
+        stars: 'Total etoiles'
+        time: 'Temps de jeu total'
+        help: 'Aides utilise au total'
+        click: 'Click total'
+        finished: 'Nombres de parties finies'
