@@ -19,6 +19,8 @@ button :
   cancel : "Annuler"
   return : "Retour"
   exit : "Quitter"
+game:
+  paused: "Partie en pause"
 stats :
   empty: "Aucune statistiques enregistre"
   player : "Statistiques du joueur"

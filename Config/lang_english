@@ -20,6 +20,8 @@ button :
   cancel : "Cancel"
   return : "Go back"
   exit : "Exit"
+game:
+  paused: "Game paused"
 stats :
   empty: "No stats recorded"
   player : "Player's statistics"

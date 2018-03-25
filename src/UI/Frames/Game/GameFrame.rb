@@ -1,5 +1,6 @@
 require_relative '../../../Map'
 require_relative '../../AssetsLoader'
+require_relative '../../ButtonCreator'
 require_relative '../MapFrame'
 require_relative '../OptionFrame'
 require_relative 'PicrossFrame'
@@ -314,10 +315,7 @@ class GameFrame < Frame
 	end
 
 	def createResetButton()
-		reset  = Gtk::Button.new()
-		reset.image = AssetsLoader.loadImage('reset.png',40)
-		reset.relief = Gtk::ReliefStyle::NONE
-		reset.signal_connect('clicked') do
+		ButtonCreator.new(:assetName => 'reset.png', :assetSize => 40) do
 			@map.reset
 			@map.currentStat.time.unpause
 			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
@@ -326,57 +324,34 @@ class GameFrame < Frame
 			@content.reorder_child(@picross,0)
 			checkMap
 		end
-
-		return reset
 	end
 
-	def createPauseButton)()
-		@labelPause =  Gtk::Label.new("Partie en pause")
+	def createPauseButton()
+		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
 		@labelPause.visible = true
-
-		pause  = Gtk::Button.new
-		pause.image = AssetsLoader.loadImage('pause.png',40)
-		pause.relief = Gtk::ReliefStyle::NONE
-		pause.signal_connect('clicked') do
+		ButtonCreator.new(:assetName => 'pause.png', :assetSize => 40) do
 			pauseButtonAction()
 		end
-
-		return pause
 	end
 
 	def createBackButton()
-		btnBack        = Gtk::Button.new
-		btnBack.image  = AssetsLoader.loadImage("arrow-left.png",50)
-		btnBack.relief = Gtk::ReliefStyle::NONE
-		btnBack.signal_connect("clicked") do
+		ButtonCreator.new(:assetName => 'arrow-left.png', :assetSize => 40) do
 			self.save
 			self.parent.setFrame(MapFrame.new(@user,@chapter))
 		end
-
-		return btnBack
 	end
 
 	def createOptionButton()
-		btnOption        = Gtk::Button.new()
-		btnOption.image  = AssetsLoader.loadImage("cog.png",50)
-		btnOption.relief = Gtk::ReliefStyle::NONE
-		# Redirecting user towards option menu
-		btnOption.signal_connect("clicked") do
+		ButtonCreator.new(:assetName => 'cog.png', :assetSize => 40) do
 			self.save
 			self.parent.setFrame(OptionFrame.new(@user, self))
 		end
-
-		return btnOption
 	end
 
 	def createHelpButton()
-		help  = Gtk::Button.new()
-		help.image = AssetsLoader.loadImage("help.png",40)
-		help.relief = Gtk::ReliefStyle::NONE
-		help.signal_connect('clicked') do
+		ButtonCreator.new(:assetName => 'help.png', :assetSize => 40) do
 			checkMap
 		end
-		return help
 	end
 
 end
