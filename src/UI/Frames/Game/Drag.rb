@@ -135,7 +135,6 @@ class Drag
 			
 			@cursor.setText("#{self.dragLength} (#{self.totalLength})")
 		end
-		@frame.picross.setDoneValues
 		return self
 	end
 

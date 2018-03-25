@@ -107,6 +107,7 @@ class GameFrame < Frame
 		@content = Gtk::Box.new(:horizontal)
 		@sideBar = createSideBarLayout()
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
+		self.checkMap
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
 		@content.pack_start(@sideBar)
@@ -277,6 +278,7 @@ class GameFrame < Frame
 	end
 
 	def checkMap()
+		@picross.setDoneValues if @picross != nil
 		if @map.currentStat.isFinished then
 			@btnHypotheses.sensitive = false
 			@pause.sensitive = false

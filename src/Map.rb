@@ -177,21 +177,20 @@ class Map
 		return cell
 	end
 
-	def Map.removeUntilState(array, state)
-		array.each do |elem|
-			if elem.state != state then
-				array.delete(elem)
-			else
-				break
-			end
-		end
-		return array
-	end
-
+	##
+	# Return an array containing the line solution the user has made in his grid.
+	# This can be interpreted as a lineSolution.
+	# * *Returns* :
+	#   - an Array of Array of the numbers the user has put in his lines
 	def alreadyDoneLineSolution
 		return computeLineSolution(@hypotheses.workingHypothesis.grid)
 	end
 
+	##
+	# Return an array containing the column solution the user has made in his grid.
+	# This can be interpreted as a columnSolution.
+	# * *Returns* :
+	#   - an Array of Array of the numbers the user has put in his columns
 	def alreadyDoneColumnSolution
 		return computeColumnSolution(@hypotheses.workingHypothesis.grid)
 	end

@@ -47,16 +47,30 @@ class SolutionNumber < Gtk::Label
 		return self
 	end
 
+	##
+	# Add an indication that the SolutionNumber is done by the user.
+	# * *Returns* :
+	#   - the object itself
 	def setDone
 		addClass("done")
 		return self
 	end
 
+	##
+	# Remove the indication that the SolutionNumber is done by the user
+	# * *Returns* :
+	#   - the object itself
 	def unsetDone
 		removeClass("done")
 		return self
 	end
 
+	##
+	# Add a CSS class to the object, if not present.
+	# * *Arguments*
+	#   - +className+ -> the name of the CSS class to add
+	# * *Returns* :
+	#   - the object itself
 	def addClass(className)
 		begin
 			if not self.style_context.has_class?(className) then
@@ -68,6 +82,12 @@ class SolutionNumber < Gtk::Label
 		return self
 	end
 
+	##
+	# Remove a CSS class to the object, if present.
+	# * *Arguments*
+	#   - +className+ -> the name of the CSS class to remove
+	# * *Returns* :
+	#   - the object itself
 	def removeClass(className)
 		begin
 			if self.style_context.has_class?(className) then
