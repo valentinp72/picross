@@ -263,6 +263,7 @@ class Map
 					@currentStat.finish(@timeToDo)
 					@allStat.addStatistic(@currentStat)
 					@hypotheses.validate(0)
+					@hypotheses.getWorkingHypothesis.grid.finish
 					return true
 				end
 			end

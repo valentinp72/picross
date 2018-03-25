@@ -231,7 +231,7 @@ class Grid
 	end
 
 	##
-	# Returns an array of Cells, representing the line that 
+	# Returns an array of Cells, representing the line that
 	# contains the cell line.
 	# * *Arguments* :
 	#   - +cell+ -> the cell to search it's line
@@ -245,7 +245,7 @@ class Grid
 	end
 
 	##
-	# Returns an array of Cells, representing the column that 
+	# Returns an array of Cells, representing the column that
 	# contains the cell line.
 	# * *Arguments* :
 	#   - +cell+ -> the cell to search it's column
@@ -291,7 +291,7 @@ class Grid
 		length    = 1 # the cell, not counted after that
 		position  = array.index(cell)
 		raise CellNotInGridException if position == nil
-		
+
 		# count the length after the cell in the array
 		afterCell = array.drop(position + 1)
 		length   += numberOfSameStates(afterCell, cell.state)
@@ -299,14 +299,14 @@ class Grid
 		# count the length before the cell in the array
 		beforeCell = array[0..position]
 		beforeCell.pop(1)
-		length    += numberOfSameStates(beforeCell.reverse, cell.state)	
+		length    += numberOfSameStates(beforeCell.reverse, cell.state)
 
 		return length
 	end
 
 	##
 	# Count the number of the cells in the array that have the specific given state
-	# * *Arguments* : 
+	# * *Arguments* :
 	#   - +array+ -> the array to search in
 	#   - +state+ -> the state the Cells must have inside the array to be counted
 	# * *Returns* :
@@ -376,6 +376,14 @@ class Grid
 			end
 		end
 		return i
+	end
+
+	def finish
+		each_cell_with_index do |cell, line, column|
+			if cell.state == CELL_CROSSED then
+				cell.state = CELL_WHITE
+			end
+		end
 	end
 
 	##
