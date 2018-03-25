@@ -1,4 +1,6 @@
 require_relative '../Frame'
+require_relative '../ButtonCreator'
+require_relative '../GridCreator'
 require_relative 'HomeFrame'
 require_relative 'NewUserFrame'
 require_relative '../../User'
@@ -6,60 +8,101 @@ require_relative '../../Picross'
 
 ##
 # File          :: LoginFrame.rb
-# Author        :: BROCHERIEUX Thibault
+# Author        :: BROCHERIEUX Thibault, PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/16/2018
 # Last update   :: 02/16/2018
 # Version       :: 0.1
 #
 # This class represents the LoginFrame which is the first page we encounter when we launch the application
+
 class LoginFrame < Frame
 
-	def initialize()
+	def initialize(language = 'francais')
 		super()
 		self.border_width = 100
 
-		# Set path variable to Users folder
-		@path = File.expand_path(File.dirname(__FILE__) + '/' + '../../../Users')
-
-		# Create a new comboBox which will hold all the username
-		@comboBox = Gtk::ComboBoxText.new
-
-		picross = Picross.new
-
-		signal_connect "realize" do
-			self.parent.picross.retrieveUser.each{|u| @comboBox.append_text(u)}
-			@comboBox.set_active(0)
+		@currentLanguage = language
+		@lang = User.loadLang(language)
+		
+		self.reset
+	end
+	
+	def reset
+		self.children.each do |child|
+			self.remove(child)
 		end
+		@layout = self.createLayout
+		self.add(@layout)
+		self.show_all
+	end
 
-		# Add a login button
-		@loginBtn = Gtk::Button.new(:label => "Login")
+	def createLayout
+		content = GridCreator.fromArray(self.createContent, :vertical   => true)
+		footer  = GridCreator.fromArray(self.createFooter,  :horizontal => true)
+		layout  = GridCreator.fromArray([content, footer])
+		return layout
+	end
+
+	def createContent
+		# Create a new comboBox which will hold all the username
+		@userSelection = Gtk::ComboBoxText.new
+		@userSelection.signal_connect "realize" do
+			self.parent.picross.retrieveUser.each{ |u| @userSelection.append_text(u) }
+			@userSelection.set_active(0)
+		end
 
 		# Add a button to create a new user
-		@createBtn = Gtk::Button.new(:label => "Create new account")
+		@createBtn = ButtonCreator.main(
+				:name    => @lang["login"]["new"],
+				:clicked => :btn_newAccount_clicked, 
+				:parent  => self,
+		)
+		
+		# Add a login button
+		@loginBtn = ButtonCreator.main(
+				:name    => @lang["login"]["login"],
+				:clicked => :btn_login_clicked,
+				:parent  => self, 
+		) 
 
-		# Add vertical box containing 3 boxes
-		@vbox = Gtk::Box.new(:vertical, 3)
-		@vbox.pack_start(@comboBox, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@loginBtn, :expand => true, :fill => true, :padding =>2)
-		@vbox.pack_start(@createBtn, :expand => true, :fill => true, :padding =>2)
+		return [@userSelection, @createBtn, @loginBtn]
+	end
 
+	def createFooter
+		buttons   = []
+		languages = User.languagesName
 
-		@loginBtn.signal_connect("clicked") do
-			#The button login works only if a user is selected.
-			if(@comboBox.active_text != nil) then
-			user = self.parent.picross.getSelectedUser(@comboBox.active_text)
+		languages.each do |language|
+			next if language == @currentLanguage
+			button = ButtonCreator.new(
+				:assetName => "flag_#{language}.png",
+				:assetSize => 20
+			)
+			button.signal_connect('clicked') { btn_changeLanguage(language) }
+			buttons.push(button)
+		end
+		return buttons
+	end
+
+	def btn_newAccount_clicked
+		self.parent.setFrame(NewUserFrame.new(@lang))
+	end
+
+	def btn_login_clicked
+		# The button login works only if a user is selected.
+		if @userSelection.active_text != nil then
+			user = self.parent.picross.getSelectedUser(@userSelection.active_text)
 			self.parent.application.connectedUser = user
 			self.parent.setFrame(HomeFrame.new(user))
-			end
 		end
-
-		# Redirect to NewUserFrame if we want to create a new user
-		@createBtn.signal_connect("clicked") do
-			self.parent.setFrame(NewUserFrame.new())
-		end
-
-		# Add vbox to frame
-		add(@vbox)
 	end
+
+	def btn_changeLanguage(newLanguage)
+		@lang = User.loadLang(newLanguage)
+		@currentLanguage = newLanguage
+		self.reset
+		puts newLanguage
+	end
+
 end

@@ -1,3 +1,9 @@
+login:
+    login: "Connexion"
+    new: "Créer un nouveau compte"
+newUser:
+    username: "Entrez un pseudo :"
+    alreadyTaken: "Ce pseudo est déjà utilisé !"
 home:
     play: Jouer
     rank: Classement

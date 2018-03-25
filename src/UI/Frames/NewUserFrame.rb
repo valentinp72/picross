@@ -1,5 +1,6 @@
 require 'yaml'
 
+require_relative '../../User'
 require_relative '../Frame'
 require_relative 'HomeFrame'
 require_relative 'LoginFrame'
@@ -15,23 +16,20 @@ require_relative 'LoginFrame'
 # This class represents the NewUserFrame, page where we can create a new user
 class NewUserFrame < Frame
 
-	def initialize()
+	def initialize(lang)
 		super()
 		self.border_width = 100
-
-		#Retrieve lang_english (Login is always in english)
-		configFile = File.expand_path(File.dirname(__FILE__) + '/' + "../../../Config/lang_english")
-		config = YAML.load(File.open(configFile))
+		@lang = lang
 
 		# Create label
-		@userLabel = Gtk::Label.new("Enter username")
+		@userLabel = Gtk::Label.new(@lang["newUser"]["username"])
 
 		# Create entry to input new username
 		@entry = Gtk::Entry.new
 
 		# Add cancel and valid buttons
-		@cancelBtn = Gtk::Button.new(:label => config["button"]["cancel"])
-		@validBtn = Gtk::Button.new(:label => config["button"]["valid"])
+		@cancelBtn = Gtk::Button.new(:label => @lang["button"]["cancel"])
+		@validBtn = Gtk::Button.new(:label => @lang["button"]["valid"])
 
 		# Create horizontalbox containing 2 boxes
 		@hbox = Gtk::Box.new(:horizontal, 2)
@@ -51,17 +49,22 @@ class NewUserFrame < Frame
 
 		# Valid -> We create the new user and login directly with it
 		@validBtn.signal_connect("clicked") do
-			isOk, user = self.parent.picross.ajouteUser(@entry.text)
+			isOk, user = self.parent.picross.ajouteUser(@entry.text, @lang)
 			if isOk then
 				self.parent.setFrame(HomeFrame.new(user))
+			else
+				error = Gtk::MessageDialog.new(
+					:parent  => self.parent, 
+					:flags   => Gtk::DialogFlags::DESTROY_WITH_PARENT,
+					:type    => Gtk::MessageType::ERROR,
+					:buttons => Gtk::ButtonsType::OK,
+					:message => @lang["newUser"]["alreadyTaken"]
+			)
+				error.run
+				error.destroy
 			end
 		end
 
-		##
-		# This function retrieve all user available
-		def retrieveUser()
-			return Dir.entries(File.dirname(__FILE__) + '/' + "../../../Users/").select { |f| f.match(/User\_(.*)/)}.select{|x| x.slice!(0,5)}
-		end
 
 		#Add vbox to frame
 		add(@vbox)

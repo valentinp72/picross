@@ -1,3 +1,9 @@
+login:
+    login: "Login"
+    new: "Create new account"
+newUser:
+    username: "Enter username:"
+    alreadyTaken: "This username is already taken!"
 home:
     play: Play
     rank: Ranking

@@ -55,6 +55,16 @@ class User
 		return YAML.load(File.open(configFile))
 	end
 
+	def User.languagesName
+		path = File.dirname(__FILE__) + "/../Config/"
+		names = []
+		Dir.entries(path).each do |file|
+			name = file.partition('lang_')[2]
+			names.push(name) if name != ""
+		end
+		return names
+	end
+
 	##
 	# Return a default language (english)
 	# * *Returns*

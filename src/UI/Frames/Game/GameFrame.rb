@@ -273,18 +273,6 @@ class GameFrame < Frame
 		return self
 	end
 
-	def pauseButtonAction()
-		if checkMap then
-			if(@isPaused) then
-				@isPaused = false
-				drawOnUnpause
-			else
-				@isPaused = true
-				drawOnPause
-			end
-		end
-	end
-
 	def drawOnUnpause()
 		@map.currentStat.time.unpause
 
@@ -315,43 +303,65 @@ class GameFrame < Frame
 	end
 
 	def createResetButton()
-		ButtonCreator.new(:assetName => 'reset.png', :assetSize => 40) do
-			@map.reset
-			@map.currentStat.time.unpause
-			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
-			@content.remove(@picross)
-			@content.pack_start(@picross, :expand => true, :fill => true)
-			@content.reorder_child(@picross,0)
-			checkMap
-		end
+		ButtonCreator.new(
+				:assetName => 'reset.png', 
+				:assetSize => 40, 
+				:clicked => :btn_reset_clicked,
+				:parent => self
+		) 
 	end
 
 	def createPauseButton()
 		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
 		@labelPause.visible = true
-		ButtonCreator.new(:assetName => 'pause.png', :assetSize => 40) do
-			pauseButtonAction()
-		end
+		ButtonCreator.new(:assetName => 'pause.png', :assetSize => 40) 
 	end
 
 	def createBackButton()
-		ButtonCreator.new(:assetName => 'arrow-left.png', :assetSize => 40) do
-			self.save
-			self.parent.setFrame(MapFrame.new(@user,@chapter))
-		end
+		ButtonCreator.new(:assetName => 'arrow-left.png', :assetSize => 40) 
 	end
 
 	def createOptionButton()
-		ButtonCreator.new(:assetName => 'cog.png', :assetSize => 40) do
-			self.save
-			self.parent.setFrame(OptionFrame.new(@user, self))
-		end
+		ButtonCreator.new(:assetName => 'cog.png', :assetSize => 40) 
 	end
 
 	def createHelpButton()
-		ButtonCreator.new(:assetName => 'help.png', :assetSize => 40) do
-			checkMap
+		ButtonCreator.new(:assetName => 'help.png', :assetSize => 40) 
+	end
+
+	def btn_reset_clicked
+		@map.reset
+		@map.currentStat.time.unpause
+		@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
+		@content.remove(@picross)
+		@content.pack_start(@picross, :expand => true, :fill => true)
+		@content.reorder_child(@picross,0)
+		self.checkMap
+	end
+
+	def btn_pause_clicked
+		if self.checkMap then
+			if @isPaused then
+				self.drawOnUnpause
+			else
+				self.drawOnPause
+			end
+			@isPaused = !@isPaused
 		end
+	end
+
+	def btn_back_clicked
+		self.save
+		self.parent.setFrame(MapFrame.new(@user,@chapter))
+	end
+
+	def btn_option_clicked
+		self.save
+		self.parent.setFrame(OptionFrame.new(@user, self))
+	end
+
+	def btn_help_clicked
+		self.checkMap
 	end
 
 end
