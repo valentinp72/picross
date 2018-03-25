@@ -107,10 +107,6 @@ class PicrossFrame < Frame
 		return self
 	end
 
-	def rmArea()
-		remove(@cells)
-	end
-
 	##
 	# Create the PicrossFrame area, with all the CellButton inside
 	# * *Returns* :
@@ -141,16 +137,7 @@ class PicrossFrame < Frame
 		end
 
 		@mainArea = Gtk::EventBox.new()
-		@mainArea.events |= (
-			Gdk::EventMask::POINTER_MOTION_MASK|
-			Gdk::EventMask::ENTER_NOTIFY_MASK |
-			Gdk::EventMask::LEAVE_NOTIFY_MASK)
-
-		@mainArea.signal_connect('motion_notify_event') do |widget, event|
-#puts 'leave'
-#puts @cells.allocation.width
-#			@drag.reset
-		end
+		@mainArea.events |= (Gdk::EventMask::ENTER_NOTIFY_MASK)
 		@mainArea.add(@cells)
 
 		self.add(@mainArea)
@@ -284,14 +271,28 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	##
+	# Update all the SolutionNumber in the grid to show whether or not 
+	# they are completed (done) by the user.
+	# * *Returns* :
+	#   - the object itself
 	def setDoneValues
 		setDoneValuesGeneric(@map.alreadyDoneLineSolution,   :getLineNumbers)
 		setDoneValuesGeneric(@map.alreadyDoneColumnSolution, :getColumnNumbers)
+		return self
 	end
 
+	##
+	# Update the done property of the SolutionNumber that can be
+	# obtained via the method +getNumsMethod+
+	# according to the +already+ array of array.
+	# * *Arguments* :
+	#   - +already+       -> the already done solution number
+	#   - +getNumsMethod+ -> a method to obtain numbers (:getLineNumbers or :getColumnNumbers)
+	# * *Returns*
+	#   - the object itself
 	def setDoneValuesGeneric(already, getNumsMethod)
 		already.each_index do |i|
-
 			line = already[i]
 			nums = self.send(getNumsMethod, i)
 			done_i = 0
@@ -301,16 +302,13 @@ class PicrossFrame < Frame
 				number.unsetDone
 				
 				if number.value != nil then
-					if number.value == line[done_i] then
-						number.setDone
-						done_i += 1
-					else
-						break
-					end
+					break if number.value != line[done_i]
+					number.setDone
+					done_i += 1
 				end
-
 			end
 		end
+		return self
 	end
 
 end
