@@ -12,7 +12,7 @@ require_relative 'Frames/Game/GameFrame'
 require_relative 'Frames/LoginFrame'
 
 ##
-# File          :: Chapter.rb
+# File          :: Application.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/16/2018
@@ -44,7 +44,7 @@ class Application < Gtk::Application
 			@window.show_all
 
 			# Bidouille pour que la fenêtre se mette au premier plan sur macOS
-			@window.set_keep_above(true)
+			# @window.set_keep_above(true)
 
 		end
 

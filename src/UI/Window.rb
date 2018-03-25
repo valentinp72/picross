@@ -11,6 +11,7 @@ class Window < Gtk::ApplicationWindow
 		@picross = Picross.new()
 		testIcon = AssetsLoader.loadFile('logo.png')
 		self.set_icon_from_file(testIcon)
+		self.window_position = :center
 	end
 
 	def setFrame(frame)

@@ -7,7 +7,6 @@ about:
     name: 'À propos'
     version: 'Version'
     authors: 'Auteurs'
-    content: ''
 option:
     title: Options
     chooseLanguage: 'Langue :'
