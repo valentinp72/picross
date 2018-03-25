@@ -69,31 +69,15 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the Gtk::Box containing the header
 	def createHeaderLayout()
-		btnBack        = Gtk::Button.new
-		btnBack.image  = AssetsLoader.loadImage("arrow-left.png",50)
-		btnBack.relief = Gtk::ReliefStyle::NONE
-		
 		title = Gtk::Label.new(@map.name)
-		
-		btnOption        = Gtk::Button.new()
-		btnOption.image  = AssetsLoader.loadImage("cog.png",50)
-		btnOption.relief = Gtk::ReliefStyle::NONE
+
+		@btnBack = createBackButton
+		@btnOption = createOptionButton
 
 		@header = Gtk::Box.new(:horizontal)
-		@header.pack_start(btnBack,   :expand => true, :fill => true)
+		@header.pack_start(@btnBack,   :expand => true, :fill => true)
 		@header.pack_start(title,     :expand => true, :fill => true)
-		@header.pack_start(btnOption, :expand => true, :fill => true)
-
-		btnBack.signal_connect("clicked") do
-			self.save
-			self.parent.setFrame(MapFrame.new(@user,@chapter))
-		end
-
-		# Redirecting user towards option menu
-		btnOption.signal_connect("clicked") do
-			self.save
-			self.parent.setFrame(OptionFrame.new(@user, self))
-		end
+		@header.pack_start(@btnOption, :expand => true, :fill => true)
 
 		return @header
 	end
@@ -145,31 +129,9 @@ class GameFrame < Frame
 			self.save
 		end
 
-		@reset  = Gtk::Button.new()
-		@reset.image = AssetsLoader.loadImage('reset.png',40)
-		@reset.relief = Gtk::ReliefStyle::NONE
-		@reset.signal_connect('clicked') do
-			@map.reset
-			@map.currentStat.time.unpause
-			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
-			@content.remove(@picross)
-			@content.pack_start(@picross, :expand => true, :fill => true)
-			@content.reorder_child(@picross,0)
-			checkMap
-
-			puts @map
-		end
-
-		@labelPause =  Gtk::Label.new("Partie en pause")
-		@labelPause.visible = true
-
-		@pause  = Gtk::Button.new
-		@pause.image = AssetsLoader.loadImage('pause.png',40)
-		@pause.relief = Gtk::ReliefStyle::NONE
-		@pause.signal_connect('clicked') do
-			pauseButtonAction()
-		end
-
+		@reset = createResetButton()
+		@pause = createPauseButton()
+		@help  = createHelpButton()
 
 		@btnHypotheses = Gtk::Button.new()
 
@@ -184,16 +146,6 @@ class GameFrame < Frame
 			if checkMap then
 				updatePopover(popoverBox)
 			end
-		end
-
-		#puts @btnHypotheses.methods
-		#@btnHypotheses.popover = @popover
-
-		@help  = Gtk::Button.new()
-		@help.image = AssetsLoader.loadImage("help.png",40)
-		@help.relief = Gtk::ReliefStyle::NONE
-		@help.signal_connect('clicked') do
-			checkMap
 		end
 
 		@sideBar = Gtk::Box.new(:vertical)
@@ -212,7 +164,7 @@ class GameFrame < Frame
 		if(popoverBox.parent == @popover) then
 			@popover.remove(popoverBox)
 		end
-		
+
 		popoverBox.children.each do |child|
 			popoverBox.remove(child)
 		end
@@ -359,6 +311,72 @@ class GameFrame < Frame
 		@content.remove(@picross)
 		@content.pack_start(@labelPause, :expand => true, :fill => true)
 		@content.reorder_child(@labelPause,0)
+	end
+
+	def createResetButton()
+		reset  = Gtk::Button.new()
+		reset.image = AssetsLoader.loadImage('reset.png',40)
+		reset.relief = Gtk::ReliefStyle::NONE
+		reset.signal_connect('clicked') do
+			@map.reset
+			@map.currentStat.time.unpause
+			@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
+			@content.remove(@picross)
+			@content.pack_start(@picross, :expand => true, :fill => true)
+			@content.reorder_child(@picross,0)
+			checkMap
+		end
+
+		return reset
+	end
+
+	def createPauseButton)()
+		@labelPause =  Gtk::Label.new("Partie en pause")
+		@labelPause.visible = true
+
+		pause  = Gtk::Button.new
+		pause.image = AssetsLoader.loadImage('pause.png',40)
+		pause.relief = Gtk::ReliefStyle::NONE
+		pause.signal_connect('clicked') do
+			pauseButtonAction()
+		end
+
+		return pause
+	end
+
+	def createBackButton()
+		btnBack        = Gtk::Button.new
+		btnBack.image  = AssetsLoader.loadImage("arrow-left.png",50)
+		btnBack.relief = Gtk::ReliefStyle::NONE
+		btnBack.signal_connect("clicked") do
+			self.save
+			self.parent.setFrame(MapFrame.new(@user,@chapter))
+		end
+
+		return btnBack
+	end
+
+	def createOptionButton()
+		btnOption        = Gtk::Button.new()
+		btnOption.image  = AssetsLoader.loadImage("cog.png",50)
+		btnOption.relief = Gtk::ReliefStyle::NONE
+		# Redirecting user towards option menu
+		btnOption.signal_connect("clicked") do
+			self.save
+			self.parent.setFrame(OptionFrame.new(@user, self))
+		end
+
+		return btnOption
+	end
+
+	def createHelpButton()
+		help  = Gtk::Button.new()
+		help.image = AssetsLoader.loadImage("help.png",40)
+		help.relief = Gtk::ReliefStyle::NONE
+		help.signal_connect('clicked') do
+			checkMap
+		end
+		return help
 	end
 
 end
