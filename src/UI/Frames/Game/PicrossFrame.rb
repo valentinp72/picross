@@ -300,9 +300,13 @@ class PicrossFrame < Frame
 				number = nums[number_i]
 				number.unsetDone
 				
-				if number.value != nil && number.value == line[done_i] then
-					number.setDone
-					done_i += 1
+				if number.value != nil then
+					if number.value == line[done_i] then
+						number.setDone
+						done_i += 1
+					else
+						break
+					end
 				end
 
 			end
