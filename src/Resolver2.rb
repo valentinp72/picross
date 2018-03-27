@@ -1,6 +1,6 @@
 # Licence	:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 03/08/2018
+# Last update	:: 03/27/2018
 #
 
 
@@ -29,8 +29,8 @@ class Resolver
 		#@clns = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
 
 		#Speaker
-		#@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
-		#@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
+		@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
+		@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
 
 		#Tasse
 		#@lines = [[1,1],[1,3],[10,1],[1,1,1],[1,3],[1,1],[10],[14]]
@@ -49,12 +49,8 @@ class Resolver
 		#@clns = [[10],[1,1],[1,1],[1,1,1,1],[1,3,1],[1,1,1,1],[1,1],[1,1],[1,1],[10]]
 
 		#Me
-		@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
-		@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
-
-		#Piou (fonctionne pas)
-		#@lines = [[1],[3,2],[2,2,1,1],[2,2,4],[1,2,1,2],[2,2,2],[1,3],[2],[2,2],[1,1]]
-		#@clns = [[1,2,1],[3,2,2],[1,2,1],[3,2,2],[2,2,1],[2,1,1],[2],[4],[1,2],[3],[1]]
+		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
 
 		#Panda (fonctionne pas)
 		#@lines = [[3,10],[1,4,3,1],[1,2,3],[3,1,1,1],[2,2,2,1],[2,1,1,1,1,2],[1,3,3,1],[1,2,2,1],[2,2],[3,2,1],[4,1,2,1,3],[2,2,4,2,1],[2,2,2,1],[3,6,1],[4,3]]
@@ -75,11 +71,11 @@ class Resolver
 
 		nbcasetot=0		#total de case à colorier sur la grille
 
-
+		# Calcul total de case à colorier sur la grille (somme des indices de chaque lignes)
 		for i in @lines	#pour chaque ligne
 			for j in i	#pour chaque indice
 
-				nbcasetot += j		# calcul total de case à colorier sur la grille
+				nbcasetot += j		
 			end
 		end
 
@@ -89,12 +85,12 @@ class Resolver
 			#On remplit les cases
 			for i in 0...@clns.size()
 
-				self.traitercolonne(i)
+				self.traiterrange(i,"column")
 			end
 
 			for i in 0...@lines.size()
 
-				self.traiterligne(i)
+				self.traiterrange(i,"line")
 			end
 
 			self.afficher()
@@ -108,19 +104,17 @@ class Resolver
 		end
 	end
 
-
-
 	#Affiche la grille résolue
 	def afficher()
 		i=0
 		while(i<@lines.size())
 			j=0
 			while(j<@clns.size())
-        if(@grid[i][j] == 1)
+        if(@grid[i][j] == 1)	#case coloriée
           print "0"
-        elsif @grid[i][j] == -1
+        elsif @grid[i][j] == -1		#case cochée
           print " "
-        else
+        else			#case indéterminée
           print "-"
         end
 				print " "
@@ -158,7 +152,7 @@ class Resolver
 				end
 	    end
 
-			#Calculer la somme des indices d'une range
+		#Calcul de la somme des indices d'une range
 	    for i in 0...tabTemp[num].size()
 	      cpt2 += tabTemp[num][i]
 	    end
@@ -170,7 +164,6 @@ class Resolver
 	    end
   end
 
-
 	#Coche toute les cases indéterminée d'une ligne
 	def cocheCaseIndeter(num, range)
 
@@ -179,7 +172,8 @@ class Resolver
 		else
 				taille = @clns.size()
 		end
-
+		
+		#Parcours de la range et si case indéterminée on met une croix
 		for i in 0...taille
 		 	if range.eql?("column") then
 
@@ -194,22 +188,23 @@ class Resolver
 		end
 	end
 
-
+	#Coche les cases qui ne peuvent correspondre à aucun indice
 	def cocheCaseImpossible(num, range)
 		if range.eql?("column") then
-				taille = @lines.size()
-				tabTemp = @clns
+			taille = @lines.size()
+			tabTemp = @clns
 		else
-				taille = @clns.size()
-				tabTemp = @lines
+			taille = @clns.size()
+			tabTemp = @lines
 		end
 
-		if(tabTemp[num].size() == 1)
+		if(tabTemp[num].size() == 1)		#si un seul indice sur la range
 			indice = tabTemp[num][0]
 
+			#si une case est coloriée sur la range, on coche toutes les cases trop éloignées pour correspondre au bloc
 			for j in 0...taille
 				if range.eql?("column") then
-					if(@grid[j][num]==1)   #coloriée
+					if(@grid[j][num]==1)  
 
 						fin = j-indice
 						for i in 0..fin
@@ -224,7 +219,7 @@ class Resolver
 						end
 					end
 				else
-					if(@grid[num][j]==1)   #coloriée
+					if(@grid[num][j]==1)   
 
 						fin = j-indice
 						for i in 0..fin
@@ -253,7 +248,6 @@ class Resolver
 				self.cocheCaseIndeter(i, "line")
 			end
 
-			#Cocher les cases impossible
 			self.cocheCaseImpossible(i, "line")
 		end
 
@@ -261,8 +255,7 @@ class Resolver
 			if (self.cptColor(i, "column"))
 				self.cocheCaseIndeter(i, "column")
 			end
-
-			#Cocher les cases impossible
+			
 			self.cocheCaseImpossible(i, "column")
 		end
 
@@ -287,7 +280,7 @@ class Resolver
 		return nb
 	end
 
-
+	#Calcul et renvoi la première possibilité du placement des indices sur la range en paramètre 
 	def premierePossibilite(num, range)
 		tab = []
 
@@ -301,13 +294,13 @@ class Resolver
 				tabTemp[num].each do |block|
 					c = 1
 						while c <= block
-							if(@grid[j][num] == -1)
+							if(@grid[j][num] == -1)		#si une croix bloque le positionnement du bloc d'indice, on le recommence a partir de la case suivant la croix
 								tab.delete(indice)
 								for p in 1..c
 									tab.push(0)
 								end
 								c = 0
-							else
+							else					#sinon on place une partie du bloc sur la case
 								tab.push(indice)
 							end
 							j += 1
@@ -347,7 +340,8 @@ class Resolver
 				end
 		end
 
-		while(j < taille)
+		#une fois les blocs d'indice posés, on remplit le reste du tableau de 0
+		while(j < taille)		
 			tab.push(0)
 			j+=1
 		end
@@ -355,6 +349,8 @@ class Resolver
 		return tab
 	end
 
+	
+	#Calcul et renvoi la première possibilité du placement des indices en partant de la fin sur la range en paramètre
 	def deuxiemePossibilite(num, range)
 		tab = []
 
@@ -427,132 +423,109 @@ class Resolver
 	end
 
 
+	#Colorie les cases certaines d'une range
+	def traiterrange(num, range)
+		
+		tab1 = premierePossibilite(num, range)
+		tab2 = deuxiemePossibilite(num, range)
 
-
-
-	#Traite une ligne entiere
-	def traiterligne(numl)
-
-		 tab1 = premierePossibilite(numl, "line")
-		 tab2 = deuxiemePossibilite(numl, "line")
-
-		# Deuxième possibilité en partant de la fin
-
+		
+		if range.eql?("column") then
+			taille = @lines.size();
+		else
+			taille = @clns.size();
+		end
+		
 		#Coloriage des cases sûres (intersection des 2 possibilités)
-		for i in 0...@clns.size()
-
+		for i in 0...taille
 			if (tab1[i]==tab2[i] && tab1[i]>0) then
-				@grid[numl][i]=1
+				
+				if range.eql?("column") then
+					@grid[i][num]=1
+				else
+					@grid[num][i]=1
+				end
 			end
 		end
-
-
-############################################################
-		#Extrémités du plateau + case coloriée a cote d'une croix
+	
+		
+		#Extrémités du plateau
+		#De la gauche vers la droite
 		j=0
-		while((@grid[numl][j]==-1) && (j<@clns.size()))
-
-			j+=1
-		end
-
-		if (@grid[numl][j]==1)
-			fin = @lines[numl][0]+j
-			if (fin>@clns.size()-1)
-				fin = @clns.size()-1
+		if range.eql?("column") then		#pour une colonne
+		
+			while((@grid[j][num]==-1) && (j<(taille-1)))
+				j+=1
 			end
-			for i in (j+1)...fin
-				@grid[numl][i]=1
+			if (@grid[j][num]==1)
+
+				fin = @clns[num][0]+j
+				if (fin>taille-1)
+					fin = taille-1
+				end
+				for i in (j+1)...fin
+					@grid[i][num]=1
+				end
 			end
-
-			#@grid[numl][fin]=-1
-		end
-
-
-		#Sens inverse
-		j=@clns.size()-1;
-		while((@grid[numl][j]==-1) && (j>0))
-
-			j-=1
-		end
-
-		if (@grid[numl][j]==1)
-			fin = j
-			debut = (fin-@lines[numl][@lines[numl].size()-1])+1
-			if(debut<0)
-				debut = 0
+		else								#pour une ligne
+		
+			while((@grid[num][j]==-1) && (j<taille))
+				j+=1
 			end
-			for i in debut...fin
-				@grid[numl][i]=1
-			end
-
-			if(debut>0)
-				@grid[numl][debut-1]=-1
-			end
-		end
-	end
-
-	#Traite une colonne entiere
-	def traitercolonne(numc)
-
-		tab1 = premierePossibilite(numc, "column")
-		tab2 = deuxiemePossibilite(numc, "column")
-
-
-		#Coloriage des cases sûres (intersection des 2 possibilités)
-		for i in 0...@lines.size()
-
-			if (tab1[i]==tab2[i] && tab1[i]>0) then
-				@grid[i][numc]=1
-			end
-
-		end
-
-###################################################################
-
-		#Extrémités du plateau + case coloriée a cote d'une croix
-		j=0
-		while((@grid[j][numc]==-1) && (j<(@lines.size()-1)))
-
-			j+=1
-		end
-
-		if (@grid[j][numc]==1)
-
-			fin = @clns[numc][0]+j
-			if (fin>@lines.size()-1)
-				fin = @lines.size()-1
-			end
-
-			for i in (j+1)...fin
-				@grid[i][numc]=1
-			end
-
-			#@grid[fin][numc]=-1
-		end
-
-		#Sens inverse
-		j=@lines.size()-1;
-		while((@grid[j][numc]==-1) && (j>0))
-
-			j-=1
-		end
-
-		if (@grid[j][numc]==1)
-			fin = j
-			debut = (fin-@clns[numc][@clns[numc].size()-1])+1
-			if(debut<0)
-				debut = 0
-			end
-
-			for i in debut...fin
-				@grid[i][numc]=1
-			end
-
-			if (debut>0)
-				@grid[debut-1][numc]=-1
+		
+			if (@grid[num][j]==1)
+				fin = @lines[num][0]+j
+				if (fin>taille-1)
+					fin = taille-1
+				end
+				for i in (j+1)...fin
+					@grid[num][i]=1
+				end
 			end
 		end
 
+		#De la droite vers la gauche
+		j=taille-1;
+		
+		if range.eql?("column") then		#pour une colonne
+		
+			while((@grid[j][num]==-1) && (j>0))
+				j-=1
+			end
+			if (@grid[j][num]==1)
+				fin = j
+				debut = (fin-@clns[num][@clns[num].size()-1])+1
+				if(debut<0)
+					debut = 0
+				end
+				for i in debut...fin
+					@grid[i][num]=1
+				end
+				if (debut>0)
+					@grid[debut-1][num]=-1
+				end
+				
+			end
+		else
+			while((@grid[num][j]==-1) && (j>0))
+
+				j-=1
+			end
+
+			if (@grid[num][j]==1)
+				fin = j
+				debut = (fin-@lines[num][@lines[num].size()-1])+1
+				if(debut<0)
+					debut = 0
+				end
+				for i in debut...fin
+					@grid[num][i]=1
+				end
+				if(debut>0)
+					@grid[num][debut-1]=-1
+				end
+			end
+		end
 	end
 end
 
