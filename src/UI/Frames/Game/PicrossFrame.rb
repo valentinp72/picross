@@ -18,6 +18,7 @@ require_relative 'SolutionNumber'
 class PicrossFrame < Frame
 
 	attr_reader :grid
+	attr_reader :cells
 	##
 	# Creation of a new PicrossFrame.
 	# * *Arguments* :
@@ -34,6 +35,9 @@ class PicrossFrame < Frame
 
 		@lineSolution   = map.lneSolution
 		@columnSolution = map.clmSolution
+
+		@posX = 0
+		@posY = 0
 
 		@colorsHyp = user.settings.hypothesesColors
 
@@ -272,7 +276,7 @@ class PicrossFrame < Frame
 	end
 
 	##
-	# Update all the SolutionNumber in the grid to show whether or not 
+	# Update all the SolutionNumber in the grid to show whether or not
 	# they are completed (done) by the user.
 	# * *Returns* :
 	#   - the object itself
@@ -300,7 +304,7 @@ class PicrossFrame < Frame
 			nums.each_index do |number_i|
 				number = nums[number_i]
 				number.unsetDone
-				
+
 				if number.value != nil then
 					break if number.value != line[done_i]
 					number.setDone
@@ -309,6 +313,18 @@ class PicrossFrame < Frame
 			end
 		end
 		return self
+	end
+
+	def on_key_press_event(event)
+		if event.keyval == 65293 then
+			self.click(@posX,@posY)
+		end
+		puts "key pressed : #{event.keyval}"
+	end
+
+	def click(column,line)
+		event = Gdk::Event.new(Gdk::EventType::BUTTON_PRESS)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).activate
 	end
 
 end

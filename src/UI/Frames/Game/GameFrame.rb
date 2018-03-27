@@ -38,6 +38,10 @@ class GameFrame < Frame
 
 		self.createMainLayout
 
+		self.signal_connect('size-allocate') do |widget, event|
+			self.parent.addKeyBinding(@picross.method(:on_key_press_event))
+		end
+
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
 		@main.show_all
@@ -304,22 +308,22 @@ class GameFrame < Frame
 
 	def createResetButton()
 		ButtonCreator.new(
-				:assetName => 'reset.png', 
-				:assetSize => 40, 
+				:assetName => 'reset.png',
+				:assetSize => 40,
 				:clicked => :btn_reset_clicked,
 				:parent => self
-		) 
+		)
 	end
 
 	def createPauseButton()
 		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
 		@labelPause.visible = true
 		ButtonCreator.new(
-				:assetName => 'pause.png', 
+				:assetName => 'pause.png',
 				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_pause_clicked
-		) 
+		)
 	end
 
 	def createBackButton()
@@ -328,16 +332,16 @@ class GameFrame < Frame
 				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_back_clicked
-		) 
+		)
 	end
 
 	def createOptionButton()
 		ButtonCreator.new(
 				:assetName => 'cog.png',
-				:assetSize => 40, 
+				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_option_clicked
-		) 
+		)
 	end
 
 	def createHelpButton()
