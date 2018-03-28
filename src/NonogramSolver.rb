@@ -14,8 +14,8 @@ class NonogramSolver
 
 		@rows = self.getCandidates(rowData, colData.size)
 		@cols = self.getCandidates(colData, rowData.size)
-		print @rows
-		puts
+		#print @rows
+		#puts
 		#print @cols
 		#puts
 
@@ -45,16 +45,16 @@ class NonogramSolver
 			sumChars = self.charsSum (s)
 			
 			prep = s.split(//).collect{|x| repeat(self.letterToInt(x),"1")} #list of blocks
-
+			#print "prep :",prep,"\n"
 			self.genSequence(prep, len - sumChars + 1).each do |r|
 				bits = r[1,r.size-1].split(//)
 				bitset = Array.new(bits.size,false)
 				for i in 0...bits.size
 					bitset[i] = (bits[i]=='1')
 				end
-				lst << bitset
+				lst.push(bitset)
 			end
-			result << lst
+			result.push(lst)
 		end
 		return result
 	end
@@ -64,7 +64,7 @@ class NonogramSolver
 	#int numZeros
 	def genSequence(ones, numZeros)
 		if ones.empty?
-			return self.repeat(numZeros, "0").split(//)
+			return [self.repeat(numZeros, "0")]
 		end
 
 		result = Array.new
@@ -99,37 +99,31 @@ class NonogramSolver
 	#List<List<BitSet>> b
 	def reduce(a, b)
 		countRemoved = 0
-
 		for i in 0...(a.size)
-			#BitSet 
-			commonOn = Array.new(b.size,false)
-			for i in 0...(b.size)
-				commonOn[i] = true
-				#BitSet 
-				commonOff = Array.new(b.size,false)
+			commonOn = Array.new(b.size,true)
+			commonOff = Array.new(b.size,false)
+			
+			#determine which values all candidates of ai have in common
+			a[i].each do |candidate|
+				commonOn = self.bitSetAnd(commonOn,candidate)
+				commonOff = self.bitSetOr(commonOff,candidate)
+			end
+			
 
-				#determine which values all candidates of ai have in common
-				a[i].each do |candidate|
-					commonOn = self.bitSetAnd(commonOn,candidate)
-					commonOff = self.bitSetOr(commonOff,candidate)
+			#remove from bj all candidates that dont share the forced values
+			for j in 0...(b.size)
+				fi = i
+				fj = j
+				
+				if (b[j].reject! { |cnd| (commonOn[fj] && !cnd[fi]) || (!commonOff[fj] && cnd[fi]) } != nil)
+					countRemoved +=1
 				end
-
-				#remove from bj all candidates that dont share the forced values
-				for j in 0...(b.size)
-					fi = i
-					fj = j
-					#List<List<Bitset>> b
-					# b[j][cnd]
-					if (b[j].reject! { |cnd| (commonOn[fj] && !cnd[fi]) || (!commonOff[fj] && cnd[fi]) } != nil)
-						countRemoved +=1
-					end
-					if b[j].empty?
-						return -1
-					end
+				if b[j].empty?
+					return -1
 				end
 			end
-			return countRemoved
 		end
+		return countRemoved
 	end
 	
 	
@@ -174,7 +168,7 @@ p3 = ["CA BDA ACC BD CCAC CBBAC BBBBB BAABAA ABAD AABB BBH BBBD ABBAAA CCEA AACA
 p4 = ["E BCB BEA BH BEK AABAF ABAC BAA BFB OD JH BADCF Q Q R AN AAN EI H G", "E CB BAB AAA AAA AC BB ACC ACCA AGB AIA AJ AJ ACE AH BAF CAG DAG FAH FJ GJ ADK ABK BL CM"]
 
 
-[p1].each do |p|
+[p1,p2,p3,p4].each do |p|
 	solver = NonogramSolver.new(p)
 	solver.solve
 end
