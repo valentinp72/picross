@@ -36,6 +36,7 @@ class Application < Gtk::Application
 
 #puts Gtk::get_major_version
 		puts Gtk.major_version, Gtk.minor_version, Gtk.micro_version
+		Gtk.check_version(GTK::MAJOR_VERSION, 1, 1)
 
 		@connectedUser = nil
 		@window        = nil
