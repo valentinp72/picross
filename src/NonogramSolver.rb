@@ -160,6 +160,32 @@ class NonogramSolver
 		end
 		return result
 	end
+	
+	#Convertit deux tableaux d'indices ligne et colonne en un tableaux de 2 chaines de caractères
+	def tabintTotabchar(tabraw,tabcol)
+	
+		res = []
+		raw="";
+		col="";
+	
+		for r in tabraw			#for every raw
+			for c in r			#for every clue		
+				raw += ((c + 'A'.ord) -1).chr
+			end
+			raw += " "
+		end
+		
+		for r in tabcol			#for every column
+			for c in r			#for every clue		
+				col += ((c + 'A'.ord) -1).chr
+			end
+			col += " "
+		end
+	
+		res.push(raw)
+		res.push(col)
+		return res
+	end
 end
 
 p1 = ["C BA CB BB F AE F A B", "AB CA AE GA E C D C"]
