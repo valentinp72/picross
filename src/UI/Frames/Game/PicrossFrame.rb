@@ -323,19 +323,30 @@ class PicrossFrame < Frame
 	end
 
 	def on_key_press_event(event)
-		# Enter touch
-		if event.keyval == 65293 then
+		# Left click
+		if event.keyval == @user.settings.keyboardClickLeft then
 			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
 				@enter_down = true
 				self.enterNotify(@posX,@posY)
-				self.click(@posX,@posY)
+				self.click(@posX,@posY,CellButton::BUTTON_LEFT_CLICK)
 			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
 				@enter_down = false
 				self.unclick(@posX,@posY)
 			end
 		end
-		# Q touch
-		if event.keyval == 113 then
+		# Right click
+		if event.keyval == @user.settings.keyboardClickRight then
+			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
+				@enter_down = true
+				self.enterNotify(@posX,@posY)
+				self.click(@posX,@posY,CellButton::BUTTON_RIGHT_CLICK)
+			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
+				@enter_down = false
+				self.unclick(@posX,@posY)
+			end
+		end
+		# left touch
+		if event.keyval == @user.settings.keyboardLeft then
 			if event.type == Gdk::EventType::KEY_PRESS && !@gaucheDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX-1, @posY) then
 				self.leaveNotify(@posX,@posY)
 				@posX -= 1
@@ -345,8 +356,8 @@ class PicrossFrame < Frame
 				@gaucheDown = false
 			end
 		end
-		# Z touch
-		if event.keyval == 122 then
+		# right touch
+		if event.keyval == @user.settings.keyboardUp then
 			if event.type == Gdk::EventType::KEY_PRESS && !@hautDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY-1) then
 				self.leaveNotify(@posX,@posY)
 				@posY -= 1
@@ -356,8 +367,8 @@ class PicrossFrame < Frame
 				@hautDown = false
 			end
 		end
-		# D touch
-		if event.keyval == 100 then
+		# right touch
+		if event.keyval == @user.settings.keyboardRight then
 			if event.type == Gdk::EventType::KEY_PRESS && !@droiteDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX+1, @posY) then
 				self.leaveNotify(@posX,@posY)
 				@posX += 1
@@ -367,8 +378,8 @@ class PicrossFrame < Frame
 				@droiteDown = false
 			end
 		end
-		# S touch
-		if event.keyval == 115 then
+		# down touch
+		if event.keyval == @user.settings.keyboardDown then
 			if event.type == Gdk::EventType::KEY_PRESS && !@basDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY+1) then
 				self.leaveNotify(@posX,@posY)
 				@posY += 1
@@ -380,8 +391,8 @@ class PicrossFrame < Frame
 		end
 	end
 
-	def click(column,line)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonPress(CellButton::BUTTON_LEFT_CLICK)
+	def click(column,line, button)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonPress(button)
 	end
 
 	def unclick(column,line)
