@@ -1,3 +1,6 @@
+require_relative 'Map'
+require_relative 'EvolvingMap'
+
 ##
 # File          :: Chapter.rb
 # Author        :: BROCHERIEUX Thibault
@@ -61,7 +64,9 @@ class Chapter
 		raise ChapterNotFoundException unless File.exists?(fileName)
 		begin
 			return Marshal.load(File.read(fileName))
-		rescue
+		rescue => exception
+			puts exception
+			puts exception.backtrace
 			raise CorruptedChapterException
 		end
 	end

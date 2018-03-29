@@ -40,13 +40,13 @@ class Grid
 		@lines   = lines
 		@columns = columns
 
-		if hypothesis != nil then
-			@grid = Array.new(lines) do |j|
-				Array.new(columns) do |i|
-					Cell.new(hypothesis, j, i)
+			if hypothesis != nil then
+				@grid = Array.new(lines) do |j|
+					Array.new(columns) do |i|
+						Cell.new(hypothesis, j, i)
+					end
 				end
 			end
-		end
 	end
 
 	##
@@ -321,6 +321,22 @@ class Grid
 			end
 		end
 		return length
+	end
+
+	def limit(lines, columns)
+		puts "@lines:#{@lines}, @columns:#{@columns}"
+		puts "lines:#{lines}, columns:#{columns}"
+		linesToRm = @lines - lines
+		colmsToRm = @columns - columns
+		puts "linesToRm:#{linesToRm}, colmsToRm:#{colmsToRm}"
+
+		@grid.pop(linesToRm)
+		@grid.each do |line|
+			line.pop(colmsToRm)
+		end
+		@lines   = lines
+		@columns = columns
+		return self
 	end
 
 	##

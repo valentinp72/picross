@@ -45,8 +45,10 @@ class Map
 
 	# The user current statistic about this Map
 	attr_reader :allStat
-
-	# +timeToDo+ - The estimated time to resolve the game
+	
+	# The estimated time to resolve the game
+	attr_reader :timeToDo
+	attr_writer :timeToDo
 
 	##
 	# Create a new map object

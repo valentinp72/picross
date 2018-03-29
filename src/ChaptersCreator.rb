@@ -6,6 +6,7 @@ require 'optparse'
 require_relative 'RetrievePicrossWeb'
 require_relative 'Chapter'
 require_relative 'Map'
+require_relative 'EvolvingMap'
 
 ##
 # File          :: ChaptersCreator.rb
@@ -61,12 +62,36 @@ class ChaptersCreator
 	def ChaptersCreator.createChapter(chapterName, values, outputFolder)
 		stars  = ChaptersCreator.getFromHash(values[0], "stars")  
 		links  = ChaptersCreator.getFromHash(values[1], "links")
+#puts links
 		levels = Array.new()
 		links.each do |link|
-			map = RetrievePicrossWeb.fromURL(link, outputFolder, false)
+			link.each do |url, options|
+
+			map = RetrievePicrossWeb.fromURL(url, outputFolder, false)
+			map = ChaptersCreator.mapOption(map, options)
+
 			levels.push(map)
+			end
 		end
 		return Chapter.new(chapterName, levels, stars)
+	end
+
+	def ChaptersCreator.mapOption(map, options)
+		newMap = map
+
+		options.each do |option|
+			option.each do |optionName, optionValue|
+				puts "clé: #{optionName}, value: #{optionValue}"
+				case optionName
+					when "timeToDo"
+						newMap.timeToDo = optionValue
+					when "evolving"
+						newMap = EvolvingMap.new_from_map(newMap)	
+				end
+			end
+		end
+		puts newMap
+		return newMap
 	end
 
 	def ChaptersCreator.getFromHash(element, neededKey)
