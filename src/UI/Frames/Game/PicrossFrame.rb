@@ -39,6 +39,13 @@ class PicrossFrame < Frame
 		@posX = 0
 		@posY = 0
 
+
+		@enterDown = false
+		@gaucheDown = false
+		@hautDown = false
+		@droiteDown = false
+		@basDown = false
+
 		@colorsHyp = user.settings.hypothesesColors
 
 		@frame = frame
@@ -316,15 +323,77 @@ class PicrossFrame < Frame
 	end
 
 	def on_key_press_event(event)
+		# Enter touch
 		if event.keyval == 65293 then
-			self.click(@posX,@posY)
+			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
+				@enter_down = true
+				self.enterNotify(@posX,@posY)
+				self.click(@posX,@posY)
+			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
+				@enter_down = false
+				self.unclick(@posX,@posY)
+			end
 		end
-		puts "key pressed : #{event.keyval}"
+		# Q touch
+		if event.keyval == 113 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@gaucheDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX-1, @posY) then
+				self.leaveNotify(@posX,@posY)
+				@posX -= 1
+				self.enterNotify(@posX,@posY)
+				@gaucheDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @gaucheDown then
+				@gaucheDown = false
+			end
+		end
+		# Z touch
+		if event.keyval == 122 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@hautDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY-1) then
+				self.leaveNotify(@posX,@posY)
+				@posY -= 1
+				self.enterNotify(@posX,@posY)
+				@hautDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @hautDown then
+				@hautDown = false
+			end
+		end
+		# D touch
+		if event.keyval == 100 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@droiteDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX+1, @posY) then
+				self.leaveNotify(@posX,@posY)
+				@posX += 1
+				self.enterNotify(@posX,@posY)
+				@droiteDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @droiteDown then
+				@droiteDown = false
+			end
+		end
+		# S touch
+		if event.keyval == 115 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@basDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY+1) then
+				self.leaveNotify(@posX,@posY)
+				@posY += 1
+				self.enterNotify(@posX,@posY)
+				@basDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @basDown then
+				@basDown = false
+			end
+		end
 	end
 
 	def click(column,line)
-		event = Gdk::Event.new(Gdk::EventType::BUTTON_PRESS)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).activate
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonPress(CellButton::BUTTON_LEFT_CLICK)
 	end
 
+	def unclick(column,line)
+		#event = Gdk::Event.new(Gdk::EventType::BUTTON_PRESS)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonUnpress()
+	end
+
+	def enterNotify(column, line)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).enterNotify()
+	end
+
+	def leaveNotify(column, line)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).leaveNotify()
+	end
 end
