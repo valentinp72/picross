@@ -19,7 +19,13 @@ class Chapter
 	# Exception when the chapter cannot be load by Marshal (not a marshal file?).
 	class CorruptedChapterException < StandardError; end
 
-	attr_reader :title, :levels, :starsRequired, :isUnlocked
+	attr_reader :title
+	
+	attr_reader :levels
+	
+	attr_reader :starsRequired
+	
+	attr_reader :isUnlocked
 
 	##
 	# Create a chapter, the chapter is locked by default

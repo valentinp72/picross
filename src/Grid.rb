@@ -40,13 +40,13 @@ class Grid
 		@lines   = lines
 		@columns = columns
 
-			if hypothesis != nil then
-				@grid = Array.new(lines) do |j|
-					Array.new(columns) do |i|
-						Cell.new(hypothesis, j, i)
-					end
+		if hypothesis != nil then
+			@grid = Array.new(lines) do |j|
+				Array.new(columns) do |i|
+					Cell.new(hypothesis, j, i)
 				end
 			end
+		end
 	end
 
 	##
@@ -305,6 +305,23 @@ class Grid
 	end
 
 	##
+	# Replace all the states in the grid that are corresponding to 
+	# the old given state by the new one.
+	# * *Arguments* :
+	#   - +oldState+ -> the old cells state to replace
+	#   - +newState+ -> the new state to be put inside the cells
+	# * *Returns* :
+	#   - the object itself
+	def replaceAll(oldState, newState)
+		self.each_cell do |cell|
+			if cell.state == oldState then
+				cell.state = newState
+			end
+		end
+		return self
+	end
+
+	##
 	# Count the number of the cells in the array that have the specific given state
 	# * *Arguments* :
 	#   - +array+ -> the array to search in
@@ -324,12 +341,9 @@ class Grid
 	end
 
 	def limit(lines, columns)
-		puts "@lines:#{@lines}, @columns:#{@columns}"
-		puts "lines:#{lines}, columns:#{columns}"
 		linesToRm = @lines - lines
 		colmsToRm = @columns - columns
-		puts "linesToRm:#{linesToRm}, colmsToRm:#{colmsToRm}"
-
+		
 		@grid.pop(linesToRm)
 		@grid.each do |line|
 			line.pop(colmsToRm)
@@ -337,6 +351,30 @@ class Grid
 		@lines   = lines
 		@columns = columns
 		return self
+	end
+
+	def grow(lines, columns)
+		linesToAdd = lines - @lines
+		colmsToAdd = columns - @columns
+
+		puts "colmsToAdd: #{colmsToAdd}, linesToAdd: #{linesToAdd}"
+		hypothesis = @grid[0][0].hypothesis
+
+		self.each_line_with_index do |line, j|
+			cells = Array.new(colmsToAdd) do |i|
+				Cell.new(hypothesis, j, @columns + i)
+			end
+			@grid[j] = line + cells
+		end
+
+		(0...linesToAdd).each do |j|
+			newLine = Array.new(columns) do |i|
+				Cell.new(hypothesis, @lines + j, i)
+			end
+			@grid.push(newLine)
+		end
+		@columns = columns
+		@lines   = lines
 	end
 
 	##
@@ -355,7 +393,7 @@ class Grid
 		# print each line
 		@grid.each_index do |j|
 			# add the line number
-			r += j.to_s
+			r += j.to_s.rjust(2,'0')
 
 			# print each cell
 			@grid[j].each do |cell|

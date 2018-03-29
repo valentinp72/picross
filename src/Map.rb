@@ -257,18 +257,30 @@ class Map
 
 	end
 
-	def check()
+	def shouldFinish?()
 		if !@currentStat.isFinished then
 			nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
 			if nb == @solution.numberCell(Cell::CELL_BLACK) then
 				if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
-					@currentStat.finish(@timeToDo)
-					@allStat.addStatistic(@currentStat)
-					@hypotheses.validate(0)
-					@hypotheses.getWorkingHypothesis.grid.finish
 					return true
 				end
 			end
+		end
+		return false
+	end
+
+	def finish()
+		@currentStat.finish(@timeToDo)
+		@allStat.addStatistic(@currentStat)
+		@hypotheses.validate(0)
+		@hypotheses.getWorkingHypothesis.grid.finish
+		return self
+	end
+
+	def check()
+		if self.shouldFinish? then
+			self.finish
+			return true
 		end
 		return false
 	end
