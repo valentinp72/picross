@@ -15,7 +15,7 @@ class CellButton < Gtk::EventBox
 
 	# The real Cell that this button is composed
 	attr_reader :cell
-	
+
 	# Left-click value when a button-click event is throwed
 	BUTTON_LEFT_CLICK  = 1
 
@@ -112,32 +112,19 @@ class CellButton < Gtk::EventBox
 			Gdk::EventMask::LEAVE_NOTIFY_MASK)
 
 		self.signal_connect('button_press_event') do |widget, event|
-
-			# force to not grab focus on current button
-			Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
-
-			if event.button == BUTTON_LEFT_CLICK then
-				@drag.startLeftDrag(@cell)
-			elsif event.button == BUTTON_RIGHT_CLICK then
-				@drag.startRightDrag(@cell)
-			end
-
-			self.setAttributes
+			self.buttonPress(event.button)
 		end
 
 		self.signal_connect('button_release_event') do |widget, event|
-			@drag.reset
+			self.buttonUnpress()
 		end
 
 		self.signal_connect('enter_notify_event') do |widget, event|
-			@drag.update(@cell)
-			self.parent.parent.parent.setHover(@cell.posX, @cell.posY)
-			self.setAttributes
+			self.enterNotify()
 		end
 
 		self.signal_connect('leave_notify_event') do |widget, event|
-			self.parent.parent.parent.unsetHover(@cell.posX, @cell.posY)
-			self.setAttributes
+			self.leaveNotify()
 		end
 
 		return self
@@ -153,7 +140,7 @@ class CellButton < Gtk::EventBox
 
 		# chooses the class about the hypothesis of the cell
 		wantedClasses.push(chooseHypothesisClass)
-		
+
 		# chooses the pixbuf about the state of the cell
 		@widget.pixbuf = choosePixbufState
 
@@ -244,6 +231,34 @@ class CellButton < Gtk::EventBox
 				background-color: red;
 			}
 		"
+	end
+
+	def enterNotify()
+		@drag.update(@cell)
+		self.parent.parent.parent.setHover(@cell.posX, @cell.posY)
+		self.setAttributes
+	end
+
+	def leaveNotify()
+		self.parent.parent.parent.unsetHover(@cell.posX, @cell.posY)
+		self.setAttributes
+	end
+
+	def buttonPress(event)
+		# force to not grab focus on current button
+		Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
+
+		if event == BUTTON_LEFT_CLICK then
+			@drag.startLeftDrag(@cell)
+		elsif event == BUTTON_RIGHT_CLICK then
+			@drag.startRightDrag(@cell)
+		end
+
+		self.setAttributes
+	end
+
+	def buttonUnpress()
+		@drag.reset
 	end
 
 end
