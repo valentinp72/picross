@@ -98,7 +98,6 @@ class NonogramSolver
 				result.push(repeat(x,"0")+ones[0]+tail)
 			end
 		end
-		print result
 		return result
 	end
 
