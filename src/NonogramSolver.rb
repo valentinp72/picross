@@ -9,15 +9,9 @@ class NonogramSolver
 	def solve
 		rowData = @data[0].split(" ")
 		colData = @data[1].split(" ")
-		#puts rowData
-		#puts colData
 
 		@rows = self.getCandidates(rowData, colData.size)
 		@cols = self.getCandidates(colData, rowData.size)
-		#print @rows
-		#puts
-		#print @cols
-		#puts
 
 		begin
 			numChanged = self.reduceMutual(@cols, @rows)
@@ -45,7 +39,7 @@ class NonogramSolver
 			sumChars = self.charsSum (s)
 			
 			prep = s.split(//).collect{|x| repeat(self.letterToInt(x),"1")} #list of blocks
-			#print "prep :",prep,"\n"
+			
 			self.genSequence(prep, len - sumChars + 1).each do |r|
 				bits = r[1,r.size-1].split(//)
 				bitset = Array.new(bits.size,false)
@@ -109,7 +103,6 @@ class NonogramSolver
 				commonOff = self.bitSetOr(commonOff,candidate)
 			end
 			
-
 			#remove from bj all candidates that dont share the forced values
 			for j in 0...(b.size)
 				fi = i
@@ -160,32 +153,6 @@ class NonogramSolver
 		end
 		return result
 	end
-	
-	#Convertit deux tableaux d'indices ligne et colonne en un tableaux de 2 chaines de caractères
-	def tabintTotabchar(tabraw,tabcol)
-	
-		res = []
-		raw="";
-		col="";
-	
-		for r in tabraw			#for every raw
-			for c in r			#for every clue		
-				raw += ((c + 'A'.ord) -1).chr
-			end
-			raw += " "
-		end
-		
-		for r in tabcol			#for every column
-			for c in r			#for every clue		
-				col += ((c + 'A'.ord) -1).chr
-			end
-			col += " "
-		end
-	
-		res.push(raw)
-		res.push(col)
-		return res
-	end
 end
 
 p1 = ["C BA CB BB F AE F A B", "AB CA AE GA E C D C"]
@@ -193,8 +160,38 @@ p2 = ["F CAC ACAC CN AAA AABB EBB EAA ECCC HCCC", "D D AE CD AE A DA BBB CC AAB 
 p3 = ["CA BDA ACC BD CCAC CBBAC BBBBB BAABAA ABAD AABB BBH BBBD ABBAAA CCEA AACAAB BCACC ACBH DCH ADBE ADBB DBE ECE DAA DB CC", "BC CAC CBAB BDD CDBDE BEBDF ADCDFA DCCFB DBCFC ABDBA BBF AAF BADB DBF AAAAD BDG CEF CBDB BBB FC"]
 p4 = ["E BCB BEA BH BEK AABAF ABAC BAA BFB OD JH BADCF Q Q R AN AAN EI H G", "E CB BAB AAA AAA AC BB ACC ACCA AGB AIA AJ AJ ACE AH BAF CAG DAG FAH FJ GJ ADK ABK BL CM"]
 
+def convert (lins,cols)
+	resLins = ""
+	resCols = ""
+	lins.each { |line|
+		line.each { |b| resLins << ('A'.ord()+b-1).chr }
+		resLins << " "
+	}
+	cols.each { |col|
+		col.each { |b| resCols << ('A'.ord()+b-1).chr }
+		resCols << " "
+	}
+	return [resLins[0,resLins.size-1],resCols[0,resCols.size-1]]
+end
 
-[p1,p2,p3,p4].each do |p|
+#Me
+#lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+#clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
+
+#Piou (fonctionne pas)
+#lines = [[1],[3,2],[2,2,1,1],[2,2,4],[1,2,1,2],[2,2,2],[1,3],[2],[2,2],[1,1]]
+#clns = [[1,2,1],[3,2,2],[1,2,1],[3,2,2],[2,2,1],[2,1,1],[2],[4],[1,2],[3],[1]]
+
+#Tasse
+#lines= [[1,1],[1,3],[10,1],[1,1,1],[1,3],[1,1],[10],[14]]
+#clns= [[1],[1],[8],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[8],[1,1,1],[4,1]]
+
+#Speaker
+lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
+clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
+
+
+[convert(lines,clns)].each do |p|
 	solver = NonogramSolver.new(p)
 	solver.solve
 end
