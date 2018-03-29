@@ -285,6 +285,10 @@ class Map
 		return false
 	end
 
+	def evolving?
+		return false
+	end
+
 	##
 	# Retuns the map to a string, for debug only
 	# * *Returns* :

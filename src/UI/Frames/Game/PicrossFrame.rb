@@ -32,9 +32,6 @@ class PicrossFrame < Frame
 		@grid = grid
 		@user = user
 
-		@lineSolution   = map.lneSolution
-		@columnSolution = map.clmSolution
-
 		@colorsHyp = user.settings.hypothesesColors
 
 		@frame = frame
@@ -107,15 +104,15 @@ class PicrossFrame < Frame
 		return self
 	end
 
-	##
-	# Create the PicrossFrame area, with all the CellButton inside
-	# * *Returns* :
-	#   - the PicrossFrame itself
-	def createArea()
-		@cells = Gtk::Grid.new
-		@drag  = Drag.new(@map, @cells, @frame)
-		@cells.visible = true
+	def redraw
+		@lineSolution   = @map.lneSolution
+		@columnSolution = @map.clmSolution
 
+		@cells.children.each do |child|
+			@cells.remove(child)
+		end
+
+		puts "ch1", @cells.children
 		# compute the offsets caused by the line and column solution numbers
 		@lineOffset   = @lineSolution.map(&:length).max
 		@columnOffset = @columnSolution.map(&:length).max
@@ -124,7 +121,7 @@ class PicrossFrame < Frame
 		# adds the numbers to the cells
 		createNumbers(@cells, @columnSolution, @lineOffset, @columnOffset, false)
 		createNumbers(@cells, @lineSolution,   @lineOffset, @columnOffset, true)
-
+		
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
@@ -135,10 +132,30 @@ class PicrossFrame < Frame
 				1
 			)
 		end
+		@drag.reset
+		self.queue_draw
+		puts "ch2",@cells.children
+
+		@mainArea.children.each do |children|
+			@mainArea.remove(children)
+		end
+		@mainArea.add(@cells)
+	end
+
+	##
+	# Create the PicrossFrame area, with all the CellButton inside
+	# * *Returns* :
+	#   - the PicrossFrame itself
+	def createArea()
+		@cells = Gtk::Grid.new
+		@drag  = Drag.new(@map, @cells, @frame)
+		@cells.visible = true
+
 
 		@mainArea = Gtk::EventBox.new()
 		@mainArea.events |= (Gdk::EventMask::ENTER_NOTIFY_MASK)
-		@mainArea.add(@cells)
+		
+		self.redraw
 
 		self.add(@mainArea)
 		return self

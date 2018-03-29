@@ -32,7 +32,7 @@ class EvolvingMap < Map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
 	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid)
-
+		@evolved       = false
 		@totalLines    = lines
 		@totalColumns  = columns
 		@totalSolution = solutionGrid.clone
@@ -65,6 +65,7 @@ class EvolvingMap < Map
 		@solution.limit(@currentLines, @currentColumns)
 		@clmSolution = computeColumnSolution(@solution)
 		@lneSolution = computeLineSolution(@solution)
+		@evolved = true
 		super()
 		return self
 	end
@@ -77,6 +78,7 @@ class EvolvingMap < Map
 		@hypotheses.validate(0)
 		@hypotheses.workingHypothesis.grid.replaceAll(Cell::CELL_WHITE, Cell::CELL_CROSSED)
 		@hypotheses.workingHypothesis.grid.grow(@currentLines, @currentColumns)
+		@evolved = true
 	end
 
 	def increment(ratio)
@@ -96,16 +98,29 @@ class EvolvingMap < Map
 		return false
 	end
 
+	def evolving?
+		return true
+	end
+
+	def evolved?
+		if @evolved == true then
+			@evolved = false
+			return true
+		end
+		return false
+	end
+
 	def marshal_dump
 		current = [@currentLines, @currentColumns]
 		total   = [@totalLines, @totalColumns, @totalSolution]
-		return [super(), current, total]
+		return [super(), current, total, @evolved]
 	end
 
 	def marshal_load(array)
 		super(array[0])
-		@currentLines, @currentColumns = array[1]
-		@totalLines, @totalColumns, @totalSolution       = array[2]
+		@currentLines, @currentColumns             = array[1]
+		@totalLines, @totalColumns, @totalSolution = array[2]
+		@evolved = array[3]
 		return self
 	end
 

@@ -250,6 +250,7 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the frame itself
 	def draw
+		puts "on draw"
 		self.createMainLayout
 
 		if(@isPaused) then
