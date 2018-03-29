@@ -237,6 +237,8 @@ class GameFrame < Frame
 	def checkMap()
 		@picross.setDoneValues if @picross != nil
 		if @map.currentStat.isFinished then
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid if @picross != nil
 			@btnHypotheses.sensitive = false
 			@pause.sensitive = false
 			@help.sensitive = false
