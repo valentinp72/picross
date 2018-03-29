@@ -24,6 +24,14 @@ option:
         '3': 'Hypothesis color 4:'
         '4': 'Hypothesis color 4:'
         '5': 'Hypothesis color 5:'
+    chooseKeyboard: 'Keyboard shortcuts'
+    keyboard:
+        up: 'Move the cursor upward'
+        down: 'Move the cursor downward'
+        left: 'Move cursor to the left'
+        right: 'Move cursor to the right'
+        click-left: 'Left click'
+        click-right: 'Right click'
 button:
     valid: Apply
     cancel: Cancel
