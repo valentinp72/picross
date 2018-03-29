@@ -34,6 +34,9 @@ class Application < Gtk::Application
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
 
+#puts Gtk::get_major_version
+		puts Gtk.major_version, Gtk.minor_version, Gtk.micro_version
+
 		@connectedUser = nil
 		@window        = nil
 
