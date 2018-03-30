@@ -31,6 +31,10 @@ class OptionFrame < Frame
 		@buttons  = createButtons
 		@panel    = createPanel
 
+		self.signal_connect('size-allocate') do |widget, event|
+
+		end
+
 		self.add(@panel)
 	end
 
@@ -56,7 +60,7 @@ class OptionFrame < Frame
 
 		panel.halign = Gtk::Align::CENTER
 		panel.valign = Gtk::Align::CENTER
-		
+
 		return panel
 	end
 
@@ -87,7 +91,7 @@ class OptionFrame < Frame
 
 		settings.push(SettingLanguage.new(@user))
 		settings.push(SettingHypothesesColor.new(@user))
-
+		settings.push(SettingKeyboard.new(@user, self))
 		return settings
 	end
 
@@ -104,7 +108,7 @@ class OptionFrame < Frame
 		buttons = Gtk::Box.new(:horizontal, 2)
 		buttons.pack_start(@cancelBtn, :expand => true, :fill => true, :padding =>2)
 		buttons.pack_start(@validBtn,  :expand => true, :fill => true, :padding =>2)
-		
+
 		# Cancel -> We return to home
 		@cancelBtn.signal_connect("clicked") do
 			closeOrComeBackToHome(@user)
@@ -118,12 +122,12 @@ class OptionFrame < Frame
 			@user.save()
 			closeOrComeBackToHome(@user)
 		end
-	
+
 		return buttons
 	end
 
 	##
-	# Ask for the frame to close the window, or to change 
+	# Ask for the frame to close the window, or to change
 	# to the home frame.
 	# * *Returns* :
 	#   - the frame itself
@@ -140,7 +144,7 @@ class OptionFrame < Frame
 
 end
 
-class Setting 
+class Setting
 
 	attr_reader :label
 
@@ -150,14 +154,14 @@ class Setting
 
 		@label  = Gtk::Label.new(text)
 		@widget = widget
-		
+
 		@label.halign  = Gtk::Align::START
 		@widget.halign = Gtk::Align::END
-		
+
 	end
 
 	def save
-		raise NotImplementedError, "a Setting needs to know what to do when saving" 
+		raise NotImplementedError, "a Setting needs to know what to do when saving"
 	end
 
 end
@@ -166,7 +170,7 @@ class SettingLanguage < Setting
 
 	def initialize(user)
 		@user = user
-	
+
 		@selection = Gtk::ComboBoxText.new
 		langs = self.retrieveLanguages
 		langs.each do |l|
@@ -186,7 +190,7 @@ class SettingLanguage < Setting
 	end
 
 	##
-	# This function retrieve all available languages 
+	# This function retrieve all available languages
 	def retrieveLanguages()
 		path = File.dirname(__FILE__) + "/../../../Config/"
 		return Dir.entries(path).select { |f| f.match(/lang\_(.*)/) }.select{ |x| x.slice!(0, 5) }
@@ -236,7 +240,7 @@ class SettingHypothesisColor < Setting
 
 		@color = Gtk::ColorButton.new
 		@color.color = Gdk::Color.parse(@user.settings.hypothesesColors[id])
-		
+
 		super(@user.lang["option"]["chooseHypColor"][id], @color)
 	end
 
@@ -256,3 +260,82 @@ class SettingHypothesisColor < Setting
 
 end
 
+class SettingKeyboard < Setting
+
+	attr_reader :keyboardChoosers
+
+	def initialize(user, parent)
+		@user = user
+
+		@keys = Gtk::Grid.new()
+		@keys.column_spacing = 5
+
+		@keyboardChoosers = [
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["up"], @user.settings.keyboardUp),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["down"], @user.settings.keyboardDown),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["left"], @user.settings.keyboardLeft),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["right"], @user.settings.keyboardRight),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-left"], @user.settings.keyboardClickLeft),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-right"], @user.settings.keyboardClickRight)
+		]
+
+		line = 0
+		@keyboardChoosers.each do |keyChooser|
+			@keys.attach(keyChooser.label,  0, line, 1, 1)
+			@keys.attach(keyChooser.widget, 1, line, 1, 1)
+			line += 1
+		end
+
+		super(@user.lang["option"]["chooseKeyboard"],@keys)
+	end
+end
+
+
+class SettingKey < Setting
+
+	def initialize(parent, user, optionName, value)
+		@user = user
+		@value = value
+		@key = Gtk::Button.new(:label => Gdk::Keyval.to_name(@value))
+		@parent = parent
+
+		@key.signal_connect("clicked") do
+			self.bindKey()
+		end
+
+		super(optionName,@key)
+	end
+
+	def bindKey()
+		message = @user.lang["option"]["bind"]
+		@dialog = Gtk::MessageDialog.new(:parent=> @parent.parent, :flags=> :destroy_with_parent,:type => :error,:buttons_type => :close,:message=> message)
+		@dialog.secondary_text = @user.lang["option"]["bindCancel"]
+
+		@dialog.signal_connect("key-press-event") do |w, e|
+			self.on_key_press_event(e)
+		end
+
+		@dialog.signal_connect "response" do |dialog, _response_id|
+			dialog.destroy
+		end
+
+		@dialog.show_all
+	end
+
+	def on_key_press_event(event)
+		# if escape is pressed
+		if event.keyval != 65307 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@keyPressed then
+				@keyPressed = true
+				if @user.settings.checkNewKey(event.keyval) then
+					puts "#{@value} #{event.keyval}"
+					@user.settings.changeKeyBoardValue(@value, event.keyval)
+					@value = event.keyval
+					@dialog.destroy
+					@key.label = Gdk::Keyval.to_name(@value)
+				end
+				@keyPressed = false
+			end
+		end
+	end
+end

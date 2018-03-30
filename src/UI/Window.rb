@@ -12,6 +12,8 @@ class Window < Gtk::ApplicationWindow
 		testIcon = AssetsLoader.loadFile('logo.png')
 		self.set_icon_from_file(testIcon)
 		self.window_position = :center
+		self.add_events(Gdk::EventMask::KEY_RELEASE_MASK)
+		self.add_events(Gdk::EventMask::KEY_PRESS_MASK)
 	end
 
 	def setFrame(frame)
@@ -27,5 +29,14 @@ class Window < Gtk::ApplicationWindow
 
 	def mainWindow?()
 		return false
+	end
+
+	def addKeyBinding(method)
+		self.signal_connect("key-press-event") do |w, e|
+			method.call(e)
+		end
+		self.signal_connect("key-release-event") do |w, e|
+			method.call(e)
+		end
 	end
 end

@@ -102,7 +102,7 @@ class Hypotheses
 		end
 		if hypothesisID == 0 then
 			if @stack.length > 1 then
-				validate(1)
+				validate(@stack.length-1)
 			end
 			#raise ArgumentError, "hypothesis 0 cannot be validated"
 		end

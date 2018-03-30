@@ -38,6 +38,10 @@ class GameFrame < Frame
 
 		self.createMainLayout
 
+		self.signal_connect('size-allocate') do |widget, event|
+			self.parent.addKeyBinding(@picross.method(:on_key_press_event))
+		end
+
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
 		@main.show_all
@@ -106,7 +110,6 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the Gtk::Box containing the sidebar
 	def createSideBarLayout()
-
 		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
 
 		# Update the timer view every second
@@ -159,10 +162,44 @@ class GameFrame < Frame
 		return @sideBar
 	end
 
+	def createPopoverButton(buttonAccept, buttonReject)
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: <<-CSS)
+			button {
+				background-image: image(#{@colorsHyp[hypo.id]});
+			}
+		CSS
+
+		buttonAccept.image = AssetsLoader.loadImage('check.png', 40)
+		buttonAccept.style_context.add_provider(
+				css_provider,
+				Gtk::StyleProvider::PRIORITY_USER
+		)
+
+		buttonAccept.signal_connect('clicked') do
+			@map.hypotheses.validate(hypo.id)
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+			updatePopover(popoverBox)
+		end
+
+		buttonReject.style_context.add_provider(
+				css_provider,
+				Gtk::StyleProvider::PRIORITY_USER
+		)
+		buttonReject.image = AssetsLoader.loadImage('close.png',40)
+		buttonReject.signal_connect('clicked') do
+			@map.hypotheses.reject(hypo.id)
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+			updatePopover(popoverBox)
+		end
+	end
+
 	def updatePopover(popoverBox)
 
 		@colorsHyp = @user.settings.hypothesesColors
-		if(popoverBox.parent == @popover) then
+		if popoverBox.parent == @popover then
 			@popover.remove(popoverBox)
 		end
 
@@ -174,39 +211,10 @@ class GameFrame < Frame
 
 			boxHypo = Gtk::Box.new(:vertical)
 
-			css_provider = Gtk::CssProvider.new
-			css_provider.load(data: <<-CSS)
-				button {
-					background-image: image(#{@colorsHyp[hypo.id]});
-				}
-			CSS
-
 			buttonAccept = Gtk::Button.new()
-			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
-			buttonAccept.style_context.add_provider(
-					css_provider,
-					Gtk::StyleProvider::PRIORITY_USER
-			)
-
-			buttonAccept.signal_connect('clicked') do
-				@map.hypotheses.validate(hypo.id)
-				@grid = @map.hypotheses.getWorkingHypothesis.grid
-				@picross.grid = @grid
-				updatePopover(popoverBox)
-			end
-
 			buttonReject = Gtk::Button.new()
-			buttonReject.style_context.add_provider(
-					css_provider,
-					Gtk::StyleProvider::PRIORITY_USER
-			)
-			buttonReject.image = AssetsLoader.loadImage('close.png',40)
-			buttonReject.signal_connect('clicked') do
-				@map.hypotheses.reject(hypo.id)
-				@grid = @map.hypotheses.getWorkingHypothesis.grid
-				@picross.grid = @grid
-				updatePopover(popoverBox)
-			end
+
+			createPopoverButton(buttonAccept, buttonReject)
 
 			boxHypo.pack_start(buttonAccept)
 			boxHypo.pack_start(buttonReject)
@@ -233,6 +241,8 @@ class GameFrame < Frame
 	def checkMap()
 		@picross.setDoneValues if @picross != nil
 		if @map.currentStat.isFinished then
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid if @picross != nil
 			@btnHypotheses.sensitive = false
 			@pause.sensitive = false
 			@help.sensitive = false
@@ -305,22 +315,22 @@ class GameFrame < Frame
 
 	def createResetButton()
 		ButtonCreator.new(
-				:assetName => 'reset.png', 
-				:assetSize => 40, 
+				:assetName => 'reset.png',
+				:assetSize => 40,
 				:clicked => :btn_reset_clicked,
 				:parent => self
-		) 
+		)
 	end
 
 	def createPauseButton()
 		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
 		@labelPause.visible = true
 		ButtonCreator.new(
-				:assetName => 'pause.png', 
+				:assetName => 'pause.png',
 				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_pause_clicked
-		) 
+		)
 	end
 
 	def createBackButton()
@@ -329,16 +339,16 @@ class GameFrame < Frame
 				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_back_clicked
-		) 
+		)
 	end
 
 	def createOptionButton()
 		ButtonCreator.new(
 				:assetName => 'cog.png',
-				:assetSize => 40, 
+				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_option_clicked
-		) 
+		)
 	end
 
 	def createHelpButton()

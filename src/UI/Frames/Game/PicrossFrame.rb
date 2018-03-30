@@ -19,7 +19,11 @@ class PicrossFrame < Frame
 
 	# The grid this frame is working on
 	attr_reader :grid
+	attr_reader :cells
 
+	attr_accessor :posX
+	attr_accessor :posY
+	
 	##
 	# Creation of a new PicrossFrame.
 	# * *Arguments* :
@@ -33,6 +37,16 @@ class PicrossFrame < Frame
 		@map  = map
 		@grid = grid
 		@user = user
+
+		@posX = 0
+		@posY = 0
+
+
+		@enterDown = false
+		@gaucheDown = false
+		@hautDown = false
+		@droiteDown = false
+		@basDown = false
 
 		@colorsHyp = user.settings.hypothesesColors
 
@@ -134,7 +148,7 @@ class PicrossFrame < Frame
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
-				CellButton.new(cell, @drag, @colorsHyp),
+				CellButton.new(cell, @drag, @colorsHyp, self),
 				column + @lineOffset, line + @columnOffset,
 				1, 1)
 		end
@@ -305,7 +319,7 @@ class PicrossFrame < Frame
 	end
 
 	##
-	# Update all the SolutionNumber in the grid to show whether or not 
+	# Update all the SolutionNumber in the grid to show whether or not
 	# they are completed (done) by the user.
 	# * *Returns* :
 	#   - the object itself
@@ -333,7 +347,7 @@ class PicrossFrame < Frame
 			nums.each_index do |number_i|
 				number = nums[number_i]
 				number.unsetDone
-				
+
 				if number.value != nil then
 					break if number.value != line[done_i]
 					number.setDone
@@ -344,4 +358,89 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	def on_key_press_event(event)
+		# Left click
+		if event.keyval == @user.settings.keyboardClickLeft then
+			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
+				@enter_down = true
+				self.enterNotify(@posX,@posY)
+				self.click(@posX,@posY,CellButton::BUTTON_LEFT_CLICK)
+			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
+				@enter_down = false
+				self.unclick(@posX,@posY)
+			end
+		end
+		# Right click
+		if event.keyval == @user.settings.keyboardClickRight then
+			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
+				@enter_down = true
+				self.enterNotify(@posX,@posY)
+				self.click(@posX,@posY,CellButton::BUTTON_RIGHT_CLICK)
+			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
+				@enter_down = false
+				self.unclick(@posX,@posY)
+			end
+		end
+		# left touch
+		if event.keyval == @user.settings.keyboardLeft then
+			if event.type == Gdk::EventType::KEY_PRESS && !@gaucheDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX-1, @posY) then
+				self.leaveNotify(@posX,@posY)
+				@posX -= 1
+				self.enterNotify(@posX,@posY)
+				@gaucheDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @gaucheDown then
+				@gaucheDown = false
+			end
+		end
+		# right touch
+		if event.keyval == @user.settings.keyboardUp then
+			if event.type == Gdk::EventType::KEY_PRESS && !@hautDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY-1) then
+				self.leaveNotify(@posX,@posY)
+				@posY -= 1
+				self.enterNotify(@posX,@posY)
+				@hautDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @hautDown then
+				@hautDown = false
+			end
+		end
+		# right touch
+		if event.keyval == @user.settings.keyboardRight then
+			if event.type == Gdk::EventType::KEY_PRESS && !@droiteDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX+1, @posY) then
+				self.leaveNotify(@posX,@posY)
+				@posX += 1
+				self.enterNotify(@posX,@posY)
+				@droiteDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @droiteDown then
+				@droiteDown = false
+			end
+		end
+		# down touch
+		if event.keyval == @user.settings.keyboardDown then
+			if event.type == Gdk::EventType::KEY_PRESS && !@basDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY+1) then
+				self.leaveNotify(@posX,@posY)
+				@posY += 1
+				self.enterNotify(@posX,@posY)
+				@basDown = true
+			elsif  event.type == Gdk::EventType::KEY_RELEASE && @basDown then
+				@basDown = false
+			end
+		end
+	end
+
+	def click(column,line, button)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonPress(button)
+	end
+
+	def unclick(column,line)
+		#event = Gdk::Event.new(Gdk::EventType::BUTTON_PRESS)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonUnpress()
+	end
+
+	def enterNotify(column, line)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).enterNotify()
+	end
+
+	def leaveNotify(column, line)
+		@cells.get_child_at(@lineOffset + column, @columnOffset + line).leaveNotify()
+	end
 end
