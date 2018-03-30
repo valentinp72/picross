@@ -17,7 +17,9 @@ require_relative 'SolutionNumber'
 
 class PicrossFrame < Frame
 
+	# The grid this frame is working on
 	attr_reader :grid
+
 	##
 	# Creation of a new PicrossFrame.
 	# * *Arguments* :
@@ -35,12 +37,22 @@ class PicrossFrame < Frame
 		@colorsHyp = user.settings.hypothesesColors
 
 		@frame = frame
-
-		createArea()
+		
+		self.createArea
 
 		self.signal_connect('size-allocate') do |widget, event|
 			self.setMaxSize(event.width, event.height)
 		end
+		self.forceResize
+	end
+
+	##
+	# Ask the frame to force to resize to it's normal size.
+	# * *Returns* :
+	#   - the object itself
+	def forceResize
+		@oWidth  = nil
+		@oHeight = nil
 
 		# we force to allocate the size as soon as possible
 		# otherwise, it's only updated when the user passes it's
@@ -54,8 +66,7 @@ class PicrossFrame < Frame
 				true
 			end
 		}
-
-
+		return self
 	end
 
 	##
@@ -104,19 +115,17 @@ class PicrossFrame < Frame
 		return self
 	end
 
+	##
+	# Redraw and/or create all the frame for the current picross. This can be 
+	# used when changing the grid inside the map (for evolving maps for example).
+	# * *Returns* :
+	#   - the object itself
 	def redraw
 		@lineSolution   = @map.lneSolution
 		@columnSolution = @map.clmSolution
 
-		@cells.children.each do |child|
-			@cells.remove(child)
-		end
-
-		puts "ch1", @cells.children
-		# compute the offsets caused by the line and column solution numbers
-		@lineOffset   = @lineSolution.map(&:length).max
-		@columnOffset = @columnSolution.map(&:length).max
-		@drag.setOffsets(@columnOffset, @lineOffset)
+		@cells.children.each { |child| @cells.remove(child) }
+		self.computeOffsets
 
 		# adds the numbers to the cells
 		createNumbers(@cells, @columnSolution, @lineOffset, @columnOffset, false)
@@ -126,20 +135,14 @@ class PicrossFrame < Frame
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
 				CellButton.new(cell, @drag, @colorsHyp),
-				column + @lineOffset,
-				line + @columnOffset,
-				1,
-				1
-			)
+				column + @lineOffset, line + @columnOffset,
+				1, 1)
 		end
 		@drag.reset
-		self.queue_draw
-		puts "ch2",@cells.children
-
-		@mainArea.children.each do |children|
-			@mainArea.remove(children)
-		end
-		@mainArea.add(@cells)
+		
+		self.show_all
+		self.forceResize
+		return self
 	end
 
 	##
@@ -150,14 +153,27 @@ class PicrossFrame < Frame
 		@cells = Gtk::Grid.new
 		@drag  = Drag.new(@map, @cells, @frame)
 		@cells.visible = true
-
-
-		@mainArea = Gtk::EventBox.new()
-		@mainArea.events |= (Gdk::EventMask::ENTER_NOTIFY_MASK)
 		
 		self.redraw
 
+		@mainArea = Gtk::EventBox.new()
+		@mainArea.events |= (Gdk::EventMask::ENTER_NOTIFY_MASK)
+		@mainArea.add(@cells)
+		
+
 		self.add(@mainArea)
+		return self
+	end
+
+	##
+	# Compute the offsets caused by the line and column solution 
+	# numbers, and update the drag to theses offsets.
+	# * *Returns* :
+	#   - +the object itself
+	def computeOffsets
+		@columnOffset = @columnSolution.map(&:length).max
+		@lineOffset   = @lineSolution.map(&:length).max
+		@drag.setOffsets(@columnOffset, @lineOffset)
 		return self
 	end
 

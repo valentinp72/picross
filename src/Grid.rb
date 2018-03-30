@@ -29,6 +29,9 @@ class Grid
 	# Exception when searching a cell that is not present in the grid.
 	class CellNotInGridException < StandardError; end
 
+	# Exception when trying to resize a Grid with an invalid size
+	class InvalidResizeSizeException < StandardError; end
+
 	##
 	# Create a grid of size line x columns
 	# * *Arguments* :
@@ -237,6 +240,8 @@ class Grid
 	#   - +cell+ -> the cell to search it's line
 	# * *Returns* :
 	#   - an Array of Cell representing the line of the cell
+	# * *Raises* :
+	#   - CellNotInGridException if the cell is not present in this Grid
 	def lineContaining(cell)
 		self.each_line do |line|
 			return line if line.include?(cell)
@@ -251,6 +256,8 @@ class Grid
 	#   - +cell+ -> the cell to search it's column
 	# * *Returns* :
 	#   - an Array of Cell representing the column of the cell
+	# * *Raises* :
+	#   - CellNotInGridException if the cell is not present in this Grid
 	def columnContaining(cell)
 		self.each_column do |column|
 			return column if column.include?(cell)
@@ -287,6 +294,8 @@ class Grid
 	#   - +cell+  -> the cell to search in the array
 	# * *Returns* :
 	#   - the length of the same cell states near the cell in the array
+	# * *Raises* :
+	#   - CellNotInGridException if the cell is not present in this Grid
 	def totalLengthIntern(array, cell)
 		length    = 1 # the cell, not counted after that
 		position  = array.index(cell)
@@ -340,7 +349,22 @@ class Grid
 		return length
 	end
 
+	##
+	# Reduce the size of this grid to the given one.
+	# * *Arguments* :
+	#   - +lines+ -> the new number of lines in this grid
+	#   - +columns+ -> the new number of columns in this grid
+	# * *Returns* :
+	#   - the Grid itself
+	# * *Raises* :
+	#   - InvalidResizeSizeException if given lines and columns are bigger than currently
 	def limit(lines, columns)
+		if lines > @lines then
+			raise InvalidResizeSizeException, "cannot limit lines #{@lines} to #{lines}" 
+		elsif columns > @columns then
+			raise InvalidResizeSizeException, "cannot limit columns #{@columns} to #{columns}"
+		end
+
 		linesToRm = @lines - lines
 		colmsToRm = @columns - columns
 		
@@ -353,11 +377,26 @@ class Grid
 		return self
 	end
 
+	##
+	# Augment the size of this grid to the given one.
+	# All the new cells will have the same hypothesis as the cell in the 
+	# position [0,0] in this grid.
+	# * *Arguments* :
+	#   - +lines+ -> the new number of lines in this grid
+	#   - +columns+ -> the new number of columns in this grid
+	# * *Returns* :
+	#   - the Grid itself
+	# * *Raises* :
+	#   - InvalidResizeSizeException if given lines and columns are smaller than currently
 	def grow(lines, columns)
+		if lines < @lines then
+			raise InvalidResizeSizeException, "cannot grow lines #{@lines} to #{lines}" 
+		elsif columns < @columns then
+			raise InvalidResizeSizeException, "cannot grow columns #{@columns} to #{columns}"
+		end
 		linesToAdd = lines - @lines
 		colmsToAdd = columns - @columns
 
-		puts "colmsToAdd: #{colmsToAdd}, linesToAdd: #{linesToAdd}"
 		hypothesis = @grid[0][0].hypothesis
 
 		self.each_line_with_index do |line, j|
@@ -375,6 +414,7 @@ class Grid
 		end
 		@columns = columns
 		@lines   = lines
+		return self
 	end
 
 	##
@@ -432,12 +472,18 @@ class Grid
 		return i
 	end
 
+	##
+	# Finish each cell in this grid, setting their states to white if
+	# they are currently crossed.
+	# * *Returns* :
+	#   - the object itself
 	def finish
-		each_cell_with_index do |cell, line, column|
+		self.each_cell do |cell|
 			if cell.state == Cell::CELL_CROSSED then
 				cell.state = Cell::CELL_WHITE
 			end
 		end
+		return self
 	end
 
 	##

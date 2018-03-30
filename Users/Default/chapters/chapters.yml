@@ -4,10 +4,11 @@
     - "http://www.nonograms.org/nonograms/i/16851": # Strawberry
         - timeToDo: 150
         - evolving: true
-#    - "http://www.nonograms.org/nonograms/i/3473":  # Fruits
-#       - timeToDo: 150
-#    - "http://www.nonograms.org/nonograms/i/16960": # Cupcake
-#        - timeToDo: 150
+    - "http://www.nonograms.org/nonograms/i/3473":  # Fruits
+        - timeToDo: 150
+    - "http://www.nonograms.org/nonograms/i/16960": # Cupcake
+        - timeToDo: 150
+        - evolving: true
 #    - "http://www.nonograms.org/nonograms/i/3143":  # A piece of cake
 #        - timeToDo: 150
 #    - "http://www.nonograms.org/nonograms/i/12427": # Hamburger

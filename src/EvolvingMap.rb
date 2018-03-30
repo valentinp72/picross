@@ -14,7 +14,7 @@ require_relative 'Cell'
 class EvolvingMap < Map
 
 	START_SIZE      = 5
-	INCREMENT_RATIO = 1
+	INCREMENT_RATIO = 2
 
 	attr_reader :currentLines
 	attr_reader :currentColumns
@@ -23,7 +23,7 @@ class EvolvingMap < Map
 	attr_reader :totalColumns
 
 	##
-	# Create a new map object
+	# Create a new evolving map 
 	# * *Arguments* :
 	#   - +name+         -> a String representing the name of the map
 	#   - +timeToDo+     -> estimated time to resolve the map
@@ -44,6 +44,12 @@ class EvolvingMap < Map
 		super(name, timeToDo, difficulty, @currentLines, @currentColumns, solution)
 	end
 
+	##
+	# Create a new evolving map from a normal Map.
+	# * *Arguments* :
+	#   - +map+ -> the Map to create an evolving map from
+	# * *Returns* :
+	#   - a freshly created EvolvingMap
 	def EvolvingMap.new_from_map(map)
 		return EvolvingMap.new(
 				map.name,
@@ -55,10 +61,6 @@ class EvolvingMap < Map
 		)
 	end
 
-	##
-	# Resets the stack of hypotheses to a blank one
-	# * *Returns* :
-	#   - the object itself
 	def reset()
 		@currentLines   = START_SIZE
 		@currentColumns = START_SIZE
@@ -79,12 +81,13 @@ class EvolvingMap < Map
 		@hypotheses.workingHypothesis.grid.replaceAll(Cell::CELL_WHITE, Cell::CELL_CROSSED)
 		@hypotheses.workingHypothesis.grid.grow(@currentLines, @currentColumns)
 		@evolved = true
+		return self
 	end
 
 	def increment(ratio)
 		@currentLines   = [@currentLines   + ratio, @totalLines].min
 		@currentColumns = [@currentColumns + ratio, @totalColumns].min
-		puts @currentColumns, @currentLines
+		return self
 	end
 
 	def check()

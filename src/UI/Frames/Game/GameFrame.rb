@@ -353,10 +353,8 @@ class GameFrame < Frame
 	def btn_reset_clicked
 		@map.reset
 		@map.currentStat.time.unpause
-		@picross.grid = @map.hypotheses.getWorkingHypothesis.grid
-		@content.remove(@picross)
-		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.reorder_child(@picross,0)
+		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.redraw	
 		self.checkMap
 	end
 

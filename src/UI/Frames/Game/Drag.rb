@@ -178,7 +178,7 @@ class Drag
 		@changedCells = Hash.new()
 
 		@map.check()
-		if @map.evolving? && @map.evolved? then
+		if @map.evolving? && @map.evolved? && @frame.picross != nil then
 			@frame.picross.redraw
 		end
 		@frame.checkMap
