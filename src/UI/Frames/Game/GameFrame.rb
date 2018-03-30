@@ -110,7 +110,6 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the Gtk::Box containing the sidebar
 	def createSideBarLayout()
-
 		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
 
 		# Update the timer view every second
@@ -163,10 +162,44 @@ class GameFrame < Frame
 		return @sideBar
 	end
 
+	def createPopoverButton(buttonAccept, buttonReject)
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: <<-CSS)
+			button {
+				background-image: image(#{@colorsHyp[hypo.id]});
+			}
+		CSS
+
+		buttonAccept.image = AssetsLoader.loadImage('check.png', 40)
+		buttonAccept.style_context.add_provider(
+				css_provider,
+				Gtk::StyleProvider::PRIORITY_USER
+		)
+
+		buttonAccept.signal_connect('clicked') do
+			@map.hypotheses.validate(hypo.id)
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+			updatePopover(popoverBox)
+		end
+
+		buttonReject.style_context.add_provider(
+				css_provider,
+				Gtk::StyleProvider::PRIORITY_USER
+		)
+		buttonReject.image = AssetsLoader.loadImage('close.png',40)
+		buttonReject.signal_connect('clicked') do
+			@map.hypotheses.reject(hypo.id)
+			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@picross.grid = @grid
+			updatePopover(popoverBox)
+		end
+	end
+
 	def updatePopover(popoverBox)
 
 		@colorsHyp = @user.settings.hypothesesColors
-		if(popoverBox.parent == @popover) then
+		if popoverBox.parent == @popover then
 			@popover.remove(popoverBox)
 		end
 
@@ -178,39 +211,10 @@ class GameFrame < Frame
 
 			boxHypo = Gtk::Box.new(:vertical)
 
-			css_provider = Gtk::CssProvider.new
-			css_provider.load(data: <<-CSS)
-				button {
-					background-image: image(#{@colorsHyp[hypo.id]});
-				}
-			CSS
-
 			buttonAccept = Gtk::Button.new()
-			buttonAccept.image = AssetsLoader.loadImage('check.png',40)
-			buttonAccept.style_context.add_provider(
-					css_provider,
-					Gtk::StyleProvider::PRIORITY_USER
-			)
-
-			buttonAccept.signal_connect('clicked') do
-				@map.hypotheses.validate(hypo.id)
-				@grid = @map.hypotheses.getWorkingHypothesis.grid
-				@picross.grid = @grid
-				updatePopover(popoverBox)
-			end
-
 			buttonReject = Gtk::Button.new()
-			buttonReject.style_context.add_provider(
-					css_provider,
-					Gtk::StyleProvider::PRIORITY_USER
-			)
-			buttonReject.image = AssetsLoader.loadImage('close.png',40)
-			buttonReject.signal_connect('clicked') do
-				@map.hypotheses.reject(hypo.id)
-				@grid = @map.hypotheses.getWorkingHypothesis.grid
-				@picross.grid = @grid
-				updatePopover(popoverBox)
-			end
+
+			createPopoverButton(buttonAccept, buttonReject)
 
 			boxHypo.pack_start(buttonAccept)
 			boxHypo.pack_start(buttonReject)
