@@ -25,6 +25,8 @@ option:
         '4': 'Hypothesis color 4:'
         '5': 'Hypothesis color 5:'
     chooseKeyboard: 'Keyboard shortcuts'
+    bind: 'Press any key to rebind'
+    bindCancel: 'Press escape to cancel'
     keyboard:
         up: 'Move the cursor upward'
         down: 'Move the cursor downward'
