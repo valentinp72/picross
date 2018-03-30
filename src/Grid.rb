@@ -422,7 +422,7 @@ class Grid
 	# * *Returns* :
 	#   - a String representing the grid
 	def to_s()
-		r = " "
+		r = "  "
 
 		# print columns numbers
 		0.upto(@columns - 1) do |i|

@@ -32,20 +32,36 @@ describe Grid do
 
 
 	it "should display the grid" do
-	
+		
+		expect = "  0123456789\n" \
+				 "00██████████\n" \
+				 "01██████████\n" \
+				 "02██████████\n" \
+				 "03██████████\n" \
+				 "04██████████\n"
 
-		# We know that the first cell is empty
 		grid.getCellPosition(0,0).state = Cell::CELL_WHITE
-		string = grid.to_s
-		expect(string[13]).to eq "█"
+		expect(grid.to_s).to eq expect
 	
-		grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
-		string = grid.to_s
-		expect(string[13]).to eq "X"
+		expect = "  0123456789\n" \
+				 "00██████████\n" \
+				 "01██████████\n" \
+				 "02██████████\n" \
+				 "03X█████████\n" \
+				 "04██████████\n"
 
-		grid.getCellPosition(0,0).state = Cell::CELL_BLACK
-		string = grid.to_s
-		expect(string[13]).to eq "░"
+		grid.getCellPosition(3,0).state = Cell::CELL_CROSSED
+		expect(grid.to_s).to eq expect
+
+		expect = "  0123456789\n" \
+				 "00████░█████\n" \
+				 "01██████████\n" \
+				 "02██████████\n" \
+				 "03X█████████\n" \
+				 "04██████████\n"
+
+		grid.getCellPosition(0,4).state = Cell::CELL_BLACK
+		expect(grid.to_s).to eq expect
 	end
 
 	it "loop through each line" do
