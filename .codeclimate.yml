@@ -32,3 +32,7 @@ engines:
         enabled: false
       Rubocop/Style/AndOr:
         enabled: false
+      Rubocop/Style/HashSyntax:
+        enabled: false
+      Rubocop/Style/MethodCallWithoutArgsParentheses:
+        enabled: false
