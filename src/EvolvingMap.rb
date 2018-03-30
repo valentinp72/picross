@@ -14,7 +14,7 @@ require_relative 'Cell'
 class EvolvingMap < Map
 
 	START_SIZE      = 5
-	INCREMENT_RATIO = 2
+	INCREMENT_RATIO = 5
 
 	attr_reader :currentLines
 	attr_reader :currentColumns
