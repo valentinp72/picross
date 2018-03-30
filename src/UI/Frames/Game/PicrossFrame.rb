@@ -19,6 +19,10 @@ class PicrossFrame < Frame
 
 	attr_reader :grid
 	attr_reader :cells
+
+	attr_accessor :posX
+	attr_accessor :posY
+	
 	##
 	# Creation of a new PicrossFrame.
 	# * *Arguments* :
@@ -139,7 +143,7 @@ class PicrossFrame < Frame
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
-				CellButton.new(cell, @drag, @colorsHyp),
+				CellButton.new(cell, @drag, @colorsHyp, self),
 				column + @lineOffset,
 				line + @columnOffset,
 				1,
