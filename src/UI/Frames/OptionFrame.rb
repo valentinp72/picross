@@ -31,6 +31,10 @@ class OptionFrame < Frame
 		@buttons  = createButtons
 		@panel    = createPanel
 
+		self.signal_connect('size-allocate') do |widget, event|
+
+		end
+
 		self.add(@panel)
 	end
 
@@ -87,8 +91,7 @@ class OptionFrame < Frame
 
 		settings.push(SettingLanguage.new(@user))
 		settings.push(SettingHypothesesColor.new(@user))
-		settings.push(SettingKeyboard.new(@user))
-
+		settings.push(SettingKeyboard.new(@user, self))
 		return settings
 	end
 
@@ -258,19 +261,22 @@ class SettingHypothesisColor < Setting
 end
 
 class SettingKeyboard < Setting
-	def initialize(user)
+
+	attr_reader :keyboardChoosers
+
+	def initialize(user, parent)
 		@user = user
 
 		@keys = Gtk::Grid.new()
 		@keys.column_spacing = 5
 
 		@keyboardChoosers = [
-			SettingKey.new(@user.lang["option"]["keyboard"]["up"], @user.settings.keyboardUp),
-			SettingKey.new(@user.lang["option"]["keyboard"]["down"], @user.settings.keyboardDown),
-			SettingKey.new(@user.lang["option"]["keyboard"]["left"], @user.settings.keyboardLeft),
-			SettingKey.new(@user.lang["option"]["keyboard"]["right"], @user.settings.keyboardRight),
-			SettingKey.new(@user.lang["option"]["keyboard"]["click-left"], @user.settings.keyboardClickLeft),
-			SettingKey.new(@user.lang["option"]["keyboard"]["click-right"], @user.settings.keyboardClickRight)
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["up"], @user.settings.keyboardUp),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["down"], @user.settings.keyboardDown),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["left"], @user.settings.keyboardLeft),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["right"], @user.settings.keyboardRight),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-left"], @user.settings.keyboardClickLeft),
+			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-right"], @user.settings.keyboardClickRight)
 		]
 
 		line = 0
@@ -286,8 +292,47 @@ end
 
 
 class SettingKey < Setting
-	def initialize(optionName,value)
-		@key = Gtk::Button.new(:label => Gdk::Keyval.to_name(value))
+
+	def initialize(parent, user, optionName, value)
+		@user = user
+		@value = value
+		@key = Gtk::Button.new(:label => Gdk::Keyval.to_name(@value))
+		@parent = parent
+
+		@key.signal_connect("clicked") do
+			self.bindKey()
+		end
+
 		super(optionName,@key)
 	end
+
+	def bindKey()
+		message = @user.lang["option"]["bind"]
+		@dialog = Gtk::MessageDialog.new(:parent=> @parent.parent, :flags=> :destroy_with_parent,:type => :error,:buttons_type => :close,:message=> message)
+		@dialog.secondary_text = @user.lang["option"]["bindCancel"]
+
+		@dialog.signal_connect("key-press-event") do |w, e|
+			self.on_key_press_event(e)
+		end
+
+		@dialog.signal_connect "response" do |dialog, _response_id|
+			dialog.destroy
+		end
+
+		@dialog.show_all
+	end
+
+	def on_key_press_event(event)
+		# if escape is pressed
+		if event.keyval != 65307 then
+			if event.type == Gdk::EventType::KEY_PRESS && !@keyPressed then
+				@keyPressed = true
+				@value = event.keyval
+				@dialog.destroy
+				@key.label = Gdk::Keyval.to_name(@value)
+				@keyPressed = false
+			end
+		end
+	end
+
 end
