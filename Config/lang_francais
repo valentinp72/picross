@@ -24,6 +24,8 @@ option:
         '3': 'Hypothèse 3 :'
         '4': 'Hypothèse 4 :'
     chooseKeyboard: 'Raccourcis clavier'
+    bind: 'Appuyez sur n''importe quelle touche pour réassigner'
+    bindCancel: 'Appuyer sur echap pour annuler'
     keyboard:
         up: 'Déplacer le curseur vers le haut'
         down: 'Déplacer le curseur vers le bas'
