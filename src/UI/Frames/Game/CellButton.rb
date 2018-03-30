@@ -41,11 +41,12 @@ class CellButton < Gtk::EventBox
 	#   - +cell+      -> the real picross Cell
 	#   - +drag+      -> a Drag object, allowing this cell to drag multiple cells
 	#   - +colorsHyp+ -> the colors to display according to the hypotheses
-	def initialize(cell, drag, colorsHyp)
+	def initialize(cell, drag, colorsHyp, picross)
 		super()
 		@cell  = cell
 		@drag  = drag
 		@colorsHyp = colorsHyp
+		@picross = picross
 
 		# The content of this cell is just a blank image
 		@widget = Gtk::Image.new()
@@ -233,18 +234,30 @@ class CellButton < Gtk::EventBox
 		"
 	end
 
+	def clean()
+		self.parent.parent.parent.unsetHover(@picross.posX, @picross.posY)
+		@picross.posX = @cell.posX
+		@picross.posY = @cell.posY
+	end
+
 	def enterNotify()
+		self.clean()
+
 		@drag.update(@cell)
 		self.parent.parent.parent.setHover(@cell.posX, @cell.posY)
 		self.setAttributes
 	end
 
 	def leaveNotify()
+		self.clean()
+
 		self.parent.parent.parent.unsetHover(@cell.posX, @cell.posY)
 		self.setAttributes
 	end
 
 	def buttonPress(event)
+		self.clean()
+
 		# force to not grab focus on current button
 		Gdk.pointer_ungrab(Gdk::CURRENT_TIME)
 
@@ -258,6 +271,8 @@ class CellButton < Gtk::EventBox
 	end
 
 	def buttonUnpress()
+		self.clean()
+
 		@drag.reset
 	end
 
