@@ -327,12 +327,15 @@ class SettingKey < Setting
 		if event.keyval != 65307 then
 			if event.type == Gdk::EventType::KEY_PRESS && !@keyPressed then
 				@keyPressed = true
-				@value = event.keyval
-				@dialog.destroy
-				@key.label = Gdk::Keyval.to_name(@value)
+				if @user.settings.checkNewKey(event.keyval) then
+					puts "#{@value} #{event.keyval}"
+					@user.settings.changeKeyBoardValue(@value, event.keyval)
+					@value = event.keyval
+					@dialog.destroy
+					@key.label = Gdk::Keyval.to_name(@value)
+				end
 				@keyPressed = false
 			end
 		end
 	end
-
 end
