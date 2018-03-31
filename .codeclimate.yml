@@ -38,3 +38,5 @@ engines:
         enabled: false
       UncommunicativeVariableName:
         enabled: false
+      Rubocop/Style/RedundantSelf:
+        enabled: false
