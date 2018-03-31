@@ -39,7 +39,7 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		self.signal_connect('size-allocate') do |widget, event|
-			self.parent.addKeyBinding(@picross.method(:on_key_press_event))
+			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
 		end
 
 		@colorsHyp = user.settings.hypothesesColors
@@ -364,7 +364,7 @@ class GameFrame < Frame
 		@map.reset
 		@map.currentStat.time.unpause
 		@picross.grid = @map.hypotheses.workingHypothesis.grid
-		@picross.redraw	
+		@picross.redraw
 		self.checkMap
 	end
 
