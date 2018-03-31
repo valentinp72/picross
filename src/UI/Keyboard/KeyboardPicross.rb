@@ -107,17 +107,18 @@ class KeyboardPicross
 	end
 
 	def on_key_press_event(event)
-		if event.keyval == @user.settings.keyboardClickLeft then
+		case event.keyval
+		when @user.settings.keyboardClickLeft
 			leftClick(event)
-		elsif event.keyval == @user.settings.keyboardClickRight then
+		when @user.settings.keyboardClickRight
 			rightClick(event)
-		elsif event.keyval == @user.settings.keyboardLeft then
+		when @user.settings.keyboardLeft
 			moveLeft(event)
-		elsif event.keyval == @user.settings.keyboardUp then
+		when @user.settings.keyboardUp
 			moveUp(event)
-		elsif event.keyval == @user.settings.keyboardRight then
+		when @user.settings.keyboardRight
 			moveRight(event)
-		elsif event.keyval == @user.settings.keyboardDown then
+		when @user.settings.keyboardDown
 			moveDown(event)
 		end
 	end
