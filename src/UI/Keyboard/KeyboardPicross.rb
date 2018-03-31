@@ -34,28 +34,25 @@ class KeyboardPicross
 		return 0
 	end
 
-	def leftClick(event)
-		# Left click
+	def click(event, click)
 		if event.type == Gdk::EventType::KEY_PRESS && !@enterDown then
 			@enterDown = true
 			@frame.enterNotify(@posX,@posY)
-			@frame.click(@posX,@posY,CellButton::BUTTON_LEFT_CLICK)
+			@frame.click(@posX,@posY,click)
 		elsif event.type == Gdk::EventType::KEY_RELEASE && @enterDown then
 			@enterDown = false
 			@frame.unclick(@posX,@posY)
 		end
 	end
 
+	def leftClick(event)
+		# Left click
+		self.click(event,CellButton::BUTTON_LEFT_CLICK)
+	end
+
 	def rightClick(event)
 		# Right click
-		if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
-			@enter_down = true
-			@frame.enterNotify(@posX,@posY)
-			@frame.click(@posX,@posY,CellButton::BUTTON_RIGHT_CLICK)
-		elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
-			@enter_down = false
-			@frame.unclick(@posX,@posY)
-		end
+		self.click(event,CellButton::BUTTON_RIGHT_CLICK)
 	end
 
 	def moveLeft(event)
