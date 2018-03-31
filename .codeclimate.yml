@@ -36,3 +36,5 @@ engines:
         enabled: false
       Rubocop/Style/MethodCallWithoutArgsParentheses:
         enabled: false
+      UncommunicativeVariableName:
+        enabled: false
