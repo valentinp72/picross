@@ -67,7 +67,7 @@ LOG_FOLDER_NAME    = 'logs/'
 GEMFILES_PATHS     = ['Gemfile', 'Gemfile.lock']
 
 # ruby file to be excecuted by the application
-EXECUTABLE_RB      = SOURCE_FOLDER + 'UI/Application.rb'
+EXECUTABLE_RB      = SOURCE_FOLDER + 'Application.rb'
 
 LINUX_RESOURCES    = ['lib/']
 
