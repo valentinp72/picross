@@ -18,6 +18,22 @@ class KeyboardPicross
 		@basDown = false
 	end
 
+	def updatePosition(posX, posY)
+		@frame.leaveNotify(@posX,@posY)
+		@posX += posX
+		@posY += posY
+		@frame.enterNotify(@posX,@posY)
+	end
+
+	def check(isPressed, posX, poxY)
+		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posX, posY) then
+			return 1
+		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed then
+			return 2
+		end
+		return 0
+	end
+
 	def leftClick(event)
 		# Left click
 		if event.type == Gdk::EventType::KEY_PRESS && !@enterDown then
@@ -44,48 +60,48 @@ class KeyboardPicross
 
 	def moveLeft(event)
 		# left touch
-		if event.type == Gdk::EventType::KEY_PRESS && !@gaucheDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX-1, @posY) then
-			@frame.leaveNotify(@posX,@posY)
-			@posX -= 1
-			@frame.enterNotify(@posX,@posY)
+		testValue = check(@gaucheDown,@posX-1,@posY)
+		case testValue
+		when 1
+			updatePosition(-1, 0)
 			@gaucheDown = true
-		elsif  event.type == Gdk::EventType::KEY_RELEASE && @gaucheDown then
+		when 2
 			@gaucheDown = false
 		end
 	end
 
 	def moveUp(event)
 		# up touch
-		if event.type == Gdk::EventType::KEY_PRESS && !@hautDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY-1) then
-			@frame.leaveNotify(@posX,@posY)
-			@posY -= 1
-			@frame.enterNotify(@posX,@posY)
+		testValue = check(@hautDown,@posX,@posY-1)
+		case testValue
+		when 1
+			updatePosition(0, -1)
 			@hautDown = true
-		elsif  event.type == Gdk::EventType::KEY_RELEASE && @hautDown then
+		when 2
 			@hautDown = false
 		end
 	end
 
 	def moveRight(event)
 		# right touch
-		if event.type == Gdk::EventType::KEY_PRESS && !@droiteDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX+1, @posY) then
-			@frame.leaveNotify(@posX,@posY)
-			@posX += 1
-			@frame.enterNotify(@posX,@posY)
+		testValue = check(@droiteDown,@posX+1,@posY)
+		case testValue
+		when 1
+			updatePosition(1, 0)
 			@droiteDown = true
-		elsif  event.type == Gdk::EventType::KEY_RELEASE && @droiteDown then
+		when 2
 			@droiteDown = false
 		end
 	end
 
 	def moveDown(event)
 		# down touch
-		if event.type == Gdk::EventType::KEY_PRESS && !@basDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY+1) then
-			@frame.leaveNotify(@posX,@posY)
-			@posY += 1
-			@frame.enterNotify(@posX,@posY)
+		testValue = check(@basDown,@posX,@posY+1)
+		case testValue
+		when 1
+			updatePosition(0, 1)
 			@basDown = true
-		elsif  event.type == Gdk::EventType::KEY_RELEASE && @basDown then
+		when 2
 			@basDown = false
 		end
 	end
