@@ -4,6 +4,8 @@ require_relative 'Drag'
 require_relative 'CellButton'
 require_relative 'SolutionNumber'
 
+require_relative '../../Keyboard/KeyboardPicross'
+
 ##
 # File          :: PicrossFrame.rb
 # Author        :: PELLOIN Valentin, BROCHERIEUX Thibault
@@ -21,9 +23,9 @@ class PicrossFrame < Frame
 	attr_reader :grid
 	attr_reader :cells
 
-	attr_accessor :posX
-	attr_accessor :posY
-	
+	attr_accessor :keyboard
+
+
 	##
 	# Creation of a new PicrossFrame.
 	# * *Arguments* :
@@ -38,20 +40,12 @@ class PicrossFrame < Frame
 		@grid = grid
 		@user = user
 
-		@posX = 0
-		@posY = 0
-
-
-		@enterDown = false
-		@gaucheDown = false
-		@hautDown = false
-		@droiteDown = false
-		@basDown = false
-
 		@colorsHyp = user.settings.hypothesesColors
 
 		@frame = frame
-		
+
+		@keyboard = KeyboardPicross.new(self, user, map)
+
 		self.createArea
 
 		self.signal_connect('size-allocate') do |widget, event|
@@ -130,7 +124,7 @@ class PicrossFrame < Frame
 	end
 
 	##
-	# Redraw and/or create all the frame for the current picross. This can be 
+	# Redraw and/or create all the frame for the current picross. This can be
 	# used when changing the grid inside the map (for evolving maps for example).
 	# * *Returns* :
 	#   - the object itself
@@ -144,7 +138,7 @@ class PicrossFrame < Frame
 		# adds the numbers to the cells
 		createNumbers(@cells, @columnSolution, @lineOffset, @columnOffset, false)
 		createNumbers(@cells, @lineSolution,   @lineOffset, @columnOffset, true)
-		
+
 		# creation of all the cells buttons
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.attach(
@@ -153,7 +147,7 @@ class PicrossFrame < Frame
 				1, 1)
 		end
 		@drag.reset
-		
+
 		self.show_all
 		self.forceResize
 		return self
@@ -167,20 +161,20 @@ class PicrossFrame < Frame
 		@cells = Gtk::Grid.new
 		@drag  = Drag.new(@map, @cells, @frame)
 		@cells.visible = true
-		
+
 		self.redraw
 
 		@mainArea = Gtk::EventBox.new()
 		@mainArea.events |= (Gdk::EventMask::ENTER_NOTIFY_MASK)
 		@mainArea.add(@cells)
-		
+
 
 		self.add(@mainArea)
 		return self
 	end
 
 	##
-	# Compute the offsets caused by the line and column solution 
+	# Compute the offsets caused by the line and column solution
 	# numbers, and update the drag to theses offsets.
 	# * *Returns* :
 	#   - +the object itself
@@ -356,75 +350,6 @@ class PicrossFrame < Frame
 			end
 		end
 		return self
-	end
-
-	def on_key_press_event(event)
-		# Left click
-		if event.keyval == @user.settings.keyboardClickLeft then
-			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
-				@enter_down = true
-				self.enterNotify(@posX,@posY)
-				self.click(@posX,@posY,CellButton::BUTTON_LEFT_CLICK)
-			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
-				@enter_down = false
-				self.unclick(@posX,@posY)
-			end
-		end
-		# Right click
-		if event.keyval == @user.settings.keyboardClickRight then
-			if event.type == Gdk::EventType::KEY_PRESS && !@enter_down then
-				@enter_down = true
-				self.enterNotify(@posX,@posY)
-				self.click(@posX,@posY,CellButton::BUTTON_RIGHT_CLICK)
-			elsif event.type == Gdk::EventType::KEY_RELEASE && @enter_down then
-				@enter_down = false
-				self.unclick(@posX,@posY)
-			end
-		end
-		# left touch
-		if event.keyval == @user.settings.keyboardLeft then
-			if event.type == Gdk::EventType::KEY_PRESS && !@gaucheDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX-1, @posY) then
-				self.leaveNotify(@posX,@posY)
-				@posX -= 1
-				self.enterNotify(@posX,@posY)
-				@gaucheDown = true
-			elsif  event.type == Gdk::EventType::KEY_RELEASE && @gaucheDown then
-				@gaucheDown = false
-			end
-		end
-		# right touch
-		if event.keyval == @user.settings.keyboardUp then
-			if event.type == Gdk::EventType::KEY_PRESS && !@hautDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY-1) then
-				self.leaveNotify(@posX,@posY)
-				@posY -= 1
-				self.enterNotify(@posX,@posY)
-				@hautDown = true
-			elsif  event.type == Gdk::EventType::KEY_RELEASE && @hautDown then
-				@hautDown = false
-			end
-		end
-		# right touch
-		if event.keyval == @user.settings.keyboardRight then
-			if event.type == Gdk::EventType::KEY_PRESS && !@droiteDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX+1, @posY) then
-				self.leaveNotify(@posX,@posY)
-				@posX += 1
-				self.enterNotify(@posX,@posY)
-				@droiteDown = true
-			elsif  event.type == Gdk::EventType::KEY_RELEASE && @droiteDown then
-				@droiteDown = false
-			end
-		end
-		# down touch
-		if event.keyval == @user.settings.keyboardDown then
-			if event.type == Gdk::EventType::KEY_PRESS && !@basDown && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(@posX, @posY+1) then
-				self.leaveNotify(@posX,@posY)
-				@posY += 1
-				self.enterNotify(@posX,@posY)
-				@basDown = true
-			elsif  event.type == Gdk::EventType::KEY_RELEASE && @basDown then
-				@basDown = false
-			end
-		end
 	end
 
 	def click(column,line, button)
