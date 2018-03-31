@@ -4,57 +4,41 @@
 #
 
 
-class Resolver
+class Helper
 
 
 	#Variables d'instance
 	@lines	#int[]
 	@clns #int[]
 	@grid #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
+	@find	#boolean indiquant si solution trouvee ou non
+	@solution #grille contenant la solution finale du picross
+	
 
 
 	#Constructeur
-	def initialize()
+	def initialize(sol)
 
-		#Sablier
-		#@lines = [[5],[3],[1],[3],[5]]
-		#@clns = [[1,1],[2,2],[5],[2,2],[1,1]]
+		@find=false
+		@solution = sol
 
 		#Grille 5x5 de la feuille
-		#@lines = [[3],[1],[3],[2,1],[1,2]]
-		#@clns = [[1],[3],[1,2],[2,1],[1,2]]
+		@lines = [[3],[1],[3],[2,1],[1,2]]
+		@clns = [[1],[3],[1,2],[2,1],[1,2]]
 
 		#Grille 10x5 de la feuille
 		#@lines = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
 		#@clns = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
 
 		#Speaker
-		@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
-		@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
+		#@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
+		#@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
 
-		#Tasse
-		#@lines = [[1,1],[1,3],[10,1],[1,1,1],[1,3],[1,1],[10],[14]]
-		#@clns = [[1],[1],[8],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[1,2],[8],[1,1,1],[4,1]]
-
-		#TV
-		#@lines = [[1,1],[0],[1,5,2],[1,1],[1,3,2,1],[1,1,1,1],[1,1,1,1],[1,4,1,1],[1,1],[1,6,1]]
-		#@clns = [[1,8],[0],[1,4,1],[1,1,1,1],[1,1,1,1],[1,1,1],[1,1,1],[4,1],[1],[1,8]]
-
-		#oiseau
-		#@lines = [[3],[3],[5],[5,1],[7],[9],[9],[8],[6],[3],[1,1],[6],[3]]
-		#@clns = [[4],[4],[8],[6,2],[10],[6,2],[6,1],[8,1],[7],[3],[2]]
-
-		#Chat
-		#@lines = [[1,1],[2,2],[1,6,1],[1,1],[1,1,1,1],[1,1,1],[1,1,1],[1,3,1],[1,1],[10]]
-		#@clns = [[10],[1,1],[1,1],[1,1,1,1],[1,3,1],[1,1,1,1],[1,1],[1,1],[1,1],[10]]
 
 		#Me
 		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
 		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
 
-		#Panda (fonctionne pas)
-		#@lines = [[3,10],[1,4,3,1],[1,2,3],[3,1,1,1],[2,2,2,1],[2,1,1,1,1,2],[1,3,3,1],[1,2,2,1],[2,2],[3,2,1],[4,1,2,1,3],[2,2,4,2,1],[2,2,2,1],[3,6,1],[4,3]]
-		#@clns = [[4,6],[1,12],[6,3,2],[2,2,1],[1,3,2],[2,1,2,1,2],[1,4,1,1],[1,3,1],[1,3,1],[1,4,1,1],[2,1,2,1,2],[2,3,2],[3,2,1],[1,4,3,1],[3,4,5]]
 
 		#Initialisation de la grille
 		@grid = Array.new(@lines.size()) do |j|
@@ -64,18 +48,42 @@ class Resolver
 		end
 	end
 
-	#Résolution de la grille
-	def traitement()
-		nbcasetot=0		#total de case à colorier sur la grille
-		# Calcul total de case à colorier sur la grille (somme des indices de chaque lignes)
-		for i in @lines	#pour chaque ligne
-			for j in i	#pour chaque indice
-				nbcasetot += j
-			end
-		end
 
-		#Remplissage lignes et colonnes en partie coloriées
-		while (self.nbcasecoloriee()!=nbcasetot)
+	#renvoie un tableau [[x1,y1,valeur1],[x2,y2,valeur2],...] indiquant les cases à colorier/cocher
+	#x abscysse, y ordonnée, valeur :  1=coloriée / -1=cochée
+	def traitement(userGrid, helpLvl)
+
+
+		if(helpLvl==1)  			#Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
+
+			#Recherche une ligne aléatoire non complétée par l'utilisateur
+			line = searchLine(userGrid)
+			
+			help = []
+			for i in 0...@clns.size()
+
+				help.push([line,i,@solution[line][i]])
+			end
+			return help
+
+			
+		else		
+
+			#nbcasetot=0		#total de case à colorier sur la grille
+			# Calcul total de case à colorier sur la grille (somme des indices de chaque lignes)
+			#for i in @lines	#pour chaque ligne
+			#	for j in i	#pour chaque indice
+			#		nbcasetot += j
+			#	end
+			#end
+
+			##Remplissage lignes et colonnes en partie coloriées
+			#while (self.nbcasecoloriee()!=nbcasetot && @find==false)
+
+			#On coche les cases impossibles (on les met à -1)
+			self.cochergrille()
+			@grid = userGrid
+			
 			#On remplit les cases
 			for i in 0...@clns.size()
 				self.traiterrange(i,"column")
@@ -84,16 +92,59 @@ class Resolver
 			for i in 0...@lines.size()
 				self.traiterrange(i,"line")
 			end
+			
+			
+			if(helpLvl==2)			#Aide moyenne : Renvoit un groupe de cases que l'utilisateur aurait pu trouver facilement
+			
+				
+			
 
-			self.afficher()
-			sleep(2)
-
-			#On coche les cases impossibles (on les met à -1)
-			self.cochergrille()
-			self.afficher()
-			sleep(2)
+				
+		
+		
+		
+			else 			#Aide difficile : Renvoit une case que l'utilisateur aurait pu trouver facilement
+			
+				
+			
+			
+			
+			
+			
+			
+			end
 		end
+		
+
 	end
+	
+	#Recherche une ligne aléatoire non complétée par l'utilisateur
+	def searchLine(userGrid)
+	
+		i=0
+		tabl=[]
+		
+		#Met dans un tableau les numéros des lignes non complétées
+		while (i<@lines.size())
+			
+			j=0
+			while (j<@clns.size())
+					
+				if (userGrid[i][j]==0)
+						
+					tabl.push(i)
+				end
+				j+=1
+			end
+			i+=1
+		end
+	
+		#Choisit aléatoirement un numéro de ligne dans le tableau (plus de chance d'avoir une des lignes les moins remplies)
+		return tabl[Random.rand(tabl.size())]
+
+	end
+	
+	
 
 	#Affiche la grille résolue
 	def afficher()
@@ -491,5 +542,47 @@ class Resolver
 end
 
 
-test = Resolver.new()
-test.traitement()
+soluce = Array.new(5) do |j|
+		Array.new(5) do |i|
+			-1
+		end
+	end
+soluce[0][2]=1
+soluce[0][3]=1
+soluce[0][4]=1
+soluce[1][3]=1
+soluce[2][0]=1
+soluce[2][1]=1
+soluce[2][2]=1
+soluce[3][1]=1
+soluce[3][2]=1
+soluce[3][4]=1
+soluce[4][1]=1
+soluce[4][3]=1
+soluce[4][4]=1
+
+user = Array.new(5) do |j|
+		Array.new(5) do |i|
+			0
+		end
+	end
+user[0][0]=-1
+user[0][1]=-1
+user[0][2]=1
+user[0][3]=1
+user[0][4]=1
+user[1][0]=-1
+user[1][1]=-1
+user[1][2]=-1
+user[1][3]=1
+user[1][4]=-1
+
+
+test = Helper.new(soluce)
+tab = test.traitement(user,1)
+print tab
+
+#Memo a faire quand les 3 aides seront fonctionnelles : 
+#Remplacer solution en variable d'instance par la map
+#renvoyer un state au lieu d'une valeur pour les cases
+
