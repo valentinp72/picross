@@ -12,3 +12,8 @@ Metrics/AbcSize:
 Metrics/ParameterLists:
   Max: 5
   CountKeywordArgs: true
+
+# max number of lines in classes
+Metrics/ClassLength:
+  CountComments: false  # count full line comments?
+  Max: 250
