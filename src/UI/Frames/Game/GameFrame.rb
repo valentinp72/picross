@@ -142,13 +142,13 @@ class GameFrame < Frame
 		@popover = Gtk::Popover.new(@btnHypotheses)
 		@popover.position = :top
 
-		popoverBox = Gtk::Box.new(:horizontal)
+		@popoverBox = Gtk::Box.new(:horizontal)
 
 		@btnHypotheses.image  = AssetsLoader.loadImage('lightbulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
 			if checkMap then
-				updatePopover(popoverBox)
+				updatePopover(@popoverBox)
 			end
 		end
 
@@ -162,7 +162,7 @@ class GameFrame < Frame
 		return @sideBar
 	end
 
-	def createPopoverButton(buttonAccept, buttonReject)
+	def createPopoverButton(buttonAccept, buttonReject, hypo)
 		css_provider = Gtk::CssProvider.new
 		css_provider.load(data: <<-CSS)
 			button {
@@ -180,7 +180,7 @@ class GameFrame < Frame
 			@map.hypotheses.validate(hypo.id)
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid
-			updatePopover(popoverBox)
+			updatePopover(@popoverBox)
 		end
 
 		buttonReject.style_context.add_provider(
@@ -192,7 +192,7 @@ class GameFrame < Frame
 			@map.hypotheses.reject(hypo.id)
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid
-			updatePopover(popoverBox)
+			updatePopover(@popoverBox)
 		end
 	end
 
@@ -214,7 +214,7 @@ class GameFrame < Frame
 			buttonAccept = Gtk::Button.new()
 			buttonReject = Gtk::Button.new()
 
-			createPopoverButton(buttonAccept, buttonReject)
+			createPopoverButton(buttonAccept, buttonReject, hypo)
 
 			boxHypo.pack_start(buttonAccept)
 			boxHypo.pack_start(buttonReject)
