@@ -278,6 +278,17 @@ class PicrossFrame < Frame
 		return result
 	end
 
+	def hover(posX, posY, meth)
+		cells = getColumnNumbers(posX) + getLineNumbers(posY)
+		cells.each do |number|
+			if number.kind_of?(SolutionNumber) && number.value != nil then
+				number.send(meth)
+			end
+		end
+		return self
+	end
+
+
 	##
 	# Sets an hover for the given coordinates.
 	# * *Arguments* :
@@ -286,13 +297,8 @@ class PicrossFrame < Frame
 	# * *Returns* :
 	#   - the object itself
 	def setHover(posX, posY)
-		cells = getColumnNumbers(posX) + getLineNumbers(posY)
-		cells.each do |number|
-			if number.kind_of?(SolutionNumber) && number.value != nil then
-				number.setHover
-			end
-		end
-		return self
+		temp = SolutionNumber.new(nil)
+		hover(posX,posY,:setHover)
 	end
 
 	##
@@ -303,13 +309,8 @@ class PicrossFrame < Frame
 	# * *Returns* :
 	#   - the object itself
 	def unsetHover(posX, posY)
-		cells = getColumnNumbers(posX) + getLineNumbers(posY)
-		cells.each do |number|
-			if number.kind_of?(SolutionNumber) && number.value != nil then
-				number.unsetHover
-			end
-		end
-		return self
+		temp = SolutionNumber.new(nil)
+		hover(posX,posY,:unsetHover)
 	end
 
 	##
