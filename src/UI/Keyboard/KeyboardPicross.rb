@@ -25,7 +25,7 @@ class KeyboardPicross
 		@frame.enterNotify(@posX,@posY)
 	end
 
-	def check(isPressed, posX, poxY)
+	def check(event,isPressed, posX, poxY)
 		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posX, posY) then
 			return 1
 		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed then
@@ -57,7 +57,7 @@ class KeyboardPicross
 
 	def moveLeft(event)
 		# left touch
-		testValue = check(@gaucheDown,@posX-1,@posY)
+		testValue = check(event,@gaucheDown,@posX-1,@posY)
 		case testValue
 		when 1
 			updatePosition(-1, 0)
@@ -69,7 +69,7 @@ class KeyboardPicross
 
 	def moveUp(event)
 		# up touch
-		testValue = check(@hautDown,@posX,@posY-1)
+		testValue = check(event,@hautDown,@posX,@posY-1)
 		case testValue
 		when 1
 			updatePosition(0, -1)
@@ -81,7 +81,7 @@ class KeyboardPicross
 
 	def moveRight(event)
 		# right touch
-		testValue = check(@droiteDown,@posX+1,@posY)
+		testValue = check(event,@droiteDown,@posX+1,@posY)
 		case testValue
 		when 1
 			updatePosition(1, 0)
@@ -93,7 +93,7 @@ class KeyboardPicross
 
 	def moveDown(event)
 		# down touch
-		testValue = check(@basDown,@posX,@posY+1)
+		testValue = check(event,@basDown,@posX,@posY+1)
 		case testValue
 		when 1
 			updatePosition(0, 1)
