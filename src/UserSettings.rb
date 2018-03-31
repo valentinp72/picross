@@ -75,45 +75,28 @@ class UserSettings
 	##
 	# Changes keyboard bind
 	# * *Arguments* :
-	#   - +oldValue+ -> old bind value
-	#   - +newValue+ -> new bind value
+	#   - +value+ -> new bind value
+	#   - +index+ -> index value
 	# * *Raises* :
 	#   - +InvalidBindException+ if the given value is not know as a current bind
-	def changeKeyBoardValue(oldValue, newValue)
-		if oldValue == @keyboardUp then
-			@keyboardUp = newValue
-		elsif oldValue == @keyboardDown then
-			@keyboardDown = newValue
-		elsif oldValue == @keyboardLeft then
-			@keyboardLeft = newValue
-		elsif oldValue == @keyboardRight then
-			@keyboardRight = newValue
-		elsif oldValue == @keyboardClickLeft then
-			@keyboardClickLeft = newValue
-		elsif oldValue == @keyboardClickRight then
-			@keyboardClickRight = newValue
+	def changeKeyBoardValue(value, index)
+		case index
+		when 0
+			@keyboardUp = value
+		when 1
+			@keyboardDown = value
+		when 2
+			@keyboardLeft = value
+		when 3
+			@keyboardRight = value
+		when 4
+			@keyboardClickLeft = value
+		when 5
+			@keyboardClickRight = value
 		else
 			raise InvalidBindException
 		end
 	end
-
-	##
-	# Checks keyboard bind value
-	# * *Arguments* :
-	#   - +value+ -> bind value
-	def checkNewKey(value)
-		if value != @keyboardUp &&
-			 value != @keyboardDown &&
-			 value != @keyboardLeft &&
-			 value != @keyboardRight &&
-			 value != @keyboardClickLeft &&
-			 value != @keyboardClickRight then
-			 	return true
-		else
-				return false
-		end
-	end
-
 
 	##
 	# Changes the color of the hypotheses
