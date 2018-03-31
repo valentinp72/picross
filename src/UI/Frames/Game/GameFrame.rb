@@ -94,14 +94,93 @@ class GameFrame < Frame
 	#   - the Gtk::Box containing the content
 	def createContentLayout()
 		@content = Gtk::Box.new(:horizontal)
-		@sideBar = createSideBarLayout()
+		@sideBar = SideBarGameFrame.new(self, @user, @picross,@map, @grid)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
 		self.checkMap
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.pack_start(@sideBar)
+		@content.pack_start(@sideBar.sideBar)
 
 		return @content
+	end
+
+	##
+	# Ask to draw the the game frame.
+	# * *Returns* :
+	#   - the frame itself
+	def draw
+		puts "on draw"
+		self.createMainLayout
+
+		if(@isPaused) then
+			drawOnPause
+		else
+			drawOnUnpause
+		end
+		return self
+	end
+
+	##
+	# Ask the frame to save everything
+	# * *Returns* :
+	#   - the frame itself
+	def save()
+		indexChapter = @user.chapters.index(@chapter)
+		indexMap     = @user.chapters[indexChapter].levels.index(@map)
+		hypotheses   = @user.chapters[indexChapter].levels[indexMap].hypotheses
+		@map.hypotheses = hypotheses
+		@user.save()
+		return self
+	end
+
+	def createBackButton()
+		ButtonCreator.new(
+				:assetName => 'arrow-left.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_back_clicked
+		)
+	end
+
+	def createOptionButton()
+		ButtonCreator.new(
+				:assetName => 'cog.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_option_clicked
+		)
+	end
+
+	def btn_back_clicked
+		self.save
+		self.parent.setFrame(MapFrame.new(@user,@chapter))
+	end
+
+	def btn_option_clicked
+		self.save
+		self.parent.setFrame(OptionFrame.new(@user, self))
+	end
+
+	def checkMap
+		@sideBar.checkMap
+	end
+
+end
+
+class SideBarGameFrame
+
+	attr_reader :sideBar
+
+	def initialize(frame, user, picross, map, grid)
+		@frame = frame
+		@user = user
+		@picross = picross
+		@map = map
+		@grid = grid
+
+		@sideBar = createSideBarLayout
+		@sideBar.show_all
+		return @sideBar
 	end
 
 	##
@@ -130,7 +209,7 @@ class GameFrame < Frame
 			@timer = nil
 			# we also pause the timer
 			@map.currentStat.time.pause
-			self.save
+			@frame.save
 		end
 
 		@reset = createResetButton()
@@ -147,7 +226,7 @@ class GameFrame < Frame
 		@btnHypotheses.image  = AssetsLoader.loadImage('lightbulb.png', 40)
 		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
 		@btnHypotheses.signal_connect('clicked') do
-			if checkMap then
+			if self.checkMap then
 				updatePopover(@popoverBox)
 			end
 		end
@@ -160,6 +239,87 @@ class GameFrame < Frame
 		@sideBar.pack_start(@help,  :expand => true, :fill => true)
 
 		return @sideBar
+	end
+
+	def createResetButton()
+		ButtonCreator.new(
+				:assetName => 'reset.png',
+				:assetSize => 40,
+				:clicked => :btn_reset_clicked,
+				:parent => self
+		)
+	end
+
+	def createPauseButton()
+		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
+		@labelPause.visible = true
+		ButtonCreator.new(
+				:assetName => 'pause.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_pause_clicked
+		)
+	end
+
+	def createHelpButton()
+		ButtonCreator.new(
+				:assetName => 'help.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_help_clicked
+		)
+	end
+
+	def btn_reset_clicked
+		@map.reset
+		@map.currentStat.time.unpause
+		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.redraw
+		self.checkMap
+	end
+
+	def btn_pause_clicked
+		if self.checkMap then
+			if @isPaused then
+				self.drawOnUnpause
+			else
+				self.drawOnPause
+			end
+			@isPaused = !@isPaused
+		end
+	end
+
+	def btn_help_clicked
+		self.checkMap
+	end
+
+	def drawOnUnpause()
+		@map.currentStat.time.unpause
+
+		@btnHypotheses.sensitive = true
+		@reset.sensitive = true
+		@help.sensitive = true
+
+		@pause.image = AssetsLoader.loadImage('pause.png',40)
+		@picross.show_all
+
+		@content.remove(@labelPause)
+		@content.pack_start(@picross, :expand => true, :fill => true)
+		@content.reorder_child(@picross,0)
+	end
+
+	def drawOnPause()
+		@map.currentStat.time.pause
+
+		@btnHypotheses.sensitive = false
+		@reset.sensitive = false
+		@help.sensitive = false
+
+		@pause.image = AssetsLoader.loadImage('play.png',40)
+
+		@content.remove(@picross)
+		@content.pack_start(@labelPause, :expand => true, :fill => true)
+		@content.reorder_child(@labelPause,0)
 	end
 
 	def createPopoverButton(buttonAccept, buttonReject, hypo)
@@ -254,143 +414,4 @@ class GameFrame < Frame
 			return true
 		end
 	end
-
-	##
-	# Ask to draw the the game frame.
-	# * *Returns* :
-	#   - the frame itself
-	def draw
-		puts "on draw"
-		self.createMainLayout
-
-		if(@isPaused) then
-			drawOnPause
-		else
-			drawOnUnpause
-		end
-		return self
-	end
-
-	##
-	# Ask the frame to save everything
-	# * *Returns* :
-	#   - the frame itself
-	def save()
-		indexChapter = @user.chapters.index(@chapter)
-		indexMap     = @user.chapters[indexChapter].levels.index(@map)
-		hypotheses   = @user.chapters[indexChapter].levels[indexMap].hypotheses
-		@map.hypotheses = hypotheses
-		@user.save()
-		return self
-	end
-
-	def drawOnUnpause()
-		@map.currentStat.time.unpause
-
-		@btnHypotheses.sensitive = true
-		@reset.sensitive = true
-		@help.sensitive = true
-
-		@pause.image = AssetsLoader.loadImage('pause.png',40)
-		@picross.show_all
-
-		@content.remove(@labelPause)
-		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.reorder_child(@picross,0)
-	end
-
-	def drawOnPause()
-		@map.currentStat.time.pause
-
-		@btnHypotheses.sensitive = false
-		@reset.sensitive = false
-		@help.sensitive = false
-
-		@pause.image = AssetsLoader.loadImage('play.png',40)
-
-		@content.remove(@picross)
-		@content.pack_start(@labelPause, :expand => true, :fill => true)
-		@content.reorder_child(@labelPause,0)
-	end
-
-	def createResetButton()
-		ButtonCreator.new(
-				:assetName => 'reset.png',
-				:assetSize => 40,
-				:clicked => :btn_reset_clicked,
-				:parent => self
-		)
-	end
-
-	def createPauseButton()
-		@labelPause =  Gtk::Label.new(@user.lang['game']['paused'])
-		@labelPause.visible = true
-		ButtonCreator.new(
-				:assetName => 'pause.png',
-				:assetSize => 40,
-				:parent    => self,
-				:clicked   => :btn_pause_clicked
-		)
-	end
-
-	def createBackButton()
-		ButtonCreator.new(
-				:assetName => 'arrow-left.png',
-				:assetSize => 40,
-				:parent    => self,
-				:clicked   => :btn_back_clicked
-		)
-	end
-
-	def createOptionButton()
-		ButtonCreator.new(
-				:assetName => 'cog.png',
-				:assetSize => 40,
-				:parent    => self,
-				:clicked   => :btn_option_clicked
-		)
-	end
-
-	def createHelpButton()
-		ButtonCreator.new(
-				:assetName => 'help.png',
-				:assetSize => 40,
-				:parent    => self,
-				:clicked   => :btn_help_clicked
-		)
-	end
-
-	def btn_reset_clicked
-		@map.reset
-		@map.currentStat.time.unpause
-		@picross.grid = @map.hypotheses.workingHypothesis.grid
-		@picross.redraw
-		self.checkMap
-	end
-
-	def btn_pause_clicked
-		if self.checkMap then
-			if @isPaused then
-				self.drawOnUnpause
-			else
-				self.drawOnPause
-			end
-			@isPaused = !@isPaused
-		end
-	end
-
-	def btn_back_clicked
-		self.save
-		self.parent.setFrame(MapFrame.new(@user,@chapter))
-	end
-
-	def btn_option_clicked
-		self.save
-		self.parent.setFrame(OptionFrame.new(@user, self))
-	end
-
-	def btn_help_clicked
-		self.checkMap
-	end
-
 end
