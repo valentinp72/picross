@@ -72,7 +72,7 @@ class Map
 		@lneSolution  = computeLineSolution(@solution)   # Array of array (left)
 		@currentStat  = Statistic.new                    # curent user stat
 		@allStat      = StatisticsArray.new              # all user stats
-		@correctSaved = self.clone                  # a copy of the map the last
+		@correctSaved = self.saveCorrectMap         # a copy of the map the last
 		                                                 # time it was correct
 	end
 
@@ -121,6 +121,23 @@ class Map
 	#   - a Grid
 	def grid
 		return @hypotheses.workingHypothesis.grid
+	end
+
+	##
+	# Saves this map as a correct map
+	# * *Returns* :
+	#   - the object itself
+	def saveCorrectMap
+		@correctSaved = Marshal.load(Marshal.dump(self))
+		return self
+	end
+
+	##
+	# Rollback the map to the correct saved one
+	# * *Returns* :
+	#   - the object itself
+	def rollbackCorrect
+		
 	end
 
 	##
@@ -290,7 +307,7 @@ class Map
 	#   - true or false if the game should be finished
 	def shouldFinish?
 		if not hasError? then
-			@correctSaved = self.clone
+			self.saveCorrectMap
 			if !@currentStat.isFinished then
 				if @solution.compare(grid) then
 					return true

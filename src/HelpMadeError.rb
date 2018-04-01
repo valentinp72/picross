@@ -13,7 +13,7 @@ require_relative 'Help'
 # This class represents an help allowing the user to go back
 # where he has made an error. 
 
-class HelpMadeError
+class HelpMadeError < Help
 
 	# The cost of this help (in seconds)
 	COST_HELP = 30

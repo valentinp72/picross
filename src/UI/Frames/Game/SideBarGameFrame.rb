@@ -1,4 +1,5 @@
 require_relative '../../../Map'
+require_relative '../../../HelpMadeError'
 require_relative '../../AssetsLoader'
 require_relative '../../ButtonCreator'
 require_relative '../MapFrame'
@@ -10,11 +11,11 @@ class SideBarGameFrame
 	attr_reader :sideBar
 
 	def initialize(frame, user, picross, map, grid)
-		@frame = frame
-		@user = user
+		@frame   = frame
+		@user    = user
 		@picross = picross
-		@map = map
-		@grid = grid
+		@map     = map
+		@grid    = grid
 
 		@sideBar = createSideBarLayout
 		@sideBar.show_all
@@ -86,8 +87,8 @@ class SideBarGameFrame
 		ButtonCreator.new(
 				:assetName => 'reset.png',
 				:assetSize => 40,
-				:clicked => :btn_reset_clicked,
-				:parent => self
+				:clicked   => :btn_reset_clicked,
+				:parent    => self
 		)
 	end
 
@@ -131,7 +132,9 @@ class SideBarGameFrame
 	end
 
 	def btn_help_clicked
-		self.checkMap
+		#self.checkMap
+		help = HelpMadeError.new(@map, @user)
+		help.apply
 	end
 
 	def btn_hypotheses_clicked
