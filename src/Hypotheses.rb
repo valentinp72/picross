@@ -80,7 +80,7 @@ class Hypotheses
 			raise ArgumentError, "hypothesisID is not a valid ID in the stack"
 		end
 		if hypothesisID == 0 then
-			raise ArgumentError "hypothesis 0 cannot be rejected"
+			raise ArgumentError, "hypothesis 0 cannot be rejected"
 		end
 		@stack.pop(@stack.length - hypothesisID)
 		return self
@@ -160,5 +160,4 @@ class Hypotheses
 		@lines, @columns, @stack = array
 		return self
 	end
-
 end
