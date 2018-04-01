@@ -25,8 +25,8 @@ class KeyboardPicross
 		@frame.enterNotify(@posX,@posY)
 	end
 
-	def check(event,isPressed, posX, poxY)
-		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posX, posY) then
+	def check(event,isPressed, posX, posY)
+		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posY, posX) then
 			return 1
 		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed then
 			return 2
