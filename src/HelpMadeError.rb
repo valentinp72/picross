@@ -1,25 +1,22 @@
 require_relative 'Map'
 require_relative 'User'
+require_relative 'Help'
 
 ##
-# File          :: Help.rb
+# File          :: HelpMadeError.rb
 # Author        :: PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 04/01/2018
 # Last update   :: 04/01/2018
 # Version       :: 0.1
 #
-# This abstract class represents an help type in the game.
+# This class represents an help allowing the user to go back
+# where he has made an error. 
 
-class Help
-
-	def initialize(map, user)
-		@map  = map
-		@user = user
-	end
-
+class HelpMadeError
+	
 	def apply
-		
+			
 	end
 
 end

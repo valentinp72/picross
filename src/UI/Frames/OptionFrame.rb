@@ -241,7 +241,7 @@ class SettingHypothesisColor < Setting
 		@color = Gtk::ColorButton.new
 		@color.color = Gdk::Color.parse(@user.settings.hypothesesColors[id])
 
-		super(@user.lang["option"]["chooseHypColor"][id], @color)
+		super(@user.lang["option"]["chooseHypColor"]["#{id}"], @color)
 	end
 
 	def save
