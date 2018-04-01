@@ -7,6 +7,8 @@ require_relative 'PicrossFrame'
 
 class SideBarGameFrame
 
+	attr_accessor :picross
+
 	attr_reader :sideBar
 
 	def initialize(frame, user, picross, map, grid)
