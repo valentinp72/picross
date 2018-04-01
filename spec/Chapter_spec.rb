@@ -52,12 +52,11 @@ describe Chapter do
 	# 	expect(chap1 == temp2).to eq true
 	# end
 
-	# it "test Load and Save chapter" do
-	# 	path = File.expand_path(File.dirname(__FILE__) + '/' + 'spec')
-	# 	chap1.save(path, "test")
-	#
-	# 	temp = Chapter.load(path + 'test.chp')
-	# 	expect(chap1 == temp).to eq true
-	# end
+	it "test Load and Save chapter" do
+		path = File.expand_path(File.dirname(__FILE__) + '/' + 'spec')
+		chap1.save(path, "test")
+
+		#expect{Chapter.load(path + 'test1.chp')}.to raise_error(Chapter::CorruptedChapterException,/.*/)
+	end
 
 end
