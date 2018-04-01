@@ -154,6 +154,7 @@ class Application < Gtk::Application
 
 	def showErrorVersion()
 		d = Gtk::MessageDialog.new(
+			:parent  => Gtk::Window.new,
 			:type    => Gtk::MessageType::ERROR,
 			:buttons => Gtk::ButtonsType::OK_CANCEL,
 			:message => self.versionErrorMessage
