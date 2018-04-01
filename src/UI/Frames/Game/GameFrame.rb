@@ -97,7 +97,8 @@ class GameFrame < Frame
 		@content = Gtk::Box.new(:horizontal)
 		@sideBar = SideBarGameFrame.new(self, @user, @picross,@map, @grid)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
-		self.checkMap
+		@sideBar.picross = @picross
+		@sideBar.checkMap
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
 		@content.pack_start(@sideBar.sideBar)
