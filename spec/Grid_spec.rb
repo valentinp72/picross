@@ -139,6 +139,12 @@ describe Grid do
 	it "test column containing" do
 		column = grid.columnContaining(grid.grid[0][0])
 		expect(column).to eq grid.grid.transpose[0]
+
+		grid_2 = Grid.new(10,10)
+		hypo = Hypothesis.new(grid_2, 0)
+		cell = Cell.new(hypo, 0, 0)
+
+		expect{grid.columnContaining(cell)}.to raise_error(Grid::CellNotInGridException)
 	end
 
 	it "test totalLengthVertical" do
@@ -168,6 +174,7 @@ describe Grid do
 
 
 	it "test limit grid size" do
+
 		expect{grid.limit(20,20)}.to raise_error(Grid::InvalidResizeSizeException)
 
 		grid.limit(5,5)
@@ -175,13 +182,22 @@ describe Grid do
 		expect(grid.columns).to eq 5
 	end
 
+	it "test grow grid size" do
+
+		expect{grid.grow(2,2)}.to raise_error(Grid::InvalidResizeSizeException)
+
+		grid.grow(6,10)
+		expect(grid.lines).to eq 6
+		expect(grid.columns).to eq 10
+	end
+
 	it "compare two grids" do
-		grid_2 = Grid.new(5,10,"test2")
+		grid_2 = Grid.new(6,10,"test2")
 		expect(grid.compare(grid_2)).to eq true
 	end
 
 	it "count cell of that state" do
-		expect(grid.numberCell(Cell::CELL_WHITE)).to eq 25
+		expect(grid.numberCell(Cell::CELL_WHITE)).to eq 60
 	end
 
 	it "finish the grid" do
