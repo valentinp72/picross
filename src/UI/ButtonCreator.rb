@@ -42,6 +42,11 @@ module ButtonCreator
 		return button
 	end
 
+	##
+	# Create a Gtk::Button like ButtonCreator.new, but 
+	# with a relief (a normal button).
+	# * *Returns*:
+	#   - a Gtk::Button
 	def ButtonCreator.main(name: nil, clicked: nil, released: nil, parent: nil)
 		ButtonCreator.new(
 				:name => name, 
