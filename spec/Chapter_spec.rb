@@ -6,18 +6,18 @@ require_relative '../src/Chapter'
 require_relative '../src/User'
 
 describe Chapter do
-	
+
 	grid1 = Grid.new(5,5,"soluce1")
 	grid2 = Grid.new(10,10,"soluce2")
-	
+
 	grid1.randomCells
 	grid2.randomCells
 
 	levels = []
 	levels.push(Map.new("Map 1",360,2,5,5,grid1))
 	levels.push(Map.new("Map 2",360,2,10,10,grid2))
-	chap1 = Chapter.new("Chapter 1", levels, 0) 
-	chap2 = Chapter.new("Chapter 2", levels, 100) 
+	chap1 = Chapter.new("Chapter 1", levels, 0)
+	chap2 = Chapter.new("Chapter 2", levels, 100)
 
 	user = User.new("testuser", [chap1, chap2])
 
@@ -45,5 +45,19 @@ describe Chapter do
   		expect(chap1.to_s).to eq "Chapter : Chapter 1, levels : #{levels}, stars required : 0"
   		expect(chap2.to_s).to eq "Chapter : Chapter 2, levels : #{levels}, stars required : 100"
 	end
+
+	# it "test marshal load/dump" do
+	# 	temp = Marshal.dump(chap1)
+	# 	temp2 = Marshal.load(temp)
+	# 	expect(chap1 == temp2).to eq true
+	# end
+
+	# it "test Load and Save chapter" do
+	# 	path = File.expand_path(File.dirname(__FILE__) + '/' + 'spec')
+	# 	chap1.save(path, "test")
+	#
+	# 	temp = Chapter.load(path + 'test.chp')
+	# 	expect(chap1 == temp).to eq true
+	# end
 
 end
