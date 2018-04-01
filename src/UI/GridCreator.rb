@@ -10,6 +10,15 @@
 
 module GridCreator
 
+	##
+	# Create a Gtk::Grid from an array of widgets.
+	# By default, a grid will be vertical.
+	# * *Arguments* :
+	#   - +array+ -> an array with all the Gtk::Widget to put in the grid
+	#   - +horizontal+ -> if true, the grid will be horizontal
+	#   - +vertical+ -> if true, the grid will be vertical
+	# * *Returns* :
+	#   - a Gtk::Grid with all the widgets.
 	def GridCreator.fromArray(array, horizontal: false, vertical: false)
 		if horizontal == false && vertical == false then
 			vertical = true
@@ -19,6 +28,7 @@ module GridCreator
 		grid.row_spacing = 5
 		grid.halign = Gtk::Align::CENTER
 		grid.valign = Gtk::Align::CENTER
+
 		x = 0
 		y = 0
 		array.each_index do |i|
