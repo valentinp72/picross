@@ -111,7 +111,7 @@ class UserSettings
 		if newColors.kind_of?(Array) then
 			if newColors.length == @hypothesesColors.length then
 				newColors.each_index do |i|
-					if newColors[i].validColor? then
+					if self.validColor?(newColors[i]) then
 						@hypothesesColors[i] = newColors[i]
 					end
 				end
