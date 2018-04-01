@@ -23,7 +23,7 @@ require_relative 'Frames/LoginFrame'
 class Application < Gtk::Application
 
 	# The minimum version of GTK for the application
-	MIN_REQUIRED_VERSION = {"major" => 4, "minor" => 22, "micro" => 0}
+	MIN_REQUIRED_VERSION = {"major" => 3, "minor" => 22, "micro" => 0}
 	ACTUAL_VERSION = {
 		"major" => Gtk.major_version, 
 		"minor" => Gtk.minor_version, 
@@ -112,7 +112,7 @@ class Application < Gtk::Application
 					:flags   => Gtk::DialogFlags::DESTROY_WITH_PARENT,
 					:type    => Gtk::MessageType::WARNING,
 					:buttons => Gtk::ButtonsType::OK,
-					:message => "Cannot open preferences util you are connected"
+					:message => self.openPreferencesError 
 			)
 			d.run
 			d.destroy
@@ -152,6 +152,11 @@ class Application < Gtk::Application
 		return true
 	end
 
+	##
+	# Show a dialog box saying the current version is not recent enough for the game.
+	# The user can then choose to quit the game, or to continue.
+	# * *Returns* :
+	#   - the object itself
 	def showErrorVersion()
 		d = Gtk::MessageDialog.new(
 			:parent  => Gtk::Window.new,
@@ -167,8 +172,26 @@ class Application < Gtk::Application
 			# we stop here
 			self.action_quit_cb
 		end
+		return self
 	end
 
+	##
+	# Gets the error message for the open preferences when not connected, for all languages
+	# * *Returns* : 
+	#   - a String with all the error messages
+	def openPreferencesError
+		messages = ""
+		User.languagesName.each do |langName|
+			lang = User.loadLang(langName)
+			messages += "\n" + lang["names"]["long"] + " : " + lang["preferencesError"] + "\n"
+		end
+		return messages
+	end
+
+	##
+	# Gets the error message for the version error, for all languages.
+	# * *Returns* : 
+	#   - a String with all the error messages
 	def versionErrorMessage
 		messages = ""
 		User.languagesName.each do |langName|
@@ -177,6 +200,12 @@ class Application < Gtk::Application
 		return messages
 	end
 
+	##
+	# Returns the error message for the version for a given language name.
+	# * *Arguments* :
+	#   - +langName+ -> the name of the language to show the error
+	# * *Returns* :
+	#   - an error message
 	def errorMessage(langName)
 		lang  = User.loadLang(langName)
 		cur   = to_s_version(ACTUAL_VERSION) 
@@ -185,6 +214,12 @@ class Application < Gtk::Application
 		return lang["names"]["long"] + " : " + error 
 	end
 
+	##
+	# Convert a version hash to a printable one.
+	# * *Arguments* :
+	#   - +versionHash+ -> the Hash with the version
+	# * *Returns* :
+	#   - a String with the version like "3.40.21"
 	def to_s_version(versionHash)
 		return "#{versionHash["major"]}.#{versionHash["minor"]}.#{versionHash["micro"]}"
 	end
