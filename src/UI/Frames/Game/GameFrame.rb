@@ -115,9 +115,9 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		if(@isPaused) then
-			drawOnPause
+			@sideBar.drawOnPause
 		else
-			drawOnUnpause
+			@sideBar.drawOnUnpause
 		end
 		return self
 	end
