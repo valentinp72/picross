@@ -21,13 +21,16 @@ class User
 	attr_accessor :name
 
 	attr_reader :settings
-	
+
 	attr_reader :availableHelps
-	
+
 	attr_reader :chapters
 
 	attr_writer :lang
 	attr_reader :lang
+
+	# Exception when the amount for help is invalid.
+	class NegativeAmountException < StandardError; end
 
 	##
 	# Creates a new User object
@@ -70,9 +73,9 @@ class User
 	# * *Returns*
 	#   - a Hash of the english language
 	def User.defaultLang()
-		return User.loadLang('english')	
+		return User.loadLang('english')
 	end
-	
+
 	##
 	# Return the language of the user. You should not use this method,
 	# use instead the +lang+ method, this methods load the file every time you
@@ -85,7 +88,7 @@ class User
 
 	##
 	# Returns the total stars of this user
-	# Warning: if you frequently use this method, consider 
+	# Warning: if you frequently use this method, consider
 	# memorizing the value of it, it is calculated every time you call it.
 	# * *Returns* :
 	#   - the total stars of the user
@@ -95,7 +98,7 @@ class User
 			chapter.levels.each do |level|
 				bestStat = level.allStat.maxStars
 				if bestStat != nil then
-					stars += bestStat.numberOfStars 
+					stars += bestStat.numberOfStars
 				end
 	 		end
 		end
@@ -119,8 +122,8 @@ class User
 	# * *Arguments* :
 	#   - +amount+		-> a Fixnum representing an amount of help
 	def removeHelp (amount)
-		unless (amount < 0)
-			@availableHelps += amount
+		unless (@availableHelps - amount < 0)
+			@availableHelps -= amount
 		else
 			raise NegativeAmountException
 		end
