@@ -18,8 +18,10 @@ module ButtonCreator
 	#   - +name+      -> a String to show inside the button
 	#   - +assetName+ -> the name of the asset image to load inside the button
 	#   - +assetSize+ -> a new size to resize the image inside the button
-	# * *Yields* :
-	#   - if a block is given, yields it when the button is clicked
+	#   - +clicked+   -> a method name to call on +parent+ when the button is called
+	#   - +released+  -> a method name to call on +parent+ when the button is released
+	#   - +parent+    -> the parent to call the methods +clicked+ and +released+ on
+	#   - +relief+    -> tells if the button should have a border 
 	# * *Returns* :
 	#   - a Gtk::Button
 	def ButtonCreator.new(name: nil, assetName: '', assetSize: nil, clicked: nil, released: nil, parent: nil, relief: false)
@@ -32,11 +34,13 @@ module ButtonCreator
 			button.relief = Gtk::ReliefStyle::NONE
 		end
 
-		if clicked != nil then
-			button.signal_connect('clicked') { parent.send(clicked) }
-		end
-		if released != nil then
-			button.signal_connect('released') { parent.send(released) }
+		if parent != nil then
+			if clicked != nil then
+				button.signal_connect('clicked') { parent.send(clicked) }
+			end
+			if released != nil then
+				button.signal_connect('released') { parent.send(released) }
+			end
 		end
 
 		return button
@@ -45,6 +49,12 @@ module ButtonCreator
 	##
 	# Create a Gtk::Button like ButtonCreator.new, but 
 	# with a relief (a normal button).
+	# * *Arguments* :
+	#   - +name+      -> a String to show inside the button
+	#   - +assetName+ -> the name of the asset image to load inside the button
+	#   - +assetSize+ -> a new size to resize the image inside the button
+	#   - +clicked+   -> a method name to call on +parent+ when the button is called
+	#   - +released+  -> a method name to call on +parent+ when the button is released
 	# * *Returns*:
 	#   - a Gtk::Button
 	def ButtonCreator.main(name: nil, clicked: nil, released: nil, parent: nil)
