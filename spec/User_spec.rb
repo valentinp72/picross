@@ -30,11 +30,11 @@ describe User do
 	end
 
 	it "add 1 help to user" do
-		expect(user.addHelp(1)).to eq 1
+		expect(user.addHelp(1).availableHelps).to eq 1
 	end
 
 	it "remove 1 help to user" do
-		expect(user.removeHelp(1)).to eq 0
+		expect(user.removeHelp(1).availableHelps).to eq 0
 	end
 
 	it "remove 100 help to user(impossible if doesn't have them)" do

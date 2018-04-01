@@ -7,20 +7,28 @@ require_relative 'Timer'
 # Creation date	:: 01/27/2018
 # Last update	:: 01/30/2018
 #
-# This class represents the player's statistics linked to a map
-#
+# This class represents the player's statistics linked to a map.
+
 class Statistic
 
-	# +stats+	- player's statistics on a map
+	# The time the user has made (a Timer)
+	attr_reader :time
+	
+	# The number of used helps
+	attr_reader :usedHelp
+	
+	# The number of stars he will get
+	attr_reader :numberOfStars
+	
+	# The number of clicks he has made
+	attr_reader :nbClick
 
-	attr_reader :time, :usedHelp, :numberOfStars, :nbClick
-
-	attr_accessor :isFinished
+	# Tells wether or not the game is finished
+	attr_reader :isFinished
+	attr_writer :isFinished
 
 	##
 	# Create a new Statistics object
-	# * *Arguments* :
-	#   - +stats+		-> player's statistics
 	def initialize()
 		@time = Timer.new()
 		self.reset()
@@ -28,7 +36,11 @@ class Statistic
 
 	##
 	# Set statistic's status to finished
-	# and calculate numbers of stars awarded
+	# and calculate numbers of stars awarded.
+	# * *Arguments* :
+	#   + +timeToDo+ -> the time the user has to resolve the map
+	# * *Returns* :
+	#   - the object itself
 	def finish(timeToDo)
 		# Time ratio / Stars
 		#  1    -   - 3
@@ -43,43 +55,53 @@ class Statistic
 		timeToDo = 600 if timeToDo == nil or timeToDo == 0
 		ratio = @time.elapsedSeconds * 1.0 / timeToDo
 		ratio = (ratio * 4).round / 4
-		#return the number of sta##
-	# Returns the total number of elapsed seconds since the timer began.
-	# It count the time of each run of the timer (pauses).
-	# * *Returns* :
-	#   - the elapsed seconds (Integer)rs depending on the ratio above
 		@numberOfStars = -2*ratio + 5
 		if(@numberOfStars > 3) then
 			@numberOfStars = 3
 		elsif @numberOfStars < 0
 			@numberOfStars = 0
 		end
+		return self
 	end
 
-	def start()
+	##
+	# Start the timer on this statistic.
+	# * *Returns* :
+	#   + the object itself
+	def start
 		@time.start
+		return self
 	end
 
 	##
 	# Increments the number of help used
-	def useHelp()
+	# * *Returns* :
+	#   + the object itself
+	def useHelp
 		@usedHelp += 1
+		return self
 	end
 
 	##
 	# Increments the number of click
+	# * *Returns* :
+	#   + the object itself
 	def click(nb = 1)
 		@nbClick += nb
+		return self
 	end
 
 	##
 	# Reset Statistic
+	# * *Returns* :
+	#   + the object itself
 	def reset()
 		@time.reset
 		@usedHelp = 0
 		@numberOfStars = 0
 		@isFinished = false
 		@nbClick = 0
+		return self
 	end
 
 	##

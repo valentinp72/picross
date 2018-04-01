@@ -11,7 +11,7 @@ require_relative 'Chapter'
 # Last update	:: 02/12/2018
 #
 # This class represents a user's profile
-#
+
 class User
 
 	# The name of the player
