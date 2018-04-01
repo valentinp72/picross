@@ -36,7 +36,8 @@ class User
 	##
 	# Creates a new User object
 	# * *Arguments* :
-	#   - +name+		-> a String representing the user's name
+	#   - +name+     -> a String representing the user's name
+	#   - +chapters+ -> the cahpters for this user
 	def initialize(name, chapters)
 		@name     = name
 		@settings = UserSettings.new(self)
