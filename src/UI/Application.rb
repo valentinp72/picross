@@ -26,6 +26,8 @@ class Application < Gtk::Application
 
 	# The minimum version of GTK for the application
 	MIN_REQUIRED_VERSION = {"major" => 3, "minor" => 22, "micro" => 0}
+
+	# The current version of GTK
 	ACTUAL_VERSION = {
 		"major" => Gtk.major_version, 
 		"minor" => Gtk.minor_version, 
