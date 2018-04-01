@@ -105,18 +105,18 @@ describe Grid do
 		end
 	end
 
-	# it "change cell at the position" do
-	# 	grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
-	#
-	# 	expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_CROSSED
-	#
-	# 	grid.getCellPosition(1,1).state = Cell::CELL_BLACK
-	# 	grid.cellPosition = (0,0,grid.getCellPosition(1,1))
-	#
-	# 	expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_BLACK
-	#
-	# 	expect{grid.cellPosition = -1,-1,grid.getCellPosition(1,1)}.to raise_error(InvalidCellPositionException)
-	# end
+	it "change cell at the position" do
+		grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
+
+		expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_CROSSED
+
+		grid.getCellPosition(1,1).state = Cell::CELL_BLACK
+		grid.setCellPosition(0, 0, grid.getCellPosition(1,1) )
+
+		expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_BLACK
+
+		expect{grid.setCellPosition(-1,-1,grid.getCellPosition(1,1))}.to raise_error(Grid::InvalidCellPositionException)
+	end
 
 	it "loop through each cell with index" do
 		grid.each_cell_with_index do |cell,k,l|
@@ -127,6 +127,13 @@ describe Grid do
 	it "test line containing" do
 		line = grid.lineContaining(grid.grid[0][0])
 		expect(line).to eq grid.grid[0]
+
+		grid_2 = Grid.new(10,10)
+		hypo = Hypothesis.new(grid_2, 0)
+		cell = Cell.new(hypo, 0, 0)
+
+		expect{grid.lineContaining(cell)}.to raise_error(Grid::CellNotInGridException)
+
 	end
 
 	it "test column containing" do
@@ -161,7 +168,7 @@ describe Grid do
 
 
 	it "test limit grid size" do
-		#expect(grid.limit(20,20)).to raise_error(InvalidResizeSizeException, 'cannot limit lines 5 to 20')
+		expect{grid.limit(20,20)}.to raise_error(Grid::InvalidResizeSizeException)
 
 		grid.limit(5,5)
 		expect(grid.lines).to eq 5
