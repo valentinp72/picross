@@ -15,7 +15,12 @@
 		<attribute name='accel'>&lt;Primary&gt;comma</attribute>
       </item>
     </section>
-    <section>
+	<section>
+	  <item>
+		<attribute name="label" translatable="yes">_Close</attribute>
+		<attribute name="action">app.close</attribute>
+		<attribute name='accel'>&lt;Primary&gt;w</attribute>
+	  </item>
       <item>
         <attribute name="label" translatable="yes">_Quit</attribute>
         <attribute name="action">app.quit</attribute>
