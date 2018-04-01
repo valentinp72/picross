@@ -50,6 +50,9 @@ class Map
 	attr_reader :timeToDo
 	attr_writer :timeToDo
 
+	# The last correct state of the map before an error
+	attr_reader :correctSaved
+
 	##
 	# Create a new map object
 	# * *Arguments* :
@@ -60,15 +63,17 @@ class Map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
 	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid)
-		@name        = name
-		@timeToDo    = timeToDo
-		@difficulty  = difficulty
-		@hypotheses  = Hypotheses.new(lines, columns)
-		@solution    = solutionGrid
-		@clmSolution = computeColumnSolution(@solution)
-		@lneSolution = computeLineSolution(@solution)
-		@currentStat = Statistic.new
-		@allStat     = StatisticsArray.new
+		@name         = name                             # name of the map
+		@timeToDo     = timeToDo                         # estimated time
+		@difficulty   = difficulty                       # difficulty
+		@hypotheses   = Hypotheses.new(lines, columns)   # stack of hypothesis
+		@solution     = solutionGrid                     # solution (Grid)
+		@clmSolution  = computeColumnSolution(@solution) # Array of Array (top)
+		@lneSolution  = computeLineSolution(@solution)   # Array of array (left)
+		@currentStat  = Statistic.new                    # curent user stat
+		@allStat      = StatisticsArray.new              # all user stats
+		@correctSaved = self.saveCorrectMap         # a copy of the map the last
+		                                                 # time it was correct
 	end
 
 	##
@@ -108,6 +113,31 @@ class Map
 		@currentStat = Statistic.new
 		@hypotheses = Hypotheses.new(@solution.lines, @solution.columns)
 		return self
+	end
+
+	##
+	# Returns the current grid of the Map
+	# * *Returns* :
+	#   - a Grid
+	def grid
+		return @hypotheses.workingHypothesis.grid
+	end
+
+	##
+	# Saves this map as a correct map
+	# * *Returns* :
+	#   - the object itself
+	def saveCorrectMap
+		@correctSaved = Marshal.load(Marshal.dump(self))
+		return self
+	end
+
+	##
+	# Rollback the map to the correct saved one
+	# * *Returns* :
+	#   - the object itself
+	def rollbackCorrect
+		
 	end
 
 	##
@@ -209,7 +239,6 @@ class Map
 		return computeGenericSolution(columnSolution, :each_column_with_index, solutionGrid)
 	end
 
-
 	##
 	# Convert the solution grid to lines numbers
 	# that help player to solve the game.
@@ -257,11 +286,30 @@ class Map
 
 	end
 
-	def shouldFinish?()
-		if !@currentStat.isFinished then
-			nb = @hypotheses.getWorkingHypothesis.grid.numberCell(Cell::CELL_BLACK)
-			if nb == @solution.numberCell(Cell::CELL_BLACK) then
-				if @solution.compare(@hypotheses.getWorkingHypothesis.grid) then
+	## 
+	# Tells if the map has an error comparing to the solution grid.
+	# * *Returns* :
+	#   - true if the user has made an error, false otherwise
+	def hasError?
+		self.grid.each_cell_with_index do |cell, j, i|
+			sol = @solution.cellPosition(j, i).state
+			if cell.state == Cell::CELL_BLACK && sol != Cell::CELL_BLACK then
+				return true
+			end
+		end
+		return false
+	end
+
+	##
+	# Tells weather or not the map is finished.
+	# If the map does not contains an error, this also save itself.
+	# * *Returns* :
+	#   - true or false if the game should be finished
+	def shouldFinish?
+		if not hasError? then
+			self.saveCorrectMap
+			if !@currentStat.isFinished then
+				if @solution.compare(grid) then
 					return true
 				end
 			end
@@ -269,7 +317,15 @@ class Map
 		return false
 	end
 
-	def finish()
+	##
+	# Tells the map to be finished.
+	# That's includes :
+	#   - validating all the hypotheses
+	#   - end the timer
+	#   - store the current stats
+	# * *Returns* :
+	#   - the object itself
+	def finish
 		@currentStat.finish(@timeToDo)
 		@allStat.addStatistic(@currentStat)
 		@hypotheses.validate(0)
@@ -277,6 +333,10 @@ class Map
 		return self
 	end
 
+	##
+	# Check if the game should be finished, if so, finish the game.
+	# * *Returns* :
+	#   - true if the game is now finished, false it the game should not be
 	def check()
 		if self.shouldFinish? then
 			self.finish
@@ -285,6 +345,10 @@ class Map
 		return false
 	end
 
+	##
+	# Returns false, this map is not evolving (see EvolvingMap)
+	# * *Returns* :
+	#   - false
 	def evolving?
 		return false
 	end
@@ -312,7 +376,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved]
 	end
 
 	##
@@ -323,7 +387,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved = array
 		return self
 	end
 

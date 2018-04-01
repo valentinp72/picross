@@ -96,5 +96,4 @@ class Timer
 		return res
 	end
 
-
 end

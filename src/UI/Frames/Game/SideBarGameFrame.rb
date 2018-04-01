@@ -1,4 +1,5 @@
 require_relative '../../../Map'
+require_relative '../../../HelpMadeError'
 require_relative '../../AssetsLoader'
 require_relative '../../ButtonCreator'
 require_relative '../MapFrame'
@@ -12,11 +13,11 @@ class SideBarGameFrame
 	attr_reader :sideBar
 
 	def initialize(frame, user, picross, map, grid)
-		@frame = frame
-		@user = user
+		@frame   = frame
+		@user    = user
 		@picross = picross
-		@map = map
-		@grid = grid
+		@map     = map
+		@grid    = grid
 
 		@sideBar = createSideBarLayout
 		@sideBar.show_all
@@ -29,6 +30,23 @@ class SideBarGameFrame
 	# * *Returns* :
 	#   - the Gtk::Box containing the sidebar
 	def createSideBarLayout()
+		@timer      = createTimer()
+		@reset      = createResetButton()
+		@pause      = createPauseButton()
+		@hypotheses = createHypothesesButton()
+		@help        = createHelpButton()
+
+		@sideBar = Gtk::Box.new(:vertical)
+		@sideBar.pack_start(@timer, :expand => true, :fill => true)
+		@sideBar.pack_start(@reset, :expand => true, :fill => true)
+		@sideBar.pack_start(@pause, :expand => true, :fill => true)
+		@sideBar.pack_start(@hypotheses, :expand => true, :fill => true)
+		@sideBar.pack_start(@help,  :expand => true, :fill => true)
+
+		return @sideBar
+	end
+
+	def createTimer
 		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
 
 		# Update the timer view every second
@@ -51,42 +69,28 @@ class SideBarGameFrame
 			@map.currentStat.time.pause
 			@frame.save
 		end
+		return @timer
+	end
 
-		@reset = createResetButton()
-		@pause = createPauseButton()
-		@help  = createHelpButton()
-
-		@btnHypotheses = Gtk::Button.new()
-
-		@popover = Gtk::Popover.new(@btnHypotheses)
+	def createHypothesesButton()
+		@hypotheses = ButtonCreator.new(
+				:assetName => 'lightbulb.png',
+				:assetSize => 40,
+				:parent    => self,
+				:clicked   => :btn_hypotheses_clicked
+		)
+		@popover = Gtk::Popover.new(@hypotheses)
 		@popover.position = :top
-
 		@popoverBox = Gtk::Box.new(:horizontal)
-
-		@btnHypotheses.image  = AssetsLoader.loadImage('lightbulb.png', 40)
-		@btnHypotheses.relief = Gtk::ReliefStyle::NONE
-		@btnHypotheses.signal_connect('clicked') do
-			if self.checkMap then
-				updatePopover(@popoverBox)
-			end
-		end
-
-		@sideBar = Gtk::Box.new(:vertical)
-		@sideBar.pack_start(@timer, :expand => true, :fill => true)
-		@sideBar.pack_start(@reset, :expand => true, :fill => true)
-		@sideBar.pack_start(@pause, :expand => true, :fill => true)
-		@sideBar.pack_start(@btnHypotheses, :expand => true, :fill => true)
-		@sideBar.pack_start(@help,  :expand => true, :fill => true)
-
-		return @sideBar
+		return @hypotheses
 	end
 
 	def createResetButton()
 		ButtonCreator.new(
 				:assetName => 'reset.png',
 				:assetSize => 40,
-				:clicked => :btn_reset_clicked,
-				:parent => self
+				:clicked   => :btn_reset_clicked,
+				:parent    => self
 		)
 	end
 
@@ -130,13 +134,21 @@ class SideBarGameFrame
 	end
 
 	def btn_help_clicked
-		self.checkMap
+		#self.checkMap
+		help = HelpMadeError.new(@map, @user)
+		help.apply
+	end
+
+	def btn_hypotheses_clicked
+		if self.checkMap then
+			updatePopover(@popoverBox)
+		end
 	end
 
 	def drawOnUnpause()
 		@map.currentStat.time.unpause
 
-		@btnHypotheses.sensitive = true
+		@hypotheses.sensitive = true
 		@reset.sensitive = true
 		@help.sensitive = true
 
@@ -151,7 +163,7 @@ class SideBarGameFrame
 	def drawOnPause()
 		@map.currentStat.time.pause
 
-		@btnHypotheses.sensitive = false
+		@hypotheses.sensitive = false
 		@reset.sensitive = false
 		@help.sensitive = false
 
@@ -243,12 +255,12 @@ class SideBarGameFrame
 		if @map.currentStat.isFinished then
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid if @picross != nil
-			@btnHypotheses.sensitive = false
+			@hypotheses.sensitive = false
 			@pause.sensitive = false
 			@help.sensitive = false
 			return false
 		else
-			@btnHypotheses.sensitive = true
+			@hypotheses.sensitive = true
 			@pause.sensitive = true
 			@help.sensitive = true
 			return true
