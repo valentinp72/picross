@@ -1,3 +1,6 @@
+names:
+    long: 'Français'
+    short: 'FR'
 login:
     login: "Connexion"
     new: "Créer un nouveau compte"
@@ -57,3 +60,4 @@ stats:
         help: 'Aides utilise au total'
         click: 'Click total'
         finished: 'Nombres de parties finies'
+versionError: 'Vous utilisez la version de GTK {{CURRENT}}, cependant, la version minimum requise est {{REQUIRED}}. Voulez-vous vraiment lancer l''application, au risque que celle-ci plante de manière inattendue ?'

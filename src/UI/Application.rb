@@ -22,6 +22,14 @@ require_relative 'Frames/LoginFrame'
 
 class Application < Gtk::Application
 
+	# The minimum version of GTK for the application
+	MIN_REQUIRED_VERSION = {"major" => 4, "minor" => 22, "micro" => 0}
+	ACTUAL_VERSION = {
+		"major" => Gtk.major_version, 
+		"minor" => Gtk.minor_version, 
+		"micro" => Gtk.micro_version
+	}
+
 	# The connected user, if any
 	attr_reader :connectedUser
 	attr_writer :connectedUser
@@ -30,12 +38,13 @@ class Application < Gtk::Application
 	attr_reader :window
 
 	##
-	# Create a new Application
+	# Create a new Application. If the current GTK version is not greater or equal than
+	# the specified MIN_REQUIRED_VERSION, then the application will show a message
+	# warning the user about it.
 	def initialize
 		super("pw.vlntn.picross.rubycross", [:handles_open])
+		showErrorVersion if not versionCorrect?
 
-		puts Gtk.major_version, Gtk.minor_version, Gtk.micro_version
-		
 		@connectedUser = nil
 		@window        = nil
 
@@ -128,6 +137,55 @@ class Application < Gtk::Application
 				w.destroy
 			end
 		end
+	end
+
+	##
+	# Returns true if the current GTK version is greater or 
+	# equal to the specified minimum version (MIN_REQUIRED_VERSION).
+	# * *Returns* :
+	#   - true if the version is correct, false otherwise
+	def versionCorrect?()
+		["major", "minor", "micro"].each do |release|
+			return true  if ACTUAL_VERSION[release] > MIN_REQUIRED_VERSION[release]
+			return false if ACTUAL_VERSION[release] < MIN_REQUIRED_VERSION[release] 
+		end
+		return true
+	end
+
+	def showErrorVersion()
+		d = Gtk::MessageDialog.new(
+			:type    => Gtk::MessageType::ERROR,
+			:buttons => Gtk::ButtonsType::OK_CANCEL,
+			:message => self.versionErrorMessage
+		)
+		response = d.run
+		d.destroy
+		if response == Gtk::ResponseType::OK then
+			# we continue the game, but this is dangerous
+		else
+			# we stop here
+			self.action_quit_cb
+		end
+	end
+
+	def versionErrorMessage
+		messages = ""
+		User.languagesName.each do |langName|
+			messages += "\n" + errorMessage(langName) + "\n"
+		end
+		return messages
+	end
+
+	def errorMessage(langName)
+		lang  = User.loadLang(langName)
+		cur   = to_s_version(ACTUAL_VERSION) 
+		req   = to_s_version(MIN_REQUIRED_VERSION)
+		error = lang["versionError"].gsub("{{CURRENT}}", cur).gsub("{{REQUIRED}}", req)
+		return lang["names"]["long"] + " : " + error 
+	end
+
+	def to_s_version(versionHash)
+		return "#{versionHash["major"]}.#{versionHash["minor"]}.#{versionHash["micro"]}"
 	end
 
 end
