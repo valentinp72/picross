@@ -3,7 +3,7 @@ require_relative '../src/Cell'
 
 describe Grid do
 
-	grid = Grid.new(5,10,"test") 
+	grid = Grid.new(5,10,"test")
 
 	it "initialize cell" do
 		expect(grid.lines).to eq 5
@@ -12,7 +12,7 @@ describe Grid do
 			lines.each do |cell|
 				expect(cell.state).to eq Cell::CELL_WHITE
 			end
-		end		
+		end
 	end
 
 	it "change cell state from the grid" do
@@ -32,7 +32,7 @@ describe Grid do
 
 
 	it "should display the grid" do
-		
+
 		expect = "  0123456789\n" \
 				 "00██████████\n" \
 				 "01██████████\n" \
@@ -42,7 +42,7 @@ describe Grid do
 
 		grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 		expect(grid.to_s).to eq expect
-	
+
 		expect = "  0123456789\n" \
 				 "00██████████\n" \
 				 "01██████████\n" \
@@ -93,6 +93,104 @@ describe Grid do
 				j += 1
 			end
 		end
+	end
+
+	it "change the hypothesis" do
+		grid_2 = Grid.new(5,10,"test")
+		hypo = Hypothesis.new(grid_2, 0)
+		grid_2.hypothesis=hypo
+
+		grid_2.each_cell do |cell|
+			expect(cell.hypothesis).to eq hypo
+		end
+	end
+
+	# it "change cell at the position" do
+	# 	grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
+	#
+	# 	expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_CROSSED
+	#
+	# 	grid.getCellPosition(1,1).state = Cell::CELL_BLACK
+	# 	grid.cellPosition = (0,0,grid.getCellPosition(1,1))
+	#
+	# 	expect(grid.getCellPosition(0,0).state).to eq Cell::CELL_BLACK
+	#
+	# 	expect{grid.cellPosition = -1,-1,grid.getCellPosition(1,1)}.to raise_error(InvalidCellPositionException)
+	# end
+
+	it "loop through each cell with index" do
+		grid.each_cell_with_index do |cell,k,l|
+			expect(cell).to eq grid.getCellPosition(k, l)
+		end
+	end
+
+	it "test line containing" do
+		line = grid.lineContaining(grid.grid[0][0])
+		expect(line).to eq grid.grid[0]
+	end
+
+	it "test column containing" do
+		column = grid.columnContaining(grid.grid[0][0])
+		expect(column).to eq grid.grid.transpose[0]
+	end
+
+	it "test totalLengthVertical" do
+		expect(grid.totalLengthVertical(grid.grid[4][9])).to eq 5
+	end
+
+	it "test totalLengthHorizontal" do
+		expect(grid.totalLengthHorizontal(grid.grid[4][9])).to eq 10
+	end
+
+	it "test totalLengthIntern" do
+		expect(grid.totalLengthIntern(grid.grid[4], grid.grid[4][9])).to eq 10
+	end
+
+	it "test replaceAll" do
+		grid.replaceAll(Cell::CELL_BLACK, Cell::CELL_WHITE)
+		grid.replaceAll(Cell::CELL_CROSSED, Cell::CELL_WHITE)
+
+		grid.each_cell do |cell|
+			expect(cell.state).to eq Cell::CELL_WHITE
+		end
+	end
+
+	it "test numberOfSameStates" do
+		expect(grid.numberOfSameStates(grid.grid[0], Cell::CELL_WHITE)).to eq 10
+	end
+
+
+	it "test limit grid size" do
+		#expect(grid.limit(20,20)).to raise_error(InvalidResizeSizeException, 'cannot limit lines 5 to 20')
+
+		grid.limit(5,5)
+		expect(grid.lines).to eq 5
+		expect(grid.columns).to eq 5
+	end
+
+	it "compare two grids" do
+		grid_2 = Grid.new(5,10,"test2")
+		expect(grid.compare(grid_2)).to eq true
+	end
+
+	it "count cell of that state" do
+		expect(grid.numberCell(Cell::CELL_WHITE)).to eq 25
+	end
+
+	it "finish the grid" do
+		grid.getCellPosition(0,0).state = Cell::CELL_CROSSED
+
+		grid.finish
+
+		grid.each_cell do |cell|
+			expect(cell.state).to eq Cell::CELL_WHITE or eq Cell::CELL_BLACK
+		end
+	end
+
+	it "test marshal load/dump" do
+		temp = Marshal.dump(grid)
+		temp2 = Marshal.load(temp)
+		expect(grid.compare(temp2)).to eq true
 	end
 
 end
