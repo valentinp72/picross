@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'gtk3'
+
+puts 'hello'
+puts Gtk.major_version, Gtk.minor_version, Gtk.micro_version
+
