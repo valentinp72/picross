@@ -14,9 +14,23 @@ require_relative 'Help'
 # where he has made an error. 
 
 class HelpMadeError
-	
+
+	# The cost of this help (in seconds)
+	COST_HELP = 30
+
+	def initialize(map, user)
+		super(map, user, COST_HELP)
+	end
+
 	def apply
-			
+		super()	
+		
+		if @map.hasError? then
+			puts "erreur ! voici avant :"
+			puts @map.correctSaved
+		else
+			puts "pas d'erreur pauvre con"
+		end
 	end
 
 end

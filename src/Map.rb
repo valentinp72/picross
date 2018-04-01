@@ -50,6 +50,9 @@ class Map
 	attr_reader :timeToDo
 	attr_writer :timeToDo
 
+	# The last correct state of the map before an error
+	attr_reader :correctSaved
+
 	##
 	# Create a new map object
 	# * *Arguments* :

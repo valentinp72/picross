@@ -13,9 +13,10 @@ require_relative 'User'
 
 class Help
 
-	def initialize(map, user)
+	def initialize(map, user, cost)
 		@map  = map
 		@user = user
+		@cost = cost
 	end
 
 	def apply
