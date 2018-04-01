@@ -2,6 +2,8 @@ require 'gtk3'
 
 require_relative '../Map'
 
+require_relative 'AssetsLoader'
+
 require_relative 'Window'
 require_relative 'Windows/MainWindow'
 require_relative 'Windows/PreferencesWindow'
@@ -61,10 +63,8 @@ class Application < Gtk::Application
 
 		signal_connect "startup" do |application|
 			builder = Gtk::Builder.new()
-			appmenuPath = File.expand_path(File.dirname(__FILE__) + '/app-menu.ui')
-			builder.add_from_file(appmenuPath)
+			builder.add_from_file(AssetsLoader.loadFile('app-menu.ui'))
 			set_app_menu(builder.get_object("appmenu"))
-			set_menubar(builder.get_object("menubar"))
 		end
 
 		addAllActions(["about", "preferences", "quit", "close"])
