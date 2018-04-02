@@ -137,6 +137,8 @@ class SideBarGameFrame
 		#self.checkMap
 		help = HelpMadeError.new(@map, @user)
 		help.apply
+		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.redraw
 	end
 
 	def btn_hypotheses_clicked
@@ -145,33 +147,25 @@ class SideBarGameFrame
 		end
 	end
 
+	def disablePause(unpaused, imageName, toRemove, toReplace)
+		@hypotheses.sensitive = unpaused
+		@reset.sensitive      = unpaused
+		@help.sensitive       = unpaused
+		@pause.image          = AssetsLoader.loadImage(imageName, 40)
+		
+		@frame.content.remove(toRemove)
+		@frame.content.pack_start(toReplace, :expand => true, :fill => true)
+		@frame.content.reorder_child(toReplace, 0)
+	end
+
 	def drawOnUnpause()
 		@map.currentStat.time.unpause
-
-		@hypotheses.sensitive = true
-		@reset.sensitive = true
-		@help.sensitive = true
-
-		@pause.image = AssetsLoader.loadImage('pause.png',40)
-		@picross.show_all
-
-		@content.remove(@labelPause)
-		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.reorder_child(@picross,0)
+		self.disablePause(true, 'pause.png', @labelPause, @picross)
 	end
 
 	def drawOnPause()
 		@map.currentStat.time.pause
-
-		@hypotheses.sensitive = false
-		@reset.sensitive = false
-		@help.sensitive = false
-
-		@pause.image = AssetsLoader.loadImage('play.png',40)
-
-		@content.remove(@picross)
-		@content.pack_start(@labelPause, :expand => true, :fill => true)
-		@content.reorder_child(@labelPause,0)
+		self.disablePause(false, 'play.png', @picross, @labelPause)
 	end
 
 	def createPopoverButton(buttonAccept, buttonReject, hypo)
