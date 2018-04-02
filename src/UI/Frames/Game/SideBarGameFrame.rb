@@ -1,7 +1,9 @@
 require_relative '../../../Map'
+require_relative '../../../Timer'
 require_relative '../../../HelpMadeError'
 require_relative '../../AssetsLoader'
 require_relative '../../ButtonCreator'
+require_relative '../../GridCreator'
 require_relative '../MapFrame'
 require_relative '../OptionFrame'
 require_relative 'PicrossFrame'
@@ -47,7 +49,11 @@ class SideBarGameFrame
 	end
 
 	def createTimer
-		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
+		@realTimer    = Gtk::Label.new(@map.currentStat.time.elapsedTime)
+		@penaltyTimer = Gtk::Label.new(@map.currentStat.penalty.elapsedTime)
+		@maxTime      = Gtk::Label.new(Timer.toTime(@map.timeToDo))
+
+		@timer = GridCreator.fromArray([@realTimer, @penaltyTimer, @maxTime], :vertical => true)
 
 		# Update the timer view every second
 		GLib::Timeout.add(1000){
@@ -56,7 +62,8 @@ class SideBarGameFrame
 				false
 			else
 				# view update
-				@timer.text = @map.currentStat.time.elapsedTime
+				@realTimer.text    = @map.currentStat.time.elapsedTime
+				@penaltyTimer.text = @map.currentStat.penalty.elapsedTime 
 				true
 			end
 		}

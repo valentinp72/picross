@@ -24,6 +24,9 @@ class GameFrame < Frame
 	# The PicrossFrame
 	attr_reader :picross
 
+	# The main layout of this frame
+	attr_reader :content
+
 	##
 	# Create a new frame that shows the game
 	# * *Arguments* :

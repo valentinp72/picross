@@ -18,6 +18,13 @@ class HelpMadeError < Help
 	# The cost of this help (in seconds)
 	COST_HELP = 30
 
+	# The message sent when trying to help when there was no error
+	MESSAGE_NO_ERROR       = 0
+
+	# The message sent when trying to help when there was an error
+	MESSAGE_ERROR_REVERTED = 1
+
+
 	def initialize(map, user)
 		super(map, user, COST_HELP)
 	end
@@ -26,11 +33,11 @@ class HelpMadeError < Help
 		super()	
 		
 		if @map.hasError? then
-			puts "erreur ! voici avant :"
-			puts @map.correctSaved
-		else
-			puts "pas d'erreur pauvre con"
+			@map.rollbackCorrect
+			return MESSAGE_ERROR_REVERTED
 		end
+
+		return MESSAGE_NO_ERROR	
 	end
 
 end
