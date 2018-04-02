@@ -1,6 +1,6 @@
 # Licence	:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 03/27/2018
+# Last update	:: 04/02/2018
 #
 
 
@@ -76,67 +76,63 @@ class Helper
 				end
 			end
 			
-			self.afficher()
-			
-			#On coche les cases impossibles (on les met à -1)
-			self.cochergrille()
-			
-			#On remplit les cases
-			for i in 0...@clns.size()
-				self.traiterrange(i,"column")
-			end
-
-			for i in 0...@lines.size()
-				self.traiterrange(i,"line")
-			end
+			#self.solve()
+			self.afficher
 			
 			if(helpLvl==2)			#Aide moyenne : Renvoit un groupe de cases que l'utilisateur aurait pu trouver facilement
 			
 				nbtour=0		#pour eviter boucle infinie si resultat introuvable
 				
 				while(nbtour<10)
-					
-					self.afficher()
 				
 					tabrange = rfull()
+				
 					for numl in tabrange[0]
 					
-						if blocfullbysolver(numl,"line",userGrid)
-							
-							return blocOfLine(numl,"line")
+						bloc = blocNotcomplete(numl,"line",userGrid,"grid")
+
+						if(!bloc.empty?()) 
+							return bloc
 						end
 					end
 					
 					for numc in tabrange[1]
 					
-						if blocfullbysolver(numc,"column",userGrid)
-							return blocOfLine(numc,"column")
+						bloc2 = blocNotcomplete(numc,"column",userGrid,"grid")
+						if(!bloc2.empty?()) 
+							return bloc2
 						end
 					end
-					
-			
-					#On coche les cases impossibles (on les met à -1)
-					self.cochergrille()
-			
-					#On remplit les cases
-					for i in 0...@clns.size()
-						self.traiterrange(i,"column")
-					end
-
-					for i in 0...@lines.size()
-						self.traiterrange(i,"line")
-					end
+				
+					#self.solve()
 				
 					nbtour+=1
 				end
 				
-				puts("pas trouver")
-				return([[]])
+				#si introuvable, on donne un bloc aléatoire de la solution que l'utilisateur n'a pas trouver
+				puts("ALEATOIRE")
+				
+				for numl in 0...@lines.size()
+					
+					bloc = blocNotcomplete(numl,"line",userGrid,"solution")
+
+					if(!bloc.empty?()) 
+						return bloc
+					end
+				end
+				
+				for numc in 0...@clns.size()
+					bloc2 = blocNotcomplete(numc,"column",userGrid,"solution")
+					if(!bloc2.empty?()) 
+					
+						return bloc2
+					end
+				end
+
+				return([[]])		#si toutes les cases sont déja bien coloriées, l'aide ne donne aucune solutions
 				
 			else 			#Aide difficile : Renvoit une case que l'utilisateur aurait pu trouver facilement
-			
-				
-				
+
 				i=0
 				while (i<@lines.size())
 			
@@ -151,15 +147,21 @@ class Helper
 					end
 					i+=1
 				end
-			
-			
-				puts("pas trouver")
-				return([[]])
+
+				#si introuvable, on donne une case aléatoire de la solution que l'utilisateur n'a pas trouver
+				puts("ALEATOIRE :")
+				for i in 0...@clns.size()
+					for j in 0...@lines.size()
+						
+						if(@solution[i][j]==1 && userGrid[i][j]==0)
+							return([[i,j,1]])
+						end
+					end
+				end
+				return([[]])		#si toutes les cases sont déja bien coloriées, l'aide ne donne aucune solutions
 			
 			end
 		end
-		
-
 	end
 	
 	#Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
@@ -209,82 +211,58 @@ class Helper
 		return ([tabline,tabcol])
 	end
 	
-	#renvoit vrai si le premier bloc de la range a été rempli par le solveur
-	def blocfullbysolver(num,range,userGrid)
+	#renvoit le premier bloc non complet de la grille de l'utilisateur, tableau vide sinon
+	def blocNotcomplete(num,range,userGrid,matrix)
 	
-		i=0
 		bloc=false
+		tab=[]
+		if matrix.eql?("grid") then
+			mat = @grid
+		else
+			mat = @solution
+		end
+		
 		if range.eql?("column") then
 	
 			for i in 0...@lines.size()
-				if(@grid[i][num]==1)
+				if(mat[i][num]==1)
 				
+					tab.push([i,num,1])
 					if(userGrid[i][num]==0)
-						return true
+						bloc=true
 					end
-					bloc=true
 					
+				elsif(bloc==false)
+					tab.clear()
 				elsif(bloc==true)
-					return false
+					return tab
 				end
 			end
-			return false
 		else
 		
 			for i in 0...@clns.size()
 	
-				if(@grid[num][i]==1)
-					
-					if(userGrid[num][i]==0)
-						return true
-					end
-										
-				elsif(bloc==true)
-					return false
-				end
-			end
-			return false
-		end
-	end
-	
-	#Recherche et renvoit le premier des blocs de la range en parametre
-	def blocOfLine(num,range)
-	
-		tab=[]
-		bloc=false
-		
-		if range.eql?("column") then		 #traite une colonne
-			
-			for i in 0...@lines.size()
-		
-				if(@grid[i][num]==1)
-				
-					tab.push([i,num,1])
-					bloc=true
-				
-				elsif(bloc==true)		#si une case coloriée a été passée et qu'on retombe sur une case non coloriée, alors le bloc est complet
-					return tab
-				end
-			end
-			return tab
-			
-		else		#traite une ligne
-
-			for i in 0...@clns.size()
-		
-				if(@grid[num][i]==1)
+				if(mat[num][i]==1)
 					
 					tab.push([num,i,1])
-					bloc=true
+					if(userGrid[num][i]==0)
+						bloc=true
+					end
 				
+				elsif(bloc==false)
+					tab.clear()
 				elsif(bloc==true)
 					return tab
 				end
 			end
-			return tab
 		end
+		
+		if (bloc==false)
+			tab.clear()
+		end
+		return tab
 	end
-	
+
 	#Recherche une ligne aléatoire non complétée par l'utilisateur
 	def searchLine(userGrid)
 	
@@ -311,7 +289,23 @@ class Helper
 
 	end
 	
+	#utilise les méthodes de résolution pour continuer la grille
+	def solve
 	
+		self.afficher()
+			
+		#On coche les cases impossibles (on les met à -1)
+		self.cochergrille()
+			
+		#On remplit les cases
+		for i in 0...@clns.size()
+			self.traiterrange(i,"column")
+		end
+
+		for i in 0...@lines.size()
+			self.traiterrange(i,"line")
+		end
+	end
 
 	#Affiche la grille résolue
 	def afficher()
@@ -743,3 +737,5 @@ puts("")
 #Remplacer solution en variable d'instance par une map
 #renvoyer un state au lieu d'une valeur pour les cases
 #refactoriser le code (cf codeclimate)
+
+
