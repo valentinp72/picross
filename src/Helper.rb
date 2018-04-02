@@ -3,6 +3,9 @@
 # Last update	:: 04/02/2018
 #
 
+require_relative 'Cell'
+require_relative 'Grid'
+require_relative 'Map'
 
 class Helper
 
@@ -13,30 +16,13 @@ class Helper
 	@grid #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
 	@solution #grille contenant la solution finale du picross
 	
-
-
 	#Constructeur
-	def initialize(sol)
+	def initialize(sol,line,col)
 
 		@solution = sol
-
-		#Grille 5x5 de la feuille
-		@lines = [[3],[1],[3],[2,1],[1,2]]
-		@clns = [[1],[3],[1,2],[2,1],[1,2]]
-
-		#Grille 10x5 de la feuille
-		#@lines = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
-		#@clns = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
-
-		#Speaker
-		#@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
-		#@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
-
-
-		#Me
-		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
-		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
-
+		#@solution = majSolution(map.solution)			#si map en parametre au lieu de sol
+		@lines = line
+		@clns = col
 
 		#Initialisation de la grille
 		@grid = Array.new(@lines.size()) do |j|
@@ -47,8 +33,8 @@ class Helper
 	end
 
 
-	#renvoie un tableau [[x1,y1,valeur1],[x2,y2,valeur2],...] indiquant les cases à colorier/cocher
-	#x abscysse, y ordonnée, valeur :  1=coloriée / -1=cochée
+	#renvoie un tableau [[x1,y1,etat1],[x2,y2,etat2],...] indiquant les cases à colorier/cocher
+	#x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(userGrid, helpLvl)
 
 		
@@ -61,7 +47,7 @@ class Helper
 			help = []
 			for i in 0...@clns.size()
 
-				help.push([line,i,@solution[line][i]])
+				help.push([line,i,convertState(@solution[line][i])])
 			end
 			return help
 
@@ -76,8 +62,7 @@ class Helper
 				end
 			end
 			
-			#self.solve()
-			self.afficher
+			self.solve()
 			
 			if(helpLvl==2)			#Aide moyenne : Renvoit un groupe de cases que l'utilisateur aurait pu trouver facilement
 			
@@ -104,7 +89,7 @@ class Helper
 						end
 					end
 				
-					#self.solve()
+					self.solve()
 				
 					nbtour+=1
 				end
@@ -141,7 +126,7 @@ class Helper
 	
 						if (@grid[i][j]==1 && userGrid[i][j]==0)
 							
-							return([[i,j,1]])
+							return([[i,j,Cell::CELL_BLACK]])
 						end
 						j+=1
 					end
@@ -154,7 +139,7 @@ class Helper
 					for j in 0...@lines.size()
 						
 						if(@solution[i][j]==1 && userGrid[i][j]==0)
-							return([[i,j,1]])
+							return([[i,j,Cell::CELL_BLACK]])
 						end
 					end
 				end
@@ -162,6 +147,41 @@ class Helper
 			
 			end
 		end
+	end
+	
+	#Convertit la grille de cellules finales en grille de solution d'entier
+	def majSolution(cellGrid)
+		
+		soluce = Array.new(5) do |j|
+			Array.new(5) do |i|
+				-1
+			end
+		end
+		
+		for i in 0...@lines.size()
+			
+			for j in 0...@clns.size()
+		
+				if(cellGrid.cellPosition(i,j).state==CELL_BLACK)
+					soluce[i][j]=1;
+				end
+			end
+		end
+		
+		return soluce
+	end
+	
+	#Convertit un entier représenté sur la grille par 0,-1 ou 1 en un état
+	def convertState(entier)
+	
+		if(entier==1)
+			return Cell::CELL_BLACK
+		elsif(entier==0)
+			return Cell::CELL_WHITE
+		else
+			return Cell::CELL_CROSSED
+		end
+	
 	end
 	
 	#Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
@@ -227,7 +247,7 @@ class Helper
 			for i in 0...@lines.size()
 				if(mat[i][num]==1)
 				
-					tab.push([i,num,1])
+					tab.push([i,num,Cell::CELL_BLACK])
 					if(userGrid[i][num]==0)
 						bloc=true
 					end
@@ -244,7 +264,7 @@ class Helper
 	
 				if(mat[num][i]==1)
 					
-					tab.push([num,i,1])
+					tab.push([num,i,Cell::CELL_BLACK])
 					if(userGrid[num][i]==0)
 						bloc=true
 					end
@@ -685,7 +705,22 @@ class Helper
 	end
 end
 
+#Grille 10x5 de la feuille
+#l = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
+#c = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
 
+#Speaker
+#l = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
+#c = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
+
+#Me
+#l = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+#c = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
+
+#Grille 5x5 de la feuille
+l = [[3],[1],[3],[2,1],[1,2]]
+c = [[1],[3],[1,2],[2,1],[1,2]]
+		
 soluce = Array.new(5) do |j|
 		Array.new(5) do |i|
 			-1
@@ -728,14 +763,12 @@ user[4][2]=-1
 user[4][3]=1
 
 
-test = Helper.new(soluce)
-tab = test.traitement(user,2)
+test = Helper.new(soluce,l,c)
+tab = test.traitement(user,3)
 print tab
 puts("")
 
-#Memo a faire quand les 3 aides seront fonctionnelles : 
-#Remplacer solution en variable d'instance par une map
-#renvoyer un state au lieu d'une valeur pour les cases
+#Memo a faire : 
+#Remplacer solution en variable d'instance par une map (en cours)
 #refactoriser le code (cf codeclimate)
-
-
+#commentaires mieux organisés + en anglais + code en anglais
