@@ -11,7 +11,6 @@ class Helper
 	@lines	#int[]
 	@clns #int[]
 	@grid #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
-	@find	#boolean indiquant si solution trouvee ou non
 	@solution #grille contenant la solution finale du picross
 	
 
@@ -19,7 +18,6 @@ class Helper
 	#Constructeur
 	def initialize(sol)
 
-		@find=false
 		@solution = sol
 
 		#Grille 5x5 de la feuille
@@ -53,7 +51,8 @@ class Helper
 	#x abscysse, y ordonnée, valeur :  1=coloriée / -1=cochée
 	def traitement(userGrid, helpLvl)
 
-
+		
+		
 		if(helpLvl==1)  			#Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 
 			#Recherche une ligne aléatoire non complétée par l'utilisateur
@@ -68,21 +67,19 @@ class Helper
 
 			
 		else		
-
-			#nbcasetot=0		#total de case à colorier sur la grille
-			# Calcul total de case à colorier sur la grille (somme des indices de chaque lignes)
-			#for i in @lines	#pour chaque ligne
-			#	for j in i	#pour chaque indice
-			#		nbcasetot += j
-			#	end
-			#end
-
-			##Remplissage lignes et colonnes en partie coloriées
-			#while (self.nbcasecoloriee()!=nbcasetot && @find==false)
-
+	
+			#On place la grille de l'utilisateur dans la grille du solveur
+			for i in 0...@lines.size()
+				for j in 0...@clns.size()
+			
+					@grid[i][j] = userGrid[i][j];
+				end
+			end
+			
+			self.afficher()
+			
 			#On coche les cases impossibles (on les met à -1)
 			self.cochergrille()
-			@grid = userGrid
 			
 			#On remplit les cases
 			for i in 0...@clns.size()
@@ -93,29 +90,199 @@ class Helper
 				self.traiterrange(i,"line")
 			end
 			
-			
 			if(helpLvl==2)			#Aide moyenne : Renvoit un groupe de cases que l'utilisateur aurait pu trouver facilement
 			
+				nbtour=0		#pour eviter boucle infinie si resultat introuvable
 				
+				while(nbtour<10)
+					
+					self.afficher()
+				
+					tabrange = rfull()
+					for numl in tabrange[0]
+					
+						if blocfullbysolver(numl,"line",userGrid)
+							
+							return blocOfLine(numl,"line")
+						end
+					end
+					
+					for numc in tabrange[1]
+					
+						if blocfullbysolver(numc,"column",userGrid)
+							return blocOfLine(numc,"column")
+						end
+					end
+					
 			
+					#On coche les cases impossibles (on les met à -1)
+					self.cochergrille()
+			
+					#On remplit les cases
+					for i in 0...@clns.size()
+						self.traiterrange(i,"column")
+					end
 
+					for i in 0...@lines.size()
+						self.traiterrange(i,"line")
+					end
 				
-		
-		
-		
+					nbtour+=1
+				end
+				
+				puts("pas trouver")
+				return([[]])
+				
 			else 			#Aide difficile : Renvoit une case que l'utilisateur aurait pu trouver facilement
 			
 				
+				
+				i=0
+				while (i<@lines.size())
+			
+					j=0
+					while (j<@clns.size())
+	
+						if (@grid[i][j]==1 && userGrid[i][j]==0)
+							
+							return([[i,j,1]])
+						end
+						j+=1
+					end
+					i+=1
+				end
 			
 			
-			
-			
-			
+				puts("pas trouver")
+				return([[]])
 			
 			end
 		end
 		
 
+	end
+	
+	#Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
+	def rfull()
+	
+		tabline = []
+		tabcol = []
+		
+		#regarde si ligne pleine
+		for i in 0...@lines.size()
+				
+			j=0
+			while(j<@clns.size())
+	
+				if(@grid[i][j]==0)
+				
+					j=@clns.size()
+	
+				elsif(j==@clns.size()-1)		#si ligne pleine on push
+					
+					tabline.push(i)
+				end
+				j+=1
+			end
+		end
+		
+		#regarde si colonne pleine
+		for i in 0...@clns.size()
+				
+			j=0
+			
+			while(j<@lines.size())
+	
+				if(@grid[j][i]==0)
+				
+					j=@lines.size()
+					
+				elsif(j==@lines.size()-1)		#si ligne pleine on push
+					
+					tabcol.push(i)
+				end
+				j+=1
+				
+			end
+		end
+		
+		return ([tabline,tabcol])
+	end
+	
+	#renvoit vrai si le premier bloc de la range a été rempli par le solveur
+	def blocfullbysolver(num,range,userGrid)
+	
+		i=0
+		bloc=false
+		if range.eql?("column") then
+	
+			for i in 0...@lines.size()
+				if(@grid[i][num]==1)
+				
+					if(userGrid[i][num]==0)
+						return true
+					end
+					bloc=true
+					
+				elsif(bloc==true)
+					return false
+				end
+			end
+			return false
+		else
+		
+			for i in 0...@clns.size()
+	
+				if(@grid[num][i]==1)
+					
+					if(userGrid[num][i]==0)
+						return true
+					end
+										
+				elsif(bloc==true)
+					return false
+				end
+			end
+			return false
+		end
+	end
+	
+	#Recherche et renvoit le premier des blocs de la range en parametre
+	def blocOfLine(num,range)
+	
+		tab=[]
+		bloc=false
+		
+		if range.eql?("column") then		 #traite une colonne
+			
+			for i in 0...@lines.size()
+		
+				if(@grid[i][num]==1)
+				
+					tab.push([i,num,1])
+					bloc=true
+				
+				elsif(bloc==true)		#si une case coloriée a été passée et qu'on retombe sur une case non coloriée, alors le bloc est complet
+					return tab
+				end
+			end
+			return tab
+			
+		else		#traite une ligne
+
+			for i in 0...@clns.size()
+		
+				if(@grid[num][i]==1)
+					
+					tab.push([num,i,1])
+					bloc=true
+				
+				elsif(bloc==true)
+					return tab
+				end
+			end
+			return tab
+		end
 	end
 	
 	#Recherche une ligne aléatoire non complétée par l'utilisateur
@@ -168,7 +335,7 @@ class Helper
 		puts("\n")
 	end
 
-	#Renvoit vrai si le nombre de case coloriée sur une colonne est égal à celui attendu
+	#Renvoit vrai si le nombre de case coloriée sur une range est égal à celui attendu
 	def cptColor(num, range)
 		cpt = 0
 		cpt2 = 0
@@ -206,7 +373,7 @@ class Helper
 		end
 	end
 
-	#Coche toute les cases indéterminée d'une ligne
+	#Coche toute les cases indéterminées d'une ligne
 	def cocheCaseIndeter(num, range)
 
 		if range.eql?("column") then
@@ -290,23 +457,6 @@ class Helper
 		end
 	end
 
-
-	#Calcul le nombre de case coloriées sur la grille
-	def nbcasecoloriee()
-		nb=0
-		i=0
-		while(i<@lines.size())
-			j=0
-			while(j<@clns.size())
-				if(@grid[i][j]==1) then
-					nb += 1
-				end
-				j += 1
-			end
-			i = i+1
-		end
-		return nb
-	end
 
 	#Calcul et renvoi la première possibilité du placement des indices sur la range en paramètre
 	def premierePossibilite(num, range)
@@ -566,23 +716,30 @@ user = Array.new(5) do |j|
 			0
 		end
 	end
-user[0][0]=-1
-user[0][1]=-1
+	
 user[0][2]=1
-user[0][3]=1
-user[0][4]=1
 user[1][0]=-1
 user[1][1]=-1
 user[1][2]=-1
 user[1][3]=1
 user[1][4]=-1
+user[2][1]=1
+user[2][2]=1
+user[3][0]=-1
+user[3][1]=1
+user[3][2]=1
+user[3][3]=-1
+user[3][4]=1
+user[4][2]=-1
+user[4][3]=1
 
 
 test = Helper.new(soluce)
-tab = test.traitement(user,1)
+tab = test.traitement(user,2)
 print tab
+puts("")
 
 #Memo a faire quand les 3 aides seront fonctionnelles : 
-#Remplacer solution en variable d'instance par la map
+#Remplacer solution en variable d'instance par une map
 #renvoyer un state au lieu d'une valeur pour les cases
-
+#refactoriser le code (cf codeclimate)
