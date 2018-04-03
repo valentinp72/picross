@@ -56,7 +56,7 @@ describe Chapter do
 		path = File.expand_path(File.dirname(__FILE__) + '/' + 'spec')
 		chap1.save(path, "test")
 
-		#expect{Chapter.load(path + 'test1.chp')}.to raise_error(Chapter::CorruptedChapterException,/.*/)
+		#expect{Chapter.load(path + 'test1.chp')}.to raise_error(Chapter::CorruptedChapterException)
 	end
 
 end
