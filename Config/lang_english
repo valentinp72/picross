@@ -56,7 +56,7 @@ stats:
         click: 'Min click'
         finished: 'Number of time level has been done'
     global:
-        stars: 'Totla stars'
+        stars: 'Total stars'
         time: 'Total time'
         help: 'Total used help'
         click: 'Total click'

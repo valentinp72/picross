@@ -55,7 +55,7 @@ stats:
         click: 'Click minimal'
         finished: 'Nombre de fois fini'
     global:
-        stars: 'Total etoiles'
+        stars: 'Etoiles total'
         time: 'Temps de jeu total'
         help: 'Aides utilise au total'
         click: 'Click total'

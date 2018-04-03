@@ -1,8 +1,11 @@
 # Licence	:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 03/27/2018
+# Last update	:: 04/02/2018
 #
 
+require_relative 'Cell'
+require_relative 'Grid'
+require_relative 'Map'
 
 class Helper
 
@@ -11,34 +14,15 @@ class Helper
 	@lines	#int[]
 	@clns #int[]
 	@grid #int[][]	#0 : case indéterminée, -1 : case cochée, 1 : case coloriée
-	@find	#boolean indiquant si solution trouvee ou non
 	@solution #grille contenant la solution finale du picross
 	
-
-
 	#Constructeur
-	def initialize(sol)
+	def initialize(sol,line,col)
 
-		@find=false
 		@solution = sol
-
-		#Grille 5x5 de la feuille
-		@lines = [[3],[1],[3],[2,1],[1,2]]
-		@clns = [[1],[3],[1,2],[2,1],[1,2]]
-
-		#Grille 10x5 de la feuille
-		#@lines = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
-		#@clns = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
-
-		#Speaker
-		#@lines = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
-		#@clns = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
-
-
-		#Me
-		#@lines = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
-		#@clns = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
-
+		#@solution = majSolution(map.solution)			#si map en parametre au lieu de sol
+		@lines = line
+		@clns = col
 
 		#Initialisation de la grille
 		@grid = Array.new(@lines.size()) do |j|
@@ -49,11 +33,12 @@ class Helper
 	end
 
 
-	#renvoie un tableau [[x1,y1,valeur1],[x2,y2,valeur2],...] indiquant les cases à colorier/cocher
-	#x abscysse, y ordonnée, valeur :  1=coloriée / -1=cochée
+	#renvoie un tableau [[x1,y1,etat1],[x2,y2,etat2],...] indiquant les cases à colorier/cocher
+	#x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(userGrid, helpLvl)
 
-
+		
+		
 		if(helpLvl==1)  			#Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 
 			#Recherche une ligne aléatoire non complétée par l'utilisateur
@@ -62,62 +47,242 @@ class Helper
 			help = []
 			for i in 0...@clns.size()
 
-				help.push([line,i,@solution[line][i]])
+				help.push([line,i,convertState(@solution[line][i])])
 			end
 			return help
 
 			
 		else		
-
-			#nbcasetot=0		#total de case à colorier sur la grille
-			# Calcul total de case à colorier sur la grille (somme des indices de chaque lignes)
-			#for i in @lines	#pour chaque ligne
-			#	for j in i	#pour chaque indice
-			#		nbcasetot += j
-			#	end
-			#end
-
-			##Remplissage lignes et colonnes en partie coloriées
-			#while (self.nbcasecoloriee()!=nbcasetot && @find==false)
-
-			#On coche les cases impossibles (on les met à -1)
-			self.cochergrille()
-			@grid = userGrid
-			
-			#On remplit les cases
-			for i in 0...@clns.size()
-				self.traiterrange(i,"column")
-			end
-
+	
+			#On place la grille de l'utilisateur dans la grille du solveur
 			for i in 0...@lines.size()
-				self.traiterrange(i,"line")
+				for j in 0...@clns.size()
+			
+					@grid[i][j] = userGrid[i][j];
+				end
 			end
 			
+			self.solve()
 			
 			if(helpLvl==2)			#Aide moyenne : Renvoit un groupe de cases que l'utilisateur aurait pu trouver facilement
 			
+				nbtour=0		#pour eviter boucle infinie si resultat introuvable
 				
-			
+				while(nbtour<10)
+				
+					tabrange = rfull()
+				
+					for numl in tabrange[0]
+					
+						bloc = blocNotcomplete(numl,"line",userGrid,"grid")
 
+						if(!bloc.empty?()) 
+							return bloc
+						end
+					end
+					
+					for numc in tabrange[1]
+					
+						bloc2 = blocNotcomplete(numc,"column",userGrid,"grid")
+						if(!bloc2.empty?()) 
+							return bloc2
+						end
+					end
 				
-		
-		
-		
+					self.solve()
+				
+					nbtour+=1
+				end
+				
+				#si introuvable, on donne un bloc aléatoire de la solution que l'utilisateur n'a pas trouver
+				puts("ALEATOIRE")
+				
+				for numl in 0...@lines.size()
+					
+					bloc = blocNotcomplete(numl,"line",userGrid,"solution")
+
+					if(!bloc.empty?()) 
+						return bloc
+					end
+				end
+				
+				for numc in 0...@clns.size()
+					bloc2 = blocNotcomplete(numc,"column",userGrid,"solution")
+					if(!bloc2.empty?()) 
+					
+						return bloc2
+					end
+				end
+
+				return([[]])		#si toutes les cases sont déja bien coloriées, l'aide ne donne aucune solutions
+				
 			else 			#Aide difficile : Renvoit une case que l'utilisateur aurait pu trouver facilement
+
+				i=0
+				while (i<@lines.size())
 			
-				
-			
-			
-			
-			
-			
+					j=0
+					while (j<@clns.size())
+	
+						if (@grid[i][j]==1 && userGrid[i][j]==0)
+							
+							return([[i,j,Cell::CELL_BLACK]])
+						end
+						j+=1
+					end
+					i+=1
+				end
+
+				#si introuvable, on donne une case aléatoire de la solution que l'utilisateur n'a pas trouver
+				puts("ALEATOIRE :")
+				for i in 0...@clns.size()
+					for j in 0...@lines.size()
+						
+						if(@solution[i][j]==1 && userGrid[i][j]==0)
+							return([[i,j,Cell::CELL_BLACK]])
+						end
+					end
+				end
+				return([[]])		#si toutes les cases sont déja bien coloriées, l'aide ne donne aucune solutions
 			
 			end
 		end
-		
-
 	end
 	
+	#Convertit la grille de cellules finales en grille de solution d'entier
+	def majSolution(cellGrid)
+		
+		soluce = Array.new(5) do |j|
+			Array.new(5) do |i|
+				-1
+			end
+		end
+		
+		for i in 0...@lines.size()
+			
+			for j in 0...@clns.size()
+		
+				if(cellGrid.cellPosition(i,j).state==CELL_BLACK)
+					soluce[i][j]=1;
+				end
+			end
+		end
+		
+		return soluce
+	end
+	
+	#Convertit un entier représenté sur la grille par 0,-1 ou 1 en un état
+	def convertState(entier)
+	
+		if(entier==1)
+			return Cell::CELL_BLACK
+		elsif(entier==0)
+			return Cell::CELL_WHITE
+		else
+			return Cell::CELL_CROSSED
+		end
+	
+	end
+	
+	#Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
+	def rfull()
+	
+		tabline = []
+		tabcol = []
+		
+		#regarde si ligne pleine
+		for i in 0...@lines.size()
+				
+			j=0
+			while(j<@clns.size())
+	
+				if(@grid[i][j]==0)
+				
+					j=@clns.size()
+	
+				elsif(j==@clns.size()-1)		#si ligne pleine on push
+					
+					tabline.push(i)
+				end
+				j+=1
+			end
+		end
+		
+		#regarde si colonne pleine
+		for i in 0...@clns.size()
+				
+			j=0
+			
+			while(j<@lines.size())
+	
+				if(@grid[j][i]==0)
+				
+					j=@lines.size()
+					
+				elsif(j==@lines.size()-1)		#si ligne pleine on push
+					
+					tabcol.push(i)
+				end
+				j+=1
+				
+			end
+		end
+		
+		return ([tabline,tabcol])
+	end
+	
+	#renvoit le premier bloc non complet de la grille de l'utilisateur, tableau vide sinon
+	def blocNotcomplete(num,range,userGrid,matrix)
+	
+		bloc=false
+		tab=[]
+		if matrix.eql?("grid") then
+			mat = @grid
+		else
+			mat = @solution
+		end
+		
+		if range.eql?("column") then
+	
+			for i in 0...@lines.size()
+				if(mat[i][num]==1)
+				
+					tab.push([i,num,Cell::CELL_BLACK])
+					if(userGrid[i][num]==0)
+						bloc=true
+					end
+					
+				elsif(bloc==false)
+					tab.clear()
+				elsif(bloc==true)
+					return tab
+				end
+			end
+		else
+		
+			for i in 0...@clns.size()
+	
+				if(mat[num][i]==1)
+					
+					tab.push([num,i,Cell::CELL_BLACK])
+					if(userGrid[num][i]==0)
+						bloc=true
+					end
+				
+				elsif(bloc==false)
+					tab.clear()
+				elsif(bloc==true)
+					return tab
+				end
+			end
+		end
+		
+		if (bloc==false)
+			tab.clear()
+		end
+		return tab
+	end
+
 	#Recherche une ligne aléatoire non complétée par l'utilisateur
 	def searchLine(userGrid)
 	
@@ -144,7 +309,23 @@ class Helper
 
 	end
 	
+	#utilise les méthodes de résolution pour continuer la grille
+	def solve
 	
+		self.afficher()
+			
+		#On coche les cases impossibles (on les met à -1)
+		self.cochergrille()
+			
+		#On remplit les cases
+		for i in 0...@clns.size()
+			self.traiterrange(i,"column")
+		end
+
+		for i in 0...@lines.size()
+			self.traiterrange(i,"line")
+		end
+	end
 
 	#Affiche la grille résolue
 	def afficher()
@@ -168,7 +349,7 @@ class Helper
 		puts("\n")
 	end
 
-	#Renvoit vrai si le nombre de case coloriée sur une colonne est égal à celui attendu
+	#Renvoit vrai si le nombre de case coloriée sur une range est égal à celui attendu
 	def cptColor(num, range)
 		cpt = 0
 		cpt2 = 0
@@ -206,7 +387,7 @@ class Helper
 		end
 	end
 
-	#Coche toute les cases indéterminée d'une ligne
+	#Coche toute les cases indéterminées d'une ligne
 	def cocheCaseIndeter(num, range)
 
 		if range.eql?("column") then
@@ -290,23 +471,6 @@ class Helper
 		end
 	end
 
-
-	#Calcul le nombre de case coloriées sur la grille
-	def nbcasecoloriee()
-		nb=0
-		i=0
-		while(i<@lines.size())
-			j=0
-			while(j<@clns.size())
-				if(@grid[i][j]==1) then
-					nb += 1
-				end
-				j += 1
-			end
-			i = i+1
-		end
-		return nb
-	end
 
 	#Calcul et renvoi la première possibilité du placement des indices sur la range en paramètre
 	def premierePossibilite(num, range)
@@ -541,7 +705,22 @@ class Helper
 	end
 end
 
+#Grille 10x5 de la feuille
+#l = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
+#c = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
 
+#Speaker
+#l = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
+#c = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
+
+#Me
+#l = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
+#c = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
+
+#Grille 5x5 de la feuille
+l = [[3],[1],[3],[2,1],[1,2]]
+c = [[1],[3],[1,2],[2,1],[1,2]]
+		
 soluce = Array.new(5) do |j|
 		Array.new(5) do |i|
 			-1
@@ -566,23 +745,30 @@ user = Array.new(5) do |j|
 			0
 		end
 	end
-user[0][0]=-1
-user[0][1]=-1
+	
 user[0][2]=1
-user[0][3]=1
-user[0][4]=1
 user[1][0]=-1
 user[1][1]=-1
 user[1][2]=-1
 user[1][3]=1
 user[1][4]=-1
+user[2][1]=1
+user[2][2]=1
+user[3][0]=-1
+user[3][1]=1
+user[3][2]=1
+user[3][3]=-1
+user[3][4]=1
+user[4][2]=-1
+user[4][3]=1
 
 
-test = Helper.new(soluce)
-tab = test.traitement(user,1)
+test = Helper.new(soluce,l,c)
+tab = test.traitement(user,3)
 print tab
+puts("")
 
-#Memo a faire quand les 3 aides seront fonctionnelles : 
-#Remplacer solution en variable d'instance par la map
-#renvoyer un state au lieu d'une valeur pour les cases
-
+#Memo a faire : 
+#Remplacer solution en variable d'instance par une map (en cours)
+#refactoriser le code (cf codeclimate)
+#commentaires mieux organisés + en anglais + code en anglais

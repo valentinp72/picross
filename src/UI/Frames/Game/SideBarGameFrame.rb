@@ -1,7 +1,9 @@
 require_relative '../../../Map'
+require_relative '../../../Timer'
 require_relative '../../../HelpMadeError'
 require_relative '../../AssetsLoader'
 require_relative '../../ButtonCreator'
+require_relative '../../GridCreator'
 require_relative '../MapFrame'
 require_relative '../OptionFrame'
 require_relative 'PicrossFrame'
@@ -47,7 +49,11 @@ class SideBarGameFrame
 	end
 
 	def createTimer
-		@timer = Gtk::Label.new(@map.currentStat.time.elapsedTime)
+		@realTimer    = Gtk::Label.new(@map.currentStat.time.elapsedTime)
+		@penaltyTimer = Gtk::Label.new(@map.currentStat.penalty.elapsedTime)
+		@maxTime      = Gtk::Label.new(Timer.toTime(@map.timeToDo))
+
+		@timer = GridCreator.fromArray([@realTimer, @penaltyTimer, @maxTime], :vertical => true)
 
 		# Update the timer view every second
 		GLib::Timeout.add(1000){
@@ -56,7 +62,8 @@ class SideBarGameFrame
 				false
 			else
 				# view update
-				@timer.text = @map.currentStat.time.elapsedTime
+				@realTimer.text    = @map.currentStat.time.elapsedTime
+				@penaltyTimer.text = @map.currentStat.penalty.elapsedTime 
 				true
 			end
 		}
@@ -137,6 +144,8 @@ class SideBarGameFrame
 		#self.checkMap
 		help = HelpMadeError.new(@map, @user)
 		help.apply
+		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.redraw
 	end
 
 	def btn_hypotheses_clicked
@@ -145,33 +154,25 @@ class SideBarGameFrame
 		end
 	end
 
+	def disablePause(unpaused, imageName, toRemove, toReplace)
+		@hypotheses.sensitive = unpaused
+		@reset.sensitive      = unpaused
+		@help.sensitive       = unpaused
+		@pause.image          = AssetsLoader.loadImage(imageName, 40)
+		
+		@frame.content.remove(toRemove)
+		@frame.content.pack_start(toReplace, :expand => true, :fill => true)
+		@frame.content.reorder_child(toReplace, 0)
+	end
+
 	def drawOnUnpause()
 		@map.currentStat.time.unpause
-
-		@hypotheses.sensitive = true
-		@reset.sensitive = true
-		@help.sensitive = true
-
-		@pause.image = AssetsLoader.loadImage('pause.png',40)
-		@picross.show_all
-
-		@content.remove(@labelPause)
-		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.reorder_child(@picross,0)
+		self.disablePause(true, 'pause.png', @labelPause, @picross)
 	end
 
 	def drawOnPause()
 		@map.currentStat.time.pause
-
-		@hypotheses.sensitive = false
-		@reset.sensitive = false
-		@help.sensitive = false
-
-		@pause.image = AssetsLoader.loadImage('play.png',40)
-
-		@content.remove(@picross)
-		@content.pack_start(@labelPause, :expand => true, :fill => true)
-		@content.reorder_child(@labelPause,0)
+		self.disablePause(false, 'play.png', @picross, @labelPause)
 	end
 
 	def createPopoverButton(buttonAccept, buttonReject, hypo)

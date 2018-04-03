@@ -1,9 +1,9 @@
 ##
 # File          :: Timer.rb
-# Author        :: COHEN Mehdi, PELLOIN Valentin
+# Author        :: PELLOIN Valentin
 # Licence       :: MIT Licence
 # Creation date :: 01/27/2018
-# Last update   :: 03/08/2018
+# Last update   :: 04/02/2018
 #
 # This class represents a Timer. A timer can be started, and then, it can be paused. When paused,
 # the timer can be started again (or unpaused). At any time, it's possible to get the total
@@ -79,21 +79,49 @@ class Timer
 	end
 
 	##
-	# Return the total elapsed time by the timer, in a human-readable way.
+	# Return a printable time from seconds.
 	# * *Returns* :
-	#   - the elapsed timer (String like "HH:MM:SS")
-	def elapsedTime()
-		return Time.at(self.elapsedSeconds).utc.strftime("%H:%M:%S")
+	#   - the seconds in a human-readable way (String like "HH:MM:SS")
+	def Timer.toTime(seconds)
+		return Time.at(seconds).utc.strftime("%H:%M:%S")
 	end
 
 	##
-	# Retuns the map to a string, for debug only
+	# Return the total elapsed time by the timer, in a human-readable way.
 	# * *Returns* :
-	#   - the map into a String object
+	#   - the elapsed time (String like "HH:MM:SS")
+	def elapsedTime()
+		return Timer.toTime(self.elapsedSeconds)
+	end
+
+	##
+	# Retuns the timer to a string, for debug only
+	# * *Returns* :
+	#   - the penalty into a String object
 	def to_s()
 		res  = "Printing Timer -#{self.object_id}-\n\t"
 		res += " - elapsedTime : #{elapsedTime}\n\t"
 		return res
+	end
+
+	##
+	# Convert the timer to an array, allowing Marshal to dump the object.
+	# * *Returns* :
+	#   - the map converted to an array
+	def marshal_dump()
+		return [@startTimes, @endTimes, @isRunning]
+	end
+
+	##
+	# Update all the instances variables from the array given,
+	# allowing Marshal to load a timer object.
+	# * *Arguments* :
+	#   - +array+ -> the array to transform to instances variables
+	# * *Returns* :
+	#   - the timer object itself
+	def marshal_load(array)
+		@startTimes, @endTimes, @isRunning = array
+		return self
 	end
 
 end

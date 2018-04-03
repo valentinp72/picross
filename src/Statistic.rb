@@ -1,11 +1,12 @@
 require_relative 'Timer'
+require_relative 'Penalty'
 
 ##
-# File		:: Statistics.rb
-# Author	:: COHEN Mehdi
-# Licence	:: MIT Licence
-# Creation date	:: 01/27/2018
-# Last update	:: 01/30/2018
+# File          :: Statistics.rb
+# Author        :: COHEN Mehdi, PELLOIN Valentin
+# Licence       :: MIT Licence
+# Creation date :: 01/27/2018
+# Last update   :: 04/02/2018
 #
 # This class represents the player's statistics linked to a map.
 
@@ -13,6 +14,9 @@ class Statistic
 
 	# The time the user has made (a Timer)
 	attr_reader :time
+
+	# The penalty the user has on his map (a Penalty)
+	attr_reader :penalty
 	
 	# The number of used helps
 	attr_reader :usedHelp
@@ -30,7 +34,8 @@ class Statistic
 	##
 	# Create a new Statistics object
 	def initialize()
-		@time = Timer.new()
+		@time    = Timer.new   # the time the user has made
+		@penalty = Penalty.new # the penalty time on the map
 		self.reset()
 	end
 
@@ -97,6 +102,7 @@ class Statistic
 	#   + the object itself
 	def reset()
 		@time.reset
+		@penalty.reset
 		@usedHelp = 0
 		@numberOfStars = 0
 		@isFinished = false
@@ -111,6 +117,7 @@ class Statistic
 	def to_s()
 		res  = "Printing Statistic -#{self.object_id}-\n\t"
 		res += " - Time       : #{@time}\n\t"
+		res += " - Penalty    : #{@penalty}\n\t"
 		res += " - isFinished : #{@isFinished}\n\t"
 		res += " - Used help  : #{@usedHelp}\n\t"
 		res += " - Nb Stars   : #{@numberOfStars}\n\t"
@@ -118,13 +125,12 @@ class Statistic
 		return res
 	end
 
-
 	##
 	# Convert the statistic to an array, allowing Marshal to dump the object.
 	# * *Returns* :
 	#   - the statistic converted to an array
 	def marshal_dump()
-		return [@time, @usedHelp, @numberOfStars, @isFinished, @nbClick]
+		return [@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty]
 	end
 
 	##
@@ -135,7 +141,7 @@ class Statistic
 	# * *Returns* :
 	#   - the statistic object itself
 	def marshal_load(array)
-		@time, @usedHelp, @numberOfStars, @isFinished, @nbClick = array
+		@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty = array
 		return self
 	end
 

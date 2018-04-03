@@ -114,7 +114,9 @@ class User
 	##
 	# Adds an amount of helps to the available help count
 	# * *Arguments* :
-	#   - +amount+		-> a Fixnum representing an amount of help
+	#   - +amount+ -> a Fixnum representing an amount of help
+	# * *Raises* :
+	#   - +NegativeAmountException+ if the given amount is negative (use +removeHelp+ instead)
 	# * *Returns* :
 	#   - the object itself
 	def addHelp(amount)
@@ -129,7 +131,9 @@ class User
 	##
 	# Removes an amount of helps to the available help count
 	# * *Arguments* :
-	#   - +amount+		-> a Fixnum representing an amount of help
+	#   - +amount+ -> a Fixnum representing an amount of help
+	# * *Raises* :
+	#   - +NegativeAmountException+ if it's impossible to remove so much helps
 	# * *Returns* :
 	#   - the object itself
 	def removeHelp (amount)

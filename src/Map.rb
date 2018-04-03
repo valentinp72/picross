@@ -129,6 +129,7 @@ class Map
 	#   - the object itself
 	def saveCorrectMap
 		@correctSaved = Marshal.load(Marshal.dump(self))
+		@correctSaved.currentStat.time.pause
 		return self
 	end
 
@@ -137,7 +138,8 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def rollbackCorrect
-		
+		@hypotheses  = @correctSaved.hypotheses
+		@currentStat = @correctSaved.currentStat
 	end
 
 	##
