@@ -44,6 +44,7 @@ button:
     exit: Exit
 game:
     paused: 'Game paused'
+    finish: 'You finsihed the level'
 stats:
     empty: 'No stats recorded'
     player: 'Player''s statistics'
