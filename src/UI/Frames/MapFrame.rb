@@ -2,6 +2,9 @@ require 'yaml'
 require_relative 'Game/GameFrame'
 require_relative 'ChapterFrame'
 require_relative '../Frame'
+require_relative '../GridCreator'
+require_relative '../ButtonCreator'
+require_relative '../MapPreview'
 
 ##
 # File          :: MapFrame.rb
@@ -12,100 +15,83 @@ require_relative '../Frame'
 # Version       :: 0.1
 #
 # This class represents the ChapterFrame which list all chapter of an user
+
 class MapFrame < Frame
 
 	def initialize(user, chapter)
 		super()
-		self.border_width = 100
+		self.border_width = 10
+		@user    = user
+		@chapter = chapter
+		
+		self.add(createButtons)
+	end
 
-		# Create vertical box containing all chapters buttons
-		@vbox = Gtk::Box.new(:vertical, chapter.levels.length)
-
-		# Create a return button
-		@returnBtn = Gtk::Button.new()
-		@returnBtn.image = AssetsLoader.loadImage("arrow-left.png", 40)
-		@returnBtn.relief = Gtk::ReliefStyle::NONE
-		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
-
-		# List of bouttons
-		@buttonsList = Array.new(chapter.levels.length + 1)
-
-		0.upto(chapter.levels.length - 1)  do |x|
-			buttonBox = Gtk::Box.new(:horizontal)
-			if(chapter.levels[x].allStat.nbFinished > 0) then
-				buttonBox.pack_start(AssetsLoader.loadImage("check.png", 10), :expand => false, :fill => false, :padding =>5)
-			end
-
-			grid = chapter.levels[x].hypotheses.getWorkingHypothesis().grid
-			img = drawPreview(grid)
-			buttonBox.pack_start(img, :expand => false, :fill => false, :padding =>5)
-
-			buttonBox.pack_start(Gtk::Label.new(chapter.levels[x].name), :expand => true, :fill => false, :padding =>2)
-			buttonBox.pack_start(calculateStar(chapter.levels[x].difficulty), :expand => false, :fill => true, :padding =>2)
-
-			@buttonsList[x] = Gtk::Button.new()
-			@buttonsList[x].add(buttonBox)
-
-			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding =>2)
-
-			@buttonsList[x].signal_connect("clicked") do
-				self.parent.setFrame(GameFrame.new(user,chapter,chapter.levels[x]))
-			end
+	def createButtons
+		buttons = []
+		buttons << createReturnBtn
+		@chapter.each_map do |map|
+			buttons.push(self.createMapButton(map))
 		end
+		grid = GridCreator.fromArray(buttons, :vertical => true)
+		return grid
+	end
 
-		@returnBtn.signal_connect("clicked") do
-			self.parent.setFrame(ChapterFrame.new(user))
+	def createMapButton(map)
+		content = self.createMapButtonContent(map)
+		content.column_spacing = 0
+		content.row_spacing    = 0
+		button  = Gtk::Button.new
+		button.add(content)
+		button.signal_connect('clicked') do
+			self.parent.setFrame(GameFrame.new(@user, @chapter, map))
 		end
+		return button
+	end
 
-		# Add vbox to frame
-		add(@vbox)
+	def createMapButtonContent(map)
+		contents = []
+
+		contents << AssetsLoader.loadImage("check.png", 10) if map.allStat.nbFinished > 0
+		contents << MapPreview.image(map, 40, 40)
+		contents << Gtk::Label.new(map.name)
+		contents << MapFrame.difficultyImages(map.difficulty)
+
+		return GridCreator.fromArray(contents, :horizontal => true)
+	end
+
+	def createReturnBtn
+		return ButtonCreator.new(
+			:assetName => "arrow-left.png",
+			:assetSize => 40,
+			:clicked   => :btn_return_clicked,
+			:parent    => self
+		)
+	end
+
+	def btn_return_clicked
+		self.parent.setFrame(ChapterFrame.new(@user))
 	end
 
 	##
 	# This method return a Box containing stars.
 	# The numbers of stars visible is proporional to the difficulty of the level
-	def calculateStar(score)
+	def MapFrame.difficultyImages(score)
 		score = score.to_i
 		starBox = Gtk::Box.new(:horizontal)
 		emptyStarNumber = 10 - score
 		(score / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("puzzle.png", 20), :expand => true, :fill => true, :padding => 0)
+			starBox.pack_start(AssetsLoader.loadImage("puzzle.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 		if !score.even? then
-			starBox.pack_start(AssetsLoader.loadImage("puzzle-half.png", 20), :expand => true, :fill => true, :padding => 0)
+			starBox.pack_start(AssetsLoader.loadImage("puzzle-half.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 
 		(emptyStarNumber / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("puzzle-empty.png", 20), :expand => true, :fill => true, :padding => 0)
+			starBox.pack_start(AssetsLoader.loadImage("puzzle-empty.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 		return starBox
 	end
 
-	def draw_pixel(cr, value, column , line, width, height)
-		cr.set_source_rgb(value,value,value)
-		cr.rectangle(column, line, width, height)
-		cr.fill
-	end
 
-	def drawPreview(grid)
-		surface = Cairo::ImageSurface.new(50, 50)
-		@cr = Cairo::Context.new(surface)
-
-		width = 50 / grid.columns
-		height = 50 / grid.lines
-
-		grid.each_cell_with_index do |cell, line, column|
-			case cell.state
-			when Cell::CELL_BLACK
-				draw_pixel(@cr,0,column*width,line*height,width,height)
-			when Cell::CELL_WHITE
-				draw_pixel(@cr,255,column*width,line*height,width,height)
-			when Cell::CELL_CROSSED
-				draw_pixel(@cr,255,column*width,line*height,width,height)
-			end
-		end
-
-		pixBuf = AssetsLoader.pixbufFromSurface(surface)
-		return AssetsLoader.imageFromPixbuf(pixBuf)
-	end
 end

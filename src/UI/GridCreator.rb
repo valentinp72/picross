@@ -40,4 +40,7 @@ module GridCreator
 		return grid
 	end
 
+	def GridCreator.boxFromArray(array, horizontal: false, vertical: false)
+
+	end
 end
