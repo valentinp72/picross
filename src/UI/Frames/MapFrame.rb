@@ -32,9 +32,14 @@ class MapFrame < Frame
 
 		0.upto(chapter.levels.length - 1)  do |x|
 			buttonBox = Gtk::Box.new(:horizontal)
-			if(chapter.levels[x].allStat.nbFinished > 0) then
-				buttonBox.pack_start(AssetsLoader.loadImage("check.png", 10), :expand => false, :fill => false, :padding =>2)
-			end
+			#if(chapter.levels[x].allStat.nbFinished > 0) then
+				#buttonBox.pack_start(AssetsLoader.loadImage("check.png", 10), :expand => false, :fill => false, :padding =>2)
+
+				grid = chapter.levels[x].hypotheses.getWorkingHypothesis().grid
+				img = drawPreview(grid)
+
+				buttonBox.pack_start(img, :expand => false, :fill => false, :padding =>2)
+			#end
 			buttonBox.pack_start(Gtk::Label.new(chapter.levels[x].name), :expand => true, :fill => false, :padding =>2)
 			buttonBox.pack_start(calculateStar(chapter.levels[x].difficulty), :expand => false, :fill => true, :padding =>2)
 
@@ -74,5 +79,33 @@ class MapFrame < Frame
 			starBox.pack_start(AssetsLoader.loadImage("star-empty.png", 10), :expand => true, :fill => true, :padding => 0)
 		end
 		return starBox
+	end
+
+	def draw_pixel(cr, value, column , line, width, height)
+		cr.set_source_rgb(value,value,value)
+		cr.rectangle(column, line, width, height)
+		cr.fill
+	end
+
+	def drawPreview(grid)
+		surface = Cairo::ImageSurface.new(50, 50)
+		@cr = Cairo::Context.new(surface)
+
+		width = 50 / grid.columns
+		height = 50 / grid.lines
+
+		grid.each_cell_with_index do |cell, line, column|
+			case cell.state
+			when Cell::CELL_BLACK
+				draw_pixel(@cr,0,column*width,line*height,width,height)
+			when Cell::CELL_WHITE
+				draw_pixel(@cr,255,column*width,line*height,width,height)
+			when Cell::CELL_CROSSED
+				draw_pixel(@cr,255,column*width,line*height,width,height)
+			end
+		end
+
+		pixBuf = AssetsLoader.pixbufFromSurface(surface)
+		return AssetsLoader.imageFromPixbuf(pixBuf)
 	end
 end
