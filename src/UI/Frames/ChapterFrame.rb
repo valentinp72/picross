@@ -75,8 +75,10 @@ class ChapterFrame < Frame
 		content.column_spacing = 10
 		button  = Gtk::Button.new
 		button.add(content)
-		button.signal_connect('clicked') do
-			self.parent.setFrame(MapFrame.new(@user, chapter))
+		if chapter.unlocked?(@user) then
+			button.signal_connect('clicked') do
+				self.parent.setFrame(MapFrame.new(@user, chapter))
+			end
 		end
 		return button
 	end
