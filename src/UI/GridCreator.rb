@@ -19,7 +19,13 @@ module GridCreator
 	#   - +vertical+ -> if true, the grid will be vertical
 	# * *Returns* :
 	#   - a Gtk::Grid with all the widgets.
-	def GridCreator.fromArray(array, horizontal: false, vertical: false)
+	def GridCreator.fromArray(
+		array,
+		horizontal: false, 
+		vertical: false,
+		xSizes: [],
+		ySizes: []
+		)
 		if horizontal == false && vertical == false then
 			vertical = true
 		end
@@ -31,16 +37,25 @@ module GridCreator
 
 		x = 0
 		y = 0
+		lastX = 0
+		lastY = 0
 		array.each_index do |i|
 			y = i if vertical
 			x = i if horizontal
-			grid.attach(array[i], x, y, 1, 1)
+
+			xSize   = xSizes[i]
+			xSize ||= 1
+
+			ySize   = ySizes[i]
+			ySize ||= 1
+
+			puts "on ajoute à #{x+lastX},#{y+lastY}, de taille #{xSize}, #{ySize}"
+			grid.attach(array[i], x + lastX, y + lastY, xSize, ySize)
+			lastX += xSize - 1
+			lastY += ySize - 1
 		end
 
 		return grid
 	end
 
-	def GridCreator.boxFromArray(array, horizontal: false, vertical: false)
-
-	end
 end

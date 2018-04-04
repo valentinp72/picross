@@ -39,7 +39,7 @@ class MapFrame < Frame
 
 	def createMapButton(map)
 		content = self.createMapButtonContent(map)
-		content.column_spacing = 0
+		content.column_spacing = 10
 		content.row_spacing    = 0
 		button  = Gtk::Button.new
 		button.add(content)
@@ -51,13 +51,19 @@ class MapFrame < Frame
 
 	def createMapButtonContent(map)
 		contents = []
+		sizes    = [1, 1, 15, 1]
 
-		contents << AssetsLoader.loadImage("check.png", 10) if map.allStat.nbFinished > 0
+		if map.allStat.nbFinished > 0 then
+			contents << AssetsLoader.loadImage("check.png", 10)
+		else
+			contents << AssetsLoader.loadImage("empty.png", 10)
+		end
+
 		contents << MapPreview.image(map, 40, 40)
 		contents << Gtk::Label.new(map.name)
 		contents << MapFrame.difficultyImages(map.difficulty)
 
-		return GridCreator.fromArray(contents, :horizontal => true)
+		return GridCreator.fromArray(contents, :horizontal => true, :xSizes => sizes)
 	end
 
 	def createReturnBtn
