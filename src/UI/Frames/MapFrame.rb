@@ -25,16 +25,13 @@ class MapFrame < Frame
 
 	# The image representing a difficulty point
 	DIFFICULTY_FULL = AssetsLoader.loadImage("puzzle.png",       10)
-
 	# The image representing a half difficulty point
 	DIFFICULTY_HALF = AssetsLoader.loadImage("puzzle-half.png",  10)
-
 	# The image representing no difficulty point
 	DIFFICULTY_EMPT = AssetsLoader.loadImage("puzzle-empty.png", 10)
 
 	# The image to show when a map is done
 	MAP_DONE     = AssetsLoader.loadImage("check.png", 10)
-
 	# The image to show when a map is not done
 	MAP_NOT_DONE = AssetsLoader.loadImage("empty.png", 10)
 

@@ -8,7 +8,7 @@ require_relative 'Chapter'
 # Author		:: COHEN Mehdi
 # Licence		:: MIT Licence
 # Creation date	:: 01/27/2018
-# Last update	:: 02/12/2018
+# Last update	:: 04/04/2018
 #
 # This class represents a user's profile
 
@@ -141,6 +141,19 @@ class User
 			@availableHelps -= amount
 		else
 			raise NegativeAmountException
+		end
+		return self
+	end
+
+	##
+	# Iterate through all the chapters of the user
+	# * *Yields* :
+	#   - a Chapter for each chapter of this user
+	# * *Return* :
+	#   - the object itself
+	def each_chapter
+		@chapters.each do |chapter|
+			yield chapter
 		end
 		return self
 	end
