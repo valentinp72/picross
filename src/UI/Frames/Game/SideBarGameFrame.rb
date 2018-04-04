@@ -8,18 +8,21 @@ require_relative '../MapFrame'
 require_relative '../OptionFrame'
 require_relative 'PicrossFrame'
 
-class SideBarGameFrame
+class SideBarGameFrame < Frame
 
 	attr_accessor :picross
 
 	attr_reader :sideBar
 
 	def initialize(frame, user, picross, map, grid)
+		super()
 		@frame   = frame
 		@user    = user
 		@picross = picross
 		@map     = map
 		@grid    = grid
+
+		@alreadyFinished = false
 
 		@sideBar = createSideBarLayout
 		@sideBar.show_all
@@ -122,6 +125,7 @@ class SideBarGameFrame
 	end
 
 	def btn_reset_clicked
+		@alreadyFinished = false
 		@map.reset
 		@map.currentStat.time.unpause
 		@picross.grid = @map.hypotheses.workingHypothesis.grid
@@ -253,12 +257,14 @@ class SideBarGameFrame
 
 	def checkMap()
 		@picross.setDoneValues if @picross != nil
-		if @map.currentStat.isFinished then
+		if @map.currentStat.isFinished  && !@alreadyFinished then
 			@grid = @map.hypotheses.getWorkingHypothesis.grid
 			@picross.grid = @grid if @picross != nil
 			@hypotheses.sensitive = false
 			@pause.sensitive = false
 			@help.sensitive = false
+
+			@alreadyFinished = true
 
 			message = @user.lang["game"]["finish"]
 			@dialog = Gtk::MessageDialog.new(:parent=> @frame.parent, :flags=> :destroy_with_parent,:type => :info,:buttons_type => :close,:message=> message)
