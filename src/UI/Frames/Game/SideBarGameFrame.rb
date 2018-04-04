@@ -54,9 +54,9 @@ class SideBarGameFrame < Frame
 	def createTimer
 		@realTimer    = Gtk::Label.new(@map.currentStat.time.elapsedTime)
 		@penaltyTimer = Gtk::Label.new(@map.currentStat.penalty.elapsedTime)
-		@maxTime      = Gtk::Label.new(Timer.toTime(@map.timeToDo))
+		@remaininTime = Gtk::Label.new(Timer.toTime(@map.timeToDo))
 
-		@timer = GridCreator.fromArray([@realTimer, @penaltyTimer, @maxTime], :vertical => true)
+		@timer = GridCreator.fromArray([@realTimer, @penaltyTimer, @remaininTime], :vertical => true)
 
 		# Update the timer view every second
 		GLib::Timeout.add(1000){
@@ -64,9 +64,21 @@ class SideBarGameFrame < Frame
 				# we return false (that stop the timeout) if we have quit the game
 				false
 			else
+				start  = "  "
+				finish = "  "
 				# view update
-				@realTimer.text    = @map.currentStat.time.elapsedTime
-				@penaltyTimer.text = @map.currentStat.penalty.elapsedTime
+				@realTimer.text    = start + @map.currentStat.time.elapsedTime + finish
+				@penaltyTimer.text = start + @map.currentStat.penalty.elapsedTime + finish
+
+				remain = @map.currentStat.time.remaining(@map.currentStat.penalty.seconds, @map.timeToDo)
+				start  = "<b>"
+				if remain < 5 || @map.currentStat.time.isNegative then
+					start  += "<span color='red'>"
+					start  += "- " if @map.currentStat.time.isNegative
+					finish += "</span>"
+				end
+				finish += "</b>"
+				@remaininTime.markup = start + Timer.toTime(remain) + finish
 				true
 			end
 		}
