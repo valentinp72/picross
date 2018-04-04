@@ -43,6 +43,7 @@ button:
     exit: Quitter
 game:
     paused: 'Partie en pause'
+    finish: 'Vous avez fini le niveau'
 stats:
     empty: 'Aucune statistiques enregistre'
     player: 'Statistiques du joueur'
