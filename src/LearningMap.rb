@@ -14,7 +14,7 @@ require_relative 'Cell'
 
 class Learning < Map
 
-	# The current number of displayed lines
+	# The current stage
 	attr_reader :currentStage
 
 	##
@@ -26,9 +26,9 @@ class Learning < Map
 	#   - +lines+        -> number of lines of the map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
-	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid)
+	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid,stage)
 		@evolved = false
-		@stage   = Array.new()
+		@stage   = stage
 		@currentStage = 0
 
 		super(name, timeToDo, difficulty, @currentLines, @currentColumns, solution)
@@ -40,14 +40,15 @@ class Learning < Map
 	#   - +map+ -> the Map to create an learning map from
 	# * *Returns* :
 	#   - a freshly created Learning
-	def Learning.new_from_map(map)
+	def Learning.new_from_map(map,stage)
 		return Learning.new(
 				map.name,
 				map.timeToDo,
 				map.difficulty,
 				map.lneSolution.length,
 				map.clmSolution.length,
-				map.solution
+				map.solution,
+				stage
 		)
 	end
 
@@ -57,19 +58,54 @@ class Learning < Map
 	#   - the object itself
 	def reset()
 		@evolved = true
+		@currentStage = 0
 		super()
 		return self
 	end
 
 	##
-	# Evolve the map (make it grow) by the INCREMENT_RATIO value on the
-	# width and the height.
+	# Evolve the map.
 	# * *Returns* :
 	#   - the object itself
 	def nextStage()
 		@currentStage += 1
 		@evolved = true
 		return self
+	end
+
+	##
+	# Tells if the map has an error comparing to the solution grid.
+	# * *Returns* :
+	#   - true if the user has made an error, false otherwise
+	def hasError?
+		if @currentStage == @stage.length - 1 then
+			super.hasError?
+		else
+			self.grid.each_cell_with_index do |cell, j, i|
+				sol = @stage[@currentStage].cellPosition(j, i).state
+				if cell.state == Cell::CELL_BLACK && sol != Cell::CELL_BLACK then
+					return true
+				end
+			end
+			return false
+		end
+	end
+
+	##
+	# Tells weather or not the map is finished.
+	# If the map does not contains an error, this also save itself.
+	# * *Returns* :
+	#   - true or false if the game should be finished
+	def shouldFinish?
+		if not self.hasError? then
+			self.saveCorrectMap
+			if !@currentStat.isFinished then
+				if @stage[@currentStage].compare(grid) then
+					return true
+				end
+			end
+		end
+		return false
 	end
 
 
@@ -79,9 +115,10 @@ class Learning < Map
 	# * *Returns* :
 	#   - the object itself
 	def check()
-		if self.shouldFinish? then
-			self.finish
-			return true
+			if self.shouldFinish? then
+				self.finish
+				return true
+			end
 		else
 			self.nextStage
 			return false
