@@ -17,13 +17,13 @@ class Statistic
 
 	# The penalty the user has on his map (a Penalty)
 	attr_reader :penalty
-	
+
 	# The number of used helps
 	attr_reader :usedHelp
-	
+
 	# The number of stars he will get
 	attr_reader :numberOfStars
-	
+
 	# The number of clicks he has made
 	attr_reader :nbClick
 
@@ -58,7 +58,7 @@ class Statistic
 		@time.pause
 		@isFinished = true
 		timeToDo = 600 if timeToDo == nil or timeToDo == 0
-		ratio = @time.elapsedSeconds * 1.0 / timeToDo
+		ratio = @time.elapsedSeconds + @penalty.seconds * 1.0 / timeToDo
 		ratio = (ratio * 4).round / 4
 		@numberOfStars = -2*ratio + 5
 		if(@numberOfStars > 3) then
