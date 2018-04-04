@@ -18,6 +18,10 @@ require_relative '../MapPreview'
 
 class MapFrame < Frame
 
+	DIFFICULTY_FULL = AssetsLoader.loadImage("puzzle.png",       10)
+	DIFFICULTY_HALF = AssetsLoader.loadImage("puzzle-half.png",  10)
+	DIFFICULTY_EMPT = AssetsLoader.loadImage("puzzle-empty.png", 10)
+
 	def initialize(user, chapter)
 		super()
 		self.border_width = 10
@@ -61,7 +65,7 @@ class MapFrame < Frame
 
 		contents << MapPreview.image(map, 40, 40)
 		contents << Gtk::Label.new(map.name)
-		contents << MapFrame.difficultyImages(map.difficulty)
+		contents << MapFrame.difficultyImages(map.difficulty.to_i)
 
 		return GridCreator.fromArray(contents, :horizontal => true, :xSizes => sizes)
 	end
@@ -80,24 +84,24 @@ class MapFrame < Frame
 	end
 
 	##
-	# This method return a Box containing stars.
-	# The numbers of stars visible is proporional to the difficulty of the level
-	def MapFrame.difficultyImages(score)
-		score = score.to_i
-		starBox = Gtk::Box.new(:horizontal)
-		emptyStarNumber = 10 - score
-		(score / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("puzzle.png", 10), :expand => true, :fill => true, :padding => 0)
+	# This method return a Box containing images representing the difficulty.
+	# * *Arguments* :
+	#   - +difficulty+ -> the difficulty, a number between 0 and 10
+	def MapFrame.difficultyImages(difficulty)
+		images = []
+		emptyNumber = 10 - difficulty
+
+		(difficulty / 2).times do
+			images << AssetsLoader.cloneImage(DIFFICULTY_FULL)
 		end
-		if !score.even? then
-			starBox.pack_start(AssetsLoader.loadImage("puzzle-half.png", 10), :expand => true, :fill => true, :padding => 0)
+		if !difficulty.even? then
+			images << AssetsLoader.cloneImage(DIFFICULTY_HALF)
+		end
+		(emptyNumber / 2).times do
+			images << AssetsLoader.cloneImage(DIFFICULTY_EMPT)
 		end
 
-		(emptyStarNumber / 2).times do
-			starBox.pack_start(AssetsLoader.loadImage("puzzle-empty.png", 10), :expand => true, :fill => true, :padding => 0)
-		end
-		return starBox
+		return GridCreator.fromArray(images, :horizontal => true) 
 	end
-
 
 end
