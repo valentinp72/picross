@@ -63,7 +63,7 @@ class SideBarGameFrame
 			else
 				# view update
 				@realTimer.text    = @map.currentStat.time.elapsedTime
-				@penaltyTimer.text = @map.currentStat.penalty.elapsedTime 
+				@penaltyTimer.text = @map.currentStat.penalty.elapsedTime
 				true
 			end
 		}
@@ -159,7 +159,7 @@ class SideBarGameFrame
 		@reset.sensitive      = unpaused
 		@help.sensitive       = unpaused
 		@pause.image          = AssetsLoader.loadImage(imageName, 40)
-		
+
 		@frame.content.remove(toRemove)
 		@frame.content.pack_start(toReplace, :expand => true, :fill => true)
 		@frame.content.reorder_child(toReplace, 0)
@@ -259,6 +259,18 @@ class SideBarGameFrame
 			@hypotheses.sensitive = false
 			@pause.sensitive = false
 			@help.sensitive = false
+
+			message = @user.lang["game"]["finish"]
+			@dialog = Gtk::MessageDialog.new(:parent=> @frame.parent, :flags=> :destroy_with_parent,:type => :info,:buttons_type => :close,:message=> message)
+			@dialog.secondary_text = @user.lang["game"]["finish2"] + @map.currentStat.numberOfStars.to_s + @user.lang["game"]["finish3"] + "\n" +
+				@user.lang["stats"]["global"]["time"] + " : " + Timer.toTime(@map.currentStat.time.elapsedSeconds + @map.currentStat.penalty.seconds)
+
+
+			@dialog.signal_connect "response" do |dialog, _response_id|
+				dialog.destroy
+			end
+			@dialog.show_all
+
 			return false
 		else
 			@hypotheses.sensitive = true
