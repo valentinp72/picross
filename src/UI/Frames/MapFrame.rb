@@ -20,6 +20,9 @@ require_relative '../MapPreview'
 
 class MapFrame < Frame
 
+	# The color of the name of map when they are evolving
+	EVOLVING_COLOR  = "#aa1401"
+
 	# The image representing a difficulty point
 	DIFFICULTY_FULL = AssetsLoader.loadImage("puzzle.png",       10)
 
@@ -97,10 +100,30 @@ class MapFrame < Frame
 		end
 
 		contents << MapPreview.image(map, 40, 40)
-		contents << Gtk::Label.new(map.name)
+		contents << MapFrame.label(map)
 		contents << MapFrame.difficultyImages(map.difficulty.to_i)
 
 		return GridCreator.fromArray(contents, :horizontal => true, :xSizes => sizes)
+	end
+
+	##
+	# Create and return a Gtk::Label with the name of the map inside it.
+	# If the map to show is evolving (see Map.evolving?), then the name will
+	# be displayed in the color EVOLVING_COLOR.
+	# * *Arguments* :
+	#   +map+ -> the Map to get it's name
+	# * *Returns* :
+	#   - a Gtk::Label
+	def MapFrame.label(map)
+		label = Gtk::Label.new
+		if map.evolving? then
+			before = "<span color='#{EVOLVING_COLOR}'>"
+			after  = "</span>"
+		end
+		before ||= ""
+		after  ||= ""
+		label.markup = before + map.name + after
+		return label
 	end
 
 	##
