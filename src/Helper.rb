@@ -1,4 +1,5 @@
 
+
 require_relative 'Cell'
 require_relative 'Grid'
 require_relative 'Map'
@@ -7,7 +8,7 @@ require_relative 'Map'
 # File          :: Grid.rb
 # Licence       :: MIT License
 # Creation date :: 01/27/2018
-# Last update   :: 04/03/2018
+# Last update   :: 04/04/2018
 # Version       :: 0.1
 #
 # Represent a helper forthe user to resolve a picross
@@ -72,7 +73,9 @@ class Helper
 				
 				while nbtour<10
 				
-					tabrange = rfull()
+					tabrange = []
+					tabrange.push(rfull("line"))
+					tabrange.push(rfull("column"))
 				
 					(tabrange[0]).each do |numl|
 					
@@ -158,11 +161,9 @@ class Helper
 		
 		(0...@lines.size()).each do |i|
 			(0...@clns.size()).each do |j|
-
 				soluce[i][j]=1 if cellGrid.cellPosition(i, j).state==CELL_BLACK
 			end
 		end
-		
 		return soluce
 	end
 	
@@ -179,50 +180,53 @@ class Helper
 	
 	end
 	
+	# Retourne la valeur de la grille en fonction de la range en paramètre 
+	# (ligne ou colonne)
+	def get_grid(numl, numc, range)
+	
+		if range.eql?("column")
+			return @grid[numc][numl]
+		else 
+			return @grid[numl][numc]
+		end
+	end
+	
+	# Modifie la valeur de la grille en fonction de la range en paramètre
+	# (ligne ou colonne)
+	def set_grid(numl, numc, value, range)
+	
+		if range.eql?("column")
+			@grid[numc][numl]=value
+		else 
+			@grid[numl][numc]=value
+		end
+	end
+	
 	# Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
-	def rfull()
+	def rfull(range)
 	
-		tabline = []
-		tabcol = []
-		
-		# regarde si ligne pleine
-		(0...@lines.size()).each do |numl|
-				
+		tab = []
+		if range.eql?("column")
+			taille=@lines.size() 
+			taille2=@clns.size()
+		else 
+			taille=@clns.size() 
+			taille2=@lines.size()
+		end
+	
+		# regarde si range pleine
+		(0...taille2).each do |num|
 			j=0
-			while j<@clns.size()
-	
-				if (@grid[numl][j]).zero?
-				
-					j=@clns.size()
-	
-				elsif j==@clns.size()-1		# si ligne pleine on push
-					
-					tabline.push(numl)
+			while j<taille
+				if (get_grid(num,j,range)).zero?
+					j=taille
+				elsif j==taille-1		# si range pleine on push
+					tab.push(num)
 				end
 				j+=1
 			end
 		end
-		
-		# regarde si colonne pleine
-		(0...@clns.size()).each do |numc|
-				
-			j=0
-			while j<@lines.size()
-	
-				if (@grid[j][numc]).zero?
-				
-					j=@lines.size()
-					
-				elsif j==@lines.size()-1		# si ligne pleine on push
-					
-					tabcol.push(numc)
-				end
-				j+=1
-				
-			end
-		end
-		
-		return [tabline, tabcol]
+		return tab
 	end
 	
 	# renvoit le premier bloc non complet de la grille de l'utilisateur,
@@ -235,38 +239,28 @@ class Helper
 			@grid
 		else
 			@solution
+		end		
+		
+		if range.eql?("column") 		
+			taille = @lines.size()
+		else
+			taille = @clns.size()
 		end
 		
-		if range.eql?("column") 
-	
-			(0...@lines.size()).each do |i|
-				if mat[i][num]==1
+		(0...taille).each do |i|
+			if get_grid(num, i, range)==1
 				
+				if range.eql?("column") 
 					tab.push([i, num, Cell::CELL_BLACK])
-					if (userGrid[i][num]).zero?
-						bloc=true
-					end
-				elsif bloc==false
-					tab.clear()
-				elsif bloc==true
-					return tab
-				end
-			end
-		else
-		
-			(0...@clns.size()).each do |i|
-	
-				if mat[num][i]==1
-					
+					bloc=true if (userGrid[i][num]).zero?
+				else
 					tab.push([num, i, Cell::CELL_BLACK])
-					
 					bloc=true if (userGrid[num][i]).zero?
-				
-				elsif bloc==false
-					tab.clear()
-				elsif bloc==true
-					return tab
 				end
+			elsif bloc==false
+				tab.clear()
+			elsif bloc==true
+				return tab
 			end
 		end
 		
@@ -376,7 +370,7 @@ class Helper
 
 	# Coche toute les cases indéterminées d'une ligne
 	def coche_case_indeter(num, range)
-
+	
 		taille = if range.eql?("column")
 			@lines.size()
 		else
@@ -411,25 +405,15 @@ class Helper
 			# si une case est coloriée sur la range, on coche toutes les cases 
 			# trop éloignées pour correspondre au bloc
 			(0...taille).each do |j|
-				if range.eql?("column")
-					if @grid[j][num]==1
-						fin = j-indice
-						(0..fin).each do |i|
-							@grid[i][num]=-1
-						end
-						debut = j+indice
-						(debut...taille).each do |i|
-							@grid[i][num]=-1
-						end
-					end
-				elsif @grid[num][j]==1
+				if get_grid(num, j, range)==1
+						
 					fin = j-indice
 					(0..fin).each do |i|
-						@grid[num][i]=-1
+						set_grid(num, i, -1, range)
 					end
 					debut = j+indice
 					(debut...taille).each do |i|
-						@grid[num][i]=-1
+						set_grid(num, i, -1, range)
 					end
 				end
 			end
@@ -461,55 +445,35 @@ class Helper
 		indice = 1
 		j = 0
 		if range.eql?("column")
-			taille = @lines.size()
-			tabTemp = @clns
-			tabTemp[num].each do |block|
-				c = 1
-				while c <= block
-					# si une croix bloque le positionnement du bloc d'indice, 
-					# on le recommence a partir de la case suivant la croix
-					if @grid[j][num] == -1	
-						tab.delete(indice)
-						(1..c).each do
-							tab.push(0)
-						end
-						c = 0
-					else					# sinon on place une partie du bloc sur la case
-						tab.push(indice)
-					end
-					j += 1
-					c +=1
-				end
-				# espace si il y a de la place
-				tab.push(0) if j<taille
-				
-				j += 1
-				indice += 1
-			end
+			taille=@lines.size()
+			tabTemp=@clns
 		else
-			taille = @clns.size()
-			tabTemp = @lines
-			tabTemp[num].each do |block|
-				c = 1
-				while c <= block
-					if @grid[num][j] == -1
-						tab.delete(indice)
-						(1..c).each do
-							tab.push(0)
-						end
-						c = 0
-					else
-						tab.push(indice)
+			taille=@clns.size()
+			tabTemp=@lines
+		end
+	
+		tabTemp[num].each do |block|
+			c = 1
+			while c <= block
+				# si une croix bloque le positionnement du bloc d'indice, 
+				# on le recommence a partir de la case suivant la croix
+				if get_grid(num, j, range)== -1	
+					tab.delete(indice)
+					(1..c).each do
+						tab.push(0)
 					end
-					j += 1
-					c +=1
+					c = 0
+				else					# sinon on place une partie du bloc sur la case
+					tab.push(indice)
 				end
-				# espace si il y a de la place
-				tab.push(0) if j<taille 
-				
 				j += 1
-				indice += 1
+				c +=1
 			end
+			# espace si il y a de la place
+			tab.push(0) if j<taille
+			
+			j += 1
+			indice += 1
 		end
 
 		# une fois les blocs d'indice posés, on remplit le reste du tableau de 0
@@ -525,71 +489,86 @@ class Helper
 	# en partant de la fin sur la range en paramètre
 	def deuxieme_possibilite(num, range)
 	
-		tab = []
-		if range.eql?("column") 
-			taille = @lines.size()
-			tabTemp = @clns
-			reverse = tabTemp[num].reverse
-			indice = tabTemp[num].size()
-			j = taille - 1
-
-			reverse.each do |block|
-				c=1
-				while c<=block
-					if @grid[j][num]==-1   # cochée
-						tab.delete(indice)
-						(1..c).each do
-							tab.unshift(0)
-						end
-						c=0
-					else	# 1 (colorier) ou 0 (indéterminée)
-						tab.unshift(indice)
-					end
-					j-=1
-					c+=1
-				end
-				# espace si il y a de la place
-				tab.unshift(0) if j>=0	
-				
-				j-=1
-				indice-=1
-			end
+		if range.eql?("column")
+			taille=@lines.size()
+			tabTemp=@clns
 		else
-			taille = @clns.size()
-			tabTemp = @lines
-			reverse = tabTemp[num].reverse
-			indice = tabTemp[num].size()
-			j = taille - 1
-
-			reverse.each do |block|
-				c=1
-				while c<=block
-					if @grid[num][j]==-1   # cochée
-						tab.delete(indice)
-						(1..c).each do
-							tab.unshift(0)
-						end
-						c=0
-					else	# 1 (colorier) ou 0 (indéterminée)
-						tab.unshift(indice)
-					end
-					j-=1
-					c+=1
-				end
-				# espace si il y a de la place
-				tab.unshift(0) if j>=0
-				
-				j-=1
-				indice-=1
-			end
+			taille=@clns.size()
+			tabTemp=@lines
 		end
 
+		tab = []
+		reverse = tabTemp[num].reverse
+		indice = tabTemp[num].size()	
+		j = taille - 1
+
+		reverse.each do |block|
+			c=1
+			while c<=block
+				if get_grid(num, j, range)== -1	   # cochée
+					tab.delete(indice)
+					(1..c).each do
+						tab.unshift(0)
+					end
+					c=0
+				else	# 1 (colorier) ou 0 (indéterminée)
+					tab.unshift(indice)
+				end
+				j-=1
+				c+=1
+			end
+			# espace si il y a de la place
+			tab.unshift(0) if j>=0	
+				
+			j-=1
+			indice-=1
+		end
+		
 		while j>=0
 			tab.unshift(0)
 			j-=1
 		end
 
 		return tab
+	end
+	
+	# Extrémités du plateau
+	def extremite(num, range)
+	
+		if range.eql?("column") 		# pour une colonne
+			taille = @lines.size()
+			tabindice=@clns
+		else						# pour une ligne
+			taille = @clns.size()
+			tabindice=@lines
+		end
+		
+		# De la gauche vers la droite
+		j=0
+		j+=1 while (get_grid(num, j, range)==-1) && (j<(taille-1))
+		if get_grid(num, j, range)==1
+			fin = tabindice[num][0]+j
+			fin = taille-1 if fin>taille-1
+
+			((j+1)...fin).each do |i|
+				set_grid(num, i, 1, range)
+			end
+		end
+		
+		# De la droite vers la gauche
+		j=taille-1
+		j-=1 while (get_grid(num, j, range)==-1) && (j>0)
+	
+		if get_grid(num, j, range)==1
+			fin = j
+			debut = (fin-tabindice[num][tabindice[num].size()-1])+1
+			debut = 0 if debut<0
+				
+			(debut...fin).each do |i|
+				set_grid(num, i, 1, range)
+			end
+			set_grid(num, debut-1, -1, range) if debut>-1
+		end
 	end
 
 	# Colorie les cases certaines d'une range
@@ -615,72 +594,8 @@ class Helper
 			end
 		end
 
-		# Extrémités du plateau
-		# De la gauche vers la droite
-		j=0
-		if range.eql?("column") 		# pour une colonne
-			
-			j+=1 while ((@grid[j][num]==-1) && (j<(taille-1)))
-			
-			if @grid[j][num]==1
-				fin = @clns[num][0]+j
-				
-				fin = taille-1 if fin>taille-1
-				
-				((j+1)...fin).each do |i|
-					@grid[i][num]=1
-				end
-			end
-		else								# pour une ligne
-			j+=1 while((@grid[num][j]==-1) && (j<taille))
-			if @grid[num][j]==1
-				fin = @lines[num][0]+j
-				if fin>taille-1
-					fin = taille-1
-				end
-				((j+1)...fin).each do |i|
-					@grid[num][i]=1
-				end
-			end
-		end
-
-		# De la droite vers la gauche
-		j=taille-1
-
-		if range.eql?("column") 		# pour une colonne
-			
-			j-=1 while ((@grid[j][num]==-1) && (j>0))
-			 
-			if @grid[j][num]==1
-				fin = j
-				debut = (fin-@clns[num][@clns[num].size()-1])+1
-				
-				debut = 0 if (debut<0)
-				
-				(debut...fin).each do |i|
-					@grid[i][num]=1
-				end
-				
-				@grid[debut-1][num]=-1 if debut>0
-
-			end
-		else
-			
-			j-=1 while ((@grid[num][j]==-1) && (j>0))
-			
-			if @grid[num][j]==1
-				fin = j
-				debut = (fin-@lines[num][@lines[num].size()-1])+1
-	
-				debut = 0 if debut<0
-				
-				(debut...fin).each do |i|
-					@grid[num][i]=1
-				end
-				
-				@grid[num][debut-1]=-1 if debut>0
-			end
-		end
+		extremite(num, "column")
+		extremite(num, "line")
 	end
 end
 
