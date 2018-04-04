@@ -58,8 +58,9 @@ class Statistic
 		@time.pause
 		@isFinished = true
 		timeToDo = 600 if timeToDo == nil or timeToDo == 0
-		ratio = @time.elapsedSeconds + @penalty.seconds * 1.0 / timeToDo
-		ratio = (ratio * 4).round / 4
+		puts (@time.elapsedSeconds + @penalty.seconds).to_s
+		ratio = (@time.elapsedSeconds + @penalty.seconds) * 1.0 / (timeToDo * 1.0)
+		ratio = (ratio * 4).round / 4.0
 		@numberOfStars = -2*ratio + 5
 		if(@numberOfStars > 3) then
 			@numberOfStars = 3
