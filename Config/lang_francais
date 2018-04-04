@@ -44,6 +44,8 @@ button:
 game:
     paused: 'Partie en pause'
     finish: 'Vous avez fini le niveau'
+    finish2: 'Vous avez gagné '
+    finish3: ' etoile(s)'
 stats:
     empty: 'Aucune statistiques enregistre'
     player: 'Statistiques du joueur'
