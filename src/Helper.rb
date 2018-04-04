@@ -1,5 +1,3 @@
-
-
 require_relative 'Cell'
 require_relative 'Grid'
 require_relative 'Map'
@@ -63,91 +61,93 @@ class Helper
 				end
 			end
 			
-			self.solve()
+			#self.solve()
 			
-			# Aide moyenne : Renvoit un groupe de cases que l'utilisateur 
-			# aurait pu trouver facilement
-			if helpLvl==2		
+			if helpLvl==2		# Aide moyenne
 			
-				nbtour=0		# pour eviter boucle infinie si resultat introuvable
+				return self.help2(userGrid)
+			else 	# Aide difficile		
 				
-				while nbtour<10
-				
-					tabrange = []
-					tabrange.push(rfull("line"))
-					tabrange.push(rfull("column"))
-				
-					(tabrange[0]).each do |numl|
-					
-						bloc = bloc_not_complete(numl, "line", userGrid, "grid")
-
-						return bloc unless bloc.empty?()
-						
-					end
-					
-					(tabrange[1]).each do |numc|
-					
-						bloc2 = bloc_not_complete(numc, "column", userGrid, "grid")
-						return bloc2 unless bloc2.empty?()
-					end
-				
-					self.solve()
-				
-					nbtour+=1
-				end
-				
-				# si introuvable, on donne un bloc aléatoire de la solution que 
-				# l'utilisateur n'a pas trouver
-				puts("ALEATOIRE")
-				
-				(0...@lines.size()).each do |numl|
-					
-					bloc = bloc_not_complete(numl, "line", userGrid, "solution")
-
-					return bloc unless bloc.empty?()
-				end
-				
-				(0...@clns.size()).each do |numc|
-					bloc2 = bloc_not_complete(numc, "column", userGrid, "solution")
-					
-					return bloc2 unless bloc2.empty?()		
-				end	
-				
-			# Aide difficile : Renvoit une case que l'utilisateur aurait pu 
-			# trouver facilement
-			else 			
-				i=0
-				while i<@lines.size()
-			
-					j=0
-					while j<@clns.size()
+				return self.help3(userGrid)
+			end			
+		end
+	end
 	
-						if @grid[i][j]==1 && (userGrid[i][j]).zero?
-							
-							return([[i, j, Cell::CELL_BLACK]])
-						end
-						j+=1
-					end
-					i+=1
-				end
-
-				# si introuvable, on donne une case aléatoire de la solution que 
-				# l'utilisateur n'a pas trouver
-				puts("ALEATOIRE :")
-				(0...@clns.size()).each do |i|
-					(0...@lines.size()).each do |j|
-						
-						if @solution[i][j]==1 && (userGrid[i][j]).zero?
-							return([[i, j, Cell::CELL_BLACK]])
-						end
-					end
-				end					
+	# Aide moyenne : Renvoit un groupe de cases que l'utilisateur 
+	# aurait pu trouver facilement
+	def help2(userGrid)
+	
+		nbtour=0		# pour eviter boucle infinie si resultat introuvable
+		while nbtour<10
+	
+			tabrange = []
+			tabrange.push(rfull("line"))
+			tabrange.push(rfull("column"))
+	
+			(tabrange[0]).each do |numl|
+		
+				bloc = bloc_not_complete(numl, "line", userGrid, "grid")
+				return bloc unless bloc.empty?()
 			end
 			
-			# si toutes les cases sont déja bien coloriées, 
-			# l'aide ne donne aucune solutions
-			return([])	
+			(tabrange[1]).each do |numc|
+			
+				bloc2 = bloc_not_complete(numc, "column", userGrid, "grid")
+				return bloc2 unless bloc2.empty?()
+			end
+	
+			self.solve()
+			nbtour+=1
 		end
+		
+		# si introuvable, on donne un bloc aléatoire de la solution que 
+		# l'utilisateur n'a pas trouver
+		puts("ALEATOIRE")
+				
+		(0...@lines.size()).each do |numl|
+					
+			bloc = bloc_not_complete(numl, "line", userGrid, "solution")
+			return bloc unless bloc.empty?()
+		end
+	
+		(0...@clns.size()).each do |numc|
+			bloc2 = bloc_not_complete(numc, "column", userGrid, "solution")
+			return bloc2 unless bloc2.empty?()		
+		end	
+	end
+	
+	# Aide difficile : Renvoit une case que l'utilisateur aurait pu 
+	# trouver facilement
+	def help3(userGrid)
+	
+		i=0
+		while i<@lines.size()
+			j=0
+			while j<@clns.size()
+		
+				if @grid[i][j]==1 && (userGrid[i][j]).zero?
+								
+					return([[i, j, Cell::CELL_BLACK]])
+				end
+				j+=1
+			end
+			i+=1
+		end
+
+		# si introuvable, on donne une case aléatoire de la solution que 
+		# l'utilisateur n'a pas trouver
+		puts("ALEATOIRE :")
+		(0...@clns.size()).each do |i|
+			(0...@lines.size()).each do |j|
+							
+				if @solution[i][j]==1 && (userGrid[i][j]).zero?
+					return([[i, j, Cell::CELL_BLACK]])
+				end
+			end
+		end		
+		# si toutes les cases sont déja bien coloriées, 
+		# l'aide ne donne aucune solutions
+		return([])
 	end
 	
 	# Convertit la grille de cellules finales en grille de solution d'entier
@@ -158,7 +158,6 @@ class Helper
 				-1
 			end
 		end
-		
 		(0...@lines.size()).each do |i|
 			(0...@clns.size()).each do |j|
 				soluce[i][j]=1 if cellGrid.cellPosition(i, j).state==CELL_BLACK
@@ -180,14 +179,20 @@ class Helper
 	
 	end
 	
-	# Retourne la valeur de la grille en fonction de la range en paramètre 
-	# (ligne ou colonne)
-	def get_grid(numl, numc, range)
+	# Retourne la valeur d'une grille (@grid ou @solution) en fonction de la range 
+	# en paramètre (ligne ou colonne)
+	def get_grid(mat, numl, numc, range)
+	
+		grid = if mat.equal?("grid")
+			@grid
+		else
+			@solution
+		end
 	
 		if range.eql?("column")
-			return @grid[numc][numl]
+			return grid[numc][numl]
 		else 
-			return @grid[numl][numc]
+			return grid[numl][numc]
 		end
 	end
 	
@@ -218,7 +223,7 @@ class Helper
 		(0...taille2).each do |num|
 			j=0
 			while j<taille
-				if (get_grid(num,j,range)).zero?
+				if get_grid("grid", num,j,range).zero?
 					j=taille
 				elsif j==taille-1		# si range pleine on push
 					tab.push(num)
@@ -235,21 +240,17 @@ class Helper
 	
 		bloc=false
 		tab=[]
-		mat = if matrix.eql?("grid")
-			@grid
+
+		taille = if range.eql?("column") 		
+			@lines.size()
 		else
-			@solution
-		end		
-		
-		if range.eql?("column") 		
-			taille = @lines.size()
-		else
-			taille = @clns.size()
+			@clns.size()
 		end
-		
+	
 		(0...taille).each do |i|
-			if get_grid(num, i, range)==1
-				
+		
+			if get_grid(matrix, num, i, range)==1
+			
 				if range.eql?("column") 
 					tab.push([i, num, Cell::CELL_BLACK])
 					bloc=true if (userGrid[i][num]).zero?
@@ -405,8 +406,8 @@ class Helper
 			# si une case est coloriée sur la range, on coche toutes les cases 
 			# trop éloignées pour correspondre au bloc
 			(0...taille).each do |j|
-				if get_grid(num, j, range)==1
-						
+				if get_grid("grid", num, j, range)==1
+				
 					fin = j-indice
 					(0..fin).each do |i|
 						set_grid(num, i, -1, range)
@@ -457,7 +458,7 @@ class Helper
 			while c <= block
 				# si une croix bloque le positionnement du bloc d'indice, 
 				# on le recommence a partir de la case suivant la croix
-				if get_grid(num, j, range)== -1	
+				if get_grid("grid", num, j, range)== -1	
 					tab.delete(indice)
 					(1..c).each do
 						tab.push(0)
@@ -505,7 +506,7 @@ class Helper
 		reverse.each do |block|
 			c=1
 			while c<=block
-				if get_grid(num, j, range)== -1	   # cochée
+				if get_grid("grid", num, j, range)== -1	   # cochée
 					tab.delete(indice)
 					(1..c).each do
 						tab.unshift(0)
@@ -545,8 +546,8 @@ class Helper
 		
 		# De la gauche vers la droite
 		j=0
-		j+=1 while (get_grid(num, j, range)==-1) && (j<(taille-1))
-		if get_grid(num, j, range)==1
+		j+=1 while (get_grid("grid", num, j, range)==-1) && (j<(taille-1))
+		if get_grid("grid", num, j, range)==1
 			fin = tabindice[num][0]+j
 			fin = taille-1 if fin>taille-1
 
@@ -557,9 +558,9 @@ class Helper
 		
 		# De la droite vers la gauche
 		j=taille-1
-		j-=1 while (get_grid(num, j, range)==-1) && (j>0)
+		j-=1 while (get_grid("grid", num, j, range)==-1) && (j>0)
 	
-		if get_grid(num, j, range)==1
+		if get_grid("grid", num, j, range)==1
 			fin = j
 			debut = (fin-tabindice[num][tabindice[num].size()-1])+1
 			debut = 0 if debut<0
@@ -578,19 +579,15 @@ class Helper
 		tab2 = deuxieme_possibilite(num, range)
 
 		taille = if range.eql?("column")
-			@lines.size()
-		else
+				@lines.size()
+			else
 			@clns.size()
 		end
 
 		# Coloriage des cases sûres (intersection des 2 possibilités)
 		(0...taille).each do |i|
 			if tab1[i]==tab2[i] && tab1[i]>0
-				if range.eql?("column") 
-					@grid[i][num]=1
-				else
-					@grid[num][i]=1
-				end
+				set_grid(num, i, 1, range)
 			end
 		end
 
@@ -662,7 +659,6 @@ print tab
 puts("")
 
 # Memo a faire : 
-# Remplacer solution en variable d'instance par une map (en cours)
-# refactoriser le code (cf codeclimate)
+# refactoriser le code avec codeclimate (en cours)
 # commentaires mieux organisés + en anglais + code en anglais
 

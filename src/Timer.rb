@@ -15,6 +15,8 @@ class Timer
 	# Tells whether or not the timer is currently running
 	attr_reader :isRunning
 
+	attr_reader :isNegative
+
 	##
 	# Creation of a new Timer.
 	def initialize()
@@ -92,6 +94,14 @@ class Timer
 	#   - the elapsed time (String like "HH:MM:SS")
 	def elapsedTime()
 		return Timer.toTime(self.elapsedSeconds)
+	end
+
+	def remaining(addPenalty, maxTime)
+		total  = addPenalty + self.elapsedSeconds
+		remain = maxTime - total
+		@isNegative = false
+		@isNegative = true if remain <= 0
+		return remain.abs
 	end
 
 	##
