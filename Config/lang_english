@@ -45,6 +45,8 @@ button:
 game:
     paused: 'Game paused'
     finish: 'You finsihed the level'
+    finish2: 'You won '
+    finish3: ' star(s)'
 stats:
     empty: 'No stats recorded'
     player: 'Player''s statistics'
