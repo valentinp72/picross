@@ -44,3 +44,5 @@ engines:
         enabled: false
       Rubocop/Layout/EmptyLinesAroundMethodBody:
         enabled: false
+      Rubocop/Layout/EmptyLinesAroundBlockBody:
+        enabled: false
