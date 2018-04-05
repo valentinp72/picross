@@ -79,13 +79,11 @@ class Helper
 
 		nbtour=0		# pour eviter boucle infinie si resultat introuvable
 		while nbtour<10
-
 			tabrange = []
 			tabrange.push(rfull("line"))
 			tabrange.push(rfull("column"))
 
 			(tabrange[0]).each do |numl|
-
 				bloc = bloc_not_complete(numl, "line", userGrid, "grid")
 				return bloc unless bloc.empty?()
 			end
@@ -152,7 +150,6 @@ class Helper
 
 	# Convertit la grille de cellules finales en grille de solution d'entier
 	def maj_solution(cellGrid)
-
 		soluce = Array.new(5) do
 			Array.new(5) do
 				-1
@@ -372,11 +369,7 @@ class Helper
 	# Coche toute les cases indéterminées d'une ligne
 	def coche_case_indeter(num, range)
 
-		taille = if range.eql?("column")
-			@lines.size()
-		else
-			@clns.size()
-		end
+		taille = range.eql?("column") ? @lines.size() : @clns.size()
 
 		# Parcours de la range et si case indéterminée on met une croix
 		(0...taille).each do |i|
@@ -489,7 +482,6 @@ class Helper
 	# Calcul et renvoi la première possibilité du placement des indices
 	# en partant de la fin sur la range en paramètre
 	def deuxieme_possibilite(num, range)
-
 		if range.eql?("column")
 			taille=@lines.size()
 			tabTemp=@clns
@@ -578,11 +570,7 @@ class Helper
 		tab1 = premiere_possibilite(num, range)
 		tab2 = deuxieme_possibilite(num, range)
 
-		taille = if range.eql?("column")
-				@lines.size()
-			else
-			@clns.size()
-		end
+		taille = range.eql?("column") ? @lines.size() : @clns.size()
 
 		# Coloriage des cases sûres (intersection des 2 possibilités)
 		(0...taille).each do |i|
