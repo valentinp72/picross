@@ -40,3 +40,7 @@ engines:
         enabled: false
       Rubocop/Style/RedundantSelf:
         enabled: false
+      Rubocop/Layout/SpaceAfterComma:
+        enabled: false
+      Rubocop/Layout/EmptyLinesAroundMethodBody:
+        enabled: false
