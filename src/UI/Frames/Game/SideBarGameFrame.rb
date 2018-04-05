@@ -123,7 +123,7 @@ class SideBarGameFrame < Frame
 		@alreadyFinished = false
 		@map.reset
 		@map.currentStat.time.unpause
-		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.grid = @map.grid
 		@picross.redraw
 		self.checkMap
 	end
@@ -143,7 +143,7 @@ class SideBarGameFrame < Frame
 		#self.checkMap
 		help = HelpMadeError.new(@map, @user)
 		help.apply
-		@picross.grid = @map.hypotheses.workingHypothesis.grid
+		@picross.grid = @map.grid
 		@picross.redraw
 	end
 
@@ -190,7 +190,7 @@ class SideBarGameFrame < Frame
 
 		buttonAccept.signal_connect('clicked') do
 			@map.hypotheses.validate(hypo.id)
-			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@grid = @map.grid
 			@picross.grid = @grid
 			updatePopover(@popoverBox)
 		end
@@ -202,7 +202,7 @@ class SideBarGameFrame < Frame
 		buttonReject.image = AssetsLoader.loadImage('close.png',40)
 		buttonReject.signal_connect('clicked') do
 			@map.hypotheses.reject(hypo.id)
-			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@grid = @map.grid
 			@picross.grid = @grid
 			updatePopover(@popoverBox)
 		end
@@ -238,7 +238,7 @@ class SideBarGameFrame < Frame
 		buttonNewHypo.image = AssetsLoader.loadImage('plus.png',40)
 		buttonNewHypo.signal_connect('clicked') do
 			@map.hypotheses.addNewHypothesis
-			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@grid = @map.grid
 			@picross.grid = @grid
 			updatePopover(popoverBox)
 		end
@@ -253,7 +253,7 @@ class SideBarGameFrame < Frame
 	def checkMap()
 		@picross.setDoneValues if @picross != nil
 		if @map.currentStat.isFinished  && !@alreadyFinished then
-			@grid = @map.hypotheses.getWorkingHypothesis.grid
+			@grid = @map.grid
 			@picross.grid = @grid if @picross != nil
 			@hypotheses.sensitive = false
 			@pause.sensitive = false

@@ -30,7 +30,7 @@ class Drag
 	#   - +frame+ -> the frame the drag is working on 
 	def initialize(map, cells, frame)
 		@map   = map
-		@grid  = map.hypotheses.getWorkingHypothesis.grid
+		@grid  = map.grid
 		@cells = cells
 		@frame = frame
 

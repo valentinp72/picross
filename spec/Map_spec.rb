@@ -23,43 +23,43 @@ describe Map do
 	end
 
 	it "retrieve cell For Rotate At(line, column) " do
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
+		map.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 
 
 		map.rotateStateAt(0,0)
 
-		expect(map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state).to eq Cell::CELL_BLACK
+		expect(map.grid.getCellPosition(0,0).state).to eq Cell::CELL_BLACK
 	end
 
 	it "retrieve cell For InvertRotate At(line, column) " do
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
+		map.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 
 		map.rotateStateInvertAt(0,0)
 
-		expect(map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state).to eq Cell::CELL_CROSSED
+		expect(map.grid.getCellPosition(0,0).state).to eq Cell::CELL_CROSSED
 	end
 
 	it "retrieve cell For rotateStateAt (line, column) " do
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
+		map.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
 
 		map.rotateToStateAt(0,0, Cell::CELL_WHITE)
 
-		expect(map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state).to eq Cell::CELL_WHITE
+		expect(map.grid.getCellPosition(0,0).state).to eq Cell::CELL_WHITE
 	end
 
 	it "should the map finish? the map" do
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
+		map.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
 		expect(map.shouldFinish?).to eq false
 
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
+		map.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 		expect(map.shouldFinish?).to eq true
 	end
 
 	it "check map" do
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
+		map.grid.getCellPosition(0,0).state = Cell::CELL_BLACK
 		expect(map.check).to eq false
 
-		map.hypotheses.getWorkingHypothesis.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
+		map.grid.getCellPosition(0,0).state = Cell::CELL_WHITE
 		expect(map.check).to eq true
 	end
 

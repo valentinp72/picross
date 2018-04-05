@@ -35,7 +35,7 @@ class GameFrame < Frame
 	#   - +map+ -> the map to show on this frame
 	def initialize(user, chapter, map)
 		super()
-		@grid = map.hypotheses.getWorkingHypothesis.grid
+		@grid = map.grid
 		@map  = map
 		@user = user
 		@chapter = chapter

@@ -26,9 +26,9 @@ class KeyboardPicross
 	end
 
 	def check(event,isPressed, posY, posX)
-		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posX, posY) then
+		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.grid.validPosition?(posX, posY) then
 			return 1
-		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed && @map.hypotheses.getWorkingHypothesis.grid.validPosition?(posX, posY)then
+		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed && @map.grid.validPosition?(posX, posY)then
 			return 2
 		end
 		return 0
