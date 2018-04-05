@@ -140,7 +140,7 @@ class Hypotheses
 	#   - the object itself
 	def each(&block)
 		@stack.drop(1).each(&block)
-		return slef
+		return self
 	end
 
 	##

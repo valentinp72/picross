@@ -46,6 +46,16 @@ game:
     finish: 'Vous avez fini le niveau'
     finish2: 'Vous avez gagné '
     finish3: ' etoile(s)'
+help:
+    available: 'Aides disponnbiles : {{HELPS}}'
+    cost: 'Coût : '
+    costPenalty: '{{COST}} secondes'
+    costHelp: '{{COST}} aide(s)'
+    use: 'Utiliser l''aide à {{COST_NAME}}'
+helps:
+    'HelpMadeError':
+        title: 'Erreur effectuée ?'
+        description: 'Remet la grille dans son dernier état sans erreur.'
 stats:
     empty: 'Aucune statistiques enregistre'
     player: 'Statistiques du joueur'
