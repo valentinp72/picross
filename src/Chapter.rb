@@ -49,6 +49,12 @@ class Chapter
 		return user.totalStars >= @starsRequired
 	end
 
+	def each_map
+		@levels.each do |map|
+			yield map
+		end
+	end
+
 	##
 	# Retuns the chapter to a string, for debug only
 	# * *Returns* :
@@ -108,4 +114,5 @@ class Chapter
 		@title, @levels, @starsRequired = array
 		return self
 	end
+
 end

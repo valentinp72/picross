@@ -25,7 +25,10 @@ module ButtonCreator
 	# * *Returns* :
 	#   - a Gtk::Button
 	def ButtonCreator.new(name: nil, assetName: '', assetSize: nil, clicked: nil, released: nil, parent: nil, relief: false)
-		button = Gtk::Button.new(:label => name)
+		button = Gtk::Button.new()
+		if name != nil then
+			button.label = name
+		end
 
 		if assetName != nil then
 			button.image = AssetsLoader.loadImage(assetName, assetSize)

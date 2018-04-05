@@ -2,62 +2,115 @@ require 'yaml'
 
 require_relative 'MapFrame'
 require_relative 'HomeFrame'
+
 require_relative '../Frame'
+require_relative '../AssetsLoader'
+require_relative '../GridCreator'
+require_relative '../ButtonCreator'
 
 ##
 # File          :: ChapterFrame.rb
-# Author        :: BROCHERIEUX Thibault
+# Author        :: BROCHERIEUX Thibault, PELLOIN Valentin
 # Licence       :: MIT License
 # Creation date :: 02/16/2018
-# Last update   :: 02/16/2018
+# Last update   :: 04/04/2018
 # Version       :: 0.1
 #
 # This class represents the ChapterFrame which list all chapter of an user
+
 class ChapterFrame < Frame
 
+	# The image to show when a chapter is locked
+	LOCK_IMAGE = AssetsLoader.loadImage('lock.png', 20)
+
+	# The image to explain a star
+	STAR_IMAGE = AssetsLoader.loadImage('star.png', 20)
+
+	##
+	# Create a new ChapterFrame, displaying all the chapters of a User.
+	# * *Arguments* :
+	#   - +user+ -> the user to show it's chapters
 	def initialize(user)
 		super()
-		self.border_width = 100
-
-		# Create vertical box containing all chapters buttons
-		@vbox = Gtk::Box.new(:vertical, user.chapters.length)
-
-		# Create a return button
-		@returnBtn = Gtk::Button.new()
-		@returnBtn.image = AssetsLoader.loadImage("arrow-left.png", 40)
-		@returnBtn.relief = Gtk::ReliefStyle::NONE
-		@vbox.pack_start(@returnBtn, :expand => true, :fill => true, :padding =>2)
-
-		# List of bouttons
-		@buttonsList = Array.new(user.chapters.length + 1)
-
-		user.chapters.each_index do |x|
-			chapter = user.chapters[x]
-
-			@buttonsList[x] = Gtk::Button.new
-
-			if chapter.unlocked?(user) then
-				@buttonsList[x].label = chapter.title
-				@buttonsList[x].signal_connect("clicked") do
-					self.parent.setFrame(MapFrame.new(user, chapter))
-				end
-			else
-				buttonBox = Gtk::Box.new(:horizontal)
-				buttonBox.pack_start(AssetsLoader.loadImage("lock.png", 20), :expand => true, :fill => true, :padding => 2)
-				buttonBox.pack_start(Gtk::Label.new("#{user.totalStars}/#{chapter.starsRequired}"), :expand => false, :fill => false, :padding => 2)
-				buttonBox.pack_start(AssetsLoader.loadImage("star.png", 20), :expand => false, :fill => false, :padding => 2)
-				@buttonsList[x].add(buttonBox)
-			end
-
-			@vbox.pack_start(@buttonsList[x], :expand => true, :fill => true, :padding => 2)
-		end
-
-		@returnBtn.signal_connect("clicked") do
-			self.parent.setFrame(HomeFrame.new(user))
-		end
-
-		# Add vbox to frame
-		add(@vbox)
-
+		@user = user
+		self.border_width = 10
+		self.add(createArea)
 	end
+
+	##
+	# Create the main area for this frame (a Gtk::Grid).
+	# * *Returns* :
+	#   - a Gtk::Grid with everything inside
+	def createArea
+		buttons = []
+		buttons << self.createReturnButton
+		@user.each_chapter do |chapter|
+			buttons << self.createChapterButton(chapter)
+		end
+		return GridCreator.fromArray(buttons, :vertical => true)
+	end
+
+	##
+	# Create the return button
+	# * *Returns* :
+	#   - the return button to the main page
+	def createReturnButton
+		return ButtonCreator.new(
+			:assetName => "arrow-left.png",
+			:assetSize => 40,
+			:clicked   => :btn_return_clicked,
+			:parent    => self
+		)
+	end
+
+	##
+	# Create a button for a chapter
+	# * *Arguments* :
+	#   - +chapter+ -> the chapter to show the button about
+	# * *Returns* :
+	#   - a clickable Gtk::Button for the given chapter
+	def createChapterButton(chapter)
+		contents = self.chapterButtonContents(chapter)
+		content = GridCreator.fromArray(contents, :horizontal => true, :xSizes => [10])
+		content.column_spacing = 10
+		button  = Gtk::Button.new
+		button.add(content)
+		if chapter.unlocked?(@user) then
+			button.signal_connect('clicked') do
+				self.parent.setFrame(MapFrame.new(@user, chapter))
+			end
+		end
+		return button
+	end
+
+	##
+	# Create and return an Array with every Gtk::Widget that sould 
+	# be put inside the button of a chapter.
+	# * *Arguments* :
+	#   - +chapter+ -> the chapter to show the content about
+	# * *Returns* :
+	#   - an array with plenty of Gtk::Widget 
+	def chapterButtonContents(chapter)
+		contents = []
+
+		if chapter.unlocked?(@user) then
+			contents << Gtk::Label.new(chapter.title)
+		else
+			contents << AssetsLoader.cloneImage(LOCK_IMAGE)
+			contents << Gtk::Label.new("#{@user.totalStars}/#{chapter.starsRequired}")
+			contents << AssetsLoader.cloneImage(STAR_IMAGE)
+		end
+
+		return contents
+	end
+
+	##
+	# The action to do when the return button is clicked
+	# * *Returns* :
+	#   - the frame itself
+	def btn_return_clicked
+		self.parent.setFrame(HomeFrame.new(@user))
+		return self
+	end
+
 end
