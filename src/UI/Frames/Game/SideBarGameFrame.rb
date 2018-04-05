@@ -10,6 +10,7 @@ require_relative 'PicrossFrame'
 require_relative 'TimerFrame'
 
 require_relative 'PopoverHypotheses'
+require_relative 'PopoverHelps'
 
 class SideBarGameFrame < Frame
 
@@ -114,12 +115,14 @@ class SideBarGameFrame < Frame
 	end
 
 	def createHelpButton()
-		ButtonCreator.new(
+		help = ButtonCreator.new(
 				:assetName => 'help.png',
 				:assetSize => 40,
 				:parent    => self,
 				:clicked   => :btn_help_clicked
 		)
+		@helpers = PopoverHelps.new(help, self)
+		return help
 	end
 
 	def btn_reset_clicked
@@ -144,10 +147,12 @@ class SideBarGameFrame < Frame
 
 	def btn_help_clicked
 		#self.checkMap
-		help = HelpMadeError.new(@map, @user)
-		help.apply
-		@picross.grid = @map.grid
-		@picross.redraw
+#help = HelpMadeError.new(@map, @user)
+#		help.apply
+#		@picross.grid = @map.grid
+#		@picross.redraw
+		@helpers.update
+		@helpers.popup
 	end
 
 	def btn_hypotheses_clicked
