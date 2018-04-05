@@ -32,8 +32,6 @@ class SideBarGameFrame < Frame
 		@alreadyFinished = false
 
 		@sideBar = createSideBarLayout
-		@sideBar.show_all
-		return @sideBar
 	end
 
 	##
@@ -46,7 +44,7 @@ class SideBarGameFrame < Frame
 		@reset      = createResetButton()
 		@pause      = createPauseButton()
 		@hypotheses = createHypothesesButton()
-		@help        = createHelpButton()
+		@help       = createHelpButton()
 
 		@sideBar = Gtk::Box.new(:vertical)
 		@sideBar.pack_start(@timer, :expand => true, :fill => true)
@@ -146,11 +144,6 @@ class SideBarGameFrame < Frame
 	end
 
 	def btn_help_clicked
-		#self.checkMap
-#help = HelpMadeError.new(@map, @user)
-#		help.apply
-#		@picross.grid = @map.grid
-#		@picross.redraw
 		@helpers.update
 		@helpers.popup
 	end
@@ -191,24 +184,11 @@ class SideBarGameFrame < Frame
 	def checkMap()
 		@picross.setDoneValues if @picross != nil
 		if @map.currentStat.isFinished  && !@alreadyFinished then
-			@grid = @map.grid
-			@picross.grid = @grid if @picross != nil
 			@hypotheses.sensitive = false
-			@pause.sensitive = false
-			@help.sensitive = false
+			@pause.sensitive      = false
+			@help.sensitive       = false
 
-			@alreadyFinished = true
-
-			message = @user.lang["game"]["finish"]
-			@dialog = Gtk::MessageDialog.new(:parent=> @frame.parent, :flags=> :destroy_with_parent,:type => :info,:buttons_type => :close,:message=> message)
-			@dialog.secondary_text = @user.lang["game"]["finish2"] + @map.currentStat.numberOfStars.to_s + @user.lang["game"]["finish3"] + "\n" +
-				@user.lang["stats"]["global"]["time"] + " : " + Timer.toTime(@map.currentStat.time.elapsedSeconds + @map.currentStat.penalty.seconds)
-
-			@dialog.signal_connect "response" do |dialog, _response_id|
-				dialog.destroy
-			end
-			@dialog.show_all
-
+			self.terminate
 			return false
 		else
 			@hypotheses.sensitive = true 
@@ -216,6 +196,25 @@ class SideBarGameFrame < Frame
 			@help.sensitive       = true 
 			return true
 		end
+	end
+
+	def terminate
+		@grid         = @map.grid
+		@picross.grid = @grid if @picross != nil
+
+		@alreadyFinished = true
+
+		message = @user.lang["game"]["finish"]
+		dialog = Gtk::MessageDialog.new(
+			:parent       => @frame.parent, 
+			:flags        => :destroy_with_parent,
+			:type         => :info,
+			:buttons_type => :close,
+			:message      => message
+		)
+		dialog.secondary_text = @user.lang["game"]["finish2"] + @map.currentStat.numberOfStars.to_s + @user.lang["game"]["finish3"] + "\n" + @user.lang["stats"]["global"]["time"] + " : " + Timer.toTime(@map.currentStat.time.elapsedSeconds + @map.currentStat.penalty.seconds)
+		dialog.run
+		dialog.destroy
 	end
 
 end

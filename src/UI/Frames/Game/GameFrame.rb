@@ -48,7 +48,10 @@ class GameFrame < Frame
 
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
-		@main.show_all
+		self.show_all
+		self.signal_connect('realize') do
+			self.checkMap
+		end
 	end
 
 	##
@@ -98,10 +101,8 @@ class GameFrame < Frame
 	#   - the Gtk::Box containing the content
 	def createContentLayout()
 		@content = Gtk::Box.new(:horizontal)
-		@sideBar = SideBarGameFrame.new(self, @user, @picross, @map, @grid)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
-		@sideBar.picross = @picross
-		@sideBar.checkMap
+		@sideBar = SideBarGameFrame.new(self, @user, @picross, @map, @grid)
 
 		@content.pack_start(@picross, :expand => true, :fill => true)
 		@content.pack_start(@sideBar.sideBar)
@@ -114,7 +115,6 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the frame itself
 	def draw
-		puts "on draw"
 		self.createMainLayout
 
 		if(@isPaused) then

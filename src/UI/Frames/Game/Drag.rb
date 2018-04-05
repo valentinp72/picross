@@ -181,7 +181,7 @@ class Drag
 		if @map.evolving? && @map.evolved? && @frame.picross != nil then
 			@frame.picross.redraw
 		end
-		@frame.checkMap
+		@frame.checkMap if @frame.realized?
 
 		if !@map.currentStat.time.isRunning && !@map.currentStat.isFinished then
 			@map.currentStat.start
