@@ -47,6 +47,16 @@ game:
     finish: 'You finsihed the level'
     finish2: 'You won '
     finish3: ' star(s)'
+help:
+    available: 'Available helps: {{HELPS}}'
+    cost: 'Cost: '
+    costPenalty: '{{COST}} seconds'
+    costHelp: '{{COST}} help(s)'
+    use: 'Use the help costing {{COST_NAME}}'
+helps:
+    'HelpMadeError':
+        title: 'Made an error?'
+        description: 'Puts back the grid in it's last state without any error.'
 stats:
     empty: 'No stats recorded'
     player: 'Player''s statistics'
