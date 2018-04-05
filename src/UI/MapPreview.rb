@@ -22,6 +22,7 @@ module MapPreview
 	# * *Returns* :
 	#   - a Gtk::Image with a representation of the Map
 	def MapPreview.image(map, totalWidth, totalHeight)
+		#puts "on render une image pour #{map.name}"
 		grid    = map.grid
 		surface = Cairo::ImageSurface.new(totalWidth, totalHeight)
 		cr      = Cairo::Context.new(surface)
@@ -31,9 +32,12 @@ module MapPreview
 
 		grid.each_cell_with_index do |cell, line, column|
 			if cell.state == Cell::CELL_BLACK then
-				cr.rectangle(column * width, line * height, width, height)
-				cr.fill
+				cr.set_source_rgba(0.0, 0.0, 0.0, 1.0)
+			else
+				cr.set_source_rgba(1.0, 1.0, 1.0, 0.0)
 			end
+			cr.rectangle(column * width, line * height, width, height)
+			cr.fill
 		end
 
 		pixBuf = AssetsLoader.pixbufFromSurface(surface)
