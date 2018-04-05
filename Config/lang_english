@@ -56,7 +56,7 @@ help:
 helps:
     'HelpMadeError':
         title: 'Made an error?'
-        description: 'Puts back the grid in it's last state without any error.'
+        description: 'Puts back the grid in it''s last state without any error.'
 stats:
     empty: 'No stats recorded'
     player: 'Player''s statistics'
