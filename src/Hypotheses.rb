@@ -16,6 +16,9 @@ require_relative 'Cell'
 # rejected.
 class Hypotheses
 
+	# The max number of Hypothesis in the stack
+	MAX_HYPOTHESES = 5
+
 	# +lines+   - The number of lines of every hypothesis in the stack
 	# +columns+ - The number of columns of every hypothesis in the stack
 	# +stack+   - An array of hypothesis used as a stack
@@ -124,9 +127,20 @@ class Hypotheses
 	end
 
 	##
+	# Tells if the current stack of hypotheses is at it's max (MAX_HYPOTHESES)
+	# * *Returns* :
+	#   - true if it's not possible to add more hypothesis
+	def max?()
+		return @stack.length >= MAX_HYPOTHESES
+	end
+
+	##
 	# Define each method for this class, allowing to go through all the hypothesis
+	# * *Returns* :
+	#   - the object itself
 	def each(&block)
 		@stack.drop(1).each(&block)
+		return slef
 	end
 
 	##

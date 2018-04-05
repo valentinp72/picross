@@ -132,7 +132,7 @@ class Map
 	def saveCorrectMap
 		# PerformanceDebugger.showTime do
 			# never ever ever ever ever forget to put that
-			# if not present, this will double the size of the size at each save
+			# if not present, this will double the size of the save at each save
 			@correctSaved = nil
 			
 			@correctSaved = Marshal.load(Marshal.dump(self))

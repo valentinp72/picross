@@ -98,7 +98,7 @@ class GameFrame < Frame
 	#   - the Gtk::Box containing the content
 	def createContentLayout()
 		@content = Gtk::Box.new(:horizontal)
-		@sideBar = SideBarGameFrame.new(self, @user, @picross,@map, @grid)
+		@sideBar = SideBarGameFrame.new(self, @user, @picross, @map, @grid)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
 		@sideBar.picross = @picross
 		@sideBar.checkMap

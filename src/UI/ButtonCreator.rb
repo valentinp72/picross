@@ -21,10 +21,11 @@ module ButtonCreator
 	#   - +clicked+   -> a method name to call on +parent+ when the button is called
 	#   - +released+  -> a method name to call on +parent+ when the button is released
 	#   - +parent+    -> the parent to call the methods +clicked+ and +released+ on
-	#   - +relief+    -> tells if the button should have a border 
+	#   - +relief+    -> tells if the button should have a border
+	#   - +css+       -> add CSS code to the button
 	# * *Returns* :
 	#   - a Gtk::Button
-	def ButtonCreator.new(name: nil, assetName: '', assetSize: nil, clicked: nil, released: nil, parent: nil, relief: false)
+	def ButtonCreator.new(name: nil, assetName: '', assetSize: nil, clicked: nil, released: nil, parent: nil, relief: false, css: '')
 		button = Gtk::Button.new()
 		if name != nil then
 			button.label = name
@@ -35,6 +36,12 @@ module ButtonCreator
 		end
 		if not relief then
 			button.relief = Gtk::ReliefStyle::NONE
+		end
+
+		if css != nil then
+			css_provider = Gtk::CssProvider.new
+			css_provider.load(data: css)
+			button.style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 		end
 
 		if parent != nil then
