@@ -63,12 +63,10 @@ class Helper
 
 			#self.solve()
 
-			if helpLvl==2		# Aide moyenne
-
-				return self.help2(userGrid)
-			else # Aide difficile
-
+			unless helpLvl==2		# Aide moyenne
 				return self.help3(userGrid)
+			else # Aide difficile
+				return self.help2(userGrid)
 			end
 		end
 	end
@@ -238,11 +236,7 @@ class Helper
 		bloc=false
 		tab=[]
 
-		taille = if range.eql?("column")
-			@lines.size()
-		else
-			@clns.size()
-		end
+		taille = range.eql?("column") ? @lines.size() : @clns.size()
 
 		(0...taille).each do |i|
 
@@ -359,10 +353,10 @@ class Helper
 			cpt2 += tabTemp[num][i]
 		end
 
-		if cpt == cpt2
-			return true
-		else
+		unless cpt == cpt2
 			return false
+		else
+			return true
 		end
 	end
 
