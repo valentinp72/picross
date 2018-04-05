@@ -266,7 +266,6 @@ class SideBarGameFrame < Frame
 			@dialog.secondary_text = @user.lang["game"]["finish2"] + @map.currentStat.numberOfStars.to_s + @user.lang["game"]["finish3"] + "\n" +
 				@user.lang["stats"]["global"]["time"] + " : " + Timer.toTime(@map.currentStat.time.elapsedSeconds + @map.currentStat.penalty.seconds)
 
-
 			@dialog.signal_connect "response" do |dialog, _response_id|
 				dialog.destroy
 			end
@@ -274,10 +273,11 @@ class SideBarGameFrame < Frame
 
 			return false
 		else
-			@hypotheses.sensitive = true
-			@pause.sensitive = true
-			@help.sensitive = true
+			@hypotheses.sensitive = true 
+			@pause.sensitive      = true 
+			@help.sensitive       = true 
 			return true
 		end
 	end
+
 end

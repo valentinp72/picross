@@ -2,6 +2,8 @@ require_relative 'Hypotheses'
 require_relative 'Statistic'
 require_relative 'StatisticsArray'
 
+require_relative 'PerformanceDebugger'
+
 ##
 # File          :: Map.rb
 # Author        :: PELLOIN Valentin
@@ -128,8 +130,14 @@ class Map
 	# * *Returns* :
 	#   - the object itself
 	def saveCorrectMap
-		@correctSaved = Marshal.load(Marshal.dump(self))
-		@correctSaved.currentStat.time.pause
+		# PerformanceDebugger.showTime do
+			# never ever ever ever ever forget to put that
+			# if not present, this will double the size of the size at each save
+			@correctSaved = nil
+			
+			@correctSaved = Marshal.load(Marshal.dump(self))
+			@correctSaved.currentStat.time.pause
+		# end
 		return self
 	end
 
