@@ -483,6 +483,7 @@ class Grid
 			grid = Grid.new(lines.length,lines[0].length, Hypothesis::SOLUTION_HYPOTHESIS)
 			grid.each_cell_with_index do |cell,i,j|
 				cell.state = Cell.toState(lines[i][j])
+			end
 		end
 	end
 
