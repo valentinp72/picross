@@ -238,6 +238,9 @@ class CellButton < Gtk::EventBox
 		self.parent.parent.parent.unsetHover(@picross.keyboard.posX, @picross.keyboard.posY)
 		@picross.keyboard.posX = @cell.posX
 		@picross.keyboard.posY = @cell.posY
+		puts @picross.keyboard
+		puts "new keyboard value #{@picross.keyboard.posX} #{@picross.keyboard.posY}"
+		self.setAttributes
 	end
 
 	def enterNotify()
