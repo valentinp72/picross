@@ -116,9 +116,9 @@
     
     Pour pouvoir exécuter correctement l'application, vous devez au préalable :
     \begin{itemize}
-        \item Posséder un ordinateur sous MacOS ou Linux;
-        \item Avoir installé une version de Ruby ultérieure à la 2.2.2;
-        \item Avoir installé une version de la librairie Gtk ultérieure à la 3.22;
+        \item Posséder un ordinateur sous MacOS ou Linux,
+        \item Avoir installé une version de Ruby ultérieure à la 2.2.2,
+        \item Avoir installé une version de la librairie Gtk ultérieure à la 3.22.
     \end{itemize}
 
 
@@ -139,8 +139,8 @@
     
             Une grille comporte des indices en sa marge. Une ligne ou une colonne peut posséder un certain nombre d'indices :
             \begin{itemize}
-                \item Les indices se situant à gauche de la grille permettant de connaître le nombre de cases à noircir sur la ligne correspondante.;
-                \item Les indices se situant en haut de la grille permettent de connaître le nombre de cases à noircir sur la colonne correspondante.;
+                \item Les indices se situant à gauche de la grille permettant de connaître le nombre de cases à noircir sur la ligne correspondante.
+                \item Les indices se situant en haut de la grille permettent de connaître le nombre de cases à noircir sur la colonne correspondante.
             \end{itemize}
 	        
 	        Ainsi, une grille possédant un nombre 5 devant une ligne ou une colonne indique qu'il y a 5 cases consécutives à noircir.
@@ -156,15 +156,15 @@
 
             Certaines astuces permettent de repérer les cases faciles à noircir, en voici quelques unes :
             \begin{itemize}
-                \item Prenons par exemple un indice valant 10 sur une ligne d'une grille 10x10. Cela signifie que toutes les cases de la ligne en question sont à noircir.;
+                \item Prenons par exemple un indice valant 10 sur une ligne d'une grille 10x10. Cela signifie que toutes les cases de la ligne en question sont à noircir.
 %           \begin{minipage}{0.4\textwidth}
 % 					\centerline{\includegraphics[width=3cm]{ligneExemple1.png}}
 % 			\end{minipage}
-                \item Prenons maintenant l'exemple d'une ligne ou une colonne dont l'indice est 3, et la première case est déjà noircie. Cela signifie que les cases à noircir sont obligatoirement les 3 premières.;
+                \item Prenons maintenant l'exemple d'une ligne ou une colonne dont l'indice est 3, et la première case est déjà noircie. Cela signifie que les cases à noircir sont obligatoirement les 3 premières.
 %           \begin{minipage}{0.4\textwidth}
 % 					\centerline{\includegraphics[width=3cm]{ligneExemple2.png}}
 % 			\end{minipage}
-                \item Un dernier exemple : nous avons une grille 10x10, l'indice d'une des ligne vaut 7. On peut dans ce cas noircir les 4 cases centrales, ces cases seront noircies quelque soit la solution de cette ligne. Cette astuce fonctionne dès qu'une ligne ou une colonne possède un indice unique, supérieur à la moitié du nombre de cases de la ligne ou de la colonne en question.;
+                \item Un dernier exemple : nous avons une grille 10x10, l'indice d'une des ligne vaut 7. On peut dans ce cas noircir les 4 cases centrales, ces cases seront noircies quelque soit la solution de cette ligne. Cette astuce fonctionne dès qu'une ligne ou une colonne possède un indice unique, supérieur à la moitié du nombre de cases de la ligne ou de la colonne en question.
 %           \begin{minipage}{0.4\textwidth}
 % 					\centerline{\includegraphics[width=3cm]{ligneExemple3.png}}
 % 			\end{minipage}
@@ -194,8 +194,8 @@
         
         Sur cet écran, vous avez aussi la possibilité de changer la langue du jeu. Actuellement les langues disponibles sont :
         \begin{itemize}
-            \item Le français,;
-            \item L'anglais.;
+            \item Le français,
+            \item L'anglais.
         \end{itemize}
         
 %           \begin{minipage}{0.4\textwidth}
@@ -206,14 +206,14 @@
 
 	    Une fois connecté, vous avez accès au menu du jeu. Sur cet écran vous avez plusieurs possibilités :
 	    \begin{itemize}
-            \item Le bouton "Jouer" permet d'accèder au menu de choix de chapitres (cf : Jeu).;
-            \item Le bouton "Classement" permet de visualiser vos statistiques de jeu.;
-            \item Le bouton "Règles" permet de détailler les règles du jeu.;
+            \item Le bouton "Jouer" permet d'accéder au menu de choix de chapitres (cf : Jeu).
+            \item Le bouton "Classement" permet de visualiser vos statistiques de jeu.
+            \item Le bouton "Règles" permet de détailler les règles du jeu.
             \item Le bouton "Options" donne la possibilité de changer :
             \begin{itemize}
-                \item La langue (sont disponibles actuellement : le français et l'anglais),;
-                \item La couleur des hypothèses (cf : [Insérez un numéro de chapitre]),;
-                \item Les raccourcis clavier.;
+                \item La langue (sont disponibles actuellement : le français et l'anglais),
+                \item La couleur des hypothèses (cf : [Insérez un numéro de chapitre]),
+                \item Les raccourcis clavier.
             \end{itemize}
             Une fois vos changements effectués, pensez à appuyer sur le bouton "Valider".
             \item Le bouton "Quitter" permettant de fermer l'application.
@@ -238,25 +238,52 @@
 % 					\centerline{\includegraphics[width=3cm]{screenChoixChapitre.png}}
 % 			\end{minipage}
             
-        \subsection{Déroulement d'une partie} % à compléter
+        \subsection{Déroulement d'une partie}
         
             Lorsque vous avez sélectionné la grille sur laquelle vous voulez jouer, une nouvelle interface apparaît. 
             Vous pouvez ainsi y retrouver :
             \begin{itemize}
-                \item La grille de jeu.;
+                \item La grille de jeu.
                 Sur cette grille, vous pouvez colorier une case grâce à un clique gauche. Vous pouvez également sélectionner plusieurs cases d'un coup en maintenant le bouton gauche de la souris enfoncé.
+                
                 Le clique droit quant à lui permet de "cocher" une case que vous pensez fausse, afin de rendre la grille plus lisible. Le clique droit enfoncé permet également de sélectionner plusieurs cases.
-                \item Trois timers : ;
+                
+                Il est également possible de jouer à l'aide du clavier, les touches étant modifiables -
+                \item Trois timers : 
                 \begin{itemize}
-                    \item Le premier étant le temps mis pour résoudre la grille en cours,;
-                    \item Le deuxième, le temps de pénalité, lié aux aides, qui sera cumulé au temps total à la résolution de la grille,;
-                    \item Le dernier, le temps estimé pour résoudre la grille.;
-                Le nombre d'étoiles gagnées lors de la résolution totale d'une grille dépend du temps mis pour la résoudre.
+                    \item Le premier étant le temps mis pour résoudre la grille en cours,
+                    \item Le deuxième, le temps de pénalité, lié aux aides, qui sera cumulé au temps total à la résolution de la grille,
+                    \item Le dernier, le temps mis pour réaliser la grille, par rapport au temps estimé.
                 \end{itemize}
-                \item Un bouton permettant de recommencer la grille;
-                \item Un bouton de pause. Une fois le jeu mis en pause, le chronomètre est arrêté et la grille cachée. Vous pouvez à tout moment reprendre la partie, la grille réapparaîtra et le chronomètre se reprendra.;
-                \item Les boutons d'aide ====>(à détailler)<====;
-                \item Un bouton permettant d'accéder aux paramètres.;
+%           \begin{minipage}{0.4\textwidth}
+% 					\centerline{\includegraphics[width=3cm]{imageTimers.png}}
+% 			\end{minipage}
+                \item Un bouton permettant de recommencer la grille
+                \item Un bouton de pause. Une fois le jeu mis en pause, le chronomètre est arrêté et la grille cachée. Vous pouvez à tout moment reprendre la partie, la grille réapparaîtra et le chronomètre se reprendra.
+%           \begin{minipage}{0.4\textwidth}
+% 					\centerline{\includegraphics[width=3cm]{imagePause.png}}
+% 			\end{minipage}
+                \item Un bouton pour activer le système d'hypothèses :
+                Les hypothèses vous permettent, lorsque vous n'êtes pas sûr de vous, de sélectionner certaines cases, qui s'afficheront d'une couleur différente. Vous pouvez à tout moment décider de valider ou supprimer l'hypothèse entamée. Dans le premier cas, les cases sélectionnées seront noircies. Dans le second cas, les cases seront dé-sélectionnées.
+                
+                Il existe 4 niveaux d'hypothèses, chacun représentés par une couleur personnalisable (par défaut : rouge, orange, bleu, vert).
+                Plusieurs faits d'utilisation sont à préciser :
+                \begin{itemize}
+                    \item Premier exemple, vous utilisez les hypothèses rouges, puis les oranges. Vous souhaitez valider les hypothèses rouges. Seules ces dernières seront validées.
+                    \item Suivons le même exemple, mais vous souhaitez valider les hypothèses oranges. Dans ce cas ci, les 2 sortes d'hypothèses seront validées.
+                    \item Vous pouvez à tout moment cumuler les 4 sortes d'hypothèses.
+                \end{itemize}
+%           \begin{minipage}{0.4\textwidth}
+% 					\centerline{\includegraphics[width=3cm]{imageHypothèses.png}}
+% 			\end{minipage}                
+                \item Le bouton d'aide qui apporte une solution partielle en fonction de la difficulté du niveau. Cela peut être :
+                \begin{itemize}
+                    \item Un renvoi au dernier état de la grille sans erreurs,
+                    \item La révélation d'une ligne incomplète (niveau facile)
+                    \item La révélation d'un certain groupe de cases (niveau moyen)
+                    \item La révélation d'un case (niveau difficile)
+                \end{itemize}
+                \item Un bouton permettant d'accéder aux paramètres.
             \end{itemize}
             
 %           \begin{minipage}{0.4\textwidth}
@@ -265,7 +292,7 @@
 
         \subsection{Fin d'une partie}
         
-            Une partie prend fin lorsque la grille est terminée et correcte. Une fenêtre s'ouvre alors en indiquant le temps mis pour résoudre la grille, ainsi que le nombre d'étoiles obtenues.
+            Une partie prend fin lorsque la grille est terminée et correcte. Une fenêtre s'ouvre alors en indiquant le temps mis pour résoudre la grille, ainsi que le nombre d'étoiles obtenues proportionnelles au temps mis.
  
 %           \begin{minipage}{0.4\textwidth}
 % 					\centerline{\includegraphics[width=3cm]{imageGrilleFinJeu.png}}
@@ -274,9 +301,42 @@
 	
 	\section{Statistiques}
 
+		L'application comporte deux sortes de statistiques : 
 		
+		\subsection{Statistiques du joueur}
+		
+		    Les statistiques du joueur regroupant pour chaque niveau réalisé par celui-ci en indiquant :
+		    \begin{itemize}
+                    \item Le nom du niveau,
+                    \item Le nombre maximal d'étoiles obtenues,
+                    \item Le meilleur temps réalisé,
+                    \item Le nombre d'aides utilisées au minimum,
+                    \item Le nombre de cliques minimum réalisé,
+                    \item Le nombre de fois qu'il a été terminé.
+            \end{itemize}
+		    
+		
+%           \begin{minipage}{0.4\textwidth}
+% 					\centerline{\includegraphics[width=3cm]{StatsJoueur.png}}
+% 			\end{minipage}    
+		
+		\subsection{Statistiques globales}
 
-		
+		    Les statistiques globales regroupent :
+		    \begin{itemize}
+                    \item Le nombre total d'étoiles obtenues,
+                    \item Le temps total de jeu (en secondes),
+                    \item Le nombre total d'aides utilisées,
+                    \item Le nombre cliques total,
+                    \item Le nombre de parties terminées.
+            \end{itemize}
+            
+    
+		    
+%           \begin{minipage}{0.4\textwidth}
+% 					\centerline{\includegraphics[width=3cm]{StatsGlobales.png}}
+% 			\end{minipage} 
+
 %	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
 		\bibliographystyle{plain}
 		\bibliography{references}
