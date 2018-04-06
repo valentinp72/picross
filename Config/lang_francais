@@ -56,6 +56,15 @@ helps:
     'HelpMadeError':
         title: 'Erreur effectuée ?'
         description: 'Remet la grille dans son dernier état sans erreur.'
+    'HelpLvl1’:
+        title: ‘Aide facile’
+        description: ‘Donne une ligne complète de la solution’
+    'HelpLvl2’:
+        title: ‘Aide moyenne’
+        description: ‘Donne un bloc qui aurait été facile à trouver’
+    'HelpLvl3’:
+        title: ‘Aide difficile’
+        description: ‘Donne une case qui aurait été facile à trouver’
 stats:
     empty: 'Aucune statistiques enregistre'
     player: 'Statistiques du joueur'
