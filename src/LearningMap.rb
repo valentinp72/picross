@@ -26,12 +26,21 @@ class Learning < Map
 	#   - +lines+        -> number of lines of the map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
-	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid,stage)
+	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid, filename )
 		@evolved = false
-		@stage   = stage
+
 		@currentStage = 0
 
-		super(name, timeToDo, difficulty, @currentLines, @currentColumns, solution)
+		@conf = loadConf(filename)
+
+		@stage   = []
+
+		@conf["stages"].each do |stage|
+			@stage.push(Grid.createFromText(stage))
+		end
+
+
+		super(name, timeToDo, difficulty, @currentLines, @currentColumns, solutionGrid)
 	end
 
 	##
@@ -40,7 +49,7 @@ class Learning < Map
 	#   - +map+ -> the Map to create an learning map from
 	# * *Returns* :
 	#   - a freshly created Learning
-	def Learning.new_from_map(map,stage)
+	def Learning.new_from_map(map,filename)
 		return Learning.new(
 				map.name,
 				map.timeToDo,
@@ -48,7 +57,7 @@ class Learning < Map
 				map.lneSolution.length,
 				map.clmSolution.length,
 				map.solution,
-				stage
+				filename
 		)
 	end
 
@@ -144,6 +153,20 @@ class Learning < Map
 			return true
 		end
 		return false
+	end
+
+	##
+	# Load a YAML file corresponding to the Learning map
+	# * *Arguments* :
+	#   - +filename+ -> the name of the file to load
+	# * *Returns* :
+	#   - the language converted to Hashs
+	def loadConf(filename)
+		# set path to config file folder
+		path = File.dirname(__FILE__) + "/../Users/Default/learning"
+		# Retrieve associated language config file
+		configFile = File.expand_path(path + "filename")
+		return YAML.load(File.open(configFile))
 	end
 
 	##
