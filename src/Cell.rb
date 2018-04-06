@@ -133,6 +133,17 @@ class Cell
 		raise "Wrong cell state"
 	end
 
+	def Cell.toState(string)
+		case string
+			when "█"
+				return CELL_WHITE
+			when "X"
+				return CELL_CROSSED
+			when "░"
+				return CELL_BLACK
+		end
+	end
+
 	##
 	# Compare the cell to the one given as parameter.
 	# * *Returns* :
