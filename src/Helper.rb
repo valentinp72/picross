@@ -25,9 +25,9 @@ class Helper
 	def initialize(map)
 
 		#@solution = sol
-		@solution = convert_grid(map.solution)			# si map en parametre au lieu de sol
 		@lines = map.lneSolution
 		@clns = map.clmSolution
+		@solution = convert_grid(map.solution)			# si map en parametre au lieu de sol
 		@solver = Solver.new(@solution, @lines, @clns)
 
 		# Initialisation de la grille
@@ -143,16 +143,16 @@ class Helper
 
 	# Convertit la grille de cellules finales en grille de solution d'entier
 	def convert_grid(cellGrid)
-		grid = Array.new(5) do
-			Array.new(5) do
+		grid = Array.new(@lines) do
+			Array.new(@clns) do
 				0
 			end
 		end
 		(0...@lines.size()).each do |i|
 			(0...@clns.size()).each do |j|
-				grid[i][j]=1 if cellGrid.cellPosition(i, j).state==CELL_BLACK
-				grid[i][j]=0 if cellGrid.cellPosition(i, j).state==CELL_WHITE
-				grid[i][j]=-1 if cellGrid.cellPosition(i, j).state==CELL_CROSSED
+				grid[i][j]=1 if cellGrid.cellPosition(i, j).state==Cell::CELL_BLACK
+				grid[i][j]=0 if cellGrid.cellPosition(i, j).state==Cell::CELL_WHITE
+				grid[i][j]=-1 if cellGrid.cellPosition(i, j).state==Cell::CELL_CROSSED
 			end
 		end
 		return grid
