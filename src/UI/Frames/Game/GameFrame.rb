@@ -49,11 +49,13 @@ class GameFrame < Frame
 		@isPaused  = false
 		self.show_all
 		self.signal_connect('realize') do
-			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
+#self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
+#			self.parent.setKeyListener(122, method(:key_z_pressed)) # z
 			self.checkMap
 		end
 	end
 
+	
 	##
 	# Create the main layout of this frame
 	# * *Returns* :

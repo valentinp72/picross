@@ -10,31 +10,16 @@
 
 class UserSettings
 	# +validLang+ - List of supported languages
-	@@validLang = ["francais","english"]
+	@@validLang = ["francais", "english"]
 
-	# +language+	- the game's displayed language
+	# The game's displayed language
 	attr_reader :language
 
 	# The colors (an Array of String) representing the colors of the hypotheses
 	attr_reader :hypothesesColors
 
-	# The binding for keyboardUp
-	attr_reader :keyboardUp
-
-	# The binding for keyboardDown
-	attr_reader :keyboardDown
-
-	# The binding for keyboardLeft
-	attr_reader :keyboardLeft
-
-	# The binding for keyboardRight
-	attr_reader :keyboardRight
-
-	# The binding for keyboardClickLeft
-	attr_reader :keyboardClickLeft
-
-	# The binding for keyboardClickRight
-	attr_reader :keyboardClickRight
+	# The picrros keyboard binding 
+	attr_reader :picrossKeys
 
 	# Exception when the chosen language is not known.
 	class InvalidLanguageException < StandardError; end
@@ -48,12 +33,18 @@ class UserSettings
 		@user = user
 		@language         = @@validLang[0]
 		@hypothesesColors = ["#000000", "#eb2f06", "#f6b93b", "#1e3799", "#079992"]
-		@keyboardUp = 122
-		@keyboardDown = 115
-		@keyboardLeft = 113
-		@keyboardRight = 100
-		@keyboardClickLeft = 107
-		@keyboardClickRight = 108
+		
+		# Hash of all available keys on the picross
+		# Since Ruby 1.9, Hash order is maintained:
+		# https://www.igvita.com/2009/02/04/ruby-19-internals-ordered-hash/
+		@picrossKeys      = {
+			"up"          => 122,
+			"down"        => 115,
+			"left"        => 113,
+			"right"       => 100,
+			"click-left"  => 107,
+			"click-right" => 108
+		}
 	end
 
 	##
@@ -79,20 +70,9 @@ class UserSettings
 	#   - +index+ -> index value
 	# * *Raises* :
 	#   - +InvalidBindException+ if the given value is not know as a current bind
-	def changeKeyBoardValue(value, index)
-		case index
-		when 0
-			@keyboardUp = value
-		when 1
-			@keyboardDown = value
-		when 2
-			@keyboardLeft = value
-		when 3
-			@keyboardRight = value
-		when 4
-			@keyboardClickLeft = value
-		when 5
-			@keyboardClickRight = value
+	def changeKeyBoardValue(value, keyName)
+		if @picrossKeys.include?(keyName) then
+			@picrossKeys[keyName] = value
 		else
 			raise InvalidBindException
 		end
@@ -139,11 +119,11 @@ class UserSettings
 	end
 
 	def marshal_dump()
-		[@user, @language, @hypothesesColors, @keyboardUp, @keyboardDown, @keyboardLeft, @keyboardRight, @keyboardClickLeft, @keyboardClickRight]
+		[@user, @language, @hypothesesColors, @picrossKeys]
 	end
 
 	def marshal_load(array)
-		@user, @language, @hypothesesColors, @keyboardUp, @keyboardDown, @keyboardLeft, @keyboardRight, @keyboardClickLeft, @keyboardClickRight = array
+		@user, @language, @hypothesesColors, @picrossKeys = array
 		return self
 	end
 
