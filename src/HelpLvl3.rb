@@ -12,7 +12,7 @@ require_relative 'Helper'
 # Version       :: 0.1
 #
 # This class represents a hard help
-class HelpMadeError < Help
+class HelpLvl3 < Help
 
 	# The cost of this help (in seconds)
 	COST_HELP = 30
