@@ -11,7 +11,7 @@ require_relative 'Helper'
 # Last update   :: 04/07/2018
 # Version       :: 0.1
 #
-# This class represents a hard help
+# This class represents a small help
 class HelpLvl3 < Help
 
 	# The cost of this help (in seconds)

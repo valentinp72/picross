@@ -24,10 +24,14 @@ class Helper
 	# Constructeur
 	def initialize(map)
 
-		#@solution = sol
 		@lines = map.lneSolution
 		@clns = map.clmSolution
-		@solution = convert_grid(map.solution)			# si map en parametre au lieu de sol
+		@solution = Array.new(@lines.size()) do |i|
+			    Array.new(@clns.size()) do |j|
+				cell_to_int(map.solution.cellPosition(i, j))
+			    end
+		end				
+	
 		@solver = Solver.new(@solution, @lines, @clns)
 
 		# Initialisation de la grille
@@ -44,7 +48,6 @@ class Helper
 	def traitement(map, helpLvl)
 
 		userGrid = convert_grid(map.grid)		# si usergrid est une grille de cellule
-	
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 		if helpLvl==1
 
@@ -158,13 +161,21 @@ class Helper
 		return grid
 	end
 
+	# Convertit un etat en un entier
+	def cell_to_int(cell)
+
+		if cell.state==Cell::CELL_BLACK
+			return 1 
+		else
+			return -1
+		end
+	end
+
 	# Convertit un entier représenté sur la grille par 0,-1 ou 1 en un état
 	def convert_state(entier)
 
 		if entier==1
 			return Cell::CELL_BLACK
-		elsif entier.zero?
-			return Cell::CELL_WHITE
 		else
 			return Cell::CELL_CROSSED
 		end

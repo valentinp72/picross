@@ -11,7 +11,7 @@ require_relative 'Helper'
 # Last update   :: 04/07/2018
 # Version       :: 0.1
 #
-# This class represents an easy help
+# This class represents a big help
 class HelpLvl1 < Help
 
 	# The cost of this help (in seconds)
@@ -24,6 +24,7 @@ class HelpLvl1 < Help
 
 	def apply
 		super()	
+		puts("##############")
 		tabBox = @helper.traitement(@map, 1)
 		tabBox.each do |box|
 			y = box[0]

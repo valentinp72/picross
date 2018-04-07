@@ -92,7 +92,7 @@ class PopoverHelps < Popover
 	def btn_useHelp_clicked(help)
 		help.apply
 		@frame.updateGrid
-		self.popdown
+		self.hide
 	end
 
 end
