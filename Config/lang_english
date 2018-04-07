@@ -57,13 +57,13 @@ helps:
     'HelpMadeError':
         title: 'Made an error?'
         description: 'Puts back the grid in it''s last state without any error.'
-    'HelpLvl1’:
+    'HelpLvl1':
         title: ‘Easy help’
         description: ‘Give a complete line of the solution’
-    'HelpLvl2’:
+    'HelpLvl2':
         title: ‘Medium help’
         description: ‘Give a complete bloc which is easy to find’
-    'HelpLvl3’:
+    'HelpLvl3':
         title: ‘Hard help’
         description: ‘Give a cell which is easy to find’
 stats:

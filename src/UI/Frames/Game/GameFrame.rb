@@ -43,13 +43,13 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		self.signal_connect('size-allocate') do |widget, event|
-			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
 		end
 
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
 		self.show_all
 		self.signal_connect('realize') do
+			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
 			self.checkMap
 		end
 	end
