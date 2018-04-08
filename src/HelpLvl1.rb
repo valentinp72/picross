@@ -24,7 +24,6 @@ class HelpLvl1 < Help
 
 	def apply
 		super()	
-		puts("##############")
 		tabBox = @helper.traitement(@map, 1)
 		tabBox.each do |box|
 			y = box[0]
