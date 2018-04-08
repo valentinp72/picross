@@ -46,6 +46,9 @@ game:
     finish: 'Vous avez fini le niveau'
     finish2: 'Vous avez gagné '
     finish3: ' etoile(s)'
+edu:
+    map1:
+        1: 'La largeur de la ligne n°1 est de 5'
 help:
     available: 'Aides disponnbiles : {{HELPS}}'
     cost: 'Coût : '
@@ -56,6 +59,15 @@ helps:
     'HelpMadeError':
         title: 'Erreur effectuée ?'
         description: 'Remet la grille dans son dernier état sans erreur.'
+    'HelpLvl1':
+        title: 'Aide importante'
+        description: 'Donne une ligne complète de la solution'
+    'HelpLvl2':
+        title: 'Aide moyenne'
+        description: 'Donne un bloc facile à trouver'
+    'HelpLvl3':
+        title: 'Aide simple'
+        description: 'Donne une cellule facile à trouver'
 stats:
     empty: 'Aucune statistiques enregistre'
     player: 'Statistiques du joueur'

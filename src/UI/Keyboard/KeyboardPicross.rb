@@ -20,13 +20,17 @@ class KeyboardPicross
 
 	def updatePosition(posX, posY)
 		@frame.leaveNotify(@posX,@posY)
+		puts "old pos #{@posX},#{@posY}"
 		@posX += posX
 		@posY += posY
+		puts "new pos #{@posX},#{@posY}"
 		@frame.enterNotify(@posX,@posY)
 	end
 
 	def check(event,isPressed, posY, posX)
 		if event.type == Gdk::EventType::KEY_PRESS && !isPressed && @map.grid.validPosition?(posX, posY) then
+			puts self
+			puts "check pos #{posY},#{posX}"
 			return 1
 		elsif  event.type == Gdk::EventType::KEY_RELEASE && isPressed && @map.grid.validPosition?(posX, posY)then
 			return 2

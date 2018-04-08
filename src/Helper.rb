@@ -22,13 +22,17 @@ class Helper
 	# @solver		Solver permettant de résoudre un picross
 
 	# Constructeur
-	def initialize(sol, line, col)
+	def initialize(map)
 
-		@solution = sol
-		# @solution = convert_grid(map.solution)			# si map en parametre au lieu de sol
-		@lines = line
-		@clns = col
-		@solver = Solver.new(sol, line, col)
+		@lines = map.lneSolution
+		@clns = map.clmSolution
+		@solution = Array.new(@lines.size()) do |i|
+			    Array.new(@clns.size()) do |j|
+				cell_to_int(map.solution.cellPosition(i, j))
+			    end
+		end				
+	
+		@solver = Solver.new(@solution, @lines, @clns)
 
 		# Initialisation de la grille
 		@grid = Array.new(@lines.size()) do
@@ -41,11 +45,9 @@ class Helper
 	# renvoie un tableau [[x1,y1,etat1],[x2,y2,etat2],...] indiquant les cases
 	# à colorier/cocher
 	# x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
-	def traitement(user_grid, helpLvl)
+	def traitement(map, helpLvl)
 
-		#userGrid = convert_grid(user_grid)		# si usergrid est une grille de cellule
-		userGrid = user_grid
-	
+		userGrid = convert_grid(map.grid)		# si usergrid est une grille de cellule
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 		if helpLvl==1
 
@@ -144,18 +146,29 @@ class Helper
 
 	# Convertit la grille de cellules finales en grille de solution d'entier
 	def convert_grid(cellGrid)
-		grid = Array.new(5) do
-			Array.new(5) do
+		grid = Array.new(@lines) do
+			Array.new(@clns) do
 				0
 			end
 		end
 		(0...@lines.size()).each do |i|
 			(0...@clns.size()).each do |j|
-				grid[i][j]=1 if cellGrid.cellPosition(i, j).state==CELL_BLACK
-				grid[i][j]=-1 if cellGrid.cellPosition(i, j).state==CELL_CROSSED
+				grid[i][j]=1 if cellGrid.cellPosition(i, j).state==Cell::CELL_BLACK
+				grid[i][j]=0 if cellGrid.cellPosition(i, j).state==Cell::CELL_WHITE
+				grid[i][j]=-1 if cellGrid.cellPosition(i, j).state==Cell::CELL_CROSSED
 			end
 		end
 		return grid
+	end
+
+	# Convertit un etat en un entier
+	def cell_to_int(cell)
+
+		if cell.state==Cell::CELL_BLACK
+			return 1 
+		else
+			return -1
+		end
 	end
 
 	# Convertit un entier représenté sur la grille par 0,-1 ou 1 en un état
@@ -163,8 +176,6 @@ class Helper
 
 		if entier==1
 			return Cell::CELL_BLACK
-		elsif entier.zero?
-			return Cell::CELL_WHITE
 		else
 			return Cell::CELL_CROSSED
 		end
@@ -305,55 +316,51 @@ end
 # c = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
 
 # Grille 5x5 de la feuille
-l = [[3],[1],[3],[2,1],[1,2]]
-c = [[1],[3],[1,2],[2,1],[1,2]]
+#l = [[3],[1],[3],[2,1],[1,2]]
+#c = [[1],[3],[1,2],[2,1],[1,2]]
 
-soluce = Array.new(5) do
-	Array.new(5) do
-		-1
-	end
-end
-soluce[0][2]=1
-soluce[0][3]=1
-soluce[0][4]=1
-soluce[1][3]=1
-soluce[2][0]=1
-soluce[2][1]=1
-soluce[2][2]=1
-soluce[3][1]=1
-soluce[3][2]=1
-soluce[3][4]=1
-soluce[4][1]=1
-soluce[4][3]=1
-soluce[4][4]=1
+#soluce = Array.new(5) do
+#	Array.new(5) do
+#		-1
+#	end
+#end
+#soluce[0][2]=1
+#soluce[0][3]=1
+#soluce[0][4]=1
+#soluce[1][3]=1
+#soluce[2][0]=1
+#soluce[2][1]=1
+#soluce[2][2]=1
+#soluce[3][1]=1
+#soluce[3][2]=1
+#soluce[3][4]=1
+#soluce[4][1]=1
+#soluce[4][3]=1
+#soluce[4][4]=1
 
-user = Array.new(5) do
-	Array.new(5) do
-		0
-	end
-end
+#user = Array.new(5) do
+#	Array.new(5) do
+#		0
+#	end
+#end
 
-user[0][2]=1
-user[1][0]=-1
-user[1][1]=-1
-user[1][2]=-1
+#user[0][2]=1
+#user[1][0]=-1
+#user[1][1]=-1
+#user[1][2]=-1
 #user[1][3]=1
-user[1][4]=-1
-user[2][1]=1
-user[2][2]=1
-user[3][0]=-1
-user[3][1]=1
-user[3][2]=1
-user[3][3]=-1
-user[3][4]=1
-user[4][2]=-1
-user[4][3]=1
+#user[1][4]=-1
+#user[2][1]=1
+#user[2][2]=1
+#user[3][0]=-1
+#user[3][1]=1
+#user[3][2]=1
+#user[3][3]=-1
+#user[3][4]=1
+#user[4][2]=-1
+#user[4][3]=1
 
-test = Helper.new(soluce, l, c)
-tab = test.traitement(user, 2)
-print tab
-puts("")
-
-# Memo a faire :
-# refactoriser le code avec codeclimate (en cours)
-# commentaires mieux organisés + en anglais + code en anglais
+#test = Helper.new(soluce, l, c)
+#tab = test.traitement(user, 2)
+#print tab
+#puts("")

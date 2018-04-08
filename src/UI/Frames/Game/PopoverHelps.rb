@@ -2,6 +2,9 @@ require_relative '../../GridCreator'
 require_relative '../../ButtonCreator'
 
 require_relative '../../../HelpMadeError'
+require_relative '../../../HelpLvl1'
+require_relative '../../../HelpLvl2'
+require_relative '../../../HelpLvl3'
 
 require_relative 'Popover'
 
@@ -32,6 +35,9 @@ class PopoverHelps < Popover
 		helpers = []
 
 		helpers << HelpMadeError.new(@frame.map, @frame.user)
+		helpers << HelpLvl1.new(@frame.map, @frame.user)
+		helpers << HelpLvl2.new(@frame.map, @frame.user)
+		helpers << HelpLvl3.new(@frame.map, @frame.user)
 
 		return helpers
 	end
@@ -86,7 +92,7 @@ class PopoverHelps < Popover
 	def btn_useHelp_clicked(help)
 		help.apply
 		@frame.updateGrid
-		self.popdown
+		self.hide
 	end
 
 end

@@ -145,13 +145,13 @@ class SideBarGameFrame < Frame
 
 	def btn_help_clicked
 		@helpers.update
-		@helpers.popup
+		@helpers.show
 	end
 
 	def btn_hypotheses_clicked
 		if self.checkMap then
 			@popover.update
-			@popover.popup
+			@popover.show
 		end
 	end
 

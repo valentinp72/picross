@@ -21,8 +21,7 @@ class Solver
 	#Constructeur
 	def initialize(sol, line, col)
 		
-		@solution = sol
-		# @solution = convert_grid(map.solution)			# si map en parametre au lieu de sol
+		@solution = sol		
 		@lines = line
 		@clns = col
 		
