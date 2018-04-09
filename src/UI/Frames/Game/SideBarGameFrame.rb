@@ -192,9 +192,8 @@ class SideBarGameFrame < Frame
 			@map.allStat.each do |stat|
 				totalFinished += 1 if stat.isFinished == true
 			end
-			puts "tot : #{totalFinished}"
-			if totalFinished == 1 then
-				puts "OK ca add"
+
+			if totalFinished == 1 && !@map.currentStat.givenHelp then
 				@user.addHelp(2)
 			end
 
