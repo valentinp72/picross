@@ -32,6 +32,9 @@ class Grid
 	# Exception when trying to resize a Grid with an invalid size
 	class InvalidResizeSizeException < StandardError; end
 
+	# Exception when trying to create grid from text but the grid is not valid
+	class InvalidGridException < StandardError; end
+
 	##
 	# Create a grid of size line x columns
 	# * *Arguments* :
@@ -314,7 +317,7 @@ class Grid
 	end
 
 	##
-	# Replace all the states in the grid that are corresponding to 
+	# Replace all the states in the grid that are corresponding to
 	# the old given state by the new one.
 	# * *Arguments* :
 	#   - +oldState+ -> the old cells state to replace
@@ -360,14 +363,14 @@ class Grid
 	#   - InvalidResizeSizeException if given lines and columns are bigger than currently
 	def limit(lines, columns)
 		if lines > @lines then
-			raise InvalidResizeSizeException, "cannot limit lines #{@lines} to #{lines}" 
+			raise InvalidResizeSizeException, "cannot limit lines #{@lines} to #{lines}"
 		elsif columns > @columns then
 			raise InvalidResizeSizeException, "cannot limit columns #{@columns} to #{columns}"
 		end
 
 		linesToRm = @lines - lines
 		colmsToRm = @columns - columns
-		
+
 		@grid.pop(linesToRm)
 		@grid.each do |line|
 			line.pop(colmsToRm)
@@ -379,7 +382,7 @@ class Grid
 
 	##
 	# Augment the size of this grid to the given one.
-	# All the new cells will have the same hypothesis as the cell in the 
+	# All the new cells will have the same hypothesis as the cell in the
 	# position [0,0] in this grid.
 	# * *Arguments* :
 	#   - +lines+ -> the new number of lines in this grid
@@ -390,7 +393,7 @@ class Grid
 	#   - InvalidResizeSizeException if given lines and columns are smaller than currently
 	def grow(lines, columns)
 		if lines < @lines then
-			raise InvalidResizeSizeException, "cannot grow lines #{@lines} to #{lines}" 
+			raise InvalidResizeSizeException, "cannot grow lines #{@lines} to #{lines}"
 		elsif columns < @columns then
 			raise InvalidResizeSizeException, "cannot grow columns #{@columns} to #{columns}"
 		end
@@ -470,6 +473,18 @@ class Grid
 			end
 		end
 		return i
+	end
+
+	def Grid.createFromText(sring)
+		lines = string.split(' ')
+		unless(lines.select{|line| line.length}.uniq.length == 1) then
+			raise InvalidGridException
+		else
+			grid = Grid.new(lines.length,lines[0].length, Hypothesis::SOLUTION_HYPOTHESIS)
+			grid.each_cell_with_index do |cell,i,j|
+				cell.state = Cell.toState(lines[i][j])
+			end
+		end
 	end
 
 	##

@@ -18,13 +18,15 @@ class Solver
 	# @grid 		int[][]	0 : case indéterminée, -1 : case cochée, 1 : case coloriée
 	# @solution 	grille contenant la solution finale du picross
 
+	attr_reader :lines
+
 	#Constructeur
 	def initialize(sol, line, col)
 		
 		@solution = sol		
 		@lines = line
 		@clns = col
-		
+
 		# Initialisation de la grille
 		@grid = Array.new(@lines.size()) do
 			Array.new(@clns.size()) do
@@ -46,7 +48,7 @@ class Solver
 		
 		# On coche les cases impossibles (on les met à -1)
 		self.cochergrille()
-		
+
 		# On remplit les cases
 		(0...@clns.size()).each do |i|
 			self.traiterrange(i, "column")
@@ -67,6 +69,14 @@ class Solver
 		else
 			@solution
 		end
+	
+		#puts("###############################")
+		#puts numl
+		#puts numc
+		#puts range
+		#print grid
+		#puts("")
+
 
 		if range.eql?("column")
 			return grid[numc][numl]
@@ -91,16 +101,15 @@ class Solver
 	def cochergrille()
 
 		(0...@lines.size()).each do |i|
-
 			self.coche_case_indeter(i, "line") if self.cpt_color(i, "line")
 			self.coche_case_impossible(i, "line")
 		end
 
 		(0...@clns.size()).each do |i|
-
 			self.coche_case_indeter(i, "column") if self.cpt_color(i, "column")
 			self.coche_case_impossible(i, "column")
 		end
+
 	end
 	
 	# Renvoit vrai si le nombre de case coloriée sur une range
@@ -116,7 +125,7 @@ class Solver
 			taille=@clns.size()
 			tabTemp=@lines
 		end
-
+		
 		# Calcul nombre de cases dans la range
 		(0...taille).each do |i|
 			cpt += 1 if self.get_grid("grid", num, i, range)==1
@@ -126,7 +135,7 @@ class Solver
 		(0...tabTemp[num].size()).each do |i|
 			cpt2 += tabTemp[num][i]
 		end
-
+			
 		unless cpt == cpt2
 			return false
 		else
@@ -192,8 +201,7 @@ class Solver
 			end
 		end
 
-		extremite(num, "column")
-		extremite(num, "line")
+		extremite(num, range)
 	end
 
 	# Calcul et renvoi la première possibilité du placement des indices
@@ -292,7 +300,7 @@ class Solver
 
 	# Extrémités du plateau
 	def extremite(num, range)
-
+	
 		if range.eql?("column")   # pour une colonne
 			taille = @lines.size()
 			tabindice=@clns
@@ -310,6 +318,7 @@ class Solver
 		
 		j=0
 		j+=1 while (get_grid("grid", num, j, range)==-1) && (j<(taille-1))
+
 		if get_grid("grid", num, j, range)==1
 			fin = tabindice[num][0]+j
 			fin = taille-1 if fin>taille-1

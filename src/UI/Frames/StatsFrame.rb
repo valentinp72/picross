@@ -135,12 +135,12 @@ class StatsFrame < Frame
 					totalClick += stat.nbClick
 					totalTime += stat.time.elapsedSeconds
 					totalHelp += stat.usedHelp
-					totalStar += stat.numberOfStars
+
 					totalFinished += 1 if stat.isFinished == true
 				end
 			end
 		end
-		return [totalClick, totalTime, totalHelp ,totalStar, totalFinished]
+		return [totalClick, totalTime, totalHelp , totalFinished]
 	end
 
 	def createGlobalButton(user)
@@ -151,9 +151,9 @@ class StatsFrame < Frame
 			reset(@listbox)
 			removePlayerScrollHeader()
 
-			totalClick, totalTime, totalHelp ,totalStar, totalFinished = calculateGlobalStat(user)
+			totalClick, totalTime, totalHelp , totalFinished = calculateGlobalStat(user)
 
-			createGlobalScroll(@lang["stats"]["global"]["stars"], totalStar.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["stars"], user.totalStars.to_s)
 			createGlobalScroll(@lang["stats"]["global"]["time"], totalTime.to_s)
 			createGlobalScroll(@lang["stats"]["global"]["help"], totalHelp.to_s)
 			createGlobalScroll(@lang["stats"]["global"]["click"], totalClick.to_s)

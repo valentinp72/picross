@@ -190,10 +190,10 @@ class SideBarGameFrame < Frame
 
 			self.terminate
 			return false
-		else
-			@hypotheses.sensitive = true 
-			@pause.sensitive      = true 
-			@help.sensitive       = true 
+		elsif !@map.currentStat.isFinished then
+			@hypotheses.sensitive = true
+			@pause.sensitive      = true
+			@help.sensitive       = true
 			return true
 		end
 	end
@@ -206,7 +206,7 @@ class SideBarGameFrame < Frame
 
 		message = @user.lang["game"]["finish"]
 		dialog = Gtk::MessageDialog.new(
-			:parent       => @frame.parent, 
+			:parent       => @frame.parent,
 			:flags        => :destroy_with_parent,
 			:type         => :info,
 			:buttons_type => :close,
