@@ -188,6 +188,16 @@ class SideBarGameFrame < Frame
 			@pause.sensitive      = false
 			@help.sensitive       = false
 
+			totalFinished = 0
+			@map.allStat.each do |stat|
+				totalFinished += 1 if stat.isFinished == true
+			end
+			puts "tot : #{totalFinished}"
+			if totalFinished == 1 then
+				puts "OK ca add"
+				@user.addHelp(2)
+			end
+
 			self.terminate
 			return false
 		elsif !@map.currentStat.isFinished then
