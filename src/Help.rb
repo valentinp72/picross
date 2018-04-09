@@ -22,11 +22,12 @@ class Help
 		@cost = cost
 	end
 
-	def apply
+	def apply(value)
 		@map.currentStat.useHelp
 		begin
 			puts "enough"
-			@user.removeHelp(HELP_COST)
+			puts value
+			@user.removeHelp(value/30)
 		rescue User::NegativeAmountException
 			puts "not enough"
 			@map.currentStat.penalty.addPenalty(@cost)
