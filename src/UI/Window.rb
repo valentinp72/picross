@@ -30,20 +30,34 @@ class Window < Gtk::ApplicationWindow
 		return false
 	end
 
-	def setKeyListener(keyValue, method)
-		@bindings[keyValue] = method
+	def setKeyListener(keyValue, pressMethod: nil, releaseMethod: nil)
+		if pressMethod != nil then
+			@keysPress[keyValue] = pressMethod
+		end
+		if releaseMethod != nil then
+			@keysRelease[keyValue] = releaseMethod
+		end
 	end
 
 	def unsetKeyListener(keyValue)
-		@bindings.delete(keyValue)
+		@keysPress.delete(keyValue)
+		@keysRelease.delete(keyValue)
 	end
 
 	def keyListener()
-		@bindings = Hash.new
-		self.add_events(Gdk::EventMask::KEY_PRESS_MASK)
+		@keysPress   = Hash.new
+		@keysRelease = Hash.new
+		self.add_events(Gdk::EventMask::KEY_PRESS_MASK |
+		                Gdk::EventMask::KEY_RELEASE_MASK)
+
 		self.signal_connect("key-press-event") do |w, e|
-			if @bindings.has_key?(e.keyval) then
-				@bindings[e.keyval].call()
+			if @keysPress.has_key?(e.keyval) then
+				@keysPress[e.keyval].call()
+			end
+		end
+		self.signal_connect("key-release-event") do |w, e|
+			if @keysRelease.has_key?(e.keyval) then
+				@keysRelease[e.keyval].call()
 			end
 		end
 	end

@@ -23,6 +23,7 @@ class PicrossFrame < Frame
 	attr_reader :grid
 	attr_reader :cells
 	attr_reader :user
+	attr_reader :drag
 
 	attr_accessor :keyboard
 
