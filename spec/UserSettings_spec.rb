@@ -19,27 +19,27 @@ describe UserSettings do
 	end
 
 	it "change bind value" do
-		userSettings.changeKeyBoardValue(50,0)
-		expect(userSettings.keyboardUp).to eq 50
+		userSettings.changeKeyBoardValue(50, "up")
+		expect(userSettings.picrossKeys["up"]).to eq 50
 
-		userSettings.changeKeyBoardValue(51,1)
-		expect(userSettings.keyboardDown).to eq 51
+		userSettings.changeKeyBoardValue(51, "down")
+		expect(userSettings.picrossKeys["down"]).to eq 51
 
-		userSettings.changeKeyBoardValue(52,2)
-		expect(userSettings.keyboardLeft).to eq 52
+		userSettings.changeKeyBoardValue(52, "left")
+		expect(userSettings.picrossKeys["left"]).to eq 52
 
-		userSettings.changeKeyBoardValue(53,3)
-		expect(userSettings.keyboardRight).to eq 53
+		userSettings.changeKeyBoardValue(53, "right")
+		expect(userSettings.picrossKeys["right"]).to eq 53
 
-		userSettings.changeKeyBoardValue(54,4)
-		expect(userSettings.keyboardClickLeft).to eq 54
+		userSettings.changeKeyBoardValue(54, "click-left")
+		expect(userSettings.picrossKeys["click-left"]).to eq 54
 
-		userSettings.changeKeyBoardValue(55,5)
-		expect(userSettings.keyboardClickRight).to eq 55
+		userSettings.changeKeyBoardValue(55, "click-right")
+		expect(userSettings.picrossKeys["click-right"]).to eq 55
 	end
 
 	it "change unexisting bind value" do
-		expect{userSettings.changeKeyBoardValue(99,8)}.to raise_error(UserSettings::InvalidBindException)
+		expect{userSettings.changeKeyBoardValue(19, "helloworld")}.to raise_error(UserSettings::InvalidBindException)
 	end
 
 	it "change hypothesis color" do
@@ -49,7 +49,10 @@ describe UserSettings do
 
 	it "check if it's a valid color" do
 		expect(userSettings.validColor? "#000000").to eq true
+		expect(userSettings.validColor? "#aa1401").to eq true
 		expect(userSettings.validColor? "#zzzzzz").to eq false
+		expect(userSettings.validColor? "aa1401").to  eq false
+		expect(userSettings.validColor? "helloworld").to eq false
 	end
 
 end

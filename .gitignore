@@ -80,3 +80,5 @@ build-iPhoneSimulator/
 *.synctex.gz
 *.toc
 *.out
+
+*.chp
