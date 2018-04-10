@@ -49,7 +49,7 @@ class LearningMap < Map
 	#   - +map+ -> the Map to create an learning map from
 	# * *Returns* :
 	#   - a freshly created Learning
-	def LearningMap.new_from_map(map,filename)
+	def LearningMap.new_from_map(map)
 		return LearningMap.new(
 				map.name,
 				map.timeToDo,
