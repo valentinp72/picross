@@ -127,7 +127,6 @@ class Learning < Map
 				self.finish
 				return true
 			end
-		else
 			self.nextStage
 			return false
 		end
