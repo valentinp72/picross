@@ -23,13 +23,19 @@ class HelpLvl2 < Help
 	end
 
 	def apply
-		super()	
-		tabBox = @helper.traitement(@map, 2)
-		tabBox.each do |box|
-			y = box[0]
-			x = box[1]
-			stat = box[2]
-			@map.grid.cellPosition(y, x).state=(stat)
+		if(!@map.hasError? && !@map.shouldFinish?)
+			super()	
+			tabBox = @helper.traitement(@map, 2)
+			tabBox.each do |box|
+				y = box[0]
+				x = box[1]
+				stat = box[2]
+				@map.grid.cellPosition(y, x).state=(stat)
+			end
+			@map.check
+			return 0
+		else 
+			return 1
 		end
 	end
 
