@@ -29,10 +29,10 @@ class ChaptersCreator
 
 	# Exception when the config file does not exists.
 	class ConfigFileNotFoundException < StandardError; end
-	
+
 	# Exception when there is a syntax error inside the config file
 	class ConfigFileSyntaxException < StandardError; end
-	
+
 	##
 	# Main program, this class method will be executed when the
 	# file ChaptersCreator.rb is executed.
@@ -60,7 +60,7 @@ class ChaptersCreator
 	end
 
 	def ChaptersCreator.createChapter(chapterName, values, outputFolder)
-		stars  = ChaptersCreator.getFromHash(values[0], "stars")  
+		stars  = ChaptersCreator.getFromHash(values[0], "stars")
 		links  = ChaptersCreator.getFromHash(values[1], "links")
 #puts links
 		levels = Array.new()
@@ -86,7 +86,9 @@ class ChaptersCreator
 					when "timeToDo"
 						newMap.timeToDo = optionValue
 					when "evolving"
-						newMap = EvolvingMap.new_from_map(newMap)	
+						newMap = EvolvingMap.new_from_map(newMap)
+					when "learning"
+						newMap = LearningMap.new_from_map(newMap)
 				end
 			end
 		end
@@ -96,7 +98,7 @@ class ChaptersCreator
 
 	def ChaptersCreator.getFromHash(element, neededKey)
 		if not element.kind_of?(Hash) then
-			raise ConfigFileSyntaxException.new "Waiting for a Hash" 
+			raise ConfigFileSyntaxException.new "Waiting for a Hash"
 		end
 		if not element.has_key?(neededKey) then
 			raise ConfigFileSyntaxException.new "Waiting for #{neededKey} inside the Hash"
@@ -105,7 +107,7 @@ class ChaptersCreator
 	end
 
 	##
-	# Get all the program arguments. The program exit 
+	# Get all the program arguments. The program exit
 	# if the program usage is not correct.
 	# * *Returns* :
 	#   - An Hash, containing arguments and options:
@@ -131,7 +133,6 @@ class ChaptersCreator
 
 		return arguments
 	end
-
 end
 
 # Only execute it when it's called from command line
