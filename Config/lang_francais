@@ -48,7 +48,7 @@ game:
     finish3: ' etoile(s)'
 edu:
     chicken:
-        1: 'La ligne 2 comporte deux groupes de deux cases. Or la largeur de la ligne est de 5. On est donc certain d''avoir deux cases noires puis une blanche puis deux noires'
+        1: 'La ligne 2 comporte deux groupes de deux cases. Or la largeur de la ligne est de 5. On est donc certain d''avoir deux cases noires puis une blanche puis deux noires.'
         2: 'La colonne du milieu est composée d''un groupe de 3. On sait donc ou les placer car la ligne 2 est complète'
         3: 'On en déduit donc la position de la deuxieme colonne'
         4: 'On peut finir le picross'
