@@ -160,7 +160,7 @@ class LearningMap < Map
 	#   - the language converted to Hashs
 	def loadConf(filename)
 		# set path to config file folder
-		path = File.dirname(__FILE__) + "/../Users/Default/learning"
+		path = File.dirname(__FILE__) + "/../Users/Default/learning/"
 		# Retrieve associated language config file
 		configFile = File.expand_path(path + filename + ".yaml")
 		if not File.file?(configFile) then
