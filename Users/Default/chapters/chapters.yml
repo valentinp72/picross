@@ -1,3 +1,10 @@
+'Learning':
+    - stars: 0
+    - links:
+        - "http://www.nonograms.org/nonograms/i/6538":  # Chicken 5x5
+            - timeToDo: 400
+            - learning : true
+
 'Animals':
     - stars: 0
     - links:
