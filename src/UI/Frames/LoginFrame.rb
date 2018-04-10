@@ -24,10 +24,10 @@ class LoginFrame < Frame
 
 		@currentLanguage = language
 		@lang = User.loadLang(language)
-		
+
 		self.reset
 	end
-	
+
 	def reset
 		self.children.each do |child|
 			self.remove(child)
@@ -55,16 +55,16 @@ class LoginFrame < Frame
 		# Add a button to create a new user
 		@createBtn = ButtonCreator.main(
 				:name    => @lang["login"]["new"],
-				:clicked => :btn_newAccount_clicked, 
+				:clicked => :btn_newAccount_clicked,
 				:parent  => self,
 		)
-		
+
 		# Add a login button
 		@loginBtn = ButtonCreator.main(
 				:name    => @lang["login"]["login"],
 				:clicked => :btn_login_clicked,
-				:parent  => self, 
-		) 
+				:parent  => self,
+		)
 
 		return [@userSelection, @createBtn, @loginBtn]
 	end
@@ -102,7 +102,6 @@ class LoginFrame < Frame
 		@lang = User.loadLang(newLanguage)
 		@currentLanguage = newLanguage
 		self.reset
-		puts newLanguage
 	end
 
 end
