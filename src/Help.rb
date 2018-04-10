@@ -26,7 +26,6 @@ class Help
 		@map.currentStat.useHelp
 		begin
 			puts "enough"
-			puts value
 			@user.removeHelp(value/30)
 		rescue User::NegativeAmountException
 			puts "not enough"
