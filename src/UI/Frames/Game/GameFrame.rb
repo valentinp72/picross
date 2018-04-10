@@ -27,6 +27,10 @@ class GameFrame < Frame
 	# The main layout of this frame
 	attr_reader :content
 
+	attr_reader :user
+
+	attr_reader :map
+
 	##
 	# Create a new frame that shows the game
 	# * *Arguments* :
@@ -43,13 +47,13 @@ class GameFrame < Frame
 		self.createMainLayout
 
 		self.signal_connect('size-allocate') do |widget, event|
+			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
 		end
 
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
 		self.show_all
 		self.signal_connect('realize') do
-			self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
 			self.checkMap
 		end
 	end
@@ -101,11 +105,27 @@ class GameFrame < Frame
 	#   - the Gtk::Box containing the content
 	def createContentLayout()
 		@content = Gtk::Box.new(:horizontal)
-		@picross = PicrossFrame.new(@map, @grid, @user, self)
+		if @map.learning? then
+			@mainContent = createUnderContentLayout()
+		else
+			@picross = PicrossFrame.new(@map, @grid, @user, self)
+			@mainContent = @picross
+		end
 		@sideBar = SideBarGameFrame.new(self, @user, @picross, @map, @grid)
 
-		@content.pack_start(@picross, :expand => true, :fill => true)
+		@content.pack_start(@mainContent, :expand => true, :fill => true)
 		@content.pack_start(@sideBar.sideBar)
+
+		return @content
+	end
+
+	def createUnderContentLayout()
+		@content = Gtk::Box.new(:vertical)
+		@picross = PicrossFrame.new(@map, @grid, @user, self)
+		@learningText = Label.new()
+
+		@content.pack_start(@picross, :expand => true, :fill => true)
+		@content.pack_start(@learningText)
 
 		return @content
 	end
@@ -170,4 +190,8 @@ class GameFrame < Frame
 		@sideBar.checkMap
 	end
 
+	def updateLearningText
+		if(@map.learning?) then
+			@learningText.text = @user.["edu"][@map.name][@map.currentStage]
+		end
 end
