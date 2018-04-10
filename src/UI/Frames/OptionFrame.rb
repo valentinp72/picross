@@ -139,7 +139,7 @@ class OptionFrame < Frame
 	def closeOrComeBackToHome(user)
 		if self.parent.mainWindow? then
 #self.parent.setFrame(HomeFrame.new(user))
-			@redirectFrame.draw
+#	@redirectFrame.draw
 			self.parent.setFrame(@redirectFrame)
 		else
 			self.parent.close
