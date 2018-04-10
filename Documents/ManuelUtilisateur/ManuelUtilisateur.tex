@@ -131,9 +131,11 @@
 
             Le but du Picross est de noircir les cases d'une grille de jeu, afin de faire apparaître une image, un dessin... Ceci à l'aide des indices se situant en marge de la grille.
             
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{exempleGrille.png}}
-% 			\end{minipage}
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{exempleGrille.png}
+			        \captionof{figure}{Exemple de grille de jeu.}
+	        \end{minipage}
 
 		\section{Les cases à noircir}
     
@@ -145,30 +147,37 @@
 	        
 	        Ainsi, une grille possédant un nombre 5 devant une ligne ou une colonne indique qu'il y a 5 cases consécutives à noircir.
 	        
-	        Une grille possédant la séquence de nombre 2 3 devant une ligne ou une colonne indique qu'il y a un block de 2 cases à noircir, suivis d'au moins une case vide, puis un block de 3 cases à noircir.
-	  
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{exempleIndice.png}}
-% 			\end{minipage}
-	       
+	        Une grille possédant la séquence de nombre 2 2 devant une ligne ou une colonne indique qu'il y a un block de 2 cases à noircir, suivis d'au moins une case vide, puis un block de 2 cases à noircir.
+
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{exempleIndice.png}
+			        \captionof{figure}{Exemple d'indices d'une grille.}
+	        \end{minipage}
 
 		\section{Les cases faciles à noircir}
 
             Certaines astuces permettent de repérer les cases faciles à noircir, en voici quelques unes :
             \begin{itemize}
-                \item Prenons par exemple un indice valant 10 sur une ligne d'une grille 10x10. Cela signifie que toutes les cases de la ligne en question sont à noircir.
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{ligneExemple1.png}}
-% 			\end{minipage}
+                \item Prenons par exemple un indice valant 10 sur une ligne d'une grille 10x10. Cela signifie que toutes les cases de la ligne en question sont à noircir.\\
+                \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{ligneExemple1.png}
+			        \captionof{figure}{Exemple d'indices d'une grille.}
+	            \end{minipage}
                 \item Prenons maintenant l'exemple d'une ligne ou une colonne dont l'indice est 3, et la première case est déjà noircie. Cela signifie que les cases à noircir sont obligatoirement les 3 premières.
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{ligneExemple2.png}}
-% 			\end{minipage}
+        %         \begin{minipage}{\linewidth}
+        %             \centering
+			     %   \includegraphics[width=8cm]{ligneExemple2.png}
+			     %   \captionof{figure}{Exemple d'indices d'une grille.}
+	       %     \end{minipage}
                 \item Un dernier exemple : nous avons une grille 10x10, l'indice d'une des ligne vaut 7. On peut dans ce cas noircir les 4 cases centrales, ces cases seront noircies quelque soit la solution de cette ligne. Cette astuce fonctionne dès qu'une ligne ou une colonne possède un indice unique, supérieur à la moitié du nombre de cases de la ligne ou de la colonne en question.
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{ligneExemple3.png}}
-% 			\end{minipage}
-            \end{itemize}
+            %     \begin{minipage}{\linewidth}
+            %             \centering
+    			     %   \includegraphics[width=8cm]{ligneExemple3.png}
+    			     %   \captionof{figure}{Exemple d'indices d'une grille.}
+    	       %     \end{minipage}
+                \end{itemize}
 
 
 		\section{Les cases à éliminer}
@@ -177,9 +186,11 @@
             
             Par exemple, les cases restantes d'une ligne contenant 5 cases à noircir, que vous avez déjà trouvées, sont à éliminer.
 
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{ligneExemple4.png}}
-% 			\end{minipage}
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{ligneExemple4.png}
+			        \captionof{figure}{Exemple d'indices d'une grille.}
+	        \end{minipage}
 
 
 
@@ -198,9 +209,11 @@
             \item L'anglais.
         \end{itemize}
         
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{screenMenuCo.png}}
-% 			\end{minipage}
+        \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=6.5cm]{screenMenuCo.png}
+			        \captionof{figure}{Écran de connexion.}
+	    \end{minipage}
 
 	\section{Menu d'accueil}
 
@@ -219,9 +232,11 @@
             \item Le bouton "Quitter" permettant de fermer l'application.
         \end{itemize}
 
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{screenMenuJeu.png}}
-% 			\end{minipage}
+        \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=7cm]{screenMenuJeu.png}
+			        \captionof{figure}{Écran du menu de jeu.}
+	    \end{minipage}
 
 
 	\section{Jeu}
@@ -234,13 +249,22 @@
             
             Un chapitre est un regroupement thématique de plusieurs grilles. Ainsi le premier chapitre "Animaux" sera composé uniquement d'images liées aux animaux. 
             
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{screenChoixChapitre.png}}
-% 			\end{minipage}
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=7cm]{screenChoixChapitre.png}
+			        \captionof{figure}{Écran du choix de chapitre.}
+	        \end{minipage}
             
         \subsection{Déroulement d'une partie}
         
             Lorsque vous avez sélectionné la grille sur laquelle vous voulez jouer, une nouvelle interface apparaît. 
+            
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{imageGrilleJeu.png}
+			        \captionof{figure}{Écran de jeu.}
+	        \end{minipage}
+            
             Vous pouvez ainsi y retrouver :
             \begin{itemize}
                 \item La grille de jeu.
@@ -249,20 +273,24 @@
                 Le clique droit quant à lui permet de "cocher" une case que vous pensez fausse, afin de rendre la grille plus lisible. Le clique droit enfoncé permet également de sélectionner plusieurs cases.
                 
                 Il est également possible de jouer à l'aide du clavier, les touches étant modifiables -
-                \item Trois timers : 
+                \item Trois chronomètres : 
                 \begin{itemize}
                     \item Le premier étant le temps mis pour résoudre la grille en cours,
                     \item Le deuxième, le temps de pénalité, lié aux aides, qui sera cumulé au temps total à la résolution de la grille,
                     \item Le dernier, le temps mis pour réaliser la grille, par rapport au temps estimé.
                 \end{itemize}
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{imageTimers.png}}
-% 			\end{minipage}
+                \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{screenTimer.png}
+			        \captionof{figure}{Chronomètres.}
+	            \end{minipage}
                 \item Un bouton permettant de recommencer la grille
-                \item Un bouton de pause. Une fois le jeu mis en pause, le chronomètre est arrêté et la grille cachée. Vous pouvez à tout moment reprendre la partie, la grille réapparaîtra et le chronomètre se reprendra.
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{imagePause.png}}
-% 			\end{minipage}
+                \item Un bouton de pause. Une fois le jeu mis en pause, le chronomètre est arrêté et la grille cachée. Vous pouvez à tout moment reprendre la partie, la grille réapparaîtra et le chronomètre se reprendra.\\
+                \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{imagePause.png}
+			        \captionof{figure}{Écran de pause.}
+	            \end{minipage}
                 \item Un bouton pour activer le système d'hypothèses :
                 Les hypothèses vous permettent, lorsque vous n'êtes pas sûr de vous, de sélectionner certaines cases, qui s'afficheront d'une couleur différente. Vous pouvez à tout moment décider de valider ou supprimer l'hypothèse entamée. Dans le premier cas, les cases sélectionnées seront noircies. Dans le second cas, les cases seront dé-sélectionnées.
                 
@@ -273,30 +301,37 @@
                     \item Suivons le même exemple, mais vous souhaitez valider les hypothèses oranges. Dans ce cas ci, les 2 sortes d'hypothèses seront validées.
                     \item Vous pouvez à tout moment cumuler les 4 sortes d'hypothèses.
                 \end{itemize}
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{imageHypothèses.png}}
-% 			\end{minipage}                
-                \item Le bouton d'aide qui apporte une solution partielle en fonction de la difficulté du niveau. Cela peut être :
+        %         \begin{minipage}{\linewidth}
+        %             \centering
+			     %   \includegraphics[width=8cm]{imageHypothèses.png}
+			     %   \captionof{figure}{Hypothèses.}
+	       %     \end{minipage}             
+                \item Le bouton d'aide qui permet de débloquer le jouer, ceci de différentes manières, telles que :
                 \begin{itemize}
                     \item Un renvoi au dernier état de la grille sans erreurs,
-                    \item La révélation d'une ligne incomplète (niveau facile)
-                    \item La révélation d'un certain groupe de cases (niveau moyen)
-                    \item La révélation d'un case (niveau difficile)
+                    \item La révélation d'une ligne incomplète (aide importante)
+                    \item La révélation d'un certain groupe de cases (aide moyenne)
+                    \item La révélation d'un case (aide simple)
                 \end{itemize}
+                En finissant des grilles, vous pouvez gagner des "aides gratuites". Ces aides sont consommées à chaque fois que vous que vous utilisez une aide particulière.
+                Lorsque vous ne possédez plus d'aides gratuites, vous avez tout de même la possibilité d'utiliser ce système contre une pénalité de temps qui s'ajoutera au chronomètre final.\\
+                \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{imageAide.png}
+			        \captionof{figure}{Liste des aides en jeu.}
+	            \end{minipage}
                 \item Un bouton permettant d'accéder aux paramètres.
             \end{itemize}
-            
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{imageGrilleJeu.png}}
-% 			\end{minipage}
 
         \subsection{Fin d'une partie}
         
             Une partie prend fin lorsque la grille est terminée et correcte. Une fenêtre s'ouvre alors en indiquant le temps mis pour résoudre la grille, ainsi que le nombre d'étoiles obtenues proportionnelles au temps mis.
  
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{imageGrilleFinJeu.png}}
-% 			\end{minipage}          
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{imageGrilleFin.png}
+			        \captionof{figure}{Écran fin de grille.}
+	        \end{minipage}       
             
 	
 	\section{Statistiques}
@@ -315,10 +350,11 @@
                     \item Le nombre de fois qu'il a été terminé.
             \end{itemize}
 		    
-		
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{StatsJoueur.png}}
-% 			\end{minipage}    
+		    \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{StatsJoueur.png}
+			        \captionof{figure}{Statistiques du joueur.}
+	        \end{minipage}
 		
 		\subsection{Statistiques globales}
 
@@ -331,11 +367,11 @@
                     \item Le nombre de parties terminées.
             \end{itemize}
             
-    
-		    
-%           \begin{minipage}{0.4\textwidth}
-% 					\centerline{\includegraphics[width=3cm]{StatsGlobales.png}}
-% 			\end{minipage} 
+            \begin{minipage}{\linewidth}
+                    \centering
+			        \includegraphics[width=8cm]{StatsGlobales.png}
+			        \captionof{figure}{Statistiques globales.}
+	        \end{minipage}
 
 %	``I always thought something was fundamentally wrong with the universe'' \citep{adams1995hitchhiker}	
 		\bibliographystyle{plain}
