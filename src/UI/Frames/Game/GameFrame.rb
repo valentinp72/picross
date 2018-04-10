@@ -124,9 +124,11 @@ class GameFrame < Frame
 		@underContent = Gtk::Box.new(:vertical)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
 		@learningText = Gtk::Label.new(@user.lang["edu"][@map.name.downcase][@map.currentStage])
+		@learningText.width_request=55
+		@learningText.wrap=true
 
 		@underContent.pack_start(@picross, :expand => true, :fill => true)
-		@underContent.pack_start(@learningText)
+		@underContent.pack_start(@learningText,:expand => true, :fill => true)
 
 		@underContent.show_all
 		return @underContent
@@ -196,6 +198,11 @@ class GameFrame < Frame
 	def updateLearningText
 		if(@map.learning?) then
 			@learningText.text = @user.lang["edu"][@map.name.downcase][@map.currentStage]
+		end
+	end
+	def setLearningTextWidth(size)
+		if @learningText != nil then
+			@learningText.width_request=size
 		end
 	end
 end
