@@ -93,6 +93,7 @@ class PopoverHelps < Popover
 
 	def btn_useHelp_clicked(help, value)
 		help.apply(value)
+		@frame.checkMap
 		@frame.updateGrid
 		self.hide
 	end
