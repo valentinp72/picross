@@ -1,3 +1,5 @@
+require_relative 'Setting'
+
 class SettingLanguage < Setting
 
 	def initialize(user)
@@ -24,7 +26,7 @@ class SettingLanguage < Setting
 	##
 	# This function retrieve all available languages
 	def retrieveLanguages()
-		path = File.dirname(__FILE__) + "/../../../Config/"
+		path = File.dirname(__FILE__) + "/../../../../Config/"
 		return Dir.entries(path).select { |f| f.match(/lang\_(.*)/) }.select{ |x| x.slice!(0, 5) }
 	end
 

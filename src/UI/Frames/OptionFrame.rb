@@ -1,7 +1,11 @@
+require_relative '../Frame'
 require_relative 'HomeFrame'
 require_relative 'Game/GameFrame'
 
-require_relative '../Frame'
+require_relative 'Settings/Setting'
+require_relative 'Settings/SettingLanguage'
+require_relative 'Settings/SettingHypothesesColor'
+require_relative 'Settings/SettingKeyboard'
 
 ##
 # File          :: OptionFrame.rb
@@ -92,6 +96,7 @@ class OptionFrame < Frame
 		settings.push(SettingLanguage.new(@user))
 		settings.push(SettingHypothesesColor.new(@user))
 		settings.push(SettingKeyboard.new(@user, self))
+
 		return settings
 	end
 

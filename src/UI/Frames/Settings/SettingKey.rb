@@ -1,3 +1,5 @@
+require_relative 'Setting'
+
 class SettingKey < Setting
 
 	KEY_ESCAPE = 65307 

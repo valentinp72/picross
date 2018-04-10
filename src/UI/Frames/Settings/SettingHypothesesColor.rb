@@ -1,3 +1,5 @@
+require_relative 'Setting'
+require_relative 'SettingHypothesisColor'
 
 class SettingHypothesesColor < Setting
 
