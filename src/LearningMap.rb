@@ -12,7 +12,7 @@ require_relative 'Cell'
 # This class represents an Learning, a Map that grows when the user
 # complet it.
 
-class Learning < Map
+class LearningMap < Map
 
 	# The current stage
 	attr_reader :currentStage
