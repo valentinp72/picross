@@ -2,14 +2,14 @@ require_relative 'Map'
 require_relative 'Cell'
 
 ##
-# File          :: Learning.rb
+# File          :: LearningMap.rb
 # Author        :: BROCHERIEUX Thibault
 # Licence       :: MIT License
 # Creation date :: 04/29/2018
 # Last update   :: 04/29/2018
 # Version       :: 0.1
 #
-# This class represents an Learning, a Map that grows when the user
+# This class represents a LearningMap, a Map that grows when the user
 # complet it.
 
 class LearningMap < Map
@@ -49,7 +49,7 @@ class LearningMap < Map
 	#   - +map+ -> the Map to create an learning map from
 	# * *Returns* :
 	#   - a freshly created Learning
-	def Learning.new_from_map(map,filename)
+	def LearningMap.new_from_map(map,filename)
 		return LearningMap.new(
 				map.name,
 				map.timeToDo,
