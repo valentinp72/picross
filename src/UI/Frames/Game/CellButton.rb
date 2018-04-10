@@ -235,17 +235,16 @@ class CellButton < Gtk::EventBox
 	end
 
 	def clean()
-#self.parent.parent.parent.unsetHover(@picross.keyboard.posX, @picross.keyboard.posY)
-#		@picross.keyboard.posX = @cell.posX
-#		@picross.keyboard.posY = @cell.posY
-#		puts @picross.keyboard
-#		puts "new keyboard value #{@picross.keyboard.posX} #{@picross.keyboard.posY}"
-#		self.setAttributes
+		self.parent.parent.parent.unsetHover(
+				@picross.keyboard.posX, 
+				@picross.keyboard.posY
+		)
+		@picross.keyboard.posX = @cell.posX
+		@picross.keyboard.posY = @cell.posY
 	end
 
 	def enterNotify()
 		self.clean()
-		puts @cell
 		@drag.update(@cell)
 		self.parent.parent.parent.setHover(@cell.posX, @cell.posY)
 		self.setAttributes
@@ -254,6 +253,7 @@ class CellButton < Gtk::EventBox
 	def leaveNotify()
 		self.clean()
 		# il devrait aussi avoir un update ici en principe
+		@drag.update(@cell)
 		self.parent.parent.parent.unsetHover(@cell.posX, @cell.posY)
 		self.setAttributes
 	end

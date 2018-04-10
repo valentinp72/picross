@@ -127,10 +127,10 @@ class Drag
 					@lastCell = cell
 				else
 					@lastCell = cell
-					updateFromTo(@startCell, cell)
+					updateFromTo(@startCell, cell) if @startCell != nil
 				end
 			else
-				unupdateFromTo(@lastCell, cell)
+				unupdateFromTo(@lastCell, cell) if @lastCell != nil
 			end
 			
 			@cursor.setText("#{self.dragLength} (#{self.totalLength})")

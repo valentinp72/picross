@@ -10,21 +10,28 @@
 class KeyboardDrag 
 
 	attr_reader :posX
+	attr_writer :posX
+
 	attr_reader :posY
+	attr_writer :posY
 
 	def initialize(picrossFrame)
 		@picrossFrame = picrossFrame
 
 		@posX = 0
 		@posY = 0
+
+		@keys = ["up", "down", "left", "right", "click-left", "click-right"]
+		@picrossFrame.signal_connect('unrealize') do
+			self.unsetKeys
+		end
+		
 		self.setKeys
 	end
 
 	def setKeys
-		keys      = @picrossFrame.user.settings.picrossKeys
-		keysToAdd = ["up", "down", "left", "right", "click-left", "click-right"]
-
-		keysToAdd.each do |key|
+		keys = @picrossFrame.user.settings.picrossKeys
+		@keys.each do |key|
 			press   = "key_#{key.gsub('-', '_')}_pressed".to_sym
 			release = "key_#{key.gsub('-', '_')}_released".to_sym
 			@picrossFrame.toplevel.setKeyListener(
@@ -32,6 +39,13 @@ class KeyboardDrag
 					:pressMethod   => method(press), 
 					:releaseMethod => method(release)
 			)
+		end
+	end
+
+	def unsetKeys
+		keys = @picrossFrame.user.settings.picrossKeys
+		@keys.each do |key|
+			@picrossFrame.toplevel.unsetKeyListener(keys[key])
 		end
 	end
 

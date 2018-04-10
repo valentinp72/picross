@@ -42,16 +42,14 @@ class GameFrame < Frame
 
 		self.createMainLayout
 
-		self.signal_connect('size-allocate') do |widget, event|
-		end
-
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
 		self.show_all
 		self.signal_connect('realize') do
-#self.parent.addKeyBinding(@picross.keyboard.method(:on_key_press_event))
-#			self.parent.setKeyListener(122, method(:key_z_pressed)) # z
 			self.checkMap
+		end
+		self.signal_connect('unrealize') do
+			@content.destroy
 		end
 	end
 
@@ -160,7 +158,8 @@ class GameFrame < Frame
 
 	def btn_back_clicked
 		self.save
-		self.parent.setFrame(MapFrame.new(@user,@chapter))
+		self.parent.setFrame(MapFrame.new(@user, @chapter))
+		self.destroy
 	end
 
 	def btn_option_clicked
