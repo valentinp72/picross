@@ -1,5 +1,3 @@
-
-
 class Popover < Gtk::Popover
 	
 	def initialize(button)
