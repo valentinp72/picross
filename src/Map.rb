@@ -47,7 +47,7 @@ class Map
 
 	# The user current statistic about this Map
 	attr_reader :allStat
-	
+
 	# The estimated time to resolve the game
 	attr_reader :timeToDo
 	attr_writer :timeToDo
@@ -134,7 +134,7 @@ class Map
 			# never ever ever ever ever forget to put that
 			# if not present, this will double the size of the save at each save
 			@correctSaved = nil
-			
+
 			@correctSaved = Marshal.load(Marshal.dump(self))
 			@correctSaved.currentStat.time.pause
 		# end
@@ -296,7 +296,7 @@ class Map
 
 	end
 
-	## 
+	##
 	# Tells if the map has an error comparing to the solution grid.
 	# * *Returns* :
 	#   - true if the user has made an error, false otherwise
@@ -360,6 +360,14 @@ class Map
 	# * *Returns* :
 	#   - false
 	def evolving?
+		return false
+	end
+
+	##
+	# Returns false, this map is not learning (see LearningMap)
+	# * *Returns* :
+	#   - false
+	def learning?
 		return false
 	end
 

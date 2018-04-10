@@ -57,17 +57,17 @@ class PopoverHelps < Popover
 		title.markup = '<b>' + helpInfo['title'] + '</b>'
 
 		description = Gtk::Label.new(helpInfo['description'])
-		
-		costP = createCostLabel('costPenalty', helper.class::COST_HELP) 
-		costH = createCostLabel('costHelp',    helper.class::HELP_COST) 
+
+		costP = createCostLabel('costPenalty', helper.class::COST_HELP)
+		costH = createCostLabel('costHelp',    helper.class::COST_HELP/30)
 
 		if @frame.user.availableHelps >= helper.class::HELP_COST then
-			useHelp = lang['help']['costHelp'].gsub('{{COST}}', helper.class::HELP_COST.to_s)
+			useHelp = lang['help']['costHelp'].gsub('{{COST}}', (helper.class::COST_HELP/30).to_s)
 		else
 			useHelp = lang['help']['costPenalty'].gsub('{{COST}}', helper.class::COST_HELP.to_s)
 		end
 		useButton = ButtonCreator.main(:name => lang['help']['use'].gsub('{{COST_NAME}}', useHelp))
-		useButton.signal_connect('clicked') { self.btn_useHelp_clicked(helper) }
+		useButton.signal_connect('clicked') { self.btn_useHelp_clicked(helper,helper.class::COST_HELP) }
 
 		helperContent = [title, description, costP, costH, useButton]
 		return GridCreator.fromArray(helperContent, :vertical => true)
@@ -78,7 +78,9 @@ class PopoverHelps < Popover
 		lang = @frame.user.lang['help']
 		name = lang['cost'] + lang[costName].gsub('{{COST}}', value.to_s)
 
-		if costName == 'costHelp' && @frame.user.availableHelps < value then
+		if costName == 'costHelp' && @frame.user.availableHelps < value  ||
+			 costName == 'costPenalty' && @frame.user.availableHelps >= (value / 30)
+			then
 			before = '<span strikethrough="true">'
 			after  = '</span>'
 		end
@@ -88,12 +90,12 @@ class PopoverHelps < Popover
 		cost.markup = before + name + after
 		return cost
 	end
-	
-	def btn_useHelp_clicked(help)
-		help.apply
+
+	def btn_useHelp_clicked(help, value)
+		help.apply(value)
+		@frame.checkMap
 		@frame.updateGrid
 		self.hide
 	end
 
 end
-

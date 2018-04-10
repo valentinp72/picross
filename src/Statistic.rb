@@ -31,6 +31,8 @@ class Statistic
 	attr_reader :isFinished
 	attr_writer :isFinished
 
+	attr_reader :givenHelp
+
 	##
 	# Create a new Statistics object
 	def initialize()
@@ -56,6 +58,7 @@ class Statistic
 		#  2.25 -   - 0.5
 		#  2.5  -  - 0
 		@time.pause
+		@givenHelp = true
 		@isFinished = true
 		timeToDo = 600 if timeToDo == nil or timeToDo == 0
 		ratio = (@time.elapsedSeconds + @penalty.seconds) * 1.0 / (timeToDo * 1.0)
@@ -101,6 +104,7 @@ class Statistic
 	# * *Returns* :
 	#   + the object itself
 	def reset()
+		@givenHelp = false
 		@time.reset
 		@penalty.reset
 		@usedHelp = 0
@@ -130,7 +134,7 @@ class Statistic
 	# * *Returns* :
 	#   - the statistic converted to an array
 	def marshal_dump()
-		return [@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty]
+		return [@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty, @givenHelp]
 	end
 
 	##
@@ -141,7 +145,7 @@ class Statistic
 	# * *Returns* :
 	#   - the statistic object itself
 	def marshal_load(array)
-		@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty = array
+		@time, @usedHelp, @numberOfStars, @isFinished, @nbClick, @penalty, @givenHelp = array
 		return self
 	end
 
