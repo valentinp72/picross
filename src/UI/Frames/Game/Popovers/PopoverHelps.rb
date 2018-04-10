@@ -151,8 +151,8 @@ class PopoverHelps < Popover
 	#   - the object itself
 	def btn_useHelp_clicked(help)
 		help.apply
-		@frame.checkMap
 		@frame.updateGrid
+		@frame.checkMap
 		self.hide
 		return self
 	end
