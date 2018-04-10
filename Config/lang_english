@@ -49,7 +49,7 @@ game:
     finish3: ' star(s)'
 edu:
     chicken:
-        1: 'Line 2 is composed of two groups of two. Line 5's width is 5. We can deduce that we have two black cell followed by one then two black cell'
+        1: 'Line 2 is composed of two groups of two. Line 5''s width is 5. We can deduce that we have two black cell followed by one then two black cell'
         2: 'Middle column is composed of three black cell. We know where to put them because line 2 is finished'
         3: 'We can deduct black cells position on column 2'
         4: 'We can finish picross'
