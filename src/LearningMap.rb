@@ -76,6 +76,7 @@ class LearningMap < Map
 	# * *Returns* :
 	#   - the object itself
 	def nextStage()
+		puts "called"
 		@currentStage += 1
 		@evolved = true
 		return self
@@ -108,8 +109,11 @@ class LearningMap < Map
 		if not self.hasError? then
 			self.saveCorrectMap
 			if !@currentStat.isFinished then
-				if @stage[@currentStage].compare(grid) then
+				if @currentStage == @stage.length - 1 then
 					return true
+				elsif @stage[@currentStage].compare(grid) then
+					self.nextStage
+					return false
 				end
 			end
 		end
@@ -127,7 +131,6 @@ class LearningMap < Map
 			self.finish
 			return true
 		end
-		self.nextStage
 		return false
 	end
 
