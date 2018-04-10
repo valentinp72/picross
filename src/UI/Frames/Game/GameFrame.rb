@@ -48,6 +48,7 @@ class GameFrame < Frame
 
 		@colorsHyp = user.settings.hypothesesColors
 		@isPaused  = false
+
 		self.show_all
 		self.signal_connect('realize') do
 			self.checkMap
@@ -120,14 +121,15 @@ class GameFrame < Frame
 	end
 
 	def createUnderContentLayout()
-		@content = Gtk::Box.new(:vertical)
+		@underContent = Gtk::Box.new(:vertical)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
-		@learningText = Label.new()
+		@learningText = Gtk::Label.new(@user.lang["edu"][@map.name.downcase][@map.currentStage])
 
-		@content.pack_start(@picross, :expand => true, :fill => true)
-		@content.pack_start(@learningText)
+		@underContent.pack_start(@picross, :expand => true, :fill => true)
+		@underContent.pack_start(@learningText)
 
-		return @content
+		@underContent.show_all
+		return @underContent
 	end
 
 	##
@@ -193,7 +195,7 @@ class GameFrame < Frame
 
 	def updateLearningText
 		if(@map.learning?) then
-			@learningText.text = @user.lang["edu"][@map.name.to_s][@map.currentStage.to_s]
+			@learningText.text = @user.lang["edu"][@map.name.downcase][@map.currentStage]
 		end
 	end
 end
