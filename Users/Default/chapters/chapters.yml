@@ -49,7 +49,7 @@
             - timeToDo: 250
         - "http://www.nonograms.org/nonograms/i/6489":  # Tractor 15x15
             - timeToDo: 420
-            
+
 'Sportman':
     - stars: 30
     - links:
@@ -69,8 +69,8 @@
             - timeToDo: 470
         - "http://www.nonograms.org/nonograms/i/10009":  # Boxer 20x20
             - timeToDo: 990
-            
-'Haloween':
+
+'Halloween':
     - stars: 30
     - links:
         - "http://www.nonograms.org/nonograms/i/16909": # Candle 10x12
@@ -89,8 +89,8 @@
             - timeToDo: 1020
         - "http://www.nonograms.org/nonograms/i/13234":  # Ghost 15x15
             - timeToDo: 320
-            
-          
+
+
 #
 # 'Chapter':
 #     - stars:

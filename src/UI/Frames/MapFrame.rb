@@ -97,7 +97,7 @@ class MapFrame < Frame
 		end
 
 		contents << MapPreview.image(map, 40, 40)
-		contents << MapFrame.label(map)
+		contents << MapFrame.label(map, @user)
 		contents << MapFrame.difficultyImages(map.difficulty.to_i)
 
 		return GridCreator.fromArray(contents, :horizontal => true, :xSizes => sizes)
@@ -111,7 +111,7 @@ class MapFrame < Frame
 	#   +map+ -> the Map to get it's name
 	# * *Returns* :
 	#   - a Gtk::Label
-	def MapFrame.label(map)
+	def MapFrame.label(map, user)
 		label = Gtk::Label.new
 		if map.evolving? then
 			before = "<span color='#{EVOLVING_COLOR}'>"
@@ -119,7 +119,11 @@ class MapFrame < Frame
 		end
 		before ||= ""
 		after  ||= ""
-		label.markup = before + map.name + after
+	
+		name = "Map name error for #{map.name}"
+		name = user.lang['maps'][map.name] if user.lang['maps'].include?(map.name)
+
+		label.markup = before + name + after
 		return label
 	end
 
