@@ -1,6 +1,6 @@
 require_relative 'Map'
 require_relative 'EvolvingMap'
-
+require_relative 'LearningMap'
 ##
 # File          :: Chapter.rb
 # Author        :: BROCHERIEUX Thibault
@@ -20,11 +20,11 @@ class Chapter
 	class CorruptedChapterException < StandardError; end
 
 	attr_reader :title
-	
+
 	attr_reader :levels
-	
+
 	attr_reader :starsRequired
-	
+
 	attr_reader :isUnlocked
 
 	##
@@ -60,7 +60,7 @@ class Chapter
 	# * *Returns* :
 	#   - the chapter into a String object
 	def to_s()
-		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}" 
+		return "Chapter : #{@title}, levels : #{@levels}, stars required : #{@starsRequired}"
 	end
 
 	##
