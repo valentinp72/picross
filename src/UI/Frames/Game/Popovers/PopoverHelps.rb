@@ -1,10 +1,10 @@
-require_relative '../../GridCreator'
-require_relative '../../ButtonCreator'
+require_relative '../../../GridCreator'
+require_relative '../../../ButtonCreator'
 
-require_relative '../../../HelpMadeError'
-require_relative '../../../HelpLvl1'
-require_relative '../../../HelpLvl2'
-require_relative '../../../HelpLvl3'
+require_relative '../../../../HelpMadeError'
+require_relative '../../../../HelpLvl1'
+require_relative '../../../../HelpLvl2'
+require_relative '../../../../HelpLvl3'
 
 require_relative 'Popover'
 

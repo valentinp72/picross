@@ -9,8 +9,8 @@ require_relative '../OptionFrame'
 require_relative 'PicrossFrame'
 require_relative 'TimerFrame'
 
-require_relative 'PopoverHypotheses'
-require_relative 'PopoverHelps'
+require_relative 'Popovers/PopoverHypotheses'
+require_relative 'Popovers/PopoverHelps'
 
 class SideBarGameFrame < Frame
 

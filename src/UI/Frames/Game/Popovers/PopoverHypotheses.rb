@@ -1,5 +1,5 @@
-require_relative '../../GridCreator'
-require_relative '../../ButtonCreator'
+require_relative '../../../GridCreator'
+require_relative '../../../ButtonCreator'
 
 require_relative 'Popover'
 
