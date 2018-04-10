@@ -125,7 +125,7 @@ class PopoverHelps < Popover
 		if costName == 'costHelp' then
 			value = helper.costHelps
 		elsif costName == 'costPenalty' then
-			value = helper.costPenalty
+			value = helper.costSeconds
 		end
 
 		if costName == 'costHelp' && @frame.user.availableHelps < helper.costSeconds  ||
