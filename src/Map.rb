@@ -302,8 +302,7 @@ class Map
 	#   - true if the user has made an error, false otherwise
 	def hasError?
 		self.grid.each_cell_with_index do |cell, j, i|
-			sol = @solution.cellPosition(j, i).state
-			if cell.state == Cell::CELL_BLACK && sol != Cell::CELL_BLACK then
+			if @solution.cellPosition(j, i).compare(cell) != true then
 				return true
 			end
 		end
