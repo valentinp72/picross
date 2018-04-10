@@ -120,7 +120,7 @@ class MapFrame < Frame
 		before ||= ""
 		after  ||= ""
 	
-		name = "Map name error for #{map.name}"
+		name = "Map name error for '#{map.name}'"
 		name = user.lang['maps'][map.name] if user.lang['maps'].include?(map.name)
 
 		label.markup = before + name + after
