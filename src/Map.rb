@@ -152,6 +152,7 @@ class Map
 	def rollbackCorrect
 		@hypotheses  = @correctSaved.hypotheses
 		@currentStat = @correctSaved.currentStat
+		self.saveCorrectMap
 	end
 
 	##
@@ -306,14 +307,13 @@ class Map
 	#   - true if the user has made an error, false otherwise
 	def hasError?
 		self.grid.each_cell_with_index do |cell, j, i|
-			puts @solution.cellPosition(j, i).to_s
-			puts cell.to_s
-			puts @solution.cellPosition(j, i).compare(cell)
-			if @solution.cellPosition(j, i).compare(cell) == false then
+			sol = @solution.cellPosition(j, i).state
+			if cell.state == Cell::CELL_BLACK && sol != Cell::CELL_BLACK then
+				return true
+			elsif cell.state == Cell::CELL_CROSSED && sol == Cell::CELL_BLACK then
 				return true
 			end
 		end
-		puts "pas d'erreur"
 		return false
 	end
 
