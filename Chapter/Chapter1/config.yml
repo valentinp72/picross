@@ -1,8 +1,0 @@
----
-chapter :
-  title : "Test chapter"
-  stars : 0
-  unlocked : true
-  levels :
-    - batman
-...
