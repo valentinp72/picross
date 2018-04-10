@@ -7,6 +7,7 @@ require_relative 'RetrievePicrossWeb'
 require_relative 'Chapter'
 require_relative 'Map'
 require_relative 'EvolvingMap'
+require_relative 'LearningMap'
 
 ##
 # File          :: ChaptersCreator.rb
