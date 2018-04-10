@@ -27,7 +27,7 @@ class Drag
 	# * *Arguments* :
 	#   - +grid+  -> the grid that the drag will work on
 	#   - +cells+ -> a Gtk::Grid grid, containing other cells, that the drag will change states when doing drags.
-	#   - +frame+ -> the frame the drag is working on 
+	#   - +frame+ -> the frame the drag is working on
 	def initialize(map, cells, frame)
 		@map   = map
 		@grid  = map.grid
@@ -132,7 +132,7 @@ class Drag
 			else
 				unupdateFromTo(@lastCell, cell)
 			end
-			
+
 			@cursor.setText("#{self.dragLength} (#{self.totalLength})")
 		end
 		return self
@@ -180,6 +180,8 @@ class Drag
 		@map.check()
 		if @map.evolving? && @map.evolved? && @frame.picross != nil then
 			@frame.picross.redraw
+		elsif @map.learning? && @map.evolved? && @frame.picross != nil then
+			@frame.updateLearningText
 		end
 		@frame.checkMap if @frame.realized?
 
@@ -204,7 +206,7 @@ class Drag
 	#   - the object itself
 	def updateFromTo(fromCell, toCell)
 		self.each_button_cell(fromCell, toCell) do |btn, cell|
-			key = keyForCell(cell) 
+			key = keyForCell(cell)
 			if not @changedCells.has_key?(key) then
 				@changedCells[key] = cell.marshal_dump
 				@map.rotateToStateAt(cell.posY, cell.posX, @wantedState)
@@ -215,7 +217,7 @@ class Drag
 	end
 
 	##
-	# Un-update all the cells between fromCell and toCell. Each cell 
+	# Un-update all the cells between fromCell and toCell. Each cell
 	# will have it's state set back to it's previous one.
 	# However, the cell in +toCell+ is not changed.
 	# * *Arguments* :
@@ -228,7 +230,7 @@ class Drag
 			next if cell == toCell
 			key = keyForCell(cell)
 			if @changedCells.has_key?(key) then
-				@grid.cellPosition(cell.posY, cell.posX).marshal_load(@changedCells[key])	
+				@grid.cellPosition(cell.posY, cell.posX).marshal_load(@changedCells[key])
 				@changedCells.delete(key)
 				btn.setAttributes
 			end
@@ -279,7 +281,7 @@ class Drag
 
 	##
 	# Returns an array, containing the button (CellButton) and the
-	# cell (Cell) at the given coordinates in the grid 
+	# cell (Cell) at the given coordinates in the grid
 	# (including the offsets caused by the SolutionNumber).
 	# * *Arguments* :
 	#   - +y+ -> the Y coordinate in the grid
@@ -358,7 +360,7 @@ class Drag
 	# * *Arguments* :
 	#   - +cell+ -> the cell to check if it has been reverted
 	# * *Returns* :
-	#   - true if the drag has been reverted 
+	#   - true if the drag has been reverted
 	def hasCameBack?(cell)
 		return false if @lastCell == nil
 		if @xDirection != 0 then
