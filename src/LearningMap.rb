@@ -88,7 +88,7 @@ class LearningMap < Map
 	#   - true if the user has made an error, false otherwise
 	def hasError?
 		if @currentStage == @stage.length - 1 then
-			super.hasError?
+			super
 		else
 			self.grid.each_cell_with_index do |cell, j, i|
 				sol = @stage[@currentStage].cellPosition(j, i).state
