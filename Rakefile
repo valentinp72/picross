@@ -377,12 +377,24 @@ task :build_macOS do
 	# => symbolic link
 	FileUtils.ln_s("../../Resources", rubyFolder)
 
+	# Remove users
+	Dir.chdir(sourceFolder + 'Users') do
+		sh "rm User_*"
+	end
+
+	# Remove .DS_Store
+	Dir.chdir(BUILD_OUTPUT + BUILD_MAC_OS + APPLICATION_NAME + '.app') do
+		sh 'find . -name ".DS_Store" -exec rm "{}" \;'
+	end
+
 	puts "Done!"
 
-	# we create the DMG
+	# we create the DMG and zip
 	Dir.chdir(BUILD_OUTPUT + BUILD_MAC_OS) do
+		puts "Exporting to zip..."
+		sh "zip -q -r #{APPLICATION_NAME}.zip #{APPLICATION_NAME}.app"
 		puts "Exporting to DMG..."
-		sh "appdmg dmg.json Rubycross.dmg"
+		sh "appdmg dmg.json #{APPLICATION_NAME}.dmg"
 	end
 end
 
