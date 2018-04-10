@@ -33,7 +33,7 @@ class LearningMap < Map
 
 		@conf = loadConf(name)
 
-		@stage = []
+		@stage = Array.new
 
 		@conf["stages"].each do |stage|
 			@stage.push(Grid.createFromText(stage))
