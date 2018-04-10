@@ -55,6 +55,9 @@ class Map
 	# The last correct state of the map before an error
 	attr_reader :correctSaved
 
+	# Free help given for this map?
+	attr_accessor :givenHelp
+
 	##
 	# Create a new map object
 	# * *Arguments* :
@@ -74,7 +77,8 @@ class Map
 		@lneSolution  = computeLineSolution(@solution)   # Array of array (left)
 		@currentStat  = Statistic.new                    # curent user stat
 		@allStat      = StatisticsArray.new              # all user stats
-		@correctSaved = self.saveCorrectMap         # a copy of the map the last
+		@correctSaved = self.saveCorrectMap              # a copy of the map the last
+		@givenHelp    = false                            # Free help given?
 		                                                 # time it was correct
 	end
 
@@ -387,6 +391,7 @@ class Map
 		res += " - Solution        : \n#{@solution}\n\t"
 		res += " - Columns solution: #{@clmSolution}\n\t"
 		res += " - Lines solution  : #{@lneSolution}\n"
+		res += " - Given Help      : #{@givenHelp}\n"
 		res += " - Current Stat    : #{@currentStat}\n"
 		res += " - All Stats       : #{@allStat}\n"
 		return res
@@ -397,7 +402,7 @@ class Map
 	# * *Returns* :
 	#   - the map converted to an array
 	def marshal_dump()
-		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved]
+		return [@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved, @givenHelp]
 	end
 
 	##
@@ -408,7 +413,7 @@ class Map
 	# * *Returns* :
 	#   - the map object itself
 	def marshal_load(array)
-		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved = array
+		@name, @timeToDo, @difficulty, @hypotheses, @solution, @clmSolution, @lneSolution, @currentStat, @allStat, @correctSaved, @givenHelp = array
 		return self
 	end
 

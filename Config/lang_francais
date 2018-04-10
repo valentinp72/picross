@@ -53,7 +53,7 @@ edu:
         3: 'etape3'
         4: 'etape4'
 help:
-    available: 'Aides disponnbiles : {{HELPS}}'
+    available: 'Aides disponibles : {{HELPS}}'
     cost: 'Coût : '
     costPenalty: '{{COST}} secondes'
     costHelp: '{{COST}} aide(s)'

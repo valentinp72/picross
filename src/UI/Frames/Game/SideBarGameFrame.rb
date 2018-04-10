@@ -193,7 +193,8 @@ class SideBarGameFrame < Frame
 				totalFinished += 1 if stat.isFinished == true
 			end
 
-			if totalFinished == 1 && !@map.currentStat.givenHelp then
+			if totalFinished == 1 && !@map.givenHelp then
+				@map.givenHelp = true
 				@user.addHelp(2)
 			end
 

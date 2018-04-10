@@ -123,13 +123,12 @@ class Learning < Map
 	# * *Returns* :
 	#   - the object itself
 	def check()
-			if self.shouldFinish? then
-				self.finish
-				return true
-			end
-			self.nextStage
-			return false
+		if self.shouldFinish? then
+			self.finish
+			return true
 		end
+		self.nextStage
+		return false
 	end
 
 	##
