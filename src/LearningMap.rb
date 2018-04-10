@@ -40,7 +40,7 @@ class LearningMap < Map
 		end
 
 
-		super(name, timeToDo, difficulty, @currentLines, @currentColumns, solutionGrid)
+		super(name, timeToDo, difficulty, lines, columns, solutionGrid)
 	end
 
 	##
