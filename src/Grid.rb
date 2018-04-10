@@ -476,7 +476,7 @@ class Grid
 	end
 
 	def Grid.createFromText(string)
-		lines = string.split(' ')
+		lines = string[1].split(' ')
 		unless(lines.map{|line| line.length}.uniq.length == 1) then
 			raise InvalidGridException
 		else
