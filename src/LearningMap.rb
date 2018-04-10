@@ -26,14 +26,14 @@ class Learning < Map
 	#   - +lines+        -> number of lines of the map
 	#   - +columns+      -> number of columns of the map
 	#   - +solutionGrid+ -> the Grid representing the solution
-	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid, filename )
+	def initialize(name, timeToDo, difficulty, lines, columns, solutionGrid )
 		@evolved = false
 
 		@currentStage = 0
 
-		@conf = loadConf(filename)
+		@conf = loadConf(name)
 
-		@stage   = []
+		@stage = []
 
 		@conf["stages"].each do |stage|
 			@stage.push(Grid.createFromText(stage))
@@ -57,7 +57,6 @@ class Learning < Map
 				map.lneSolution.length,
 				map.clmSolution.length,
 				map.solution,
-				filename
 		)
 	end
 
@@ -165,8 +164,12 @@ class Learning < Map
 		# set path to config file folder
 		path = File.dirname(__FILE__) + "/../Users/Default/learning"
 		# Retrieve associated language config file
-		configFile = File.expand_path(path + "filename")
-		return YAML.load(File.open(configFile))
+		configFile = File.expand_path(path + filename + ".yaml")
+		if not File.file?(configFile) then
+			raise ArgumentError, "file does not exist"
+		else
+			return YAML.load(File.open(configFile))
+		end
 	end
 
 	##
