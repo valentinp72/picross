@@ -31,22 +31,22 @@ class Helper
 				cell_to_int(map.solution.cellPosition(i, j))
 			    end
 		end				
-	
-		@solver = Solver.new(@solution, @lines, @clns)
-
+		
 		# Initialisation de la grille
 		@grid = Array.new(@lines.size()) do
 			Array.new(@clns.size()) do
 				0
 			end
 		end
+		
+		@solver = Solver.new(@solution, map.lneSolution, map.clmSolution)
 	end
 
 	# renvoie un tableau [[x1,y1,etat1],[x2,y2,etat2],...] indiquant les cases
 	# à colorier/cocher
 	# x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(map, helpLvl)
-
+	
 		userGrid = convert_grid(map.grid)		# si usergrid est une grille de cellule
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 		if helpLvl==1
@@ -146,8 +146,9 @@ class Helper
 
 	# Convertit la grille de cellules finales en grille de solution d'entier
 	def convert_grid(cellGrid)
-		grid = Array.new(@lines) do
-			Array.new(@clns) do
+
+		grid = Array.new(@lines.size()) do
+			Array.new(@clns.size()) do
 				0
 			end
 		end

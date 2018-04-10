@@ -4,7 +4,7 @@ require_relative 'Drag'
 require_relative 'CellButton'
 require_relative 'SolutionNumber'
 
-require_relative '../../Keyboard/KeyboardPicross'
+require_relative 'KeyboardDrag'
 
 ##
 # File          :: PicrossFrame.rb
@@ -22,6 +22,8 @@ class PicrossFrame < Frame
 	# The grid this frame is working on
 	attr_reader :grid
 	attr_reader :cells
+	attr_reader :user
+	attr_reader :drag
 
 	attr_accessor :keyboard
 
@@ -41,15 +43,15 @@ class PicrossFrame < Frame
 		@user = user
 
 		@colorsHyp = user.settings.hypothesesColors
-
 		@frame = frame
-
-		@keyboard = KeyboardPicross.new(self, user, map)
 
 		self.createArea
 
 		self.signal_connect('size-allocate') do |widget, event|
 			self.setMaxSize(event.width, event.height)
+		end
+		self.signal_connect('realize') do
+			@keyboard = KeyboardDrag.new(self)
 		end
 		self.forceResize
 	end
@@ -358,20 +360,24 @@ class PicrossFrame < Frame
 		return self
 	end
 
-	def click(column,line, button)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonPress(button)
+	def childAt(line, column)
+		return @cells.get_child_at(@lineOffset + column, @columnOffset + line)
 	end
 
-	def unclick(column,line)
-		#event = Gdk::Event.new(Gdk::EventType::BUTTON_PRESS)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).buttonUnpress()
+	def click(line, column, button)
+		self.childAt(line, column).buttonPress(button)
 	end
 
-	def enterNotify(column, line)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).enterNotify()
+	def unclick(line, column)
+		self.childAt(line, column).buttonUnpress()
 	end
 
-	def leaveNotify(column, line)
-		@cells.get_child_at(@lineOffset + column, @columnOffset + line).leaveNotify()
+	def enterNotify(line, column)
+		self.childAt(line, column).enterNotify()
 	end
+
+	def leaveNotify(line, column)
+		self.childAt(line, column).leaveNotify()
+	end
+
 end

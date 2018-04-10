@@ -270,23 +270,12 @@ class SettingKeyboard < Setting
 		@keys = Gtk::Grid.new()
 		@keys.column_spacing = 5
 
-		@keyboardBind = [
-			@user.settings.keyboardUp,
-			@user.settings.keyboardDown,
-			@user.settings.keyboardLeft,
- 			@user.settings.keyboardRight,
-			@user.settings.keyboardClickLeft,
- 			@user.settings.keyboardClickRight
-		]
+		@keyboardBind = @user.settings.picrossKeys
 
-		@keyboardChoosers = [
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["up"], 0, @keyboardBind),
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["down"], 1, @keyboardBind),
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["left"], 2, @keyboardBind),
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["right"], 3, @keyboardBind),
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-left"], 4, @keyboardBind),
-			SettingKey.new(parent, @user, @user.lang["option"]["keyboard"]["click-right"], 5, @keyboardBind)
-		]
+		@keyboardChoosers = []
+		@keyboardBind.each do |keyName, value|
+			@keyboardChoosers << SettingKey.new(parent, @user, keyName, @keyboardBind)
+		end
 
 		line = 0
 		@keyboardChoosers.each do |keyChooser|
@@ -295,7 +284,7 @@ class SettingKeyboard < Setting
 			line += 1
 		end
 
-		super(@user.lang["option"]["chooseKeyboard"],@keys)
+		super(@user.lang["option"]["chooseKeyboard"], @keys)
 	end
 
 	def save
@@ -303,29 +292,38 @@ class SettingKeyboard < Setting
 			keyChooser.save
 		end
 	end
+
 end
 
 
 class SettingKey < Setting
 
-	def initialize(parent, user, optionName, index, allKeys)
-		@user = user
-		@value = allKeys[index]
-		@index = index
-		@key = Gtk::Button.new(:label => Gdk::Keyval.to_name(@value))
-		@parent = parent
-		@allKeys = allKeys
+	KEY_ESCAPE = 65307 
+
+	def initialize(parent, user, name, keys)
+		@user    = user
+		@value   = keys[name]
+		@key     = Gtk::Button.new(:label => Gdk::Keyval.to_name(@value))
+		@parent  = parent
+		@allKeys = keys
+		@name    = name
 
 		@key.signal_connect("clicked") do
 			self.bindKey()
 		end
 
-		super(optionName,@key)
+		super(@user.lang["option"]["keyboard"][@name], @key)
 	end
 
 	def bindKey()
 		message = @user.lang["option"]["bind"]
-		@dialog = Gtk::MessageDialog.new(:parent=> @parent.parent, :flags=> :destroy_with_parent,:type => :error,:buttons_type => :close,:message=> message)
+		@dialog = Gtk::MessageDialog.new(
+				:parent       => @parent.parent,
+				:flags        => :destroy_with_parent,
+				:type         => :error,
+				:buttons_type => :close,
+				:message      => message
+		)
 		@dialog.secondary_text = @user.lang["option"]["bindCancel"]
 
 		@dialog.signal_connect("key-press-event") do |w, e|
@@ -341,12 +339,11 @@ class SettingKey < Setting
 
 	def on_key_press_event(event)
 		# if escape is pressed
-		if event.keyval != 65307 then
+		if event.keyval != KEY_ESCAPE then
 			if event.type == Gdk::EventType::KEY_PRESS && !@keyPressed then
 				@keyPressed = true
-				if !@allKeys.include?(event.keyval) then
+				if !@allKeys.has_value?(event.keyval) then
 					@value = event.keyval
-					@allKeys[@index] = @value
 					@dialog.destroy
 					@key.label = Gdk::Keyval.to_name(@value)
 				end
@@ -356,7 +353,7 @@ class SettingKey < Setting
 	end
 
 	def save
-		@user.settings.changeKeyBoardValue(@value, @index)
+		@user.settings.changeKeyBoardValue(@value, @name)
 	end
 
 end

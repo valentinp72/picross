@@ -58,6 +58,7 @@ class GameFrame < Frame
 		end
 	end
 
+
 	##
 	# Create the main layout of this frame
 	# * *Returns* :
