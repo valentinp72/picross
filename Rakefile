@@ -78,6 +78,7 @@ LINUX_X86_64_LIBS  = LINUX_X86_64_PATH + 'linux_x86_64_required_dylib.txt'
 MAC_OS_INFO_PLIST  = BUILD_ROOT + 'config/macOS/Info.plist'
 MAC_OS_RSCR_PATH   = BUILD_ROOT + 'config/macOS/Resources/'
 MAC_OS_RESOURCES   = ['icon.icns', 'lib/', 'share/']
+MAC_OS_TO_DMG      = BUILD_ROOT + 'config/macOS/dmg.json'
 MAC_OS_DYLIBS      = BUILD_ROOT + 'config/macOS/macOS_required_dylib.txt'
 MAC_OS_TYPELIBS    = BUILD_ROOT + 'config/macOS/macOS_required_typelib.txt'
 MAC_OS_ENV_VARS    = {
@@ -285,6 +286,9 @@ task :build_macOS do
 	outputFolder += 'Contents/'
 	FileUtils.mkdir_p(outputFolder)
 
+	# to dmg configuration file
+	FileUtils.cp(MAC_OS_TO_DMG, BUILD_OUTPUT + BUILD_MAC_OS + 'dmg.json')
+
 	# application informations
 	FileUtils.cp(MAC_OS_INFO_PLIST, outputFolder + 'Info.plist')
 
@@ -373,6 +377,13 @@ task :build_macOS do
 	# => symbolic link
 	FileUtils.ln_s("../../Resources", rubyFolder)
 
+	puts "Done!"
+
+	# we create the DMG
+	Dir.chdir(BUILD_OUTPUT + BUILD_MAC_OS) do
+		puts "Exporting to DMG..."
+		sh "appdmg dmg.json Rubycross.dmg"
+	end
 end
 
 # linux_x86 application build
