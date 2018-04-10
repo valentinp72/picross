@@ -193,6 +193,7 @@ class GameFrame < Frame
 
 	def updateLearningText
 		if(@map.learning?) then
-			@learningText.text = @user.["edu"][@map.name][@map.currentStage]
+			@learningText.text = @user.lang["edu"][@map.name.to_s][@map.currentStage.to_s]
 		end
+	end
 end
