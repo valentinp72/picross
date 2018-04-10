@@ -50,7 +50,7 @@ class LearningMap < Map
 	# * *Returns* :
 	#   - a freshly created Learning
 	def Learning.new_from_map(map,filename)
-		return Learning.new(
+		return LearningMap.new(
 				map.name,
 				map.timeToDo,
 				map.difficulty,
