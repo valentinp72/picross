@@ -35,6 +35,7 @@ class StatsFrame < Frame
 		@playerHeader = Gtk::Box.new(:horizontal)
 		@playerHeader.set_homogeneous(true)
 
+		@globalBtn.clicked
 		# Add vbox to frame
 		add(@container)
 	end
