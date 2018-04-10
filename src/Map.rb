@@ -302,10 +302,14 @@ class Map
 	#   - true if the user has made an error, false otherwise
 	def hasError?
 		self.grid.each_cell_with_index do |cell, j, i|
-			if @solution.cellPosition(j, i).compare(cell) != true then
+			puts @solution.cellPosition(j, i).to_s
+			puts cell.to_s
+			puts @solution.cellPosition(j, i).compare(cell)
+			if @solution.cellPosition(j, i).compare(cell) == false then
 				return true
 			end
 		end
+		puts "pas d'erreur"
 		return false
 	end
 

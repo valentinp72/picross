@@ -13,24 +13,27 @@ require_relative 'User'
 
 class Help
 
-	# The number of help this cost for the user
-	HELP_COST = 1
-
-	def initialize(map, user, cost)
+	def initialize(map, user, costSeconds)
 		@map  = map
 		@user = user
-		@cost = cost
+		@cost = costSeconds
 	end
 
-	def apply(value)
+	def apply()
 		@map.currentStat.useHelp
 		begin
-			puts "enough"
-			@user.removeHelp(value/30)
+			@user.removeHelp(self.costHelps)
 		rescue User::NegativeAmountException
-			puts "not enough"
-			@map.currentStat.penalty.addPenalty(@cost)
+			@map.currentStat.penalty.addPenalty(self.costSeconds)
 		end
+	end
+
+	def costSeconds
+		return @cost
+	end
+
+	def costHelps
+		return self.costSeconds / 30
 	end
 
 end
