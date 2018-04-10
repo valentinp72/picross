@@ -188,7 +188,8 @@ class GameFrame < Frame
 
 	def btn_option_clicked
 		self.save
-		self.parent.setFrame(OptionFrame.new(@user, self))
+		self.parent.setFrame(OptionFrame.new(@user, GameFrame.new(@user, @chapter, @map)))
+		self.destroy
 	end
 
 	def checkMap
