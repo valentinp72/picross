@@ -108,7 +108,7 @@ class SolutionNumber < Gtk::Label
 				background-color: rgba(170, 20, 1, 0.2);
 			}
 			.done {
-				color: #D3D3D3;
+				color: #9F9E9E;
 			}
 		"
 	end
