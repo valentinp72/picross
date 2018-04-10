@@ -31,7 +31,7 @@
             - timeToDo: 920
             - evolving: true
 'Transportation':
-    - stars: 20
+    - stars: 15
     - links:
         - "http://www.nonograms.org/nonograms/i/15707": # Car 7x7
             - timeToDo: 50
@@ -49,6 +49,48 @@
             - timeToDo: 250
         - "http://www.nonograms.org/nonograms/i/6489":  # Tractor 15x15
             - timeToDo: 420
+            
+'Sportman':
+    - stars: 30
+    - links:
+        - "http://www.nonograms.org/nonograms/i/17552": # Ballerina 16x19
+            - timeToDo: 460
+        - "http://www.nonograms.org/nonograms/i/11112":  # Basketball 10x10
+            - timeToDo: 140
+        - "http://www.nonograms.org/nonograms/i/2869":  # Skater 10x10
+            - timeToDo: 240
+        - "http://www.nonograms.org/nonograms/i/6251":  # Dancer 15x15
+            - timeToDo: 620
+        - "http://www.nonograms.org/nonograms/i/2960":  # Football 10x10
+            - timeToDo: 240
+        - "http://www.nonograms.org/nonograms/i/2953":  # Athlete 15x15
+            - timeToDo: 170
+        - "http://www.nonograms.org/nonograms/i/2869":  # Skater 10x10
+            - timeToDo: 470
+        - "http://www.nonograms.org/nonograms/i/10009":  # Boxer 20x20
+            - timeToDo: 990
+            
+'Haloween':
+    - stars: 30
+    - links:
+        - "http://www.nonograms.org/nonograms/i/16909": # Candle 10x12
+            - timeToDo: 120
+        - "http://www.nonograms.org/nonograms/i/10040":  # Pac-Man 14x14
+            - timeToDo: 390
+        - "http://www.nonograms.org/nonograms/i/7475":  # Monster 10x10
+            - timeToDo: 200
+        - "http://www.nonograms.org/nonograms/i/3518":  # Spider 15x15
+            - timeToDo: 1420
+        - "http://www.nonograms.org/nonograms/i/3455":  # Scarecrow 15x15
+            - timeToDo: 700
+        - "http://www.nonograms.org/nonograms/i/2938":  # Skull 15x15
+            - timeToDo: 260
+        - "http://www.nonograms.org/nonograms/i/8517":  # Witch 20x20
+            - timeToDo: 1020
+        - "http://www.nonograms.org/nonograms/i/13234":  # Ghost 15x15
+            - timeToDo: 320
+            
+          
 #
 # 'Chapter':
 #     - stars:
