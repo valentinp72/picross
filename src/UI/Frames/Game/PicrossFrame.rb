@@ -151,6 +151,9 @@ class PicrossFrame < Frame
 		@drag.reset
 
 		self.show_all
+		if @map.learning? then
+			@frame.setLearningTextWidth(@oWidth)
+		end
 		self.forceResize
 		return self
 	end
