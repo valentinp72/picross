@@ -44,7 +44,7 @@ end
 APPLICATION_NAME    = 'Rubycross'
 
 # change this constant when you wan to change the Rubycross app version
-BUILD_VERSION      = '0.0.2'
+BUILD_VERSION      = '0.0.3'
 
 # the ruby build version (all OS binaries should be downloaded in RUBY_BIN_ROOT)
 RUBY_BUILD_VERSION = '2.2.2'
