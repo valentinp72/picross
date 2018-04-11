@@ -86,7 +86,7 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the Gtk::Box containing the header
 	def createHeaderLayout()
-		title = Gtk::Label.new(@map.name)
+		title = Gtk::Label.new(@user.lang['maps'][@map.name])
 
 		@btnBack = createBackButton
 		@btnOption = createOptionButton

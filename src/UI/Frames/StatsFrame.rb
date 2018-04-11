@@ -33,7 +33,8 @@ class StatsFrame < Frame
 		@container = createMainLayout(user)
 
 		@playerHeader = Gtk::Box.new(:horizontal)
-		@playerHeader.set_homogeneous(true)
+		# removed so that the content can be resized
+		# @playerHeader.set_homogeneous(true)
 
 		@globalBtn.clicked
 		# Add vbox to frame
