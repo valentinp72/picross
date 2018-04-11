@@ -18,7 +18,11 @@ class Solver
 	# @grid 		int[][]	0 : case indéterminée, -1 : case cochée, 1 : case coloriée
 	# @solution 	grille contenant la solution finale du picross
 
-	attr_reader :lines
+	attr_accessor :lines
+	attr_accessor :clns
+	attr_accessor :solution
+	attr_accessor :grid
+
 
 	#Constructeur
 	def initialize(sol, line, col)
@@ -37,7 +41,7 @@ class Solver
 	
 	# utilise les méthodes de résolution pour continuer la grille
 	def solve(grid)
-	
+
 		# On place la grille de l'utilisateur dans la grille du solveur
 		(0...@lines.size()).each do |i|
 			(0...@clns.size()).each do |j|

@@ -47,10 +47,20 @@ class Helper
 	# x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(map, helpLvl)
 	
-		userGrid = convert_grid(map.grid)		# si usergrid est une grille de cellule
+		
+		@lines = map.lneSolution
+		@clns = map.clmSolution	
+		@solution = Array.new(@lines.size()) do |i|
+			    Array.new(@clns.size()) do |j|
+				cell_to_int(map.solution.cellPosition(i, j))
+			    end
+		end
+
+		userGrid = convert_grid(map.grid)
+
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 		if helpLvl==1
-
+			
 			# Recherche une ligne aléatoire non complétée par l'utilisateur
 			line = search_line(userGrid)
 			help = []
@@ -60,6 +70,7 @@ class Helper
 			return help
 
 		else
+			self.maj_solveur(map)
 			@grid = @solver.solve(userGrid)
 			unless helpLvl==2		# Aide moyenne
 				return self.help3(userGrid)
@@ -143,6 +154,23 @@ class Helper
 		# l'aide ne donne aucune solutions
 		return([])
 	end
+
+	#met a jour les informations du solveur
+	def maj_solveur(map)
+
+		print @solveur
+		@solver.lines=(map.lneSolution)
+		@solver.clns=(map.clmSolution)
+		@solver.solution=(convert_grid(map.solution))
+		@solver.grid=(Array.new(@lines.size()) do
+			      Array.new(@clns.size()) do
+				0
+			      end
+		end)
+	end
+
+
+
 
 	# Convertit la grille de cellules finales en grille de solution d'entier
 	def convert_grid(cellGrid)
