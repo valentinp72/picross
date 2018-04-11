@@ -109,7 +109,9 @@ class LearningMap < Map
 			self.saveCorrectMap
 			if !@currentStat.isFinished then
 				if @currentStage == @stage.length - 1 then
-					return true
+					if @solution.compare(grid) then
+						return true
+					end
 				elsif @stage[@currentStage].compare(grid) then
 					self.nextStage
 					return false
