@@ -74,14 +74,6 @@ class Solver
 			@solution
 		end
 	
-		#puts("###############################")
-		#puts numl
-		#puts numc
-		#puts range
-		#print grid
-		#puts("")
-
-
 		if range.eql?("column")
 			return grid[numc][numl]
 		else
@@ -204,7 +196,7 @@ class Solver
 				set_grid(num, i, 1, range)
 			end
 		end
-
+		
 		extremite(num, range)
 	end
 
@@ -252,7 +244,6 @@ class Solver
 			tab.push(0)
 			j+=1
 		end
-
 		return tab
 	end
 
@@ -298,13 +289,12 @@ class Solver
 			tab.unshift(0)
 			j-=1
 		end
-
 		return tab
 	end
 
 	# Extrémités du plateau
 	def extremite(num, range)
-	
+
 		if range.eql?("column")   # pour une colonne
 			taille = @lines.size()
 			tabindice=@clns
@@ -312,7 +302,7 @@ class Solver
 			taille = @clns.size()
 			tabindice=@lines
 		end
-
+		
 		extremite_gauche(tabindice, taille, num, range)
 		extremite_droite(tabindice, taille, num, range)
 	end
@@ -346,7 +336,6 @@ class Solver
 			(debut...fin).each do |i|
 				set_grid(num, i, 1, range)
 			end
-			set_grid(num, debut-1, -1, range) if debut>-1
 		end
 	end
 end
