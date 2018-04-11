@@ -57,7 +57,7 @@
             - timeToDo: 460
         - "http://www.nonograms.org/nonograms/i/11112":  # Basketball 10x10
             - timeToDo: 140
-        - "http://www.nonograms.org/nonograms/i/2869":  # Skater 10x10
+        - "http://www.nonograms.org/nonograms/i/2869":  # Skater-1 10x10
             - timeToDo: 240
         - "http://www.nonograms.org/nonograms/i/6251":  # Dancer 15x15
             - timeToDo: 620
@@ -65,13 +65,13 @@
             - timeToDo: 240
         - "http://www.nonograms.org/nonograms/i/2953":  # Athlete 15x15
             - timeToDo: 170
-        - "http://www.nonograms.org/nonograms/i/2869":  # Skater 10x10
+        - "http://www.nonograms.org/nonograms/i/2869":  # Skater-2 10x10
             - timeToDo: 470
         - "http://www.nonograms.org/nonograms/i/10009":  # Boxer 20x20
             - timeToDo: 990
 
 'Halloween':
-    - stars: 30
+    - stars: 45
     - links:
         - "http://www.nonograms.org/nonograms/i/16909": # Candle 10x12
             - timeToDo: 120
@@ -89,7 +89,26 @@
             - timeToDo: 1020
         - "http://www.nonograms.org/nonograms/i/13234":  # Ghost 15x15
             - timeToDo: 320
-
+            
+'People':
+    - stars: 60
+    - links:
+        - "http://www.nonograms.org/nonograms/i/13060": # Tourist 15x15
+            - timeToDo: 1260
+        - "http://www.nonograms.org/nonograms/i/4187":  # Smoker 15x15
+            - timeToDo: 690
+        - "http://www.nonograms.org/nonograms/i/4016":  # Traveler 15x15
+            - timeToDo: 750
+        - "http://www.nonograms.org/nonograms/i/3896":  # Fisherman 15x15
+            - timeToDo: 390
+        - "http://www.nonograms.org/nonograms/i/3563":  # Farmer 15x15
+            - timeToDo: 510
+        - "http://www.nonograms.org/nonograms/i/2988":  # Vocalist 15x15
+            - timeToDo: 390
+        - "http://www.nonograms.org/nonograms/i/12789":  # Roadwork 20x20
+            - timeToDo: 690
+        - "http://www.nonograms.org/nonograms/i/3777":  # Clown 20x20
+            - timeToDo: 1320
 
 #
 # 'Chapter':
