@@ -109,6 +109,46 @@
             - timeToDo: 690
         - "http://www.nonograms.org/nonograms/i/3777":  # Clown 20x20
             - timeToDo: 1320
+            
+'Fruit':
+    - stars: 75
+    - links:
+        - "http://www.nonograms.org/nonograms/i/16851": # Strawberry 10x10
+            - timeToDo: 240
+        - "http://www.nonograms.org/nonograms/i/14707":  # Cherries 15x15
+            - timeToDo: 990
+        - "http://www.nonograms.org/nonograms/i/3543":  # Apple1 15x15
+            - timeToDo: 390
+        - "http://www.nonograms.org/nonograms/i/1153":  # Apple2 15x15
+            - timeToDo: 300
+        - "http://www.nonograms.org/nonograms/i/135":  # Banana 19x20
+            - timeToDo: 1300
+        - "http://www.nonograms.org/nonograms/i/3473":  # Fruit 20x15
+            - timeToDo: 900
+        - "http://www.nonograms.org/nonograms/i/2976":  # Tomato 15x15
+            - timeToDo: 600
+        - "http://www.nonograms.org/nonograms/i/15900":  # Pear 15x14
+            - timeToDo: 290
+            
+'Object':
+    - stars: 90
+    - links:
+        - "http://www.nonograms.org/nonograms/i/7341": # PC 15x10
+            - timeToDo: 220
+        - "http://www.nonograms.org/nonograms/i/2899":  # Headphones 15x15
+            - timeToDo: 420
+        - "http://www.nonograms.org/nonograms/i/15788":  # Printer 20x20
+             - timeToDo: 170
+        - "http://www.nonograms.org/nonograms/i/8724":  # Joystick 20x20
+             - timeToDo: 920
+        - "http://www.nonograms.org/nonograms/i/2124":  # Earphone 20x20
+             - timeToDo: 1560
+        - "http://www.nonograms.org/nonograms/i/2125":  # Camera 20x20
+             - timeToDo: 910
+        - "http://www.nonograms.org/nonograms/i/2121":  # Photo 18x20
+             - timeToDo: 740
+        - "http://www.nonograms.org/nonograms/i/143":  # Teapot 15x15
+             - timeToDo: 230
 
 #
 # 'Chapter':
@@ -178,3 +218,4 @@
 #  - links:
 #    - "http://www.nonograms.org/nonograms/i/9100":  # Nemo Fish
 #        - timeToDo: 150
+
