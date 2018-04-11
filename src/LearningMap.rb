@@ -76,7 +76,6 @@ class LearningMap < Map
 	# * *Returns* :
 	#   - the object itself
 	def nextStage()
-		puts "called"
 		@currentStage += 1
 		@evolved = true
 		return self
