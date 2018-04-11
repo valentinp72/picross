@@ -147,7 +147,7 @@
 	        
 	        Ainsi, une grille possédant un nombre 5 devant une ligne ou une colonne indique qu'il y a 5 cases consécutives à noircir.
 	        
-	        Une grille possédant la séquence de nombre 2 2 devant une ligne ou une colonne indique qu'il y a un block de 2 cases à noircir, suivis d'au moins une case vide, puis un block de 2 cases à noircir.
+	        Une grille possédant la séquence de nombre 2 2 devant une ligne ou une colonne indique qu'il y a un bloc de 2 cases à noircir, suivis d'au moins une case vide, puis un bloc de 2 cases à noircir.
 
             \begin{minipage}{\linewidth}
                     \centering
@@ -166,17 +166,7 @@
 			        \captionof{figure}{Exemple d'indices d'une grille.}
 	            \end{minipage}
                 \item Prenons maintenant l'exemple d'une ligne ou une colonne dont l'indice est 3, et la première case est déjà noircie. Cela signifie que les cases à noircir sont obligatoirement les 3 premières.
-        %         \begin{minipage}{\linewidth}
-        %             \centering
-			     %   \includegraphics[width=8cm]{ligneExemple2.png}
-			     %   \captionof{figure}{Exemple d'indices d'une grille.}
-	       %     \end{minipage}
                 \item Un dernier exemple : nous avons une grille 10x10, l'indice d'une des ligne vaut 7. On peut dans ce cas noircir les 4 cases centrales, ces cases seront noircies quelque soit la solution de cette ligne. Cette astuce fonctionne dès qu'une ligne ou une colonne possède un indice unique, supérieur à la moitié du nombre de cases de la ligne ou de la colonne en question.
-            %     \begin{minipage}{\linewidth}
-            %             \centering
-    			     %   \includegraphics[width=8cm]{ligneExemple3.png}
-    			     %   \captionof{figure}{Exemple d'indices d'une grille.}
-    	       %     \end{minipage}
                 \end{itemize}
 
 
@@ -284,7 +274,7 @@
 			        \includegraphics[width=8cm]{screenTimer.png}
 			        \captionof{figure}{Chronomètres.}
 	            \end{minipage}
-                \item Un bouton permettant de recommencer la grille\\
+                \item Un bouton permettant de recommencer la grille.\\
                 \begin{minipage}{\linewidth}
                     \centering
 			        \includegraphics[width=2cm]{reset.png}
@@ -306,17 +296,17 @@
                     \item Suivons le même exemple, mais vous souhaitez valider les hypothèses oranges. Dans ce cas ci, les 2 sortes d'hypothèses seront validées.
                     \item Vous pouvez à tout moment cumuler les 4 sortes d'hypothèses.
                 \end{itemize}
-        %         \begin{minipage}{\linewidth}
-        %             \centering
-			     %   \includegraphics[width=8cm]{imageHypothèses.png}
-			     %   \captionof{figure}{Hypothèses.}
-	       %     \end{minipage}             
+                 \begin{minipage}{\linewidth}
+                     \centering
+			         \includegraphics[width=8cm]{imageHypotheses.png}
+			        \captionof{figure}{Hypothèses.}
+	            \end{minipage}             
                 \item Le bouton d'aide qui permet de débloquer le jouer, ceci de différentes manières, telles que :
                 \begin{itemize}
                     \item Un renvoi au dernier état de la grille sans erreurs,
-                    \item La révélation d'une ligne incomplète (aide importante)
-                    \item La révélation d'un certain groupe de cases (aide moyenne)
-                    \item La révélation d'un case (aide simple)
+                    \item La révélation d'une ligne incomplète (aide importante),
+                    \item La révélation d'un certain groupe de cases (aide moyenne),
+                    \item La révélation d'un case (aide simple).
                 \end{itemize}
                 En finissant des grilles, vous pouvez gagner des "aides gratuites". Ces aides sont consommées à chaque fois que vous que vous utilisez une aide particulière.
                 Lorsque vous ne possédez plus d'aides gratuites, vous avez tout de même la possibilité d'utiliser ce système contre une pénalité de temps qui s'ajoutera au chronomètre final.\\
