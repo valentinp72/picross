@@ -128,6 +128,8 @@ chapters:
     'Sportman': 'Sportman'
     'Halloween': 'Haloween'
     'People': 'People'
+    'Object': 'Object'
+    'Fruit': 'Fruit'
 maps:
     'Chicken': 'Chicken'
     'Rabbit': 'Rabbit'
@@ -171,6 +173,8 @@ maps:
     'Vocalist': 'Vocalist'
     'Roadwork': 'Roadwork'
     'Clown': 'Clown'
-
+    'Printer': 'Printer'
+    'Phone': 'Phone'
+    'Apple': 'Apple'
 preferencesError: 'Cannot open preferences util you are connected!'
 versionError: 'You are using GTK version {{CURRENT}}, however, the minimum required version is {{REQUIRED}}. Are you sure you want to run the application, risking for it to crash unexpectedly?'
