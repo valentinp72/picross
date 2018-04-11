@@ -53,6 +53,10 @@ class Picross
 		chapterFolder = File.expand_path(@path + '/' + "Default/chapters/")
 		chapterFile = Dir.entries(chapterFolder).select { |f| f.match(/(.*).chp/)}
 
+		chapterFile.sort! do |x, y|
+			x.partition('_')[0] <=> y.partition('_')[0]
+		end
+
 		chapterFile.each do |f|
 			chapters.push(Chapter.load(chapterFolder + "/"+ f))
 		end

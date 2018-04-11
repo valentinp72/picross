@@ -53,6 +53,7 @@ class PicrossFrame < Frame
 		self.signal_connect('realize') do
 			@keyboard = KeyboardDrag.new(self)
 		end
+		self.setMaxSize(500, 500)
 		self.forceResize
 	end
 

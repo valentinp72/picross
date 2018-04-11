@@ -86,7 +86,7 @@ class GameFrame < Frame
 	# * *Returns* :
 	#   - the Gtk::Box containing the header
 	def createHeaderLayout()
-		title = Gtk::Label.new(@map.name)
+		title = Gtk::Label.new(@user.lang['maps'][@map.name])
 
 		@btnBack = createBackButton
 		@btnOption = createOptionButton
@@ -188,7 +188,8 @@ class GameFrame < Frame
 
 	def btn_option_clicked
 		self.save
-		self.parent.setFrame(OptionFrame.new(@user, self))
+		self.parent.setFrame(OptionFrame.new(@user, GameFrame.new(@user, @chapter, @map)))
+		self.destroy
 	end
 
 	def checkMap

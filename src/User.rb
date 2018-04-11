@@ -33,6 +33,9 @@ class User
 	# Exception when the amount for help is invalid.
 	class NegativeAmountException < StandardError; end
 
+	# Something that enables some other thing (secret :p)
+	KONAMI_CODE = 'UUDDLRLRBA'
+
 	##
 	# Creates a new User object
 	# * *Arguments* :
@@ -44,6 +47,18 @@ class User
 		@availableHelps = 0
 		@chapters = chapters
 		@lang     = self.languageConfig
+		self.cheat if name == KONAMI_CODE
+	end
+
+	def cheat
+		puts User.cheatMessage
+		@chapters.each do |chapter|
+			chapter.levels.each do |map|
+				stat = Statistic.new
+				stat.finish(100)
+				map.allStat.addStatistic(stat)
+			end
+		end
 	end
 
 	##
@@ -192,6 +207,19 @@ class User
 		@name, @settings, @availableHelps, @chapters = array
 		@lang = self.languageConfig
 		return self
+	end
+
+	def User.cheatMessage
+	"
+          )                  (       )          (                                  (      
+   (   ( /(      (      *   ))\ ) ( /( (        )\ )       *   )      (    *   )   )\ )   
+   )\  )\())(    )\   ` )  /(()/( )\()))\ )    (()/(  (  ` )  /((     )\ ` )  /(( (()/(   
+ (((_)((_)\ )\((((_)(  ( )(_))(_)|(_)\(()/(     /(_)) )\  ( )(_))\  (((_) ( )(_))\ /(_))  
+ )\___ _((_|(_))\ _ )\(_(_()|_))  _((_)/(_))_  (_))_ ((_)(_(_()|(_) )\___(_(_()|(_|_))_   
+((/ __| || | __(_)_\(_)_   _|_ _|| \| (_)) __|  |   \| __|_   _| __((/ __|_   _| __|   \  
+ | (__| __ | _| / _ \   | |  | | | .` | | (_ |  | |) | _|  | | | _| | (__  | | | _|| |) | 
+  \___|_||_|___/_/ \_\  |_| |___||_|\_|  \___|  |___/|___| |_| |___| \___| |_| |___|___/  
+  "
 	end
 
 end

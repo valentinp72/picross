@@ -94,7 +94,12 @@ class ChapterFrame < Frame
 		contents = []
 
 		if chapter.unlocked?(@user) then
-			contents << Gtk::Label.new(chapter.title)
+			if @user.lang['chapters'].include?(chapter.title) then
+				title = @user.lang['chapters'][chapter.title]
+			else
+				title = "Error in the chapter '#{chapter.title}'"
+			end
+			contents << Gtk::Label.new(title)
 		else
 			contents << AssetsLoader.cloneImage(LOCK_IMAGE)
 			contents << Gtk::Label.new("#{@user.totalStars}/#{chapter.starsRequired}")
