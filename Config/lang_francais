@@ -116,11 +116,10 @@ maps:
     'Tractor': 'Tracteur'
     'Ballerina': 'Ballerine'
     'Basketball': 'Basketeur'
-    'Skater-1': 'Skateur #1'
+    'Skater': 'Skateur'
     'Dancer': 'Danceur'
     'Football': 'Footballeur'
     'Athlete': 'Athlete'
-    'Skater-2': 'Skateur #2'
     'Boxer': 'Boxeur'
     'Candle': 'Bougie'
     'Pac-Man': 'Pac-Man'
@@ -130,6 +129,7 @@ maps:
     'Skull': 'Crane'
     'Witch': 'Sorciere'
     'Ghost': 'Fantome'
+    'Ghost (Pac-Man)': 'Fantome (Pac-Man)'
     'Tourist': 'Touriste'
     'Smoker': 'Fumeur'
     'Traveler': 'Pelerin'
@@ -138,6 +138,6 @@ maps:
     'Vocalist': 'Chanteur'
     'Roadwork': 'Routier'
     'Clown': 'Clown'
-    
+
 preferencesError: 'Impossible d''ouvrir les préferences tant que vous n''êtes pas connecté !'
 versionError: 'Vous utilisez la version de GTK {{CURRENT}}, cependant, la version minimum requise est {{REQUIRED}}. Voulez-vous vraiment lancer l''application, au risque que celle-ci plante de manière inattendue ?'
