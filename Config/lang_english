@@ -53,6 +53,25 @@ edu:
         1: 'Middle column is composed of three black cell. We know where to put them because line 2 is finished'
         2: 'We can deduct black cells position on column 2'
         3: 'We can finish picross'
+    car:
+        0: 'Column 2  and 6 can be filled out'
+        1: 'Line 4 and 6 can also be filled out'
+        2: 'You now can fill out line 1'
+        3: 'Level can be finished'
+    anchor:
+        0: 'Column 5 and 6 can be filled out. Line 5 can also be filled'
+        1: 'Column 4 and 7 can be found'
+        2: 'Line 4 and 6 can be determined'
+        3: 'Line 12 and 13 can be partially guessed'
+        4: 'Column 2 and 9 can be partially found'
+        5: 'Level can be finished'
+    question_mark:
+        0: 'Line 2 can be filled, line 1 and column 4 can be partially found'
+        1: 'Line 10 and 11 can be filled out'
+        2: 'Line 3 can be filled out as well as column 5 and 6'
+        3: 'Line 4 can be guessed'
+        4: 'Column 3 can be found'
+        5: 'Level can be finished'
 help:
     available: 'Available helps: {{HELPS}}'
     cost: 'Cost: '
