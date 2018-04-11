@@ -47,15 +47,15 @@ class Helper
 	# x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(map, helpLvl)
 	
-		
-		@lines = map.lneSolution
-		@clns = map.clmSolution	
-		@solution = Array.new(@lines.size()) do |i|
-			    Array.new(@clns.size()) do |j|
-				cell_to_int(map.solution.cellPosition(i, j))
-			    end
+		if map.evolving?
+			@lines = map.lneSolution
+			@clns = map.clmSolution	
+			@solution = Array.new(@lines.size()) do |i|
+				    Array.new(@clns.size()) do |j|
+					cell_to_int(map.solution.cellPosition(i, j))
+				    end
+			end
 		end
-
 		userGrid = convert_grid(map.grid)
 
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
@@ -331,65 +331,3 @@ class Helper
 	end
 
 end
-
-# Grille 10x5 de la feuille
-# l = [[1,2],[3],[4],[3],[5],[4],[2],[5],[4],[1]]
-# c = [[1,2,1],[8],[8],[3,2,2],[1,1,2,3]]
-
-# Speaker
-# l = [[2],[3],[2,1],[2,1],[3,1],[4,1,1],[1,1,1],[1,1,1],[1,1,1],[4,1,1],[3,1],[2,1],[2,1],[3],[2]]
-# c = [[1,1],[1,1],[1,1],[7],[1,1],[9],[2,2],[2,2],[2,2],[15]]
-
-# Me
-# l = [[2,3,2],[1,4,4,1],[6,6],[15],[3,3,1,3],[3,1,1,5],[3,1,1,1,4],[3,3,1,5],[2,3,1,2],[1,11,1],[2,9,2],[3,7,3],[4,5,4],[5,3,5],[6,1,6]]
-# c = [[2,5,6],[1,7,5],[9,4],[3,2,3],[4,6,2],[5,6,1],[1,3,8],[1,1,6],[1,12],[3,4,1],[3,1,1,3,2],[3,3,2,3],[9,4],[1,7,5],[2,5,6]]
-
-# Grille 5x5 de la feuille
-#l = [[3],[1],[3],[2,1],[1,2]]
-#c = [[1],[3],[1,2],[2,1],[1,2]]
-
-#soluce = Array.new(5) do
-#	Array.new(5) do
-#		-1
-#	end
-#end
-#soluce[0][2]=1
-#soluce[0][3]=1
-#soluce[0][4]=1
-#soluce[1][3]=1
-#soluce[2][0]=1
-#soluce[2][1]=1
-#soluce[2][2]=1
-#soluce[3][1]=1
-#soluce[3][2]=1
-#soluce[3][4]=1
-#soluce[4][1]=1
-#soluce[4][3]=1
-#soluce[4][4]=1
-
-#user = Array.new(5) do
-#	Array.new(5) do
-#		0
-#	end
-#end
-
-#user[0][2]=1
-#user[1][0]=-1
-#user[1][1]=-1
-#user[1][2]=-1
-#user[1][3]=1
-#user[1][4]=-1
-#user[2][1]=1
-#user[2][2]=1
-#user[3][0]=-1
-#user[3][1]=1
-#user[3][2]=1
-#user[3][3]=-1
-#user[3][4]=1
-#user[4][2]=-1
-#user[4][3]=1
-
-#test = Helper.new(soluce, l, c)
-#tab = test.traitement(user, 2)
-#print tab
-#puts("")
