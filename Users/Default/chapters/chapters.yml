@@ -2,7 +2,16 @@
     - stars: 0
     - links:
         - "http://www.nonograms.org/nonograms/i/6538":  # Chicken 5x5
-            - timeToDo: 400
+            - timeToDo: 60
+            - learning : true
+        - "http://www.nonograms.org/nonograms/i/15707":  # Car 7x7
+            - timeToDo: 100
+            - learning : true
+        - "http://www.nonograms.org/nonograms/i/17001":  # Anchor 10x14
+            - timeToDo: 360
+            - learning : true
+        - "http://www.nonograms.org/nonograms/i/4929":  # Question Mark 6x11
+            - timeToDo: 360
             - learning : true
 
 'Animals':
@@ -30,6 +39,7 @@
         - "http://www.nonograms.org/nonograms/i/3593S": # Snail 20x20
             - timeToDo: 920
             - evolving: true
+
 'Transportation':
     - stars: 15
     - links:
@@ -89,7 +99,7 @@
             - timeToDo: 1020
         - "http://www.nonograms.org/nonograms/i/13234":  # Ghost 15x15
             - timeToDo: 320
-            
+
 'People':
     - stars: 60
     - links:
