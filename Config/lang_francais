@@ -52,6 +52,25 @@ edu:
         1: 'La colonne du milieu est composée d''un groupe de 3. On sait donc ou les placer car la ligne 2 est complète'
         2: 'On en déduit donc la position de la deuxieme colonne'
         3: 'On peut finir le picross'
+    car:
+        0: 'Les colonnes 2 et 6 peuvent être remplies'
+        1: 'Les lignes 4 et 6 peuvent aussi être remplies'
+        2: 'Vous pouvez maintenant remplir la ligne 1'
+        3: 'Le niveau peut être terminé'
+    anchor:
+        0: 'Les colonnes 5 et 6 peuvent être remplies. La ligne 5 peut également être remplie '
+        1: 'Les colonnes 4 et 7 peuvent être trouvées'
+        2: 'Les lignes 4 et 6 peuvent être déterminées'
+        3: 'Les lignes 12 et 13 peuvent être partiellement devinées'
+        4: 'Les colonnes 2 et 9 peuvent être partiellement trouvées'
+        5: 'Le niveau peut être fini'
+    question mark:
+        0: 'La ligne 2 peut être remplie, la ligne 1 et la colonne 4 peuvent être partiellement trouvées'
+        1: 'Les lignes 10 et 11 peuvent être remplies'
+        2: 'La ligne 3 peut être remplie ainsi que les colonnes 5 et 6'
+        3: 'La ligne 4 peut être devinée'
+        4: 'La colonne 3 peut être trouvée'
+        5: 'Le niveau peut être fini'
 help:
     available: 'Aides disponibles : {{HELPS}}'
     cost: 'Coût : '
