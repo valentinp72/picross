@@ -195,5 +195,7 @@ maps:
     'Printer': 'Printer'
     'Phone': 'Phone'
     'Apple': 'Apple'
+    'Anchor': 'Anchor'
+    'Question mark': 'Question mark'
 preferencesError: 'Cannot open preferences util you are connected!'
 versionError: 'You are using GTK version {{CURRENT}}, however, the minimum required version is {{REQUIRED}}. Are you sure you want to run the application, risking for it to crash unexpectedly?'

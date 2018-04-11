@@ -209,5 +209,7 @@ maps:
     'Printer': 'Imprimante'
     'Phone': 'Téléphone'
     'Apple': 'Pomme'
+    'Anchor': 'Ancre'
+    'Question mark': 'Point d''interrogation'
 preferencesError: 'Impossible d''ouvrir les préferences tant que vous n''êtes pas connecté !'
 versionError: 'Vous utilisez la version de GTK {{CURRENT}}, cependant, la version minimum requise est {{REQUIRED}}. Voulez-vous vraiment lancer l''application, au risque que celle-ci plante de manière inattendue ?'
