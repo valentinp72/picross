@@ -2,6 +2,7 @@ require 'yaml'
 require_relative 'ChapterFrame'
 require_relative 'OptionFrame'
 require_relative 'StatsFrame'
+require_relative 'RulesFrame'
 
 require_relative '../Frame'
 
@@ -27,7 +28,7 @@ class HomeFrame < Frame
 
 	def draw
 		@lang = @user.lang
-		
+
 		@buttons = createButtons
 		@grid    = createArea
 
@@ -35,13 +36,13 @@ class HomeFrame < Frame
 		self.children.each do |child|
 			self.remove(child)
 		end
-		
+
 		self.add(@grid)
 	end
 
 	def createButtons
-		
-		# Create the buttons 
+
+		# Create the buttons
 		@playBtn = Gtk::Button.new(:label => @lang["home"]["play"])
 		@rankBtn = Gtk::Button.new(:label => @lang["home"]["rank"])
 		@ruleBtn = Gtk::Button.new(:label => @lang["home"]["rule"])
@@ -63,6 +64,11 @@ class HomeFrame < Frame
 			self.parent.setFrame(StatsFrame.new(@user))
 		end
 
+		# Rules button
+		@ruleBtn.signal_connect("clicked") do
+			self.parent.setFrame(RulesFrame.new(@user))
+		end
+
 		# Exit programms
 		@exitBtn.signal_connect("clicked") do
 			self.parent.application.action_quit_cb
@@ -77,9 +83,9 @@ class HomeFrame < Frame
 		grid.row_spacing = 5
 		grid.halign = Gtk::Align::CENTER
 		grid.valign = Gtk::Align::CENTER
-		
+
 		grid.attach(self.title, 0, 0, 1, 1)
-		
+
 		line = 1
 		@buttons.each do |button|
 			grid.attach(button, 0, line, 1, 1)
