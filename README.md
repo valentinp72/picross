@@ -18,6 +18,14 @@ gem install bundle
 bundle install
 ```
 
+### macOS installation
+- Download the last release [here](https://github.com/valentinp72/picross/releases).
+- Open the disk image (.dmg)
+- Move the Rubycross application to the Application folder
+- You can now play the game (available in the launchpad)
+
+**Known bug**: the application crashes if there is a space character in the path to the application file. [see here](https://github.com/valentinp72/picross/issues/28)
+
 ## Documentation
 [**Link to generated RDoc**](https://picross.vlntn.pw/doc/)
 
