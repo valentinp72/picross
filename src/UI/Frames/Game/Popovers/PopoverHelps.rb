@@ -16,7 +16,7 @@ require_relative 'Popover'
 # Last update   :: 10/04/2018
 # Version       :: 0.1
 #
-# This class represents a Povover allowing the user to use Helps. 
+# This class represents a Povover allowing the user to use Helps.
 
 class PopoverHelps < Popover
 
@@ -33,7 +33,7 @@ class PopoverHelps < Popover
 
 	##
 	# Return a Gtk::Grid with all the wigets of this popover
-	# * *Returns* : 
+	# * *Returns* :
 	#   - a Gtk::Grid
 	def content
 		return GridCreator.fromArray(self.contents, :vertical => true)
@@ -71,7 +71,7 @@ class PopoverHelps < Popover
 
 	##
 	# Create the title of the popover
-	# * *Returns* : 
+	# * *Returns* :
 	#   - a Gtk::Label
 	def createTitle
 		label = Gtk::Label.new
@@ -128,7 +128,7 @@ class PopoverHelps < Popover
 			value = helper.costSeconds
 		end
 
-		if costName == 'costHelp' && @frame.user.availableHelps < helper.costSeconds  ||
+		if costName == 'costHelp' && @frame.user.availableHelps < helper.costHelps  ||
 			 costName == 'costPenalty' && @frame.user.availableHelps >= helper.costHelps
 			then
 			before = '<span strikethrough="true">'
@@ -136,7 +136,7 @@ class PopoverHelps < Popover
 		end
 		before ||= ''
 		after  ||= ''
-		
+
 		name = lang['cost'] + lang[costName].gsub('{{COST}}', value.to_s)
 
 		cost.markup = before + name + after
