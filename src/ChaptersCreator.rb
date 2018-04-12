@@ -63,7 +63,7 @@ class ChaptersCreator
 	def ChaptersCreator.createChapter(chapterName, values, outputFolder)
 		stars  = ChaptersCreator.getFromHash(values[0], "stars")
 		links  = ChaptersCreator.getFromHash(values[1], "links")
-#puts links
+
 		levels = Array.new()
 		links.each do |link|
 			link.each do |url, options|
@@ -82,7 +82,7 @@ class ChaptersCreator
 
 		options.each do |option|
 			option.each do |optionName, optionValue|
-				puts "clé: #{optionName}, value: #{optionValue}"
+				#puts "clé: #{optionName}, value: #{optionValue}"
 				case optionName
 					when "timeToDo"
 						newMap.timeToDo = optionValue
