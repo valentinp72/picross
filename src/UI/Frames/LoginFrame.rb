@@ -94,6 +94,7 @@ class LoginFrame < Frame
 		if @userSelection.active_text != nil then
 			user = self.parent.picross.getSelectedUser(@userSelection.active_text)
 			self.parent.application.connectedUser = user
+			user.settings.language=@currentLanguage
 			self.parent.setFrame(HomeFrame.new(user))
 		end
 	end
