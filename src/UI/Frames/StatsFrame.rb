@@ -1,6 +1,7 @@
 require 'yaml'
 require_relative 'HomeFrame'
 require_relative '../Frame'
+require_relative '../../Timer'
 
 ##
 # File          :: StatsFrame.rb
@@ -83,7 +84,7 @@ class StatsFrame < Frame
 		box.set_homogeneous(true)
 		box.pack_start(Gtk::Label.new(lvl.name),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.maxStars.numberOfStars.to_s),:expand => true, :fill => true, :padding =>2)
-		box.pack_start(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime.round),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.minHelp.usedHelp.to_s),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.minClick.nbClick.to_s),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.nbFinished.to_s),:expand => true, :fill => true, :padding =>2)
@@ -142,7 +143,7 @@ class StatsFrame < Frame
 				end
 			end
 		end
-		return [totalClick, totalTime, totalHelp , totalFinished]
+		return [totalClick, totalTime.round, totalHelp , totalFinished]
 	end
 
 	def createGlobalButton(user)
@@ -156,7 +157,7 @@ class StatsFrame < Frame
 			totalClick, totalTime, totalHelp , totalFinished = calculateGlobalStat(user)
 
 			createGlobalScroll(@lang["stats"]["global"]["stars"], user.totalStars.to_s)
-			createGlobalScroll(@lang["stats"]["global"]["time"], totalTime.to_s)
+			createGlobalScroll(@lang["stats"]["global"]["time"], Timer.toTime(totalTime))
 			createGlobalScroll(@lang["stats"]["global"]["help"], totalHelp.to_s)
 			createGlobalScroll(@lang["stats"]["global"]["click"], totalClick.to_s)
 			createGlobalScroll(@lang["stats"]["global"]["finished"],totalFinished.to_s)
