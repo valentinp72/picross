@@ -59,7 +59,7 @@ edu:
         3: 'Le niveau peut être terminé'
     anchor:
         0: 'Les colonnes 5 et 6 peuvent être remplies. La ligne 5 peut également être remplie '
-        1: 'Les colonnes 4 et 7 peuvent être trouvées'
+        1: 'Les colonnes 4 et 7 peuvent être partiellement rouvées'
         2: 'Les lignes 4 et 6 peuvent être déterminées'
         3: 'Les lignes 12 et 13 peuvent être partiellement devinées'
         4: 'Les colonnes 2 et 9 peuvent être partiellement trouvées'
