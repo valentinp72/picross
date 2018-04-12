@@ -156,6 +156,11 @@ class LearningMap < Map
 		return false
 	end
 
+	def maxStage
+		return @stage.length - 1
+	end
+
+
 	##
 	# Load a YAML file corresponding to the Learning map
 	# * *Arguments* :
