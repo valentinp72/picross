@@ -156,6 +156,10 @@ class LearningMap < Map
 		return false
 	end
 
+	##
+	# Give max stage number for this map
+	# * *Returns* :
+	#   - The number max of stage
 	def maxStage
 		return @stage.length - 1
 	end
