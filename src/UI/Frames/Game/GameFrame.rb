@@ -203,22 +203,31 @@ class GameFrame < Frame
 		)
 	end
 
+	##
+	# Action for Button Back if clicked
 	def btn_back_clicked
 		self.save
 		self.parent.setFrame(MapFrame.new(@user, @chapter))
 		self.destroy
 	end
 
+	##
+	# Action for Button Option if clicked
 	def btn_option_clicked
 		self.save
 		self.parent.setFrame(OptionFrame.new(@user, GameFrame.new(@user, @chapter, @map)))
 		self.destroy
 	end
 
+	## check if map is finished
+	# * *Returns* :
+	#   - true if map is finished if not false
 	def checkMap
 		@sideBar.checkMap
 	end
 
+	##
+	# Update the text and step number for learning map
 	def updateLearningText
 		if(@map.learning?) then
 			@learningText.markup = "<span> #{@user.lang["edu"][@map.name.downcase][@map.currentStage]} </span>"
