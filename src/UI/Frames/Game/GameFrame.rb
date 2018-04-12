@@ -239,7 +239,8 @@ class GameFrame < Frame
 	#   - +size+ -> the requested size
 	def setLearningTextWidth(size)
 		if @learningText != nil then
-			@learningText.width_request=size
+			size ||= 50
+			@learningText.width_request = size
 		end
 	end
 
