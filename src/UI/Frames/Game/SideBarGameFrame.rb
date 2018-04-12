@@ -161,9 +161,11 @@ class SideBarGameFrame < Frame
 		@help.sensitive       = unpaused
 		@pause.image          = AssetsLoader.loadImage(imageName, 40)
 
-		@frame.content.remove(toRemove)
-		@frame.content.pack_start(toReplace, :expand => true, :fill => true)
-		@frame.content.reorder_child(toReplace, 0)
+		if toReplace.parent == nil then
+			@frame.content.remove(toRemove)
+			@frame.content.pack_start(toReplace, :expand => true, :fill => true)
+			@frame.content.reorder_child(toReplace, 0)
+		end
 	end
 
 	def drawOnUnpause()
