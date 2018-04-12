@@ -60,7 +60,7 @@ edu:
         3: 'Level can be finished'
     anchor:
         0: 'Column 5 and 6 can be filled out. Line 5 can also be filled'
-        1: 'Column 4 and 7 can be found'
+        1: 'Column 4 and 7 can be partially found'
         2: 'Line 4 and 6 can be determined'
         3: 'Line 12 and 13 can be partially guessed'
         4: 'Column 2 and 9 can be partially found'
