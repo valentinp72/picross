@@ -1,6 +1,5 @@
+<img src="logo.png" alt="Ruþycross logo" width="100px"> 
 # Ruþycross
-
-![](logo.png | width=100)
 
 ## Current project status
 
