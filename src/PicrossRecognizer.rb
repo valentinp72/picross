@@ -33,7 +33,7 @@ class PicrossRecognizer
 	# * *Returns* :
 	#   - the converted Map
 	def PicrossRecognizer.mainProgram(arg=nil)
-		
+
 		if(arg != nil) then
 			while not ARGV.empty? do
 				# remove residual arguments when called from program
@@ -188,7 +188,7 @@ class PicrossRecognizerImage
 	# * *Raises* :
 	#   - +ArgumentError+ -> if the file does not exists, or if it isn't a valid image
 	def initialize(file)
-		puts "'#{file}'"
+		#puts "'#{file}'"
 		if not File.file?(file) then
 			raise ArgumentError, "file does not exist"
 		end
