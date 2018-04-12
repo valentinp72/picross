@@ -83,7 +83,7 @@ class StatsFrame < Frame
 		box.set_homogeneous(true)
 		box.pack_start(Gtk::Label.new(lvl.name),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.maxStars.numberOfStars.to_s),:expand => true, :fill => true, :padding =>2)
-		box.pack_start(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime),:expand => true, :fill => true, :padding =>2)
+		box.pack_start(Gtk::Label.new(lvl.allStat.bestTime.time.elapsedTime.round),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.minHelp.usedHelp.to_s),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.minClick.nbClick.to_s),:expand => true, :fill => true, :padding =>2)
 		box.pack_start(Gtk::Label.new(lvl.allStat.nbFinished.to_s),:expand => true, :fill => true, :padding =>2)
