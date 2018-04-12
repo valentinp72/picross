@@ -1,5 +1,12 @@
 # Ruþycross
+
+
+**Ruþycross logo :**
 <img src="logo.png" alt="Ruþycross logo" width="100px"> 
+
+**Application screen :**
+<img src="screen.png" alt="Ruþycross screen"> 
+
 
 ## Current project status
 
