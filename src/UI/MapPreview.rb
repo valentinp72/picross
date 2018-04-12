@@ -22,7 +22,6 @@ module MapPreview
 	# * *Returns* :
 	#   - a Gtk::Image with a representation of the Map
 	def MapPreview.image(map, totalWidth, totalHeight)
-		#puts "on render une image pour #{map.name}"
 		grid    = map.grid
 		surface = Cairo::ImageSurface.new(totalWidth, totalHeight)
 		cr      = Cairo::Context.new(surface)
