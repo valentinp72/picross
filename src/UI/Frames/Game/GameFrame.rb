@@ -192,6 +192,8 @@ class GameFrame < Frame
 		)
 	end
 
+	##
+	# Create button Option
 	def createOptionButton()
 		ButtonCreator.new(
 				:assetName => 'cog.png',
