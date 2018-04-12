@@ -124,8 +124,8 @@ helps:
         description: 'Donne une cellule facile à trouver'
 stats:
     empty: 'Aucune statistiques enregistre'
-    player: 'Statistiques du joueur'
-    globals: 'Statistiques globales'
+    player: 'Statistiques des cartes'
+    globals: 'Statistiques du joueur'
     local:
         level: Niveau
         stars: 'Max etoiles'
