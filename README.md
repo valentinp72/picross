@@ -9,9 +9,14 @@
 
 ## Installation 
 
+#### Required
+- `ruby 2.2.2` minimum
+- `GTK 3.22.0` minimum (not the Ruby gem, but the [compiled toolkit](https://www.gtk.org/))
+- Linux or macOS (not tested on Windows)
+
 ```shell
 git clone https://github.com/valentinp72/picross.git
-# or:
+# using SSH:
 # git clone git@github.com:valentinp72/picross.git
 
 cd picross
