@@ -1,6 +1,6 @@
 # Ruþycross
 
-![](logo.png)
+![](logo.png | width=100)
 
 ## Current project status
 
