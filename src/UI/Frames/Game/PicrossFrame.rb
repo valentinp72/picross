@@ -120,7 +120,7 @@ class PicrossFrame < Frame
 		@grid = newGrid
 		@drag.grid = @grid
 
-		self.redraw
+#self.redraw
 
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.get_child_at(@lineOffset + column, @columnOffset + line).cell = cell
