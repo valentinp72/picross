@@ -1,4 +1,6 @@
-# picross
+# Ruþycross
+
+![](logo.png)
 
 ## Current project status
 
