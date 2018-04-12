@@ -30,15 +30,15 @@ class Helper
 			    Array.new(@clns.size()) do |j|
 				cell_to_int(map.solution.cellPosition(i, j))
 			    end
-		end				
-		
+		end
+
 		# Initialisation de la grille
 		@grid = Array.new(@lines.size()) do
 			Array.new(@clns.size()) do
 				0
 			end
 		end
-		
+
 		@solver = Solver.new(@solution, map.lneSolution, map.clmSolution)
 	end
 
@@ -46,10 +46,10 @@ class Helper
 	# à colorier/cocher
 	# x abscysse, y ordonnée, etat :  1=indéterminée / 2=coloriée / 3=cochée
 	def traitement(map, helpLvl)
-	
+
 		if map.evolving?
 			@lines = map.lneSolution
-			@clns = map.clmSolution	
+			@clns = map.clmSolution
 			@solution = Array.new(@lines.size()) do |i|
 				    Array.new(@clns.size()) do |j|
 					cell_to_int(map.solution.cellPosition(i, j))
@@ -60,7 +60,7 @@ class Helper
 
 		# Aide simple : Renvoit une ligne aléatoire non finie par l'utilisateur
 		if helpLvl==1
-			
+
 			# Recherche une ligne aléatoire non complétée par l'utilisateur
 			line = search_line(userGrid)
 			help = []
@@ -89,7 +89,7 @@ class Helper
 			tabrange = []
 			tabrange.push(rfull("line"))
 			tabrange.push(rfull("column"))
-			
+
 			(tabrange[0]).each do |numl|
 				bloc = bloc_not_complete(numl, "line", userGrid, "grid")
 				return bloc unless bloc.empty?()
@@ -101,13 +101,12 @@ class Helper
 				return bloc2 unless bloc2.empty?()
 			end
 			@grid = @solver.solve(@grid)
-			
+
 			nbtour+=1
 		end
 
 		# si introuvable, on donne un bloc aléatoire de la solution que
 		# l'utilisateur n'a pas trouver
-		puts("ALEATOIRE")
 
 		(0...@lines.size()).each do |numl|
 
@@ -141,7 +140,6 @@ class Helper
 
 		# si introuvable, on donne une case aléatoire de la solution que
 		# l'utilisateur n'a pas trouver
-		puts("ALEATOIRE :")
 		(0...@clns.size()).each do |i|
 			(0...@lines.size()).each do |j|
 
@@ -194,7 +192,7 @@ class Helper
 	def cell_to_int(cell)
 
 		if cell.state==Cell::CELL_BLACK
-			return 1 
+			return 1
 		else
 			return -1
 		end
@@ -210,7 +208,7 @@ class Helper
 		end
 
 	end
-	
+
 	# Renvoit un tableau des numéros de lignes et colonnes pleines de la grille
 	def rfull(range)
 
@@ -245,7 +243,7 @@ class Helper
 		bloc=false
 		tab=[]
 		taille = range.eql?("column") ? @lines.size() : @clns.size()
-		
+
 		(0...taille).each do |i|
 
 			if get_grid(matrix, num, i, range)==1
@@ -312,7 +310,7 @@ class Helper
 		end
 		puts("\n")
 	end
-	
+
 	# Retourne la valeur d'une grille (@grid ou @solution) en fonction de la range
 	# en paramètre (ligne ou colonne)
 	def get_grid(mat, numl, numc, range)
