@@ -35,7 +35,7 @@ git clone https://github.com/valentinp72/picross.git
 
 cd picross
 gem install bundle
-bundle install
+bundle install --without development test
 ```
 
 **Running:**
