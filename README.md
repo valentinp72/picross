@@ -9,7 +9,6 @@
 
 <img src="screen.png" alt="Ruþycross screen"> 
 
----
 
 # Current project status
 
@@ -17,7 +16,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/ccc2c521ed263e2370a0/maintainability)](https://codeclimate.com/repos/5a624aeae596c21745002d54/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ccc2c521ed263e2370a0/test_coverage)](https://codeclimate.com/repos/5a624aeae596c21745002d54/test_coverage)
 
----
 
 # Installing & running
 
@@ -54,7 +52,6 @@ src/Application.rb
 
 **Known bug**: the application crashes if there is a space character in the path to the application file. [see here](https://github.com/valentinp72/picross/issues/28)
 
----
 
 # Others
 
