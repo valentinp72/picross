@@ -134,9 +134,7 @@ class GameFrame < Frame
 		@style_context = @learningText.style_context
 		@style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
 
-		#puts @style_context.classes
 		@style_context.add_class("span")
-		puts @style_context.classes
 
 		@learningBox = Gtk::Box.new(:vertical)
 		@step = Gtk::Label.new()
