@@ -235,6 +235,10 @@ class GameFrame < Frame
 		end
 	end
 
+	##
+	# Set the max width for the text (used for wrap)
+	# * *Arguments* :
+	#   - +size+ -> the requested size
 	def setLearningTextWidth(size)
 		if @learningText != nil then
 			@learningText.width_request=size
