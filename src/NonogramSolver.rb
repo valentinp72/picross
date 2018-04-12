@@ -36,7 +36,6 @@ class NonogramSolver
 		begin
 			numChanged = self.reduceMutual(@cols, @rows)
 			if (numChanged == -1)
-				puts "No solution"
 				return
 			end
 		end while (numChanged > 0)
@@ -47,7 +46,6 @@ class NonogramSolver
 			end
 			print "\n"
 		end
-		puts
 		return self
 	end
 
