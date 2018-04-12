@@ -120,7 +120,7 @@ class PicrossFrame < Frame
 		@grid = newGrid
 		@drag.grid = @grid
 
-#self.redraw
+		self.redrawIntern
 
 		@grid.each_cell_with_index do |cell, line, column|
 			@cells.get_child_at(@lineOffset + column, @columnOffset + line).cell = cell
@@ -133,7 +133,7 @@ class PicrossFrame < Frame
 	# used when changing the grid inside the map (for evolving maps for example).
 	# * *Returns* :
 	#   - the object itself
-	def redraw
+	def redrawIntern
 		@lineSolution   = @map.lneSolution
 		@columnSolution = @map.clmSolution
 
@@ -151,13 +151,24 @@ class PicrossFrame < Frame
 				column + @lineOffset, line + @columnOffset,
 				1, 1)
 		end
-		@drag.reset
-
+		
 		self.show_all
 		if @map.learning? then
 			@frame.setLearningTextWidth(@oWidth)
 		end
 		self.forceResize
+		return self
+	end
+
+	##
+	# Redraw and/or create all the frame for the current picross. This can be
+	# used when changing the grid inside the map (for evolving maps for example).
+	# * *Returns* :
+	#   - the object itself
+	def redraw
+		self.redrawIntern
+		@drag.reset
+
 		return self
 	end
 
