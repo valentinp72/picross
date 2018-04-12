@@ -125,8 +125,8 @@ rules:
     31: 'You can at any time accumulate the 4 kinds of hypotheses.'
 stats:
     empty: 'No stats recorded'
-    player: 'Player''s statistics'
-    globals: 'Global statistics'
+    player: 'Map''s statistics'
+    globals: 'Player''s statistics'
     local:
         level: 'Level name'
         stars: 'Max stars'
