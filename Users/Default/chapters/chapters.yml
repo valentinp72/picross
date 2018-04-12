@@ -17,8 +17,6 @@
 'Animals':
     - stars: 0
     - links:
-        - "http://www.nonograms.org/nonograms/i/6538":  # Chicken 5x5
-            - timeToDo: 40
         - "http://www.nonograms.org/nonograms/i/6557":  # Rabbit 5x5
             - timeToDo: 30
         - "http://www.nonograms.org/nonograms/i/16976": # Kitten 9x9
@@ -43,8 +41,6 @@
 'Transportation':
     - stars: 15
     - links:
-        - "http://www.nonograms.org/nonograms/i/15707": # Car 7x7
-            - timeToDo: 50
         - "http://www.nonograms.org/nonograms/i/2847":  # Boat 10x10
             - timeToDo: 90
         - "http://www.nonograms.org/nonograms/i/2995":  # Ship 14x15
