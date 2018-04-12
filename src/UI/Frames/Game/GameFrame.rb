@@ -121,14 +121,33 @@ class GameFrame < Frame
 	end
 
 	def createUnderContentLayout()
+
 		@underContent = Gtk::Box.new(:vertical)
 		@picross = PicrossFrame.new(@map, @grid, @user, self)
-		@learningText = Gtk::Label.new(@user.lang["edu"][@map.name.downcase][@map.currentStage])
+		@learningText = Gtk::Label.new()
 		@learningText.width_request=55
 		@learningText.wrap=true
 
+		# Add the CSS to the button
+		css_provider = Gtk::CssProvider.new
+		css_provider.load(data: self.css)
+		@style_context = @learningText.style_context
+		@style_context.add_provider(css_provider, Gtk::StyleProvider::PRIORITY_USER)
+
+		#puts @style_context.classes
+		@style_context.add_class("span")
+		puts @style_context.classes
+
+		@learningBox = Gtk::Box.new(:vertical)
+		@step = Gtk::Label.new()
+
+		self.updateLearningText
+
+		@learningBox.pack_start(@step,:expand => true, :fill => true)
+		@learningBox.pack_start(@learningText,:expand => true, :fill => true)
+
 		@underContent.pack_start(@picross, :expand => true, :fill => true)
-		@underContent.pack_start(@learningText,:expand => true, :fill => true)
+		@underContent.pack_start(@learningBox, :expand => true, :fill => true)
 
 		@underContent.show_all
 		return @underContent
@@ -198,12 +217,27 @@ class GameFrame < Frame
 
 	def updateLearningText
 		if(@map.learning?) then
-			@learningText.text = @user.lang["edu"][@map.name.downcase][@map.currentStage]
+			@learningText.markup = "<span> #{@user.lang["edu"][@map.name.downcase][@map.currentStage]} </span>"
+			@step.markup = "<span><b> #{(@map.currentStage.to_i+1).to_s} / #{(@map.maxStage+1).to_s} </b></span>"
 		end
 	end
+
 	def setLearningTextWidth(size)
 		if @learningText != nil then
 			@learningText.width_request=size
 		end
+	end
+
+	##
+	# Returns the needed CSS for the image of a button cell, it's state and hypothesis
+	# * *Returns* :
+	#   - a String containing the CSS
+	def css()
+		"
+			/* Main definition */
+			.span {
+				font-size : 20px;
+			}
+		"
 	end
 end
