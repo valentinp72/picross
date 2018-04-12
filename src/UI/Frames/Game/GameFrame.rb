@@ -181,6 +181,8 @@ class GameFrame < Frame
 		return self
 	end
 
+	##
+	# Create button Back
 	def createBackButton()
 		ButtonCreator.new(
 				:assetName => 'arrow-left.png',
