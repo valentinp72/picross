@@ -65,7 +65,7 @@ edu:
         3: 'Line 12 and 13 can be partially guessed'
         4: 'Column 2 and 9 can be partially found'
         5: 'Level can be finished'
-    question_mark:
+    question mark:
         0: 'Line 2 can be filled, line 1 and column 4 can be partially found'
         1: 'Line 10 and 11 can be filled out'
         2: 'Line 3 can be filled out as well as column 5 and 6'
